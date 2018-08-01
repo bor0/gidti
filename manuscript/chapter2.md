@@ -18,15 +18,9 @@ After a formal system is defined, other formal systems can extend it. For exampl
 
 **_Example 2_**: A simple example is the statement "This statement is false". This statement is true if and only if it is false, and therefore it is neither true nor false.
 
-In general, we often put our focus on which parts of mathematics can be formalized in concrete formal systems, rather than trying to find a theory in which all of mathematics can be developed. The reason for that is Gödel's incompleteness theorem. This theorem states that there doesn't exist[[1]](#ftnt1) a formal system that is both complete and consistent. As a result, it is better to reason about a formal system outside of the system itself, i.e. as the famous saying goes to think outside of the box. Similarly to how we sometimes do meta-thinking to improve ourselves.
+In general, we often put our focus on which parts of mathematics can be formalized in concrete formal systems, rather than trying to find a theory in which all of mathematics can be developed. The reason for that is Gödel's incompleteness theorem. This theorem states that there doesn't exist[^1] a formal system that is both complete and consistent. As a result, it is better to reason about a formal system outside of the system itself, i.e. as the famous saying goes to think outside of the box. Similarly to how we sometimes do meta-thinking to improve ourselves.
 
 In conclusion, formal systems are our attempt to abstract models, whenever we reverse engineer nature in an attempt to understand it better. They may be imperfect, but are nevertheless useful tools for reasoning.
-
-* * *
-
-[[1]](#ftnt_ref1) Note that this theorem only holds for systems that allow expressing arithmetic of natural numbers (e.g. Peano, ZFC, but first-order logic also has some paradoxes if we allow self-referential statements). We will look into this systems in the next chapter.
-
-## 
 
 ## 2.1. MU puzzle example
 
@@ -41,7 +35,7 @@ The MU puzzle is a formal system which we'll have a look at as an example.
 | 3 | x`III`y → x`U`y | Replace `III` with `U`           | `MUIIIU` to `MUUU` |
 | 4 | x`UU`y → xy     | Remove `UU`                      | `MUUU` to `MU`     |
 
-**_Example 1_**: We will show (or, prove that) how we can get from `MII` to `MIIU` using the inference rules:
+**_Example 1_**: We will show (or prove) how we can get from `MII` to `MIIU` using the inference rules:
 
 1. `MI` (axiom)
 1. `MII` (rule 2)
@@ -68,7 +62,7 @@ Note that, in order to be able to apply rule 3, we need to have the number of su
 
 1. For the starting axiom, we have one `I`. Invariant OK.
 1. Applying rule 2 will be doubling the number of `I`'s, so we can have: `I`, `II`, `IIII`, `IIIIIII` (in particular, {$$}2^n{/$$} `I`'s). Invariant OK.
-1. Applying rule 3 will be reducing the number of `I`'s by 3. But note that {$$}2^n - 3{/$$} is still not divisible by 3[[1]](#ftnt1). Invariant OK.
+1. Applying rule 3 will be reducing the number of `I`'s by 3. But note that {$$}2^n - 3{/$$} is still not divisible by 3[^2]. Invariant OK.
 
 So we've shown that with the starting axiom `MI` it is not possible to get to `MU`.
 
@@ -82,6 +76,5 @@ So, having experience with different formal systems and combining them as needed
 
 **_Exercise 2_**: Try to think of a real-world scenario and model it using a formal system, and then try to apply a few of the transformation rules in order to demonstrate how we can get from point A to point B.
 
-* * *
-
-[[1]](#ftnt_ref1) After having introduced ourselves to proofs, you will be given an exercise to prove this fact.
+[^1]: Note that this theorem only holds for systems that allow expressing arithmetic of natural numbers (e.g. Peano, ZFC, but first-order logic also has some paradoxes if we allow self-referential statements). We will look into this systems in the next chapter.
+[^2]: After having introduced ourselves to proofs, you will be given an exercise to prove this fact.

@@ -2,7 +2,7 @@
 
 Software proof of correctness is a proof that the software is functioning according to the given specifications. Writing correct code in software engineering is a complex task. Often, the written code produces inaccurate results. There are several ways to solve this problem. In practice, the approach is to usually write code tests where we are writing another code that tests our original code. However, these tests are testing certain cases. With mathematical proofs, we cover all possible cases and we are more confident that the code does exactly what it is intended for.
 
-Idris is a general purpose functional programming[[1]](#ftnt1) language that supports dependent types. The features of Idris are influenced by Haskell, another general purpose functional programming language. However, Haskell does not support dependent types. Idris shares many features with the programming language Haskell, especially in the part of syntax and types, where Idris has a more advanced type system. There are several other programming languages that have support for dependent types[[2]](#ftnt2), however, I chose Idris for its very readable syntax.
+Idris is a general purpose functional programming[^1] language that supports dependent types. The features of Idris are influenced by Haskell, another general purpose functional programming language. However, Haskell does not support dependent types. Idris shares many features with the programming language Haskell, especially in the part of syntax and types, where Idris has a more advanced type system. There are several other programming languages that have support for dependent types[^2], however, I chose Idris for its very readable syntax.
 
 The first version of Idris was released in 2009 and is developed by The Idris Community.
 
@@ -12,8 +12,6 @@ Idris allows us to express mathematical statements. By mechanically examining th
 
 To fully understand how proofs in Idris work, we will start with the foundations, by defining, in order: formal systems, classical mathematical logic, lambda calculus, intuitionistic logic and type theory (which is a more "up-to-date" version of classical mathematical logic).
 
-* * *
+[^1]: The core concept of functional programming languages is a mathematical function.
 
-[[1]](#ftnt_ref1) The core concept of functional programming languages is a mathematical function.
-
-[[2]](#ftnt_ref2) Several other languages with dependent types support are Coq, Agda, Lean.
+[^2]: Several other languages with dependent types support are Coq, Agda, Lean.
