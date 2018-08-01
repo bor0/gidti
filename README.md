@@ -4,4 +4,4 @@ Welcome to the Git repository of my book titled `Gentle Introduction to Dependen
 
 Feel free to make any contributions to the book by filing either an issue or a pull request. Aftewards, you can mail me if you want to be included as a contributor to the book.
 
-Boro Sitnikovski
+Copyright 2018, Boro Sitnikovski. All rights reserved.
