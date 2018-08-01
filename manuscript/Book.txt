@@ -1,3 +1,3 @@
-preface.txt
-chapter1.txt
-chapter2.txt
+preface.md
+chapter1.md
+chapter2.md
