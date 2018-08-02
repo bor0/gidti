@@ -24,7 +24,7 @@ I> For a formal system, the system is **inconsistent** if there is a theorem in 
 
 A simple example is the statement "This statement is false". This statement is true if and only if it is false, and therefore it is neither true nor false.
 
-In general, we often put our focus on which parts of mathematics can be formalized in concrete formal systems, rather than trying to find a theory in which all of mathematics can be developed. The reason for that is Gödel's incompleteness theorem. This theorem states that there doesn't exist[^1] a formal system that is both complete and consistent. As a result, it is better to reason about a formal system outside of the system itself, i.e. as the famous saying goes to think outside of the box. Similarly to how we sometimes do meta-thinking to improve ourselves.
+In general, we often put our focus on which parts of mathematics can be formalized in concrete formal systems, rather than trying to find a theory in which all of mathematics can be developed. The reason for that is Gödel's incompleteness theorem. This theorem states that there doesn't exist[^ch2n1] a formal system that is both complete and consistent. As a result, it is better to reason about a formal system outside of the system itself, i.e. as the famous saying goes to think outside of the box. Similarly to how we sometimes do meta-thinking to improve ourselves.
 
 In conclusion, formal systems are our attempt to abstract models, whenever we reverse engineer nature in an attempt to understand it better. They may be imperfect, but are nevertheless useful tools for reasoning.
 
@@ -70,7 +70,7 @@ Q> Note that, in order to be able to apply rule 3, we need to have the number of
 Q>
 Q> 1. For the starting axiom, we have one `I`. Invariant OK.
 Q> 1. Applying rule 2 will be doubling the number of `I`'s, so we can have: `I`, `II`, `IIII`, `IIIIIII` (in particular, {$$}2^n{/$$} `I`'s). Invariant OK.
-Q> 1. Applying rule 3 will be reducing the number of `I`'s by 3. But note that {$$}2^n - 3{/$$} is still not divisible by 3[^2]. Invariant OK.
+Q> 1. Applying rule 3 will be reducing the number of `I`'s by 3. But note that {$$}2^n - 3{/$$} is still not divisible by 3[^ch2n2]. Invariant OK.
 
 So we've shown that with the starting axiom `MI` it is not possible to get to `MU`. But if we look carefully, we've used a different formal system to reason about `MU` (i.e. divisibility by 3). This is because the puzzle cannot be solved in its own system. Otherwise, an algorithm would keep trying different inference rules of `MU` indefinitely (not knowing that `MU` is impossible).
 
@@ -86,5 +86,5 @@ X> ### Exercise 2
 X>
 X> Try to think of a real-world scenario and model it using a formal system, and then try to apply a few of the transformation rules in order to demonstrate how we can get from point A to point B.
 
-[^1]: Note that this theorem only holds for systems that allow expressing arithmetic of natural numbers (e.g. Peano, ZFC, but first-order logic also has some paradoxes if we allow self-referential statements). We will look into this systems in the next chapter.
-[^2]: After having introduced ourselves to proofs, you will be given an exercise to prove this fact.
+[^ch2n1]: Note that this theorem only holds for systems that allow expressing arithmetic of natural numbers (e.g. Peano, ZFC, but first-order logic also has some paradoxes if we allow self-referential statements). We will look into this systems in the next chapter.
+[^ch2n2]: After having introduced ourselves to proofs, you will be given an exercise to prove this fact.
