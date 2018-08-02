@@ -10,7 +10,7 @@ Seen as a programming language, it is a functional language implemented with dep
 
 Idris allows us to express mathematical statements. By mechanically examining these statements, it helps us find formal proof of the program's formal specification.
 
-To fully understand how proofs in Idris work, we will start with the foundations, by defining, in order: formal systems, classical mathematical logic, lambda calculus, intuitionistic logic and type theory (which is a more "up-to-date" version of classical mathematical logic).
+To fully understand how proofs in Idris work, we will start with the foundations, by defining, in order: formal systems, classical mathematical logic, lambda calculus, intuitionistic logic, and type theory (which is a more "up-to-date" version of classical mathematical logic).
 
 [^ch1n1]: The core concept of functional programming languages is a mathematical function.
 
