@@ -8,7 +8,7 @@ Chapters 2, 3, and 4 are introductory chapters for the theory behind Idris, whil
 
 I will consider this book successful if it provides you with some additional knowledge. I tried to write this book so that the definitions and examples provided show how each piece of the puzzle is connected.
 
-Finally, feel free to contact me at buritomath@gmail.com for any questions you might have, and I will do my best to answer. You can also access my blog at https://bor0.wordpress.com to check out my some of my latest work.
+Finally, feel free to contact me at buritomath@gmail.com for any questions you might have, and I will do my best to answer. You can also access my blog at https://bor0.wordpress.com to check out some of my latest work.
 
 I hope that you will learn new techniques reading this book, and that it will spark up some more interests for logic, dependent types, and type theory.
 
