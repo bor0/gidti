@@ -1,4 +1,5 @@
 preface.md
+acknowledgements.md
 chapter1.md
 chapter2.md
 chapter3.md
@@ -7,5 +8,6 @@ chapter5.md
 chapter6.md
 chapter7.md
 further-reading.md
+appendix-a.md
+appendix-b.md
 about-author.md
-about-reviewers.md
