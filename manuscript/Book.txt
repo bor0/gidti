@@ -1,3 +1,6 @@
 preface.md
 chapter1.md
 chapter2.md
+further-reading.md
+about-author.md
+about-reviewers.md
