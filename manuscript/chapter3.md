@@ -267,7 +267,8 @@ In order to use a given of form:
 | {$$}P \leftrightarrow Q{/$$} | Conclude both {$$}P \to Q{/$$} and {$$}Q \to P{/$$} |
 | {$$}\forall x P(x){/$$} | For any {$$}x{/$$}, conclude that {$$}P(x){/$$} |
 | {$$}\exists x P(x){/$$} | Introduce a new variable, say {$$}x_0{/$$} so that {$$}P(x_0){/$$} is true |
-| {$$}\exists! x P(x){/$$}[^ch3n4] | Introduce a new variable, say {$$}x_0{/$$} so that {$$}P(x_0){/$$} is true. Can also use that {$$}\forall x \forall y (P(x) \land P(y) \to x = y){/$$} |
+| {$$}\exists! x P(x){/$$}[^ch3n4] | Introduce a new variable, say {$$}x_0{/$$} so that {$$}P(x_0){/$$} is true. |
+| | Can also use that {$$}\forall x \forall y (P(x) \land P(y) \to x = y){/$$} |
 
 X> ### Exercise 12
 X>
