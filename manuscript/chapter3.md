@@ -216,7 +216,7 @@ For example, given {$$}A \lor B{/$$}, {$$}B \to C{/$$}, {$$}\lnot C{/$$}, prove 
 | 2 | {$$}B \to C{/$$} | Given |
 | 3 | {$$}\lnot C{/$$} | Given |
 | 4 | {$$}(B \to C) \land \lnot C{/$$} | 2 and 3 |
-| 5 | {$$}\lnot B{/$$} | Modus tollens rule on 4, i.e. {$$}(p \to q \land \not q) \to \not p{/$$} |
+| 5 | {$$}\lnot B{/$$} | Modus tollens rule on 4, i.e. {$$}(p \to q \land \lnot q) \to \lnot p{/$$} |
 | 6 | {$$}(A \lor B) \land \lnot B{/$$} | 1 and 5 |
 | 7 | {$$}A{/$$} | 6, where {$$}p \land \lnot p{/$$} is a contradiction, i.e. invalid argument |
 
