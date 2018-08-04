@@ -187,7 +187,7 @@ We know that in general, {$$}1 = 3{/$$} does not make any sense. But, in the con
 
 X> ### Exercise 10
 X>
-X> TODO
+X> With the given axioms of Peano, prove that {$$}1 = S(0){/$$} and {$$}2 = S(S(0)){/$$} are natural numbers.
 
 X> ### Exercise 11
 X>
