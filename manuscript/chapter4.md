@@ -188,7 +188,7 @@ The reason why this system is useful is that if we're given such a system and we
 
 I> ### Definition 9
 I>
-I> A context is defined as a list of variables {$$}x_1 : \text{A}_1, x_2 : \text{A}_2, x_3 : \text{A}_3, \ldots _{/$$}
+I> A context is defined as a list of variables {$$}x_1 : \text{A}_1, x_2 : \text{A}_2, x_3 : \text{A}_3, \ldots{/$$}
 
 I> ### Definition 10
 I>
@@ -217,11 +217,11 @@ I> The remaining inference rules are specific to the type formers, for example i
 
 As an example, rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}Nat : \text{Type}{/$$} per rule 1.
 
-X> ### Exercise 1
+X> ### Exercise 9
 X>
 X> We've used rule 1 and rule 2 in example 2. Try to come up with different ways to use each one of the rules described above.
 
-X> ### Exercise 2
+X> ### Exercise 10
 X>
 X> Combine the usage of rules along with the connectives described above, so for example, try to come up with a recursive type and then try to construct some new objects from it.
 
