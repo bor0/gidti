@@ -186,6 +186,45 @@ One thing worth noting is that, in Idris there are "two" types of truths: {$$}\t
 
 The reason why this system is useful is that if we're given such a system and we know that if there exists a constructive proof for some object, then using a computer algorithm we can find that proof. As a consequence, this is why it can be considered as a way to make a programming language act like a proof-assistant.
 
+I> ### Definition 9
+I>
+I> A context is defined as a list of variables {$$}x_1 : \text{A}_1, x_2 : \text{A}_2, x_3 : \text{A}_3, \ldots _{/$$}
+
+I> ### Definition 10
+I>
+I> A formal definition of Intuitionistic theory is that it consists of objects and types.
+I>
+I> The grammar of well formed formulas in this system are:
+I>
+I> 1. {$$}\Gamma \vdash s : \text{Type}{/$$}, that is, {$$}s{/$$} is a well formed type in context {$$}\Gamma{/$$}
+I> 1. {$$}\Gamma \vdash t : \text{s}{/$$}, that is, {$$}t{/$$} is a well formed expression of type {$$}\text{s}{/$$} in context {$$}\Gamma{/$$}
+I> 1. {$$}\Gamma \vdash \text{s} = \text{t}{/$$}, that is, s and t are the same type in context {$$}\Gamma{/$$}
+I> 1. {$$}\Gamma \vdash t = u : \text{s}{/$$}, that is, t and u are equal expressions of type s in context {$$}\Gamma{/$$}
+I> 1. {$$}\vdash \Gamma{/$$}, that is, {$$}\Gamma{/$$} is a well formed context of types
+I>
+I> The type constructors are:
+I>
+I> 1. {$$}\Pi{/$$} types and {$$}\Sigma{/$$} types, as we've discussed them earlier
+I> 1. Finite types, that is, the nullary (empty) type 0 or {$$}\bot{/$$}, the unary type 1 or {$$}\top{/$$}, and the boolean type 2
+I> 1. The equality type, where for given {$$}a, b : \text{A}{/$$}, the expression {$$}a = b{/$$} represents proof of equality. There is a canonical element {$$}a = a{/$$}, that is, an "axiom" for the reflexivity proof: {$$}refl : \Pi \text{(a : A) a = a}{/$$}
+I> 1. Inductive (or recursive) types, for example {$$}\text{Nat = Z | S Nat}{/$$}. In this way we can implement product and sum types which encode conjunction and disjunction respectively
+I>
+I> The inference rules are:
+I>
+I> 1. The rule of type equality which states that if an object is of a type {$$}\text{A}{/$$}, and there is another type {$$}\text{B}{/$$} equal to {$$}\text{A}{/$$}, then that object is of type {$$}\text{B}{/$$}: {$$}(\Gamma \vdash a : \text{A}, \Gamma \vdash \text{A} = \text{B}) \vdash (\Gamma \vdash a : \text{B}){/$$}
+I>
+I> The remaining inference rules are specific to the type formers, for example introduction and elimination. We will show an example using these rules in 5.2.
+
+As an example, rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}Nat : \text{Type}{/$$} per rule 1.
+
+X> ### Exercise 1
+X>
+X> We've used rule 1 and rule 2 in example 2. Try to come up with different ways to use each one of the rules described above.
+
+X> ### Exercise 2
+X>
+X> Combine the usage of rules along with the connectives described above, so for example, try to come up with a recursive type and then try to construct some new objects from it.
+
 ### 4.4.1. Intuitionistic logic
 
 ## 4.5. Lambda cube
@@ -196,7 +235,7 @@ The reason why this system is useful is that if we're given such a system and we
 
 [^ch4n3]: In general, Idris combines a lot of functionalities from mainstream languages (Java, C, C++), and some functionalities from proof assistants, which further blurs the limit between these two kinds of software.
 
-[^ch4n4]: A Turing machine is an abstract mathematical machine that allows computation. Roughly, it consists of an initial state, and a transition function for manipulating this state. For any computer algorithm, a Turing machine can express that algorithm's logic. This is what makes a machine Turing complete. (Untyped) Lambda calculus is Turing complete.
+[^ch4n4]: A Turing machine can express any algorithm. Any formal system that can simulate a Turing machine is called Turing complete. Since a Turing machine can express any algorithm, so does any Turing complete system. This property is used to show equivalence of formal systems in terms of the algorithms they can express. (Untyped) Lambda calculus is Turing complete.
 
 [^ch4n5]: Collections in general are considered to be subcollections of some large universal collection, also called the universe. Depending on the context, the definition of this universe will vary.
 
