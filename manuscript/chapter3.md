@@ -241,7 +241,7 @@ To prove that {$$}A \land B \to B{/$$}, we start by assuming that {$$}A \land B{
 
 Do not worry if the previous paragraph sounded too magical. There is not much magic involved. Usually it comes down to using a few rules (or "tricks", if you will) for how we can use given information and achieve our goal. We will summarize these proof techniques next.
 
-## 3.4.1 Proof techniques
+### 3.4.1. Proof techniques
 
 In order to prove a goal of a given form:
 
@@ -277,7 +277,7 @@ X>
 X> 1. Modus tollens: {$$}(p \to q, \lnot q) \to \lnot p{/$$}
 X> 1. Modus ponens: {$$}(p \to q, p) \to q{/$$}
 
-## 3.4.2 Mathematical induction
+### 3.4.2. Mathematical induction
 
 I> ### Definition 18
 I>
