@@ -18,10 +18,10 @@ I> ### Definition 3
 I>
 I> Algebraic data types are types where we can additionally specify the form for each of the elements. They are called "algebraic" in the sense that the data types are constructed using algebraic operations. The algebra here is sum and product:
 I>
-I> 1. Sum (union) is alternation. It is denoted as {$$}A \ | \ B{/$$} and it means that the value is either of type A or B, but not both.
+I> 1. Sum (union) is alternation. It is denoted as {$$}\text{A  |  B}{/$$} and it means that the value is either of type A or B, but not both.
 I> 1. Product is combination. It is denoted as {$$}A B{/$$} and it means that the value is a pair where the first element is of type A, and the second element is of type B.
 
-As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}Real{/$$} for real numbers. Now, for the sum (union) we can construct a new type {$$}\text{Nat} \ | \ \text{Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat} \ | \ \text{Real}{/$$}, {$$}3.14 : \text{Nat} \ | \ \text{Real}{/$$}, etc. For the product type, we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 1.5 : \text{Nat Real}{/$$}, {$$}2 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
+As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}Real{/$$} for real numbers. Now, for the sum (union) we can construct a new type {$$}\text{Nat | Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat | Real}{/$$}, {$$}3.14 : \text{Nat | Real}{/$$}, etc. For the product type, we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 1.5 : \text{Nat Real}{/$$}, {$$}2 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
 
 Finally, Idris supports dependent types[^ch4n2]. These kind of types are so powerful, they can encode most properties of programs, and with their help Idris can prove invariants at compile-time. This is what makes Idris a so called proof assistant[^ch4n3]. As we will see in section 5.2, types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software.
 
@@ -116,19 +116,19 @@ I> 1. If {$$}x{/$$} is a variable and {$$}T{/$$} is a type, then {$$}x:T \in \La
 I>
 I> The type constructors are:
 I>
-I> 1. For some type {$$}A{/$$}, the type constructor {$$}T{/$$} is defined as {$$}A \ | \ T \to T{/$$}
+I> 1. For some type {$$}A{/$$}, the type constructor {$$}T{/$$} is defined as {$$}\text{A | T} \to \text{T}{/$$}
 
 That is, an expression in this system can additionally be an abstraction with {$$}x{/$$} having joined a type (rule 4), or an expression of a variable having joined a type {$$}T{/$$} (rule 5), where our type constructor is a sum type, and it says that we either have primitive types, or a way to form new types. Now in our attempt to re-define Church numerals and the successor function, we have to be careful as the types of these definitions have to match. Let's recall the Church numerals:
 
 1. {$$}1 = \lambda f \ x . f \ x{/$$}
 1. {$$}2 = \lambda f \ x . f \ (f \ x){/$$}
 
-Given the definition of 1, its type must have the form {$$}(a \to b) \to a \to b{/$$} for some {$$}a{/$$} and {$$}b{/$$}. We are expecting to be able to apply {$$}x{/$$} to {$$}f{/$$}, and so if {$$}x : a{/$$} then {$$}f : a \to b{/$$} in order for our types to match correctly. With similar reasoning, we have the same type for 2. So at this point, we have the type of {$$}(a \to b) \to a \to b{/$$}. Finally, with the given definition of 2, we can note that expressions of type {$$}b{/$$} need to be able to be applied to functions of type {$$}a \to b{/$$}, since the result of applying {$$}f{/$$} to {$$}x{/$$} serves as the argument of {$$}f{/$$}. The most general way for that to be true is if {$$}a = b{/$$}. So, as a result we have the type {$$}(a \to a) \to a \to a{/$$}. We can denote this type definition to be {$$}\text{Nat}{/$$}. Now, our numbers become:
+Given the definition of 1, its type must have the form {$$}(\text{a} \to \text{b}) \to \text{a} \to \text{b}{/$$} for some {$$}\text{a}{/$$} and {$$}\text{b}{/$$}. We are expecting to be able to apply {$$}x{/$$} to {$$}f{/$$}, and so if {$$}x : \text{a}{/$$} then {$$}f : \text{a} \to \text{b}{/$$} in order for our types to match correctly. With similar reasoning, we have the same type for 2. So at this point, we have the type of {$$}(\text{a} \to \text{b}) \to \text{a} \to \text{b}{/$$}. Finally, with the given definition of 2, we can note that expressions of type {$$}\text{b}{/$$} need to be able to be applied to functions of type {$$}\text{a} \to \text{b}{/$$}, since the result of applying {$$}f{/$$} to {$$}x{/$$} serves as the argument of {$$}f{/$$}. The most general way for that to be true is if {$$}a = b{/$$}. So, as a result we have the type {$$}(\text{a} \to \text{a}) \to \text{a} \to \text{a}{/$$}. We can denote this type definition to be {$$}\text{Nat}{/$$}. Now, our numbers become:
 
-1. {$$}1 = \lambda [f:(a \to a)] \ [x : a] . f \ x : \text{Nat}{/$$}
-1. {$$}2 = \lambda [f:(a \to a)] \ [x : a] . f \ (f \ x) : \text{Nat}{/$$}
+1. {$$}1 = \lambda [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f \ x : \text{Nat}{/$$}
+1. {$$}2 = \lambda [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f \ (f \ x) : \text{Nat}{/$$}
 
-The (typed) successor function is: {$$}SUCC = \lambda [n:\text{Nat}]\ [f:(a \to a)] \ [x:a] . f\ (n\ f\ x) : \text{Nat} \to \text{Nat}{/$$}
+The (typed) successor function is: {$$}SUCC = \lambda [n:\text{Nat}]\ [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f\ (n\ f\ x) : \text{Nat} \to \text{Nat}{/$$}
 
 X> ### Exercise 4
 X>
@@ -144,7 +144,50 @@ X> In exercise 1 of 4.1.1, you were asked to come up with a function. Try to fig
 
 ## 4.3. Dependent types
 
+I> ### Definition 6
+I>
+I> Dependent types are types whose definition depends on some value.
+
+A list of numbers is a type ({$$}\text{List}{/$$}, for example). However, a list of numbers where the second element of the list is larger than the first element of the list is a dependent type.
+
+I> ### Definition 7
+I> ###
+I> A dependent product type is a collection of types {$$}B : \text{A} \to U{/$$} where for each element {$$}a : \text{A}{/$$}, there's an assigned type {$$}B(a) : U{/$$}, where {$$}U{/$$} is a universe of types[^ch4n5]. We say that {$$}B(a){/$$} varies with {$$}a{/$$}. It is denoted as {$$}\Pi(x : \text{A}), B(x){/$$}.
+
+This definition might seem a bit scary and tricky to grasp, but it really is simple, and as usual we’ll show an example. Let’s consider the following cases:
+
+1. Our universe of types contains all possible types. For example, {$$}\text{Type}{/$$}, {$$}\text{Nat}{/$$}, etc, so {$$}U = \{ \text{Type}, \text{Nat}, \text{List n}, \ldots \}{/$$}
+1. Our collection of interest of types is {$$}\text{List n}{/$$}, which represents a list of {$$}n{/$$} elements. That is, {$$}A = \{ \text{List n} \}{/$$}
+
+Now the definition states that, in our universe {$$}U{/$$}, there exists a function {$$}B(n) = \text{List n}{/$$}. {$$}B{/$$} is the collection of functions which given a number {$$}n{/$$}, will return a list of {$$}n{/$$} numbers. So, we have the following list as an example: {$$}[1] : \text{B(1)}{/$$}, that is {$$}[1] : \text{List 1}{/$$}. Another example list is {$$}[1, 2] : \text{List 2}{/$$}, and so on. In general, we can have a function that takes an {$$}n{/$$} and produces a {$$}\text{List n}{/$$}, that is, {$$}f : \text{n} \to \text{List n}{/$$}, where the possible types for it are {$$}f : 1 \to \text{List 1}{/$$}, {$$}f : 2 \to \text{List 2}{/$$}, etc. We’ve just constructed our first dependent type!
+
+I> ### Definition 8
+I>
+I> A dependent sum type can be used to represent indexed pairs, where the type of the second element depends on the type of the first element. That is, if we have {$$}a : \text{A}{/$$} and {$$}b : \text{B(a)}{/$$}, then this makes a sum type. We denote it as {$$}\Sigma(x : \text{A}), B(x){/$$}.
+
+For example, if we set {$$}A = \text{Nat}{/$$}, and {$$}B(a) = \text{List a}{/$$}, i.e. {$$}\Sigma(x : \text{Nat}), \text{List x}{/$$}, we can construct the following pairs: {$$}(1, [1]), (2, [1, 2]), (3, [1, 2, 3]){/$$}, etc.
+
+X> ### Exercise 7
+X>
+X> Think of a way to constructor a different product dependent type, and express it using the reasoning above.
+
+X> ### Exercise 8
+X>
+X> Think of a way to constructor a different sum dependent type, and express it using the reasoning above.
+
 ## 4.4. Intuitionistic theory of types
+
+The core "construct" in Idris are types. As we’ve seen, foundations are based on type theory. As we’ve also seen, in classic mathematical logic we have sets and propositions, according to the ZFC set theory.
+
+The intuitionistic theory of types (or constructive type theory) offers an alternative foundation to mathematics. This theory was introduced by Martin-L&#246;f, a swedish mathematician in 1972. It is based on the isomorphism (or "equality") that propositions are types. We will cover this in details in 5.2, after introducing Idris’s syntax.
+
+Proving a theorem in this system consists of constructing, or providing evidence for a particular object. If we want to prove something about a type {$$}\text{A}{/$$}, and we know that {$$}a : \text{A}{/$$}, then {$$}a{/$$} is one proof for {$$}\text{A}{/$$}. Note how we say one proof, because there can be many other elements of type {$$}\text{A}{/$$}. Propositions can also be defined through types.
+
+For example. in order to prove that {$$}4 = 4{/$$}, we need to find an object {$$}x{/$$} of type {$$}\text{4 = 4}{/$$}, that is {$$}x : \text{4 = 4}{/$$}. One such object is {$$}refl{/$$} (which can be thought of as an axiom), which stands for reflexivity, which states that {$$}x = x{/$$} for all {$$}x{/$$}.
+
+One thing worth noting is that, in Idris there are "two" types of truths: {$$}\text{Bool}{/$$} and {$$}\text{Type}{/$$}. Even though there is some similarity (in terms of proofs), in Idris they are fundamentally different. The type {$$}\text{Bool}{/$$} can have a value of {$$}True{/$$} or {$$}False{/$$}, while the type {$$}\text{Type}{/$$} is either provable or not provable.
+
+The reason why this system is useful is that if we’re given such a system and we know that if there exists a constructive proof for some object, then using a computer algorithm we can find that proof. As a consequence, this is why it can be considered as a way to make a programming language act like a proof-assistant.
 
 ### 4.4.1. Intuitionistic logic
 
@@ -157,3 +200,5 @@ X> In exercise 1 of 4.1.1, you were asked to come up with a function. Try to fig
 [^ch4n3]: In general, Idris combines a lot of functionalities from mainstream languages (Java, C, C++), and some functionalities from proof assistants, which further blurs the limit between these two kinds of software.
 
 [^ch4n4]: A Turing machine is an abstract mathematical machine that allows computation. Roughly, it consists of an initial state, and a transition function for manipulating this state. For any computer algorithm, a Turing machine can express that algorithm's logic. This is what makes a machine Turing complete. (Untyped) Lambda calculus is Turing complete.
+
+[^ch4n5]: Collections in general are considered to be subcollections of some large universal collection, also called the universe. Depending on the context, the definition of this universe will vary.
