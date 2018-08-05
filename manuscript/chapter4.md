@@ -4,7 +4,7 @@ There are some type theories that can serve as an alternative foundation of math
 
 I> ### Definition 1
 I>
-I> Type theory is defined as a class of formal systems. In these theories, every object is joined with a type, and operations upon these objects are constrained by the joined types. In order to say that {$$}x{/$$} is of type {$$}X{/$$}, we denote {$$}x : X{/$$}. Functions are a primitive concept in type theory [^ch4n1].
+I> Type theory is defined as a class of formal systems. In these theories, every object is joined with a type, and operations upon these objects are constrained by the joined types. In order to say that {$$}x{/$$} is of type {$$}\text{X}{/$$}, we denote {$$}x : \text{X}{/$$}. Functions are a primitive concept in type theory [^ch4n1].
 
 For example, with {$$}1 : \text{Nat}, 2 : \text{Nat}{/$$} we can say that 1 and 2 are of type {$$}\text{Nat}{/$$}, that is natural numbers. An operation (function) {$$}+ : \text{Nat} \to \text{Nat} \to \text{Nat}{/$$} is interpreted as a function which takes two objects of type {$$}\text{Nat}{/$$} and returns an object of type {$$}\text{Nat}{/$$}.
 
@@ -18,10 +18,10 @@ I> ### Definition 3
 I>
 I> Algebraic data types are types where we can additionally specify the form for each of the elements. They are called "algebraic" in the sense that the data types are constructed using algebraic operations. The algebra here is sum and product:
 I>
-I> 1. Sum (union) is alternation. It is denoted as {$$}\text{A  |  B}{/$$} and it means that the value is either of type A or B, but not both.
-I> 1. Product is combination. It is denoted as {$$}A B{/$$} and it means that the value is a pair where the first element is of type A, and the second element is of type B.
+I> 1. Sum (union) is alternation. It is denoted as {$$}\text{A | B}{/$$} and it means that the value is either of type A or B, but not both.
+I> 1. Product is combination. It is denoted as {$$}\text{A B}{/$$} and it means that the value is a pair where the first element is of type A, and the second element is of type B.
 
-As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}Real{/$$} for real numbers. Now, for the sum (union) we can construct a new type {$$}\text{Nat | Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat | Real}{/$$}, {$$}3.14 : \text{Nat | Real}{/$$}, etc. For the product type, we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 1.5 : \text{Nat Real}{/$$}, {$$}2 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
+As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}\text{Real}{/$$} for real numbers. Now, for the sum (union) we can construct a new type {$$}\text{Nat | Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat | Real}{/$$}, {$$}3.14 : \text{Nat | Real}{/$$}, etc. For the product type, we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 1.5 : \text{Nat Real}{/$$}, {$$}2 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
 
 Finally, Idris supports dependent types[^ch4n2]. These kind of types are so powerful, they can encode most properties of programs, and with their help Idris can prove invariants at compile-time. This is what makes Idris a so called proof assistant[^ch4n3]. As we will see in section 5.2, types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software.
 
@@ -30,6 +30,8 @@ Q>
 Q> Russell's paradox (per the mathematician Bertrand Russell) states the following: In a village in which there is only one barber, there is a rule according to which the barber shaves everyone who don't shave themselves, and no-one else. Now, who shaves the barber? In order to attempt to solve the paradox, we can assume that the barber shaves himself. Then, he's one of those who shave themselves, but the barber shaves only those who do not shave themselves, which is a contradiction. Alternatively, if we assume that the barber does not shave himself, then he is in the group of people whom which the barber shaves, which again is a contradiction.
 Q>
 Q> The (naive) set theoretical foundations were affected by this paradox. As a response to this, between 1902 and 1908, Bertrand Russell himself proposed different type theories an attempt to resolve the issue. By joining types to values, we avoid the paradox because in this theory every set is defined as having elements from a distinct type, for example, {$$}\text{Type 1}{/$$}. Elements from {$$}\text{Type 1}{/$$} can be included in a different set, say, elements of {$$}\text{Type 2}{/$$}, and so forth. Thus, the paradox is no longer an issue since the set of elements of {$$}\text{Type 1}{/$$} cannot be contained in their own set, since the types do not match. In a way, we're adding hierarchy to sets in order to resolve the issue of "self-referential" sets. This is also the case with Idris, where we have that {$$}\text{Type : Type 1 : Type 2}{/$$}, etc.
+
+TODO give example with barber
 
 ## 4.1. Lambda calculus
 
@@ -76,12 +78,10 @@ For example, for the expression {$$}(\lambda x . f \ x) \ y{/$$}, we can use alp
 
 Given these rules, we can define the successor function as {$$}SUCC = \lambda n\ f\ x\ . f\ (n\ f\ x){/$$}. So, now we can try to apply 1 to {$$}SUCC{/$$}:
 
-{$$}SUCC \ 1 ={/$$}
-{$$}(\lambda n \ f \ x . f \ (n \ f \ x)) \ (\lambda f \ x . f \ x) ={/$$}
-{$$}\lambda f \ x . f \ ((\lambda f \ x . f \ x) \ f \ x) ={/$$}
-{$$}\lambda f \ x . f \ (f \ x) = 2{/$$}
-
-On the second line, we've substituted the very own definitions of {$$}SUCC{/$$} and 1. On the third line, we applied 1 to {$$}SUCC{/$$}, that is, we "consumed" the {$$}n{/$$} by using beta reduction. Finally, on the fourth line, we applied {$$}f{/$$} and {$$}x{/$$} to a function that accepts {$$}f{/$$} and {$$}x{/$$}, so the result is just the body of that abstraction.
+1. Evaluating {$$}SUCC \ 1 ={/$$}
+1. Substitute the very own definitions of {$$}SUCC{/$$} and 1: {$$}(\lambda n \ f \ x . f \ (n \ f \ x)) \ (\lambda f \ x . f \ x) ={/$$}
+1. Apply 1 to {$$}SUCC{/$$}, that is, "consume" the {$$}n{/$$} by using beta reduction: {$$}\lambda f \ x . f \ ((\lambda f \ x . f \ x) \ f \ x) ={/$$}
+1. Finally, apply {$$}f{/$$} and {$$}x{/$$} to a function that accepts {$$}f{/$$} and {$$}x{/$$} (which is just the body of the abstraction): {$$}\lambda f \ x . f \ (f \ x) = 2{/$$}
 
 X> ### Exercise 2
 X>
@@ -215,7 +215,7 @@ I> 1. The rule of type equality which states that if an object is of a type {$$}
 I>
 I> The remaining inference rules are specific to the type formers, for example introduction and elimination. We will show an example using these rules in 5.2.
 
-As an example, rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}Nat : \text{Type}{/$$} per rule 1.
+As an example, rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}\text{Nat} : \text{Type}{/$$} per rule 1.
 
 X> ### Exercise 9
 X>
@@ -226,6 +226,39 @@ X>
 X> Combine the usage of rules along with the connectives described above, so for example, try to come up with a recursive type and then try to construct some new objects from it.
 
 ### 4.4.1. Intuitionistic logic
+
+I> ### Definition 10
+I>
+I> A constructive proof proves the existence of a mathematical object by creating or constructing the object itself. This is contrary to non-constructive proofs which prove existence of objects without giving a concrete example.
+
+I> ### Definition 11
+I>
+I> Intuitionistic logic, also known as constructive logic, is a type of logic which is different than the classical logic in that it "works" with the notion of constructive proof.
+
+I> ### Definition 12
+I>
+I> The BHK (Brouwer-Heyting-Kolmogorov) interpretation is a mapping of intuitionistic logic to classical mathematical logic, namely:
+I>
+I> 1. A proof of {$$}P \land Q{/$$} is a product type {$$}\text{A B}{/$$}, where {$$}a{/$$} is a proof of {$$}\text{P}{/$$} and {$$}b{/$$} is a proof of {$$}\text{Q}{/$$}
+I> 1. A proof of {$$}P \lor Q{/$$} is a product type {$$}\text{A B}{/$$}, where {$$}a{/$$} is 0 and {$$}b{/$$} is a proof of {$$}\text{P}{/$$}, or {$$}a{/$$} is 1 and {$$}b{/$$} is a proof of {$$}\text{Q}{/$$}
+I> 1. A proof of {$$}P \to Q{/$$} is a function {$$}f{/$$} that converts a proof of {$$}\text{P}{/$$} to a proof of {$$}\text{Q}{/$$}
+I> 1. A proof of {$$}\exists x \in S : f(x){/$$} is a pair {$$}\text{A B}{/$$} where {$$}a{/$$} is an element of {$$}\text{S}{/$$}, and {$$}b{/$$} is a proof of {$$}f(x){/$$} (dependent sum types)
+I> 1. A proof of {$$}\forall x \in S : f(x){/$$} is a function {$$}f{/$$} that converts an element {$$}a{/$$} from {$$}\text{S}{/$$} to a proof of {$$}f(x){/$$} (dependent product types)
+I> 1. A proof of {$$}\lnot P is defined as P \to \bot{/$$}, that is, the proof is a function {$$}f{/$$} that converts a proof of {$$}\text{P}{/$$} to proof of {$$}\bot{/$$}
+I> 1. There is no proof of {$$}\bot{/$$}
+
+For example, to prove distributivity of {$$}\land{/$$} with respect to {$$}\lor{/$$}, that is, {$$}P \land (Q \lor R) = (P \land Q) \lor (P \land R){/$$}, we need to construct a function {$$}f : \text{P (Q | R)} \to \text{P Q | P R}{/$$}. That is, a function that takes a product type of {$$}\text{P}{/$$} and sum type of {$$}\text{Q}{/$$} and {$$}\text{R}{/$$}, and returns a sum type of product {$$}\text{P}{/$$} and {$$}\text{Q}{/$$}, and product {$$}\text{P}{/$$} and {$$}\text{R}{/$$}. Here's the function that accomplishes that:
+
+```
+f (x, left y) = left (x, y)
+f (x, left y') = right (x, y')
+```
+
+This notation (which is pretty similar to how we would write it in Idris), uses `(x, y)` to denote product type, that is, extract values from a product-type pair, and `left` and `right` to denote type constructors for sum type in order to extract values from a sum-type pair. In the next chapter we will introduce Idris and its syntax.
+
+X> ### Exercise 11
+X>
+X> Try to use some of the proofs in the earlier chapters as a motivation and work them out using intuitionistic logic.
 
 ## 4.5. Lambda cube
 
