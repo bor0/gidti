@@ -87,4 +87,5 @@ X>
 X> Try to think of a real-world scenario and model it using a formal system, and then try to apply a few of the transformation rules in order to demonstrate how we can get from point A to point B.
 
 [^ch2n1]: Note that this theorem only holds for systems that allow expressing arithmetic of natural numbers (e.g. Peano, ZFC, but first-order logic also has some paradoxes if we allow self-referential statements). We will look into this systems in the next chapter.
+
 [^ch2n2]: After having introduced ourselves to proofs, you will be given an exercise to prove this fact.
