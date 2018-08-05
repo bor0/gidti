@@ -151,12 +151,12 @@ I> ### Definition 7
 I> ###
 I> A dependent product type is a collection of types {$$}B : \text{A} \to U{/$$} where for each element {$$}a : \text{A}{/$$}, there's an assigned type {$$}B(a) : U{/$$}, where {$$}U{/$$} is a universe of types[^ch4n5]. We say that {$$}B(a){/$$} varies with {$$}a{/$$}. It is denoted as {$$}\Pi(x : \text{A}), B(x){/$$}.
 
-This definition might seem a bit scary and tricky to grasp, but it really is simple, and as usual we’ll show an example. Let’s consider the following cases:
+This definition might seem a bit scary and tricky to grasp, but it really is simple, and as usual we'll show an example. Let's consider the following cases:
 
 1. Our universe of types contains all possible types. For example, {$$}\text{Type}{/$$}, {$$}\text{Nat}{/$$}, etc, so {$$}U = \{ \text{Type}, \text{Nat}, \text{List n}, \ldots \}{/$$}
 1. Our collection of interest of types is {$$}\text{List n}{/$$}, which represents a list of {$$}n{/$$} elements. That is, {$$}A = \{ \text{List n} \}{/$$}
 
-Now the definition states that, in our universe {$$}U{/$$}, there exists a function {$$}B(n) = \text{List n}{/$$}. {$$}B{/$$} is the collection of functions which given a number {$$}n{/$$}, will return a list of {$$}n{/$$} numbers. So, we have the following list as an example: {$$}[1] : \text{B(1)}{/$$}, that is {$$}[1] : \text{List 1}{/$$}. Another example list is {$$}[1, 2] : \text{List 2}{/$$}, and so on. In general, we can have a function that takes an {$$}n{/$$} and produces a {$$}\text{List n}{/$$}, that is, {$$}f : \text{n} \to \text{List n}{/$$}, where the possible types for it are {$$}f : 1 \to \text{List 1}{/$$}, {$$}f : 2 \to \text{List 2}{/$$}, etc. We’ve just constructed our first dependent type!
+Now the definition states that, in our universe {$$}U{/$$}, there exists a function {$$}B(n) = \text{List n}{/$$}. {$$}B{/$$} is the collection of functions which given a number {$$}n{/$$}, will return a list of {$$}n{/$$} numbers. So, we have the following list as an example: {$$}[1] : \text{B(1)}{/$$}, that is {$$}[1] : \text{List 1}{/$$}. Another example list is {$$}[1, 2] : \text{List 2}{/$$}, and so on. In general, we can have a function that takes an {$$}n{/$$} and produces a {$$}\text{List n}{/$$}, that is, {$$}f : \text{n} \to \text{List n}{/$$}, where the possible types for it are {$$}f : 1 \to \text{List 1}{/$$}, {$$}f : 2 \to \text{List 2}{/$$}, etc. We've just constructed our first dependent type!
 
 I> ### Definition 8
 I>
@@ -174,17 +174,17 @@ X> Think of a way to constructor a different sum dependent type, and express it 
 
 ## 4.4. Intuitionistic theory of types
 
-The core "construct" in Idris are types. As we’ve seen, foundations are based on type theory. As we’ve also seen, in classic mathematical logic we have sets and propositions, according to the ZFC set theory.
+The core "construct" in Idris are types. As we've seen, foundations are based on type theory. As we've also seen, in classic mathematical logic we have sets and propositions, according to the ZFC set theory.
 
-The intuitionistic theory of types (or constructive type theory) offers an alternative foundation to mathematics. This theory was introduced by Martin-L&#246;f, a swedish mathematician in 1972. It is based on the isomorphism (or "equality") that propositions are types. We will cover this in details in 5.2, after introducing Idris’s syntax.
+The intuitionistic theory of types (or constructive type theory) offers an alternative foundation to mathematics. This theory was introduced by Martin-L&#246;f, a swedish mathematician in 1972. It is based on the isomorphism (or "equality") that propositions are types. We will cover this in details in 5.2, after introducing Idris's syntax.
 
-Proving a theorem in this system consists of constructing, or providing evidence for a particular object. If we want to prove something about a type {$$}\text{A}{/$$}, and we know that {$$}a : \text{A}{/$$}, then {$$}a{/$$} is one proof for {$$}\text{A}{/$$}. Note how we say one proof, because there can be many other elements of type {$$}\text{A}{/$$}. Propositions can also be defined through types.
+Proving a theorem in this system consists of constructing[^ch4n6], or providing evidence for a particular object. If we want to prove something about a type {$$}\text{A}{/$$}, and we know that {$$}a : \text{A}{/$$}, then {$$}a{/$$} is one proof for {$$}\text{A}{/$$}. Note how we say one proof, because there can be many other elements of type {$$}\text{A}{/$$}. Propositions can also be defined through types.
 
 For example. in order to prove that {$$}4 = 4{/$$}, we need to find an object {$$}x{/$$} of type {$$}\text{4 = 4}{/$$}, that is {$$}x : \text{4 = 4}{/$$}. One such object is {$$}refl{/$$} (which can be thought of as an axiom), which stands for reflexivity, which states that {$$}x = x{/$$} for all {$$}x{/$$}.
 
-One thing worth noting is that, in Idris there are "two" types of truths: {$$}\text{Bool}{/$$} and {$$}\text{Type}{/$$}. Even though there is some similarity (in terms of proofs), in Idris they are fundamentally different. The type {$$}\text{Bool}{/$$} can have a value of {$$}True{/$$} or {$$}False{/$$}, while the type {$$}\text{Type}{/$$} is either provable or not provable.
+One thing worth noting is that, in Idris there are "two" types of truths: {$$}\text{Bool}{/$$} and {$$}\text{Type}{/$$}. Even though there is some similarity (in terms of proofs), in Idris they are fundamentally different. The type {$$}\text{Bool}{/$$} can have a value of {$$}True{/$$} or {$$}False{/$$}, while the type {$$}\text{Type}{/$$} is either provable or not provable[^ch4n7].
 
-The reason why this system is useful is that if we’re given such a system and we know that if there exists a constructive proof for some object, then using a computer algorithm we can find that proof. As a consequence, this is why it can be considered as a way to make a programming language act like a proof-assistant.
+The reason why this system is useful is that if we're given such a system and we know that if there exists a constructive proof for some object, then using a computer algorithm we can find that proof. As a consequence, this is why it can be considered as a way to make a programming language act like a proof-assistant.
 
 ### 4.4.1. Intuitionistic logic
 
@@ -199,3 +199,7 @@ The reason why this system is useful is that if we’re given such a system and 
 [^ch4n4]: A Turing machine is an abstract mathematical machine that allows computation. Roughly, it consists of an initial state, and a transition function for manipulating this state. For any computer algorithm, a Turing machine can express that algorithm's logic. This is what makes a machine Turing complete. (Untyped) Lambda calculus is Turing complete.
 
 [^ch4n5]: Collections in general are considered to be subcollections of some large universal collection, also called the universe. Depending on the context, the definition of this universe will vary.
+
+[^ch4n6]: As a consequence that we need to provide an object as an evidence in order to prove something, the law of excluded middle {$$}P \lor \lnot P{/$$} is not defined in this logic, whereas in classic mathematical logic this is given as an axiom. For some propositions, for example, {$$}P{/$$} is an odd number or not, there are proofs that we can provide. However, for some propositions this is impossible, for example, {$$}P{/$$} is a program that halts or not. So, unlike classic mathematical logic, in this logic the law of excluded middle does not exist due to the undecidability problem.
+
+[^ch4n7]: It is provable in case we can construct an object of such type, and not provable otherwise.
