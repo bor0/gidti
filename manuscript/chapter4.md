@@ -274,11 +274,11 @@ Even though the cube has 8 kinds of systems, we will only cover the 4 most impor
     1. Example: The Church numerals we've discussed before: 1, {$$}\lambda[f : (\text{a} \to \text{a})]\ [x : \text{a}] . f \ x : \text{Nat}{/$$}
 1. Expressions depending on types, that is, polymorphism. This is called System F {$$}\lambda 2{/$$}:
     1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t, \lambda X.t{/$$}
-    1. Type constructors: {$$}\text{X}, \forall X.\text{T}{/$$}
+    1. Type constructors: {$$}\text{X}, \forall \text{X.T}{/$$}
     1. Example: The polymorphic function {$$}concat : \text{List a} \to \text{List a} \to \text{List a}{/$$}, where the same {$$}\text{a}{/$$} is bound to all arguments.
 1. Types depending on types. This is called System lambda-omega {$$}\lambda \omega{/$$}:
     1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t{/$$}
-    1. Type constructors: {$$}\text{X}, \lambda \text{X:K} . \text{T}, \text{T T}{/$$}
+    1. Type constructors: {$$}\text{X}, \lambda \text{X:K.T}, \text{T T}{/$$}
     1. Example: {$$}\text{List a}{/$$}, where {$$}\text{a}{/$$} can be {$$}\text{Nat}{/$$}, {$$}\text{Real}{/$$}, etc.
 1. Types depending on expressions, that is, dependent types. This is called System LF {$$}\lambda P{/$$}:
     1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t{/$$}
