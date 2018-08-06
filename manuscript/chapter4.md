@@ -37,7 +37,7 @@ TODO give example with barber
 
 I> ### Definition 4
 I>
-I> Lambda calculus is a formal for expressing computation[^ch4n4].
+I> Lambda calculus is a formal system for expressing computation[^ch4n4].
 I> Per Wikipedia, the set of symbols for this system is defined as:
 I>
 I> 1. There are variables {$$}v_1, v_2, \ldots{/$$}
@@ -62,7 +62,7 @@ X> Convince yourself that the expression {$$}\lambda f \ x . f \ x{/$$} is a wel
 
 I> ### Definition 5
 I>
-I> There are two types of variables in this system: free and bound. Bound variables are those who appear within the {$$}\lambda{/$$} abstraction. Analogously, free variables are those who do not appear in the {$$}\lambda{/$$} abstraction.
+I> There are two types of variables in the Lambda calculus: free and bound. Bound variables are those who appear within the {$$}\lambda{/$$} abstraction. Analogously, free variables are those who do not appear in the {$$}\lambda{/$$} abstraction.
 
 For example, in the expression {$$}\lambda y . x \ y{/$$} we have that {$$}y{/$$} is a bound variable, and {$$}x{/$$} is a free one.
 
@@ -115,7 +115,7 @@ I> The type constructors are:
 I>
 I> 1. For some type {$$}A{/$$}, the type constructor {$$}T{/$$} is defined as {$$}\text{A | T} \to \text{T}{/$$}
 
-That is, an expression in this system can additionally be an abstraction with {$$}x{/$$} having joined a type (rule 4), or an expression of a variable having joined a type {$$}T{/$$} (rule 5), where our type constructor is a sum type, and it says that we either have primitive types, or a way to form new types. Now in our attempt to re-define Church numerals and the successor function, we have to be careful as the types of these definitions have to match. Let's recall the Church numerals:
+That is, an expression in this system can additionally be an abstraction with {$$}x{/$$} having joined a type (rule 4), or an expression of a variable having joined a type {$$}\text{T}{/$$} (rule 5), where our type constructor is a sum type, and it says that we either have primitive types, or a way to form new types. Now in our attempt to re-define Church numerals and the successor function, we have to be careful as the types of these definitions have to match. Let's recall the Church numerals:
 
 1. Number 1, i.e. {$$}\lambda f \ x . f \ x{/$$}
 1. Number 2, i.e. {$$}\lambda f \ x . f \ (f \ x){/$$}
@@ -137,7 +137,7 @@ X> Apply the typed {$$}SUCC{/$$} to 1 and confirm the result is 2. Make sure you
 
 X> ### Exercise 6
 X>
-X> In exercise 1 of 4.1.1, you were asked to come up with a function. Try to figure out the types of this function, or if not applicable, come up with a new function and then figure out its types using the reasoning above.
+X> In exercise 3 you were asked to come up with a function. Try to figure out the types of this function, or if not applicable, come up with a new function and then figure out its types using the reasoning above.
 
 ## 4.3. Dependent types
 
@@ -156,7 +156,7 @@ This definition might seem a bit scary and tricky to grasp, but it really is sim
 1. Our universe of types contains all possible types. For example, {$$}\text{Type}{/$$}, {$$}\text{Nat}{/$$}, etc, so {$$}U = \{ \text{Type}, \text{Nat}, \text{List n}, \ldots \}{/$$}
 1. Our collection of interest of types is {$$}\text{List n}{/$$}, which represents a list of {$$}n{/$$} elements. That is, {$$}A = \{ \text{List n} \}{/$$}
 
-Now the definition states that, in our universe {$$}U{/$$}, there exists a function {$$}B(n) = \text{List n}{/$$}. {$$}B{/$$} is the collection of functions which given a number {$$}n{/$$}, will return a list of {$$}n{/$$} numbers. So, we have the following list as an example: {$$}[1] : \text{B(1)}{/$$}, that is {$$}[1] : \text{List 1}{/$$}. Another example list is {$$}[1, 2] : \text{List 2}{/$$}, and so on. In general, we can have a function that takes an {$$}n{/$$} and produces a {$$}\text{List n}{/$$}, that is, {$$}f : \text{n} \to \text{List n}{/$$}, where the possible types for it are {$$}f : 1 \to \text{List 1}{/$$}, {$$}f : 2 \to \text{List 2}{/$$}, etc. We've just constructed our first dependent type!
+Now the definition states that, in our universe {$$}U{/$$}, there exists a function {$$}B(n) = \text{List n}{/$$}. {$$}B{/$$} is the collection of functions which given a number {$$}n{/$$}, will return a list of {$$}n{/$$} numbers. So, we have the following list as an example: {$$}[1] : \text{B(1)}{/$$}, that is {$$}[1] : \text{List 1}{/$$}. Another example list is {$$}[1, 2] : \text{List 2}{/$$}, and so on. In general, we have a function that takes an {$$}n{/$$} and produces a {$$}\text{List n}{/$$}, that is, {$$}f : \text{n} \to \text{List n}{/$$}, where the possible types for it are {$$}f : 1 \to \text{List 1}{/$$}, {$$}f : 2 \to \text{List 2}{/$$}, etc. We've just constructed our first dependent type!
 
 I> ### Definition 8
 I>
@@ -166,11 +166,11 @@ For example, if we set {$$}A = \text{Nat}{/$$}, and {$$}B(a) = \text{List a}{/$$
 
 X> ### Exercise 7
 X>
-X> Think of a way to constructor a different product dependent type, and express it using the reasoning above.
+X> Think of a way to construct a different product dependent type, and express it using the reasoning above.
 
 X> ### Exercise 8
 X>
-X> Think of a way to constructor a different sum dependent type, and express it using the reasoning above.
+X> Think of a way to construct a different sum dependent type, and express it using the reasoning above.
 
 ## 4.4. Intuitionistic theory of types
 
@@ -178,13 +178,13 @@ The core "construct" in Idris are types. As we've seen, foundations are based on
 
 The intuitionistic theory of types (or constructive type theory) offers an alternative foundation to mathematics. This theory was introduced by Martin-L&#246;f, a swedish mathematician in 1972. It is based on the isomorphism (or "equality") that propositions are types. We will cover this in details in 5.2, after introducing Idris's syntax.
 
-Proving a theorem in this system consists of constructing[^ch4n6], or providing evidence for a particular object. If we want to prove something about a type {$$}\text{A}{/$$}, and we know that {$$}a : \text{A}{/$$}, then {$$}a{/$$} is one proof for {$$}\text{A}{/$$}. Note how we say one proof, because there can be many other elements of type {$$}\text{A}{/$$}. Propositions can also be defined through types.
+Proving a theorem in this system consists of constructing[^ch4n6], or providing evidence for a particular object. If we want to prove something about a type {$$}\text{A}{/$$}, and we know that {$$}a : \text{A}{/$$}, then {$$}a{/$$} is one proof for {$$}\text{A}{/$$}. Note how we say one proof, because there can be many other elements of type {$$}\text{A}{/$$}.
 
-For example. in order to prove that {$$}4 = 4{/$$}, we need to find an object {$$}x{/$$} of type {$$}\text{4 = 4}{/$$}, that is {$$}x : \text{4 = 4}{/$$}. One such object is {$$}refl{/$$} (which can be thought of as an axiom), which stands for reflexivity, which states that {$$}x = x{/$$} for all {$$}x{/$$}.
+Propositions can also be defined through types. For example. in order to prove that {$$}4 = 4{/$$}, we need to find an object {$$}x{/$$} of type {$$}\text{4 = 4}{/$$}, that is {$$}x : \text{4 = 4}{/$$}. One such object is {$$}refl{/$$} (which can be thought of as an axiom), which stands for reflexivity, which states that {$$}x = x{/$$} for all {$$}x{/$$}.
 
 One thing worth noting is that, in Idris there are "two" types of truths: {$$}\text{Bool}{/$$} and {$$}\text{Type}{/$$}. Even though there is some similarity (in terms of proofs), in Idris they are fundamentally different. The type {$$}\text{Bool}{/$$} can have a value of {$$}True{/$$} or {$$}False{/$$}, while the type {$$}\text{Type}{/$$} is either provable or not provable[^ch4n7].
 
-The reason why this system is useful is that if we're given such a system and we know that if there exists a constructive proof for some object, then using a computer algorithm we can find that proof. As a consequence, this is why it can be considered as a way to make a programming language act like a proof-assistant.
+This system is useful since with the usage of computer algorithms we can find a constructive proof for some object (assuming it exists). As a consequence, this is why it can be considered as a way to make a programming language act like a proof-assistant.
 
 I> ### Definition 9
 I>
@@ -244,10 +244,10 @@ I> 1. A proof of {$$}P \lor Q{/$$} is a product type {$$}\text{A B}{/$$}, where 
 I> 1. A proof of {$$}P \to Q{/$$} is a function {$$}f{/$$} that converts a proof of {$$}\text{P}{/$$} to a proof of {$$}\text{Q}{/$$}
 I> 1. A proof of {$$}\exists x \in S : f(x){/$$} is a pair {$$}\text{A B}{/$$} where {$$}a{/$$} is an element of {$$}\text{S}{/$$}, and {$$}b{/$$} is a proof of {$$}f(x){/$$} (dependent sum types)
 I> 1. A proof of {$$}\forall x \in S : f(x){/$$} is a function {$$}f{/$$} that converts an element {$$}a{/$$} from {$$}\text{S}{/$$} to a proof of {$$}f(x){/$$} (dependent product types)
-I> 1. A proof of {$$}\lnot P is defined as P \to \bot{/$$}, that is, the proof is a function {$$}f{/$$} that converts a proof of {$$}\text{P}{/$$} to proof of {$$}\bot{/$$}
+I> 1. A proof of {$$}\lnot P{/$$} is defined as {$$}P \to \bot{/$$}, that is, the proof is a function {$$}f{/$$} that converts a proof of {$$}\text{P}{/$$} to proof of {$$}\bot{/$$}
 I> 1. There is no proof of {$$}\bot{/$$}
 
-For example, to prove distributivity of {$$}\land{/$$} with respect to {$$}\lor{/$$}, that is, {$$}P \land (Q \lor R) = (P \land Q) \lor (P \land R){/$$}, we need to construct a function {$$}f : \text{P (Q | R)} \to \text{P Q | P R}{/$$}. That is, a function that takes a product type of {$$}\text{P}{/$$} and sum type of {$$}\text{Q}{/$$} and {$$}\text{R}{/$$}, and returns a sum type of product {$$}\text{P}{/$$} and {$$}\text{Q}{/$$}, and product {$$}\text{P}{/$$} and {$$}\text{R}{/$$}. Here's the function that accomplishes that:
+For example, to prove distributivity of {$$}\land{/$$} with respect to {$$}\lor{/$$}, that is, {$$}P \land (Q \lor R) = (P \land Q) \lor (P \land R){/$$}, we need to construct a proof for the function of type {$$}f : \text{P (Q | R)} \to \text{P Q | P R}{/$$}. That is, a function that takes a product type of {$$}\text{P}{/$$} and sum type of {$$}\text{Q}{/$$} and {$$}\text{R}{/$$}, and returns a sum type of product {$$}\text{P}{/$$} and {$$}\text{Q}{/$$}, and product {$$}\text{P}{/$$} and {$$}\text{R}{/$$}. Here's the function that accomplishes that:
 
 ```
 f (x, left y) = left (x, y)
