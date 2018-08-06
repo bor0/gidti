@@ -8,7 +8,7 @@ Pierce, B., _Types and Programming Languages_, 2002
 
 Wadler, P., _Propositions as Types_, 2015
 
-Pierce, B., _Logical Foundations_, 2018
+Pierce, B., _Logical Foundations_, 2011
 
 Lipovaca, M., _Learn You a Haskell for Great Good_, 2011
 
