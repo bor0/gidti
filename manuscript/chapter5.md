@@ -316,7 +316,7 @@ add' End ys = ys
 add' (Element x xs) ys = Element x (add' xs ys)
 ```
 
-TODO: Explain this definition. Example usage:
+The first line of the code says that `add'` is a function that accepts two polymorphic lists (`MyList Nat`, `MyList Char`, etc), and produces the same list as a result. The second line of the code pattern matches against the first list and when it's empty, we just return the second list. The third line of the code also pattern matches against the first list, but this time it covers the `Element` case. So, whenever there is an `Element` in the first list, as a result we return this element `Element x`, appended recursively to `add' xs ys`, where `xs` is the remainder of the first list and `ys` is the second list. Example usage:
 
 ```
 Idris> add' (Element 1 (Element 2 (Element 3 End))) (Element 4 End)
@@ -325,17 +325,21 @@ Element 1 (Element 2 (Element 3 (Element 4 End))) : MyList Integer
 
 X> ### Exercise 9
 X>
+X> Unfold `add' (Element 1 (Element 2 (Element 3 End))) (Element 4 End)` on paper to get a better understanding of how this definition appends two lists.
+
+X> ### Exercise 10
+X>
 X> Come up with a definition for `length'`, which should return the number of elements, given a list.
 X>
 X> Hint: The type is `length' : MyList a -> Nat`
 
-X> ### Exercise 10
+X> ### Exercise 11
 X>
 X> Come up with a definition for `even-only'`, which should return a new list with even natural numbers only.
 X>
 X> Hint: The type is `even-only' : MyList Nat -> MyList Nat`. You can re-use the definition of `even` we've discussed earlier.
 
-X> ### Exercise 11
+X> ### Exercise 12
 X>
 X> Come up with a definition for `sum'`, which should return a number that will be the sum of all elements in a list of natural numbers.
 X>
