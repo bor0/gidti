@@ -1,1 +1,1 @@
-# 6. Examples in Idris
+# 6. Programming in Idris
