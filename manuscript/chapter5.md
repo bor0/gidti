@@ -1,6 +1,6 @@
 # 5. Introduction to Idris
 
-In this chapter, we will introduce Idris’s syntax, by defining functions and types.
+In this chapter, we will introduce Idris' syntax, by defining functions and types.
 
 Depending at what level of abstraction we are working on, types and proofs can give us a kind of security based on some truths we take for granted (axioms). In fact, this is how we program on a daily basis, as software engineers. We have a list of axioms, for example a `foreach` loop in a programming language, and starting from it we build abstractions. However, this is not always easy to achieve. For example, consider a scenario where we have a button that is supposed to download a PDF document. In order to prove that it works as expected, we must first pick the abstraction level we will be working on, and then proceed by defining things (what is a PDF, what is a download). So, we first have to define our **specifications**, and then we can proceed with proving correctness.
 
@@ -12,7 +12,7 @@ There are several ways to install Idris. For Haskellers, one way is to install I
 
 There are two working modes in Idris: REPL (read-evaluate-print-loop) i.e. interactive mode, and compilation of code. We will mostly work in the interactive mode in this chapter.
 
-You can copy any of the example codes to to some file, say, `test.idr` and launch Idris in REPL mode by writing `idris test.idr`. This will allow you to interact with Idris given the definitions in the file. If you change the contents of the file, that is, update the definitions, you can use the command `:r` while in REPL mode to reload the definitions.
+You can copy any of the example codes to some file, say, `test.idr` and launch Idris in REPL mode by writing `idris test.idr`. This will allow you to interact with Idris given the definitions in the file. If you change the contents of the file, that is, update the definitions, you can use the command `:r` while in REPL mode to reload the definitions.
 
 ### 5.1.1. Basic definitions
 
@@ -23,7 +23,7 @@ add_1 : Nat -> Nat
 add_1 x = x + 1
 ```
 
-With the code above we’re defining a function {$$}f(x) = x + 1{/$$} where {$$}x{/$$} is natural number, and {$$}f(x){/$$} (the result) is also a natural number[^ch5n1]. The first line `add_1 : Nat -> Nat` specifies the type of our function, that is, it is a function that takes a natural number and returns a natural number. The second line, `add_1 x = x + 1` is the definition of the function, which states that if `add_1` is called with a number `x`, the result would be `x + 1`. As can be seen by the example, every function has to be provided a type definition. We can interact as follows once in REPL mode:
+With the code above we're defining a function {$$}f(x) = x + 1{/$$} where {$$}x{/$$} is natural number, and {$$}f(x){/$$} (the result) is also a natural number[^ch5n1]. The first line `add_1 : Nat -> Nat` specifies the type of our function, that is, it is a function that takes a natural number and returns a natural number. The second line, `add_1 x = x + 1` is the definition of the function, which states that if `add_1` is called with a number `x`, the result would be `x + 1`. As can be seen by the example, every function has to be provided a type definition. We can interact as follows once in REPL mode:
 
 ```
 Idris> add_1 5
@@ -36,8 +36,6 @@ Idris responds to us that as a result we get 6, which is of type `Nat`. Constant
 number_1 : Nat
 number_1 = 1
 ```
-
-For extracting values from data types such as B a b, we use pattern matching. 
 
 As in Haskell, we can use pattern matching. What happens during this phase is Idris does a check (match) against the definitions of the function and uses the definition of the function that matches the value.
 
@@ -65,7 +63,7 @@ In Idris, types are first-class citizens. This means that types can be computed 
 data A a b = A_inst a b
 ```
 
-What this does is it will create a new type that accepts two arguments, `a` and `b`. Valid types are `A Nat Bool`, `A Nat Nat`, etc. Think of it as a product type. The `A_inst` part is actually the type constructor that instantiates an object of such type:
+This will create a new type that accepts two arguments, `a` and `b`. Valid types are `A Nat Bool`, `A Nat Nat`, etc. The `A_inst` part is actually the type constructor that instantiates an object of such type:
 
 ```
 Idris> A_inst True True
@@ -86,7 +84,7 @@ data A : Type -> Type -> Type
 postulate A_inst : a -> b -> A a b
 ```
 
-That is, `A_inst` is a type constructor. With the `postulate` keyword we can define axioms, which are functions that satisfy the types without giving an actual argument for construction. With the command `:t` we can check the type of an expression, so as a result, we get:
+With the `postulate` keyword we can define axioms, which are functions that satisfy the types without giving an actual argument for construction. With the command `:t` we can check the type of an expression, so as a result, we get:
 
 ```
 Idris> :t A
@@ -95,7 +93,9 @@ Idris> :t A_inst
 A_inst : a -> b -> A a b
 ```
 
-That is, we show the type definition for both the newly-defined type and its type constructor. Note how we created a product type here. Idris has a built-in notion of pairs, which is a data type that can be defined in terms of products. So for example, `(1, 2)` is one pair. We can also define tuples with `(1, "Hi", True)`, which is equivalent to `(1, ("Hi", True))`, i.e. a pair where the first element is a number, and the second element is a pair. Analogously, if we want to create a sum type, we could do the following:
+That is, we show the type definition for both the newly-defined type and its type constructor. Note how we created a product type here. Idris has a built-in notion of pairs, which is a data type that can be defined in terms of products. So for example, `(1, 2)` is one pair. We can also define tuples with `(1, "Hi", True)`, which is equivalent to `(1, ("Hi", True))`, i.e. a pair where the first element is a number, and the second element is a pair.
+
+Analogously, if we want to create a sum type, we could do the following:
 
 ```
 data B a b = B_inst_left a | B_inst_right b
@@ -121,7 +121,7 @@ f (B_inst_left a) = a
 
 Note how we use the data type at the function type level, and how we use the type constructor to pattern match against.
 
-Natural numbers are defined as `data Nat = Z | S Nat`, where we either have a zero or a successor of a natural number. Natural numbers are built-in as a type in Idris. We can use the operator `==` to compare two numbers. Note that `==` is still a function, but it’s an infix one. This means that unlike other functions that we define which are prefix, i.e. start at the beginning of the expression, `==` needs to appear between the parameters. For example:
+Natural numbers are defined as `data Nat = Z | S Nat`, where we either have a zero or a successor of a natural number. Natural numbers are built-in as a type in Idris. We can use the operator `==` to compare two numbers. Note that `==` is still a function, but it's an infix one. This means that unlike other functions that we define which are prefix, i.e. start at the beginning of the expression, `==` needs to appear between the parameters. For example:
 
 ```
 Idris> 1 == 1
@@ -148,7 +148,7 @@ test : Bool -> Bool
 test p = ?hole1
 ```
 
-If we now ask Idris to tell us the type of `hole1`, that is, with `:t hole1` we can note that Idris inferred that the specific result is expected to be of type `Bool`. This is useful because it allows us to write programs incrementally (piece by piece) instead of constructing the program all at once.
+We can now ask Idris to tell us the type of `hole1`, that is, with `:t hole1` we can note that Idris inferred that the specific result is expected to be of type `Bool`. This is useful because it allows us to write programs incrementally (piece by piece) instead of constructing the program all at once.
 
 X> ### Exercise 3
 X>
@@ -164,7 +164,7 @@ X> Pattern match against custom type
 
 ### 5.1.3. Lambda anonymous functions
 
-With the syntax `let X in Y` we’re defining a set of variables `X` which are only visible in the body of `Y`. As an example, here is one way to use this syntax:
+With the syntax `let X in Y` we're defining a set of variables `X` which are only visible in the body of `Y`. As an example, here is one way to use this syntax:
 
 ```
 Idris> let f = 1 in f
@@ -178,14 +178,14 @@ Idris> let addThree = (\x, y, z => x + y + z) in addThree 1 2 3
 6 : Integer
 ```
 
-With the example above, we’ve defined a function `addThree` that accepts three parameters, and as a result it sums them. However, if we do not pass all parameters to a function, it will result in:
+With the example above, we've defined a function `addThree` that accepts three parameters, and as a result it sums them. However, if we do not pass all parameters to a function, it will result in:
 
 ```
 Idris> let addThree = (\x, y, z => x + y + z) in addThree 1 2
 \z => prim__addBigInt 3 z : Integer -> Integer
 ```
 
-We can note that as a result we get another function (from the type). Currying is a concept that allows us to evaluate a function with multiple parameters as a sequence of functions, each having a single parameter.
+We can note (from the type) that as a result we get another function. Currying is a concept that allows us to evaluate a function with multiple parameters as a sequence of functions, each having a single parameter.
 
 Function application in Idris is left-associative (just like in lambda calculus), which means that if we try to evaluate `addThree 1 2 3`, then it will be evaluated as `(((addThree 1) 2) 3)`. A combination of left-associative functions and currying (i.e. partial evaluation of function) is what allows us to write `addThree 1 2 3`, which is much more readable.
 
@@ -251,7 +251,7 @@ False
 
 We see how this exhibits a recursive behaviour since the recursive cases were reduced to the base case in attempt to get a result. With this example, we can see the power of recursion and how it allows us to process values in a repeating manner.
 
-A recursive function can generate an **iterative** or a **recursive** process. An iterative process is a process where the “state” is captured completely by its parameters. A recursive one, in contrast, is one where the “state” is not captured by the parameters, and so it relies on “deferred” evaluations. In the example above, `even` generates a recursive process since it needs to go down to the base case, and then build its way back up to do the calculations that were “deferred”. Alternatively, we can rewrite `even` so that it captures the “state” by introducing another variable, as such:
+A recursive function can generate an **iterative** or a **recursive** process. An iterative process is a process where the "state" is captured completely by its parameters. A recursive one, in contrast, is one where the "state" is not captured by the parameters, and so it relies on "deferred" evaluations. In the example above, `even` generates a recursive process since it needs to go down to the base case, and then build its way back up to do the calculations that were "deferred". Alternatively, we can rewrite `even` so that it captures the "state" by introducing another variable, as such:
 
 ```
 even : Nat -> Bool -> Bool
@@ -277,27 +277,29 @@ X> ### Exercise 7
 X>
 X> Factorial is defined as:
 X> {$$}fact(n) = \left\{ \begin{array}{ll} 1\text{, if } n = 0 \\	n * fact(n - 1)\text{, otherwise} \end{array} \right.{/$$}
+X>
 X> Unfold the evaluation of {$$}fact(5){/$$} on paper, and then implement it in Idris and confirm that Idris also computes the same value.
 X>
-X> Hint: The type is `fact : Nat -> Nat` and you should pattern match against `Z` (`Nat` type constructor for 0) and `(S n)`.
+X> Hint: The type is `fact : Nat -> Nat` and you should pattern match against `Z` (`Nat` type constructor for 0) and `(S n)` (successor).
 
 X> ### Exercise 8
 X>
 X> Re-write the Factorial function to generate an iterative process. Hint: `factFactorial is defined as:
 X> {$$}fact(n) = \left\{ \begin{array}{ll} 1\text{, if } n = 0 \\	n * fact(n - 1)\text{, otherwise} \end{array} \right.{/$$}
+X>
 X> Unfold the evaluation of {$$}fact(5){/$$} on paper, and then implement it in Idris and confirm that Idris also computes the same value.
 X>
-X> Hint: The type is `fact_iter : Nat -> Nat -> Nat` and you should pattern match against `(S Z)` (number 1), and `(S n)`.
+X> Hint: The type is `fact_iter : Nat -> Nat -> Nat` and you should pattern match against `(S Z) acc` (number 1, and accumulator), and `(S n) acc` (successor, and accumulator).
 
 ### 5.1.5. Recursive data types
 
-We will start by defining a recursive data type, that is, a data type that in the constructor refers to the same data type. In fact, earlier we already gave a recursive definition of `Nat`. As a motivating example, we will try to define a way to represent lists. For this data type we’ll use a combination of sum and product types. A list is defined as either `End` (end of list) or `Element`, which is a value appended to another `MyList`:
+We will start by defining a recursive data type, that is, a data type that in the constructor refers to itself. In fact, earlier we already gave a recursive definition of `Nat`. As a motivating example, we will try to define a way to represent lists. For this data type we'll use a combination of sum and product types. A list is defined as either `End` (end of list) or `Element`, which is a value appended to another `MyList`:
 
 ```
 data MyList a = Element a (MyList a) | End
 ```
 
-This means that the type `MyList` has two constructors, `End` and `Element`. If it’s `End`, then it’s the end of the list (and does not accept any more values). However, if it’s `Element`, then we can append another value (e.g. `Element 3`), but afterwards we have to specify another value of type `MyList a` (which can be `End` or another `Element`). This definition allows us to define a list. As an example, this is how we would represent {$$}(1, 2, 3)(/$$? using our `Element End` representation:
+This means that the type `MyList` has two constructors, `End` and `Element`. If it's `End`, then it's the end of the list (and does not accept any more values). However, if it's `Element`, then we can append another value (e.g. `Element 3`), but afterwards we have to specify another value of type `MyList a` (which can be `End` or another `Element`). This definition allows us to define a list. As an example, this is how we would represent {$$}(1, 2, 3){/$$} using our `Element End` representation:
 
 ```
 Idris> :t Element 1 (Element 2 End)
@@ -314,7 +316,7 @@ add' End ys = ys
 add' (Element x xs) ys = Element x (add' xs ys)
 ```
 
-Example usage:
+TODO: Explain this definition. Example usage:
 
 ```
 Idris> add' (Element 1 (Element 2 (Element 3 End))) (Element 4 End)
@@ -329,19 +331,19 @@ X> Hint: The type is `length' : MyList a -> Nat`
 
 X> ### Exercise 10
 X>
-X> Come up with a definition for `even-only'`, which should return a new list with even numbers only.
+X> Come up with a definition for `even-only'`, which should return a new list with even natural numbers only.
 X>
-X> Hint: The type is `even-only' : MyList Nat -> MyList Nat`. You can re-use the definition of `even`.
+X> Hint: The type is `even-only' : MyList Nat -> MyList Nat`. You can re-use the definition of `even` we've discussed earlier.
 
 X> ### Exercise 11
 X>
-X> Come up with a definition for `sum'`, which should return a number that will be the sum of all elements in a list.
+X> Come up with a definition for `sum'`, which should return a number that will be the sum of all elements in a list of natural numbers.
 X>
 X> Hint: The type is `sum' : MyList Nat -> Nat`.
 
 ### 5.1.6. Interfaces and implementations
 
-Interfaces are defined using the `interface` keyword. This is equivalent to Haskell’s `class` keyword. These interfaces are very similar to OOP’s interfaces, in that they add constraints to functions that implement them. As an example, we’ll take a look at the `Eq` interface:
+Interfaces are defined using the `interface` keyword. This is equivalent to Haskell's `class` keyword. These interfaces are very similar to OOP's interfaces, in that they add constraints to functions that implement them. As an example, we'll take a look at the `Eq` interface:
 
 ```
 interface Eq a where
@@ -355,7 +357,7 @@ interface Eq a where
 
 Note how we can specify comments in the code by using two dashes. Comments are ignored by the Idris compiler, and are only useful to the reader of the code.
 
-This definition says that if a function implements this interface then it has to support (or implement) the functions `==` and `/=` for the type that it’s used. Additionally the interface also contains a definition for the methods themselves, but this is optional. Since the definition of `==` depends on `/=` (and vice-versa), it will be sufficient to only override one of them (if we need to), and the other one will be automatically generated. As an example, let’s assume that we have a data type:
+This definition says that if a function implements this interface then it has to support (or implement) the functions `==` and `/=` for the type that it's used. Additionally the interface also contains a definition for the methods themselves, but this is optional. Since the definition of `==` depends on `/=` (and vice-versa), it will be sufficient to only override one of them (if we need to), and the other one will be automatically generated. As an example, let's assume that we have a data type:
 
 ```
 data Foo : Type where
@@ -378,6 +380,8 @@ Idris> Fooinst 3 "orange" /= Fooinst 6 "apple"
 True : Bool
 ```
 
+TODO: Exercises.
+
 ### 5.1.7. Total and partial functions
 
 A total function is defined as a function that:
@@ -387,10 +391,10 @@ A total function is defined as a function that:
 
 Analogously, a partial function is one that does not hold for at least one of the points above. If a function is total, its type can be understood as a precise description of what that function does. Idris differentiates total from partial functions. As an example, if we assume that we have a function that returns a `String`, then:
 
-1. If it’s total, it will return a `String` in finite time
-1. If it’s partial, then unless it crashes or enters in an infinite loop, it will return a `String`
+1. If it's total, it will return a `String` in finite time
+1. If it's partial, then unless it crashes or enters in an infinite loop, it will return a `String`
 
-In Idris, to define total functions we just put the keyword `total` in front of the function. So, for example, for the following program, we define two functions `test` and `test2`, a partial and a total one respectively:
+In Idris, to define total functions we just put the keyword `total` in front of the function definition. So, for example, for the following program, we define two functions `test` and `test2`, a partial and a total one respectively:
 
 ```
 test : Nat -> String
@@ -416,6 +420,8 @@ Idris> test2 1
 ```
 
 We can note that the evaluation of `test 1` does not produce a computed value as a result. Note that at compile-time, Idris will **evaluate the types only for total functions**.
+
+TODO: Exercises.
 
 ### 5.1.8. Strict evaluation
 
@@ -443,9 +449,13 @@ ifThenElse True  t e = t
 ifThenElse False t e = e
 ```
 
+TODO: Exercises.
+
 ### 5.1.9. Documentation
 
-By using the :doc command, we can get detailed information about a data type:
+By using the `:doc` command, we can get detailed information about a data type:
+
+```
 Idris> :doc Nat
 Data type Prelude.Nat.Nat : Type
     Natural numbers: unbounded, unsigned integers which can be pattern matched.
@@ -456,10 +466,13 @@ Constructors:
         
     S : Nat -> Nat
         Successor
+```
+
+TODO: Exercises.
 
 ### 5.1.10. Dependent types
 
-We will implement the `List n` data type that we discussed in section 4.3, which will limit the length of a list at the type level. To not conflict with the built-in Idris’ `List`, we’ll name it `MyList`. We can implement it as follows:
+We will implement the `List n` data type that we discussed in section 4.3, which should limit the length of a list at the type level. To not conflict with the built-in Idris' `List`, we'll name it `MyList`. We can implement it as follows:
 
 ```
 data MyList : (n : Nat) -> Type where
@@ -467,7 +480,7 @@ data MyList : (n : Nat) -> Type where
     Cons  : (x : Nat) -> (xs : MyList len) -> MyList (S len)
 ```
 
-What we’ve done above is we created a new type called `MyList` which accepts a natural number and returns a `Type`, that is joined with two type constructors:
+What we've done above is we created a new type called `MyList` which accepts a natural number and returns a `Type`, that is joined with two type constructors:
 
 1. `Empty` - which is just the empty list
 1. `Cons : (x : Nat) -> (xs : MyList len) -> MyList (S len)` - which, given a natural number and a list of length `len`, it will return a list of length `S len`, that is, `len + 1`.
@@ -495,13 +508,15 @@ and
 	MyList 1 (Expected type)
 ```
 
-Which is a way of Idris telling us that our types do not match and that it cannot verify the “proof” provided.
+Which is a way of Idris telling us that our types do not match and that it cannot verify the "proof" provided.
 
-In this example we’ve implemented a dependent type that puts the length of the list at the type level. In other programming languages that do not support dependent types, this is usually checked at the code level, and compile-time checks are not able to verify this.
+In this example we've implemented a dependent type that puts the length of the list at the type level. In other programming languages that do not support dependent types, this is usually checked at the code level, and compile-time checks are not able to verify this.
+
+TODO: Exercises.
 
 ### 5.1.11. Implicit parameters (or arguments)
 
-Implicit parameters allow us to bring values from the type level to the program level. At the program level, using curly braces we allow them to be used in the body of the function. Let’s take a look at the following example, which uses our dependent type `MyList` that we’ve defined earlier:
+Implicit parameters allow us to bring values from the type level to the program level. At the program level, using curly braces we allow them to be used in the body of the function. Let's take a look at the following example, which uses our dependent type `MyList` that we've defined earlier:
 
 ```
 lengthMyList : MyList n -> Nat
@@ -509,7 +524,7 @@ lengthMyList { n = Z } list = 0
 lengthMyList { n = k } list = k
 ```
 
-In this case, we’ve defined a function `lengthMyList` that takes a `MyList` and returns a natural number. The value `n` in the body of the function will be the same with the value of `n` at the type level. They are called implicit parameters because the caller of this function needn’t pass these parameters. In the function body, we define implicit parameters with curly braces, and we also need to specify the list parameter which is of type `MyList n` to pattern match against. But, note how we don’t refer to the list parameter in the computation part of this function, so instead, we can use an underscore (which represents an unused parameter), to get to:
+In this case, we've defined a function `lengthMyList` that takes a `MyList` and returns a natural number. The value `n` in the body of the function will be the same with the value of `n` at the type level. They are called implicit parameters because the caller of this function needn't pass these parameters. In the function body, we define implicit parameters with curly braces, and we also need to specify the list parameter which is of type `MyList n` to pattern match against. But, note how we don't refer to the list parameter in the computation part of this function, so instead, we can use an underscore (which represents an unused parameter), to get to:
 
 ```
 lengthMyList : MyList n -> Nat
@@ -538,9 +553,11 @@ Idris> :t lengthMyList
 lengthMyList : {n : Nat} -> MyList n -> Nat
 ```
 
+TODO: Exercises.
+
 ### 5.1.12. Higher order functions
 
-A higher order function is a function that takes one or more functions as parameters, or returns a function as a result. There are three built-in higher order functions that are generally useful: `map`, `filter`, `fold` (left and right). Here’s the description of each:
+A higher order function is a function that takes one or more functions as parameters, or returns a function as a result. There are three built-in higher order functions that are generally useful: `map`, `filter`, `fold` (left and right). Here's the description of each:
 
 1. `map` is a function that takes as input a function with a single parameter, and a list, and returns a list where all members of the list have this function applied
 1. `filter` is a function that takes as input a function (predicate) with a single parameter (that returns a `Bool`), and a list, and only returns those members in the list whose predicate evaluates to `True`
@@ -567,17 +584,19 @@ mymap _ [] = []
 mymap f (x::xs) = (f x) :: (mymap f xs)
 ```
 
-By using the commands described in this section, try to understand how this function works. Try to come up with their type definition on paper and then check their type using `:t`. Note that `::` is equivalent to `Cons` we’ve used earlier for the built-in `List` type, and that this type is also polymorphic. As an exercise, try to implement the `filter` and `fold` functions yourself. Note that `foldl` generates an iterative process, while `foldr` generates a recursive one.
+By using the commands described in this section, try to understand how this function works. Try to come up with their type definition on paper and then check their type using `:t`. Note that `::` is equivalent to `Cons` we've used earlier for the built-in `List` type, and that this type is also polymorphic. As an exercise, try to implement the `filter` and `fold` functions yourself. Note that `foldl` generates an iterative process, while `foldr` generates a recursive one.
+
+TODO: Exercises.
 
 ### 5.1.13. Reasoning by cases
 
-For the sake of example, let’s assume that we have the following data structure:
+For the sake of example, let's assume that we have the following data structure:
 
 ```
 data Probably x = Kinda x | Nope
 ```
 
-The `Probably` data structure allows us to encode an additional value for the given polymorphic type. So, if we use `Probably Bool` and we know that `Bool` has only two constructors, then with `Probably Bool` we get one additional constructor, `Nope`. Further, let’s see how we can use this data type as an example:
+The `Probably` data structure allows us to encode an additional value for the given polymorphic type. So, if we use `Probably Bool` and we know that `Bool` has only two constructors, then with `Probably Bool` we get one additional constructor, `Nope`. Further, let's see how we can use this data type as an example:
 
 ```
 right_answer : Int -> Probably Bool
@@ -586,7 +605,7 @@ right_answer 42 = Kinda True
 right_answer _  = Nope
 ```
 
-Now let’s assume that we just want to return a `Bool`, that is `True` for the 42 case and `False` otherwise. To extract values from this function, we can take several approaches: we can use pattern matching, we can use the `if...then...else` syntax, or another alternative is to use the `case` keyword, which has a form of:
+Now let's assume that we just want to return a `Bool`, that is `True` for the 42 case and `False` otherwise. To extract values from this function, we can take several approaches: we can use pattern matching, we can use the `if...then...else` syntax, or another alternative is to use the `case` keyword, which has a form of:
 
 ```
 case (conditional_to_check) of
@@ -616,16 +635,18 @@ Idris> is_right 42
 True : Bool
 ```
 
+TODO: Exercises.
+
 ## 5.2. Curry-Howard isomorphism
 
-The Curry-Howard isomorphism (also known as Curry-Howard correspondence) is the direct relation between computer programs and mathematical proofs. It is named after the mathematician Haskell Curry and logician William Howard. In other words, a mathematical proof is represented by a computer program, and the formula we’re proving is the type of that program. As an example, we can take a look at the function swap, defined as follows:
+The Curry-Howard isomorphism (also known as Curry-Howard correspondence) is the direct relation between computer programs and mathematical proofs. It is named after the mathematician Haskell Curry and logician William Howard. In other words, a mathematical proof is represented by a computer program, and the formula we're proving is the type of that program. As an example, we can take a look at the function swap, defined as follows:
 
 ```
 swap : (a, b) -> (b, a)
 swap (a, b) = (b, a)
 ```
 
-What this isomorphism says is that this function has an equivalent form of a mathematical proof. Although it may not be immediately obvious, let’s consider the following proof: Given {$$}P \land Q{/$$}, prove that {$$}Q \land P{/$$}. In order to prove it, we have to use 2 inference rules: and-introduction and and-elimination, which are defined as follows:
+What this isomorphism says is that this function has an equivalent form of a mathematical proof. Although it may not be immediately obvious, let's consider the following proof: Given {$$}P \land Q{/$$}, prove that {$$}Q \land P{/$$}. In order to prove it, we have to use 2 inference rules: and-introduction and and-elimination, which are defined as follows:
 
 1. And-introduction means that if we are given {$$}P{/$$}, {$$}Q{/$$}, then we can construct a proof for {$$}P \land Q{/$$}
 1. Left and-elimination means that if we are given {$$}P \land Q{/$$}, we can conclude {$$}P{/$$}.
@@ -640,11 +661,13 @@ and_comm : And a b -> And b a
 and_comm (And_intro a b) = And_intro b a
 ```
 
-As we’ve discussed, we can use product types to encode pairs. Now we can note the following similarities with our earlier definition of `swap`:
+As we've discussed, we can use product types to encode pairs. Now we can note the following similarities with our earlier definition of `swap`:
 
 1. `And_intro` is equivalent to constructing a product type
 1. Left-elimination, which is a pattern match of `And_intro a _` is equivalent to the first element of the product type
 1. Right-elimination, which is a pattern match of `And_intro _ b` is equivalent to the second element of the product type
+
+TODO: Exercises.
 
 ## 5.3. IO
 
@@ -697,7 +720,7 @@ Nice to meet you, Boro
 boro@bor0:~$
 ```
 
-Let’s slightly rewrite our code by abstracting out the concatenation into a separate function:
+Let's slightly rewrite our code by abstracting out the concatenation into a separate function:
 
 ```
 concat_string : String -> String -> String
@@ -722,4 +745,6 @@ Idris> pack ['H', 'e', 'l', 'l', 'o']
 "Hello" : String
 ```
 
-[^ch5n1]: It is worth noting that in Haskell we have types and kinds. Kinds are similar to types, that is, they are defined as one level above types in simply typed lambda calculus. For example, types such as `Nat` have a kind `Nat :: *` and it’s stated that `Nat` is of kind `*`. Types such as `Nat -> Nat` have a kind of `* -> *`. Since in Idris types are first-class citizens, there is no distinction between types and kinds.
+TODO: Exercises.
+
+[^ch5n1]: It is worth noting that in Haskell we have types and kinds. Kinds are similar to types, that is, they are defined as one level above types in simply typed lambda calculus. For example, types such as `Nat` have a kind `Nat :: *` and it's stated that `Nat` is of kind `*`. Types such as `Nat -> Nat` have a kind of `* -> *`. Since in Idris types are first-class citizens, there is no distinction between types and kinds.
