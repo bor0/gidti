@@ -152,15 +152,15 @@ We can now ask Idris to tell us the type of `hole1`, that is, with `:t hole1` we
 
 X> ### Exercise 3
 X>
-X> Define custom type
+X> Define your own custom type. One example is `data Person name age = PersonInst name age`. Then check the type of the type constructor with `:t`.
 
 X> ### Exercise 4
 X>
-X> Invent type constructor and find out its type with holes
+X> Invent a function that works with your custom type (for example, it extracts some value) by pattern matching against its type constructor(s).
 
 X> ### Exercise 5
 X>
-X> Pattern match against custom type
+X> Repeat exercise 4 and use holes to check the types of the expressions used in your function definition.
 
 ### 5.1.3. Lambda anonymous functions
 
@@ -459,7 +459,7 @@ ifThenElse True  t e = t
 ifThenElse False t e = e
 ```
 
-### 5.1.9. Documentation
+### 5.1.9. Documentation and searching
 
 By using the `:doc` command, we can get detailed information about a data type:
 
@@ -476,9 +476,27 @@ Constructors:
         Successor
 ```
 
+We can use the command `:search` to get a list of functions that have the corresponding type. For example:
+
+```
+Idris> :search (Nat -> Nat)
+...
+
+= Prelude.Nat.S : Nat -> Nat
+Successor
+
+= Prelude.Nat.fact : Nat -> Nat
+Factorial function
+...
+```
+
 X> ### Exercise 15
 X>
 X> Check the documentation for `Bool` and `List`.
+
+X> ### Exercise 16
+X>
+X> Find out a few binary operators for `Nat` by searching `Nat -> Nat -> Nat`, and then try to use some of them.
 
 ### 5.1.10. Dependent types
 
@@ -522,7 +540,7 @@ Which is a way of Idris telling us that our types do not match and that it canno
 
 In this example we've implemented a dependent type that puts the length of the list at the type level. In other programming languages that do not support dependent types, this is usually checked at the code level, and compile-time checks are not able to verify this.
 
-X> ### Exercise 16
+X> ### Exercise 17
 X>
 X> Come up with a function `isSingleton` that accepts a `Bool` and returns a `Type`. This function should return a type of `Nat` in the `True` case, and `List Nat` otherwise. Further, implement a function `mkSingle` that accepts a `Bool`, and returns `isSingleton True` or `isSingleton False`, and as a computed value will either return `0` or `Empty`.
 X>
@@ -599,22 +617,22 @@ mymap f (x::xs) = (f x) :: (mymap f xs)
 Note that `::` is equivalent to `Cons` we've used earlier for the built-in `List` type, and that this type is also polymorphic. 
 
 
-X> ### Exercise 17
+X> ### Exercise 18
 X>
 X> Do a few different calculations with `mymap` in order to get a deeper understanding of how it works.
 
-X> ### Exercise 18
+X> ### Exercise 19
 X>
 X> Implement a function `myfilter` that acts just like the `filter` function.
 X>
 X> Hint: Use `:t filter` to get its type.
 
-X> ### Exercise 19
+X> ### Exercise 20
 X>
 X> Given `foldl (\x, y => [y] ++ x) [] [1, 2, 3]` and `foldr (\x, y => y ++ [x]) [] [1, 2, 3]`:
 X>
 X> 1. Evaluate both of them in Idris to see the values produced
-X> 2. Try to understand the differences between the 2 definitions
+X> 2. Try to understand the differences between the 2 expressions
 X> 3. Remove the square brackets `[` and `]` in the lambda body to see what errors Idris produces
 X> 4. Evaluate them on paper to figure out why they produce the given results
 
@@ -665,7 +683,7 @@ Idris> is_right 42
 True : Bool
 ```
 
-X> ### Exercise 20
+X> ### Exercise 21
 X>
 X> In fact, Idris has a built-in data similar to `Probably`, which is called `Maybe`. Check its documentation with `:doc` and rework `right_answer` and `is_right` to work with `Maybe` instead.
 
@@ -699,7 +717,11 @@ As we've discussed, we can use product types to encode pairs. Now we can note th
 1. Left-elimination, which is a pattern match of `And_intro a _` is equivalent to the first element of the product type
 1. Right-elimination, which is a pattern match of `And_intro _ b` is equivalent to the second element of the product type
 
-TODO: Exercises.
+X> ### Exercise 22
+X>
+X> Given `data Or a b = Or_introl a | Or_intror b`, show that {$$}a \to (a \lor b){/$$} and {$$}b \to (a \lor b){/$$}.
+X>
+X> Hint: Check the documentation of `the` with `:doc the`, and use it with the type constructors. Programs are proofs, and types are the theorems proven. 
 
 ## 5.3. IO
 
@@ -777,6 +799,18 @@ Idris> pack ['H', 'e', 'l', 'l', 'o']
 "Hello" : String
 ```
 
-TODO: Exercises.
+X> ### Exercise 23
+X>
+X> Create a program that accepts a `String`, and then prints the length of the input string.
+
+X> ### Exercise 24
+X>
+X> Find the function that converts a `Nat` to a `String` (search for `Nat -> String`) and then finish the following program:
+X>
+X> ```
+X> main : IO ()
+X> main = do
+X>     putStrLn ("The number is: " ++ (<??> 12345))
+X> ```
 
 [^ch5n1]: It is worth noting that in Haskell we have types and kinds. Kinds are similar to types, that is, they are defined as one level above types in simply typed lambda calculus. For example, types such as `Nat` have a kind `Nat :: *` and it's stated that `Nat` is of kind `*`. Types such as `Nat -> Nat` have a kind of `* -> *`. Since in Idris types are first-class citizens, there is no distinction between types and kinds.
