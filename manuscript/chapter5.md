@@ -384,7 +384,11 @@ Idris> Fooinst 3 "orange" /= Fooinst 6 "apple"
 True : Bool
 ```
 
-TODO: Exercises.
+X> ### Exercise 13
+X>
+X> Implement your own data type `Person` that accepts `name` and `age` and implement an interface for comparing `Person`s.
+X>
+X> Hint: The data type looks like `data Person name age = Personinst name age`.
 
 ### 5.1.7. Total and partial functions
 
@@ -425,7 +429,9 @@ Idris> test2 1
 
 We can note that the evaluation of `test 1` does not produce a computed value as a result. Note that at compile-time, Idris will **evaluate the types only for total functions**.
 
-TODO: Exercises.
+X> ### Exercise 14
+X>
+X> Try to define a function to be `total`, and at the same time make sure you are not covering all input cases. Note what Idris returns in this case.
 
 ### 5.1.8. Strict evaluation
 
@@ -437,7 +443,7 @@ ifThenElse True  t e = t
 ifThenElse False t e = e
 ```
 
-This function uses either the `t` or the `e` parameter, but not both. It is a good optimization to only evaluate the parameter that is used. However, to achieve this, in Idris there is a built in support for lazy evaluation. The implementation looks like:
+This function uses either the `t` or the `e` parameter, but not both. But the way it is written, it will evaluate both arguments before returning a result. It is a good optimization to only evaluate the parameter that is used. However, to achieve this, in Idris there is a built in support for lazy evaluation. The implementation looks like:
 
 ```
 data Lazy : Type -> Type where
@@ -452,8 +458,6 @@ ifThenElse : Bool -> Lazy a -> Lazy a -> a
 ifThenElse True  t e = t
 ifThenElse False t e = e
 ```
-
-TODO: Exercises.
 
 ### 5.1.9. Documentation
 
@@ -472,7 +476,9 @@ Constructors:
         Successor
 ```
 
-TODO: Exercises.
+X> ### Exercise 15
+X>
+X> Check the documentation for `Bool` and `List`.
 
 ### 5.1.10. Dependent types
 
