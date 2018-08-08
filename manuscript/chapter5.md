@@ -522,7 +522,11 @@ Which is a way of Idris telling us that our types do not match and that it canno
 
 In this example we've implemented a dependent type that puts the length of the list at the type level. In other programming languages that do not support dependent types, this is usually checked at the code level, and compile-time checks are not able to verify this.
 
-TODO: Exercises.
+X> ### Exercise 16
+X>
+X> Come up with a function `isSingleton` that accepts a `Bool` and returns a `Type`. This function should return a type of `Nat` in the `True` case, and `List Nat` otherwise. Further, implement a function `mkSingle` that accepts a `Bool`, and returns `isSingleton True` or `isSingleton False`, and as a computed value will either return `0` or `Empty`.
+X>
+X> Hint: The data definitions are `isSingleton : Bool -> Type` and `mkSingle : (x : Bool) -> isSingleton x` respectively.
 
 ### 5.1.11. Implicit parameters (or arguments)
 
@@ -563,8 +567,6 @@ Idris> :t lengthMyList
 lengthMyList : {n : Nat} -> MyList n -> Nat
 ```
 
-TODO: Exercises.
-
 ### 5.1.12. Higher order functions
 
 A higher order function is a function that takes one or more functions as parameters, or returns a function as a result. There are three built-in higher order functions that are generally useful: `map`, `filter`, `fold` (left and right). Here's the description of each:
@@ -594,9 +596,27 @@ mymap _ [] = []
 mymap f (x::xs) = (f x) :: (mymap f xs)
 ```
 
-By using the commands described in this section, try to understand how this function works. Try to come up with their type definition on paper and then check their type using `:t`. Note that `::` is equivalent to `Cons` we've used earlier for the built-in `List` type, and that this type is also polymorphic. As an exercise, try to implement the `filter` and `fold` functions yourself. Note that `foldl` generates an iterative process, while `foldr` generates a recursive one.
+Note that `::` is equivalent to `Cons` we've used earlier for the built-in `List` type, and that this type is also polymorphic. 
 
-TODO: Exercises.
+
+X> ### Exercise 17
+X>
+X> Do a few different calculations with `mymap` in order to get a deeper understanding of how it works.
+
+X> ### Exercise 18
+X>
+X> Implement a function `myfilter` that acts just like the `filter` function.
+X>
+X> Hint: Use `:t filter` to get its type.
+
+X> ### Exercise 19
+X>
+X> Given `foldl (\x, y => [y] ++ x) [] [1, 2, 3]` and `foldr (\x, y => y ++ [x]) [] [1, 2, 3]`:
+X>
+X> 1. Evaluate both of them in Idris to see the values produced
+X> 2. Try to understand the differences between the 2 definitions
+X> 3. Remove the square brackets `[` and `]` in the lambda body to see what errors Idris produces
+X> 4. Evaluate them on paper to figure out why they produce the given results
 
 ### 5.1.13. Reasoning by cases
 
@@ -645,7 +665,9 @@ Idris> is_right 42
 True : Bool
 ```
 
-TODO: Exercises.
+X> ### Exercise 20
+X>
+X> In fact, Idris has a built-in data similar to `Probably`, which is called `Maybe`. Check its documentation with `:doc` and rework `right_answer` and `is_right` to work with `Maybe` instead.
 
 ## 5.2. Curry-Howard isomorphism
 
