@@ -254,7 +254,8 @@ In order to prove a goal of a given form:
 | {$$}P \leftrightarrow Q{/$$} | Prove both {$$}P \to Q{/$$} and {$$}Q \to P{/$$} |
 | {$$}\forall x P(x){/$$} | Assume that {$$}x{/$$} is an arbitrary object and prove that {$$}P(x){/$$} |
 | {$$}\exists x P(x){/$$} | Find an {$$}x{/$$} such that {$$}P(x){/$$} is true |
-| {$$}\exists! x P(x){/$$}[^ch3n4] | Prove {$$}\exists x P(x){/$$} (existence) and {$$}\forall x \forall y (P(x) \land P(y) \to x = y){/$$} (uniqueness) separately |
+| {$$}\exists! x P(x){/$$}[^ch3n4] | Prove {$$}\exists x P(x){/$$} (existence) and |
+| | {$$}\forall x \forall y (P(x) \land P(y) \to x = y){/$$} (uniqueness) separately |
 
 In order to use a given of form:
 

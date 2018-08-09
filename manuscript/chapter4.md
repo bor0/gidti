@@ -80,7 +80,7 @@ Given these rules, we can define the successor function as {$$}SUCC = \lambda n\
 
 1. Evaluating {$$}SUCC \ 1 ={/$$}
 1. Substitute the very own definitions of {$$}SUCC{/$$} and 1: {$$}(\lambda n \ f \ x . f \ (n \ f \ x)) \ (\lambda f \ x . f \ x) ={/$$}
-1. Apply 1 to {$$}SUCC{/$$}, that is, "consume" the {$$}n{/$$} by using beta reduction: {$$}\lambda f \ x . f \ ((\lambda f \ x . f \ x) \ f \ x) ={/$$}
+1. Apply 1 to {$$}SUCC{/$$} i.e. "consume" {$$}n{/$$} by beta reduction: {$$}\lambda f \ x . f \ ((\lambda f \ x . f \ x) \ f \ x) ={/$$}
 1. Finally, apply {$$}f{/$$} and {$$}x{/$$} to a function that accepts {$$}f{/$$} and {$$}x{/$$} (which is just the body of the abstraction): {$$}\lambda f \ x . f \ (f \ x) = 2{/$$}
 
 X> ### Exercise 2
