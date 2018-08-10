@@ -582,6 +582,12 @@ For example, to represent the following tree, we can use the expression `Node 2 
 1   3
 ```
 
+X> ### Exercise 13
+X>
+X> Come up with a few trees by using the type constructors above.
+
+### 6.4.1. The depth of any tree is >= 0
+
 I> ### Definition 7
 I>
 I> The depth of a tree is defined as the number of links between nodes.
@@ -594,11 +600,7 @@ depth Leaf = 0
 depth (Node n l r) = 1 + maximum (depth l) (depth r)
 ```
 
-If we pass a `Tree` to the function `depth`, then Idris will pattern match the types and we can extract the values. For example, in the `Node` case, we pattern match to extract the sub-trees `l` and `r` for further processing. For the `Leaf` case, since it's just an empty leaf there are no links to it.
-
-### 6.4.1. The depth of any tree is >= 0
-
-We can approach the proof as follows:
+If we pass a `Tree` to the function `depth`, then Idris will pattern match the types and we can extract the values. For example, in the `Node` case, we pattern match to extract the sub-trees `l` and `r` for further processing. For the `Leaf` case, since it's just an empty leaf there are no links to it. We can approach the proof as follows:
 
 ```
 depth_tree_gt_0 : (tr : Tree) -> GTE (depth tr) 0
@@ -653,3 +655,122 @@ depth_tree_gt_0 (Node v tr1 tr2) = LTEZero {right = 1 + maximum (depth tr1) (dep
 ```
 
 And thus, we have proven that the depth of any tree is greater or equal to zero.
+
+### 6.4.2. Mapping and length of trees
+
+We saw how we can use `map` with lists. It would be neat if we had a way to map trees as well. The following definition will allow us to do exactly that:
+
+```
+map_tree : (Nat -> Nat) -> Tree -> Tree
+map_tree _ Leaf             = Leaf
+map_tree f (Node v tr1 tr2) = (Node (f v) (map_tree f tr1) (map_tree f tr2))
+```
+
+The function `map_tree` accepts a function and a `Tree`, and then returns a modified `Tree` where the function is applied to all values of nodes. In the case of `Leaf`, it just returns `Leaf`, because there's nothing to map to. In the case of a `Node`, we return a new `Node` whose value is applied to the function `f`, and then recursively map over the left and right branches of the node. We can use it as follows:
+
+```
+Idris> Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf)
+Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf) : Tree
+Idris> map_tree (\x => x + 1) (Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf))
+Node 3 (Node 2 Leaf Leaf) (Node 4 Leaf Leaf) : Tree
+```
+
+I> ### Definition 8
+I>
+I> The length of a tree is defined as the number of nodes.
+
+We will now implement `length_tree` which is supposed to return a total count of all nodes contained in a tree:
+
+```
+length_tree : Tree -> Nat
+length_tree Leaf = 0
+length_tree (Node n l r) = 1 + (length_tree l) + (length_tree r)
+```
+
+Trying it with a few trees:
+
+```
+Idris> length_tree Leaf
+0 : Nat
+Idris> length_tree (Node 1 Leaf Leaf)
+1 : Nat
+Idris> length_tree (Node 1 (Node 2 Leaf Leaf) Leaf)
+2 : Nat
+```
+
+### 6.4.3. Length of tree is same as length of mapped tree
+
+Now, we want to prove that for a given tree, and _any_ function `f`, the length of that tree will be the same with the length of that tree mapped with the function `f`:
+
+```
+proof_1 : (tr : Tree) -> (f : Nat -> Nat) -> length_tree tr = length_tree (map_tree f tr)
+```
+
+This type definition describes exactly that. We will use proof by cases and pattern match on `tr`:
+
+```
+proof_1 Leaf _             = ?base
+proof_1 (Node v tr1 tr2) f = ?i_h
+```
+
+Checking the types of the holes:
+
+```
+Idris> :t base
+  f : Nat -> Nat
+--------------------------------------
+base : 0 = 0
+Holes: Main.i_h, Main.base
+Idris> :t i_h
+  v : Nat
+  tr1 : Tree
+  tr2 : Tree
+  f : Nat -> Nat
+--------------------------------------
+i_h : S (plus (length_tree tr1) (length_tree tr2)) =
+      S (plus (length_tree (map_tree f tr1)) (length_tree (map_tree f tr2)))
+Holes: Main.i_h, Main.base
+```
+
+For the base case we can just use `Refl`. However, for the inductive hypothesis, we need to do something different. We can try applying the proof recursively to `tr1` and `tr2` respectively:
+
+```
+proof_1 : (tr : Tree) -> (f : Nat -> Nat) -> length_tree tr = length_tree (map_tree f tr)
+proof_1 Leaf _             = Refl
+proof_1 (Node v tr1 tr2) f = let IH_1 = proof_1 tr1 f in
+                             let IH_2 = proof_1 tr2 f in
+                             ?conclusion
+```
+
+We get the following proof state at this point:
+
+```
+Idris> :t conclusion
+  v : Nat
+  tr1 : Tree
+  tr2 : Tree
+  f : Nat -> Nat
+  IH_1 : length_tree tr1 = length_tree (map_tree f tr1)
+  IH_2 : length_tree tr2 = length_tree (map_tree f tr2)
+--------------------------------------
+conclusion : S (plus (length_tree tr1) (length_tree tr2)) =
+             S (plus (length_tree (map_tree f tr1)) (length_tree (map_tree f tr2)))
+Holes: Main.conclusion
+```
+
+From here, we can just rewrite the hypothesis:
+
+```
+proof_1 (Node v tr1 tr2) f = let IH_1 = proof_1 tr1 f in
+                             let IH_2 = proof_1 tr2 f in
+                             rewrite IH_1 in rewrite IH_2 in ?conclusion
+```
+
+At this point, we will have:
+
+```
+conclusion : S (plus (length_tree (map_tree f tr1)) (length_tree (map_tree f tr2))) =
+             S (plus (length_tree (map_tree f tr1)) (length_tree (map_tree f tr2)))
+```
+
+We can just use `Refl` instead of `?conclusion` to finish the proof.
