@@ -365,7 +365,7 @@ Idris> :t LTEZero
 LTEZero : LTE 0 right
 ```
 
-So, `LTEZero` does not accept any arguments, but at the type level it can be passed `right`. With the usage of implicits, we can construct a very simple proof to show that {$$}0 <= 1{/$$}:
+So, `LTEZero` does not accept any arguments, but at the type level it can be passed `right`. With the usage of implicits, we can construct a very simple proof to show that {$$}0 \leq 1{/$$}:
 
 ```
 Idris> LTEZero {right = S Z}
@@ -385,7 +385,7 @@ X> Check the documentation of `GTE`, and then evaluate `GTE 2 2`. Observe what I
 
 X> ### Exercise 10
 X>
-X> We used the built-in type `LTE` defined for `Nat`. Try to come up with a `LTE` definition for `MyNat`.
+X> We used the built-in type `LTE` which is defined for `Nat`. Try to come up with a `LTE` definition for `MyNat`.
 
 ### 6.2.5. Safe division for natural numbers
 
@@ -424,7 +424,7 @@ Prelude.Nat.divNatNZ : Nat -> (y : Nat) -> Not (y = 0) -> Nat
     The function is Total
 ```
 
-This function is total, but we need to also provide a parameter (proof) that the divisor is not zero. Fortunately, Idris also provides a function called `SIsNotZ`, which accepts any natural number (through implicit argument `x`) and returns a proof for `x + 1` is not zero.
+This function is total, but we need to also provide a parameter (proof) that the divisor is not zero. Fortunately, Idris also provides a function called `SIsNotZ`, which accepts any natural number (through implicit argument `x`) and returns a proof that `x + 1` is not zero.
 
 We can try to construct a few proofs:
 
@@ -615,7 +615,7 @@ For the hole, we get:
 prf : LTE 0 (depth tr)
 ```
 
-Doesn't seem like we have enough information. We can proceed by proof with cases:
+Doesn't seem like we have enough information. We can proceed with proof by cases:
 
 ```
 depth_tree_gt_0 : (tr : Tree) -> GTE (depth tr) 0
@@ -679,7 +679,7 @@ I> ### Definition 8
 I>
 I> The length of a tree is defined as the number of nodes.
 
-We will now implement `length_tree` which is supposed to return a total count of all nodes contained in a tree:
+We will now implement `length_tree` which is supposed to return the total count of all nodes contained in a tree:
 
 ```
 length_tree : Tree -> Nat
@@ -700,7 +700,7 @@ Idris> length_tree (Node 1 (Node 2 Leaf Leaf) Leaf)
 
 ### 6.4.3. Length of tree is same as length of mapped tree
 
-Now, we want to prove that for a given tree, and _any_ function `f`, the length of that tree will be the same with the length of that tree mapped with the function `f`:
+Now, we want to prove that for a given tree, and _any_ function `f`, the length of that tree will be the same as the length of that tree mapped with the function `f`:
 
 ```
 proof_1 : (tr : Tree) -> (f : Nat -> Nat) -> length_tree tr = length_tree (map_tree f tr)
@@ -742,7 +742,7 @@ proof_1 (Node v tr1 tr2) f = let IH_1 = proof_1 tr1 f in
                              ?conclusion
 ```
 
-We get the following proof state at this point:
+We get to the following proof state at this point:
 
 ```
 Idris> :t conclusion
