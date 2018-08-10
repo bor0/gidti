@@ -1,10 +1,6 @@
 # 6. Programming in Idris
 
-In this chapter we will provide several examples to demonstrate the power of Idris. We will start doing mathematical proofs. There are several built-ins in Idris that will help us achieve this, so for each section we will introduce the relevant definitions.
-
-## 6.1. Weekdays
-
-In this section we will introduce a way to represent weekdays, and then do some proofs with them. Before starting with the examples, we will list the relevant definitions.
+In this chapter we will provide several examples to demonstrate the power of Idris. We will start doing mathematical proofs, and there are several built-ins in Idris that will help us achieve this. So in each section we will introduce the relevant definitions.
 
 I> ### Definition 1
 I>
@@ -28,6 +24,10 @@ X> Check the documentation of the equality type with `:doc (=)`.
 X> ### Exercise 2
 X>
 X> Evaluate `the Nat 3` and `the Integer 3` and note the differences.
+
+## 6.1. Weekdays
+
+In this section we will introduce a way to represent weekdays, and then do some proofs with them.
 
 We start with the following data structure, for weekdays:
 
@@ -81,18 +81,17 @@ Reloading the file in Idris:
 ```
 Idris> :r
 Type checking ./first_proof.idr
-Idris> 
 ```
 
 Which means that we've successfully proven that `next_day Mon = Tue`, that is, after Monday comes Tuesday!
 
 X> ### Exercise 3
 X>
-X> Remove one or more pattern match definitions of `next_day` and observe the error that Idris will produce. Afterwards, alter the function to not be total, and observe the following error.
+X> Remove one or more pattern match definitions of `next_day` and observe the error that Idris will produce. Afterwards, alter the function to not be total, and observe the error.
 
 ### 6.1.2. Second proof (rewrite)
 
-In addition to the previous proof, let's implement a function that accepts a `Weekday` and returns `True` if it's Monday, and `False` otherwise.
+In addition to the previous proof, we'll implement a function that accepts a `Weekday` and returns `True` if it's Monday, and `False` otherwise.
 
 ```
 is_it_monday : Weekday -> Bool
@@ -100,14 +99,19 @@ is_it_monday Mon = True
 is_it_monday _   = False
 ```
 
-For the sake of example, we will prove that for any given day, if it's Monday then `is_it_monday` will return `True`, and `False` otherwise. It's pretty obvious by the definition of `is_it_monday`, but proving that is a whole different story. We can attempt to prove it as follows:
+For the sake of example, we will prove that for any given day, if it's Monday then `is_it_monday` will return `True`, and `False` otherwise. It's pretty obvious by the definition of `is_it_monday`, but proving that is a whole different story. The type definition that we need to prove is:
 
 ```
 our_second_proof : (day : Weekday) -> day = Mon -> is_it_monday day = True
+```
+
+We gave a name of the first parameter `day : Weekday` so that we can refer to it in the rest of the type definition. The second parameter says that `day = Mon`, and the return value is `is_it_monday day = True`. We can treat the first and the second parameter as givens, since we are allowed to assume them (per definition of implication). With that, we proceed to the function definition:
+
+```
 our_second_proof day day_eq_Mon = Refl
 ```
 
-Note the type definition. We gave a name of the `Weekday` so that we can refer to it in the rest of the type definition.
+In this definition, `day` and `day_eq_Mon` are our assumptions (givens).
 
 If we run this code in Idris, it will produce an error at compile-time since it cannot deduce that `True` is equal to `is_it_monday day`. In the previous proof example, Idris was able to infer everything by the definitions at compile-time. However, at this point we need to help Idris do the inference since it cannot derive the proof based only on the definitions. We can change the `Refl` to a hole `?prf`:
 
@@ -146,7 +150,7 @@ Idris> :t prf
 prf : True = True
 ```
 
-Changing `?prf` to `Refl` completes the proof.
+Changing `?prf` to `Refl` completes the proof. We just proved that {$$}\forall x \in \text{Weekdays}, x = \text{Mon} \to IsItMonday(x){/$$}. We assumed {$$}x = \text{Mon}{/$$} is true (by pattern matching against `day_eq_Mon` in our definition), and then used rewriting to alter `x`.
 
 ### 6.1.3. Third proof (impossible)
 
@@ -171,7 +175,7 @@ prf : Void
 
 Q> How do we prove `prf`, given that there are no type constructors for `Void`?
 Q>
-Q> Seems that at this point we are stuck. We need to find a way to tell Idris this proof is impossible.
+Q> Seems that at this point we are stuck. We need to find a way to tell Idris that this proof is impossible.
 
 I> ### Definition 4
 I>
@@ -208,9 +212,9 @@ Note how the definition of `MyNat` is recursive compared to `Weekday`. A consequ
 
 X> ### Exercise 5
 X>
-X> Compare the addition definition to definition 19 of chapter 3.
+X> Compare the addition definition to definition 19 in chapter 3.
 
-### 6.2.1. First proof (auto-inference)
+### 6.2.1. First proof (auto-inference and existence)
 
 We will prove that {$$}0 + a = a{/$$}, given the definitions for natural numbers and addition.
 
@@ -221,11 +225,20 @@ total our_first_proof : (a : MyNat) -> mynat_plus Zero a = a
 our_first_proof a = ?prf
 ```
 
-If we check the type of the hole, we get that the goal is `prf : a = a`, so changing the hole to a `Refl` completes the proof.
+If we check the type of the hole, we get that the goal is `prf : a = a`, so changing the hole to a `Refl` completes the proof. Idris was able to derive the proof by directly substituting definitions.
+
+To prove the existence of a successor, i.e. `Succ x`, per intuitionistic logic we need to construct a pair where the first element is `x`, and the second element is `Succ x`:
+
+```
+total our_first_proof_2 : MyNat -> (MyNat, MyNat)
+our_first_proof_2 x = (x, Succ x)
+```
+
+We just proved that {$$}\exists x \in \text{MyNat}, Succ(x){/$$}.
 
 ### 6.2.2. Second proof (introduction of new givens)
 
-Let's assume a simple case, where we want to prove that a natural number exists:
+An alternative way to prove that a natural number exists is as follows:
 
 ```
 total our_second_proof : MyNat
@@ -263,6 +276,16 @@ prf : MyNat
 ```
 
 Changing `prf` to `the_number` concludes the proof.
+
+X> ### Exercise 6
+X>
+X> Simplify `our_second_proof` without the usage of `let`.
+X>
+X> Hint: Providing a valid type constructor that satisfies (inhabits) the type is a constructive proof.
+
+X> ### Exercise 7
+X>
+X> Construct a proof similar to `our_second_proof` without defining a function for it, and by using the function `the`.
 
 ### 6.2.3. Third proof (induction)
 
@@ -328,107 +351,111 @@ our_third_proof (Succ k) = let inductive_hypothesis = our_third_proof k in rewri
 
 This concludes the proof.
 
-X> ### Exercise 6
+X> ### Exercise 8
 X>
-X> Note the similarity between this proof and the proof in section 3.4.2.
+X> Observe the similarity between this proof and the proof in section 3.4.2.
 
-## 6.3. Monoids
+### 6.2.4. Ordering
 
-A Monoid is an abstract algebraic structure. Monoids, as with other algebraic structures are useful because they share a set of properties in which programmers can later take for granted.
+Idris has a built-in data type for ordering of natural numbers `LTE`, which stands for less than or equal to. This data type has two constructors:
+
+1. `LTEZero`, used to prove that zero is less than or equal to any natural number
+1. `LTESucc`, used to prove that {$$}a \leq b \to S(a) \leq S(b){/$$}
+
+If we check the type of `LTEZero`, we will get the following:
+
+```
+Idris> :t LTEZero
+LTEZero : LTE 0 right
+```
+
+So, `LTEZero` does not accept any arguments, but at the type level it can be passed `right`. With the usage of implicits, we can construct a very simple proof to show that {$$}0 <= 1{/$$}:
+
+```
+Idris> LTEZero {right = S Z}
+LTEZero : LTE 0 1
+```
+
+Similarly, with `LTESucc` we can do the same:
+
+```
+Idris> LTESucc {left = Z} {right = S Z}
+LTESucc : LTE 0 1 -> LTE 1 2
+```
+
+X> ### Exercise 9
+X>
+X> Check the documentation of `GTE`, and then evaluate `GTE 2 2`. Observe what Idris returns, and think how `GTE` can be implemented in terms of `LTE`.
+
+X> ### Exercise 10
+X>
+X> We used the built-in type `LTE` defined for `Nat`. Try to come up with a `LTE` definition for `MyNat`.
+
+## 6.3. Mixing functions and types
 
 I> ### Definition 6
 I>
-I> Monoid is consisted of a set {$$}S{/$$}, together with a binary operator {$$}\oplus{/$$} such that the following properties are fulfilled:
+I> The maximum of two numbers, a and b, is defined as:
 I>
-I> 1. Closure {$$}\forall a, b \in S a \oplus b \in S{/$$}, which means that the result of the operation also belongs in the same set {$$}S{/$$}
-I> 1. Associattivity {$$}\forall a, b, c \in S (a \oplus b) \oplus c = a \oplus (b \oplus c){/$$}, which means tthat the order of evaluation does not matter. This is useful for parallel processing
-I> 1. Identity {$$}\exists e \forall a a \oplus e = e \oplus a = a{/$$}, which means that there exists an element such that it doesn't alter the value when used with the operator. This can useful with recursion for example, as the base case where the recursion terminates
+I> {$$}max(a, b) = \left\{ \begin{array}{ll} b\text{, if } a \leq b \\   a\text{, otherwise} \end{array} \right.{/$$}
 
-For example, the set of natural numbers with the addition operator is a monoid:
-
-1. Closure: The sum of two natural numbers is also a natural number
-1. Associativitty: The order of addition will not change the result, i.e. {$$}(a + b) + c = a + (b + c){/$$}
-1. Identity: The identity element zero fulfills this property, so we have that {$$}a + 0 = 0 + a = a{/$$}
-
-Now we can implement the interface as follows:
+In this section we will try to prove that {$$}b \leq a \to b = max(a, b){/$$}. Idris already has a built-in function `maximum`, so we can re-use that. Next, we need to figure out the type of the function to approach the proof. Intuitively, we can try the following:
 
 ```
-interface Monoid a where
-    mempty : a -- Identity
-    mappend : a -> a -> a -- Associative operation
+our_proof : (a : Nat) -> (b : Nat) -> a <= b -> maximum a b = b
+our_proof a b a_lt_b = ?prf
 ```
 
-Let's see the implementation for the `Monoid Nat`, that is, {$$}(\Nat, +){$$}:
+However this won't work since `a <= b` is a `Bool`, not a `Type`. At the type level, we need to rely on `LTE`, since it is a `Type`.
 
 ```
-implementation Monoid Integer where
-    mempty = 0
-    mappend a b = a + b
-```
-
-For example
-
-```
-Idris> mappend 1 2
-3 : Integer
-```
-
-Prove properties.
-
-## 6.4. Ordering
-
-6.9. b <= a -> max a b = b
-First we need to figure out the type of our function
-Intuitively, we can approach as follows
-
-```
-proof1 : (a : Nat) -> (b : Nat) -> a <= b -> maximum a b = b
-proof1 a b a_lt_b = ?x
-```
-
-However this won't work since a <= b is a Bool, not a Type. Need to think of something else. Fortunately Idris has a data structure called LTE which accepts two Nat numbers. So we write LTE a b to denote that a <= b
-
-```
-proof1 : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
-proof1 a b a_lt_b = ?x
+our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
+our_proof a b a_lt_b = ?prf
 ```
 
 This compiles and now we have to figure out the hole. If we check its type, we get
+
 ```
   a : Nat
   b : Nat
   a_lt_b : LTE a b
 --------------------------------------
-x : maximum a b = b
+prf : maximum a b = b
 ```
-So the question is, given a, b, a_lt_b, how can we conclude x? First, we can simplify
+
+This looks a bit complicated, so we can further simplify by breaking the proof into several cases (by adding pattern matching):
 
 ```
-proof1 : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
-proof1 Z Z _              = Refl
-proof1 Z (S k) _          = Refl
-proof1 (S k) (S j) a_lt_b = ?a
+our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
+our_proof Z Z _              = Refl
+our_proof Z (S k) _          = Refl
+our_proof (S k) (S j) a_lt_b = ?prf
 ```
-Now we get
+
+We get the following:
+
 ```
   k : Nat
   j : Nat
   a_lt_b : LTE (S k) (S j)
 --------------------------------------
-a : S (maximum k j) = S j
+prf : S (maximum k j) = S j
 ```
 
-Cool, this gives us something to work with. We can use induction on k and j:
+It seems like we made progress, as this gives us something to work with. We can use induction on `k` and `j`, and use a hole for the third parameter to ask Idris what type we need to satisfy:
+
 ```
-proof1 : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
-proof1 Z Z _              = Refl
-proof1 Z (S k) _          = Refl
-proof1 (S k) (S j) a_lt_b = let IH = (proof1 k j ?a) in rewrite IH in Refl
+our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
+our_proof Z Z _              = Refl
+our_proof Z (S k) _          = Refl
+our_proof (S k) (S j) a_lt_b = let I_H = (our_proof k j ?a) in rewrite IH in Refl
 ```
-Now we get
+
+The hole produces the following:
+
 ```
 Holes: Main.a
-*test> :t a
+Idris> :t a
   k : Nat
   j : Nat
   a_lt_b : LTE (S k) (S j)
@@ -436,34 +463,43 @@ Holes: Main.a
 a : LTE k j
 Holes: Main.a
 ```
-If only we had a way to convert the type of `a_lt_b` to a. Luckily, Idris has built-in fromLteSucc:
-```
-*test> :doc fromLteSucc
-Prelude.Nat.fromLteSucc : LTE (S m) (S n) -> LTE m n
-    If two numbers are ordered, their predecessors are too
-    
-    The function is Total
-Holes: Main.a
-*test> 
-```
 
-So our final proof is
+Q> How do we go from {$$}S(a) \leq S(b) \to a \leq b{/$$}?
+Q>
+Q> It seems pretty obvious that if we know that {$$}1 \leq 2{/$$}, then also {$$}0 \leq 1{/$$}, but we still need to find out how to tell Idris that this is true. For this, Idris has a built-in function `fromLteSucc
+{$$}If only we had a way to convert the type of `a_lt_b` to `a`. Luckily, Idris has a built-in function `fromLteSucc`:
+Q>
+Q> ```
+Q> Idris> :doc fromLteSucc
+Q> Prelude.Nat.fromLteSucc : LTE (S m) (S n) -> LTE m n
+Q>     If two numbers are ordered, their predecessors are too
+Q> ```
+
+It seems we now have everything we need to conclude our proof. We can proceed as follows:
 
 ```
 total
-proof1 : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
-proof1 Z Z _              = Refl
-proof1 Z (S k) _          = Refl
-proof1 (S k) (S j) a_lt_b = let IH = (proof1 k j (fromLteSucc a_lt_b)) in rewrite IH in Refl
-More simply
-total
-proof1 : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
-proof1 Z Z _              = Refl
-proof1 Z (S k) _          = Refl
-proof1 (S k) (S j) a_lt_b = rewrite (proof1 k j (fromLteSucc a_lt_b)) in Refl
+our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
+our_proof Z Z _              = Refl
+our_proof Z (S k) _          = Refl
+our_proof (S k) (S j) a_lt_b = let IH = (our_proof k j (fromLteSucc a_lt_b)) in rewrite IH in Refl
 ```
 
-## 6.5. Trees
+Or, a more simplified version:
+
+```
+total
+our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
+our_proof Z Z _              = Refl
+our_proof Z (S k) _          = Refl
+our_proof (S k) (S j) a_lt_b = rewrite (our_proof k j (fromLteSucc a_lt_b)) in Refl
+```
+
+X> ### Exercise 11
+X>
+X> Use `fromLteSucc` with implicits to construct some proofs.
+
+## 6.4. Trees
 
 Q> What is a tree structure?
 Q>
@@ -483,6 +519,8 @@ Which states that a tree is defined as one of:
 
 As mentioned above, functions (or operations) on the algebraic data types can be defined by using pattern match to extract values. As an example, let's take a look at the depth function which calculates the depth of a tree:
 
+### 6.3.1. Our first proof (depth of any tree is >= 0)
+
 ```
 depth : Tree -> Int
 depth Empty = 0
@@ -491,3 +529,46 @@ depth (Node l r) = 1 + max (depth l) (depth r)
 ```
 
 If we pass a `Tree` to the function `depth`, then Idris will pattern match the types and we can extract the values. For example, in the `Node` case, we pattern match to extract the sub-trees `l` and `r` for further processing.
+
+## 6.5. Monoids
+
+A Monoid is an abstract algebraic structure. Monoids, as with other algebraic structures are useful because they share a set of properties in which programmers can later take for granted.
+
+I> ### Definition 6
+I>
+I> Monoid is consisted of a set {$$}S{/$$}, together with a binary operator {$$}\oplus{/$$} such that the following properties are fulfilled:
+I>
+I> 1. Closure {$$}\forall a, b \in S : a \oplus b \in S{/$$}, which means that the result of the operation also belongs in the same set {$$}S{/$$}
+I> 1. Associattivity {$$}\forall a, b, c \in S : (a \oplus b) \oplus c = a \oplus (b \oplus c){/$$}, which means tthat the order of evaluation does not matter. This is useful for parallel processing
+I> 1. Identity {$$}\exists e \forall a : a \oplus e = e \oplus a = a{/$$}, which means that there exists an element such that it doesn't alter the value when used with the operator. This can useful with recursion for example, as the base case where the recursion terminates
+
+For example, the set of natural numbers with the addition operator is a monoid:
+
+1. Closure: The sum of two natural numbers is also a natural number
+1. Associativitty: The order of addition will not change the result, i.e. {$$}(a + b) + c = a + (b + c){/$$}
+1. Identity: The identity element zero fulfills this property, so we have that {$$}a + 0 = 0 + a = a{/$$}
+
+Now we can implement the interface as follows:
+
+```
+interface Monoid a where
+    mempty : a -- Identity
+    mappend : a -> a -> a -- Associative operation
+```
+
+Let's see the implementation for the `Monoid Nat`, that is, {$$}(Nat, +){/$$}:
+
+```
+implementation Monoid Integer where
+    mempty = 0
+    mappend a b = a + b
+```
+
+For example
+
+```
+Idris> mappend 1 2
+3 : Integer
+```
+
+Prove properties.
