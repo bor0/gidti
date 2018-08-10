@@ -1,6 +1,6 @@
 # 6. Programming in Idris
 
-In this chapter we will provide several examples to demonstrate the power of Idris. We will start doing mathematical proofs, and there are several built-ins in Idris that will help us achieve this. So in each section we will introduce the relevant definitions.
+In this chapter we will provide several examples to demonstrate the power of Idris. We will do mathematical proofs. There are a lot of built-ins in Idris that will help us achieve our goals. So in each section we will introduce the relevant definitions.
 
 I> ### Definition 1
 I>
@@ -52,14 +52,14 @@ next_day Sat = Sun
 next_day Sun = Mon
 ```
 
-Given these definitions, we can now state the proof as follows:
+Given these definitions, we can write the proof as follows:
 
 ```
 our_first_proof : next_day Mon = Tue
 our_first_proof = ?prf
 ```
 
-The type of `our_first_proof` is `next_day Mon = Tue`. Since `next_day` is total, Idris will be able to evaluate `next_day Mon` at compile-time. We used a hole for the definition since we still don't know what the proof will look like. If we run this code in Idris, it will tell us we have a hole `prf` to fill:
+Note how we used a function at the type level, for the type of `our_first_proof` which is `next_day Mon = Tue`. Since `next_day` is total, Idris will be able to evaluate `next_day Mon` at compile-time. We used a hole for the definition since we still don't know what the proof will look like. If we run this code in Idris, it will tell us we have a hole `prf` to fill:
 
 ```
 Type checking ./first_proof.idr
@@ -69,7 +69,7 @@ Idris> :t prf
 prf : Tue = Tue
 ```
 
-Checking the type of `prf`, we notice how Idris evaluated the left part of the equation at compile-time. Now, in order to prove that `Tue = Tue`, we can just use `Refl`:
+Checking the type of `prf`, we notice how Idris evaluated the left part of the equation at compile-time. In order to prove that `Tue = Tue`, we can just use `Refl`:
 
 ```
 our_first_proof : next_day Mon = Tue
@@ -99,7 +99,7 @@ is_it_monday Mon = True
 is_it_monday _   = False
 ```
 
-For the sake of example, we will prove that for any given day, if it's Monday then `is_it_monday` will return `True`, and `False` otherwise. It's pretty obvious by the definition of `is_it_monday`, but proving that is a whole different story. The type definition that we need to prove is:
+For the sake of example, we will prove that for any given day, if it's Monday then `is_it_monday` will return `True`, and `False` otherwise. It's obvious by the definition of `is_it_monday`, but proving that is a whole different story. The type definition that we need to prove is:
 
 ```
 our_second_proof : (day : Weekday) -> day = Mon -> is_it_monday day = True
@@ -111,9 +111,7 @@ We gave a name of the first parameter `day : Weekday` so that we can refer to it
 our_second_proof day day_eq_Mon = Refl
 ```
 
-In this definition, `day` and `day_eq_Mon` are our assumptions (givens).
-
-If we run this code in Idris, it will produce an error at compile-time since it cannot deduce that `True` is equal to `is_it_monday day`. In the previous proof example, Idris was able to infer everything by the definitions at compile-time. However, at this point we need to help Idris do the inference since it cannot derive the proof based only on the definitions. We can change the `Refl` to a hole `?prf`:
+In this definition, `day` and `day_eq_Mon` are our assumptions (givens). If we run this code in Idris, it will produce an error at compile-time since it cannot deduce that `True` is equal to `is_it_monday day`. In the previous proof example, Idris was able to infer everything by the definitions at compile-time. However, at this point we need to help Idris do the inference since it cannot derive the proof based only on the definitions. We can change the `Refl` to a hole `?prf`:
 
 ```
   day : Weekday
@@ -154,7 +152,7 @@ Changing `?prf` to `Refl` completes the proof. We just proved that {$$}\forall x
 
 ### 6.1.3. Third proof (impossible)
 
-As an inspiration from the previous section, we will now prove that `is_it_monday Tue = True` is a contradiction.
+As an inspiration from the previous section, we will prove that `is_it_monday Tue = True` is a contradiction.
 
 Per intuitionistic logic, in order to prove that {$$}P{/$$} is a contradiction, we need to prove {$$}P \to \bot{/$$}. Idris provides an empty data type (without type constructors, i.e. proofs) for that, which is called `Void`.
 
@@ -196,9 +194,7 @@ X> Check the documentation of `Void`.
 
 ## 6.2. Natural numbers
 
-As we have seen, natural numbers are very powerful. In this section we will proofs related to them, and also do a little bit of induction.
-
-We will start with the following definitions for natural numbers:
+As we have seen, natural numbers are very powerful. In this section we will do proofs related to them, and also do a bit of induction. We will start with the following definitions for natural numbers:
 
 ```
 data MyNat = Zero | Succ MyNat
@@ -245,7 +241,7 @@ total our_second_proof : MyNat
 our_second_proof = ?prf
 ```
 
-Now, if we check the type of the hole, we get:
+If we check the type of the hole, we get:
 
 ```
 Idris> :t prf
@@ -260,7 +256,7 @@ I> ### Definition 5
 I>
 I> The `let` keyword that we introduced earlier allows us to add a new given to the list of givens.
 
-Now we can slightly rewrite our code:
+We can slightly rewrite our code:
 
 ```
 total our_second_proof : MyNat
@@ -324,7 +320,7 @@ inductive_hypothesis : Succ (mynat_plus k Zero) = Succ k
 Holes: Main.inductive_hypothesis, Main.base
 ```
 
-For the base case, we can just use `Refl`, but for the inductive step we need to do something different. Now we need to find a way to assume (add to list of givens) {$$}a + 0 = a{/$$}, and show that it follows {$$}(a + 1) + 0 = a + 1{/$$} from that assumption. Since we pattern match on `Succ k`, we can use recursion on `k` along with `let` to generate the hypothesis:
+For the base case, we can just use `Refl`, but for the inductive step we need to do something different. We need to find a way to assume (add to list of givens) {$$}a + 0 = a{/$$}, and show that it follows {$$}(a + 1) + 0 = a + 1{/$$} from that assumption. Since we pattern match on `Succ k`, we can use recursion on `k` along with `let` to generate the hypothesis:
 
 ```
 total our_third_proof : (a : MyNat) -> mynat_plus a Zero = a
@@ -332,7 +328,7 @@ our_third_proof Zero     = Refl
 our_third_proof (Succ k) = let inductive_hypothesis = our_third_proof k in ?conclusion
 ```
 
-Our proof givens and goals now become:
+Our proof givens and goals become:
 
 ```
   k : MyNat
@@ -391,7 +387,74 @@ X> ### Exercise 10
 X>
 X> We used the built-in type `LTE` defined for `Nat`. Try to come up with a `LTE` definition for `MyNat`.
 
-## 6.3. Mixing functions and types
+### 6.2.5. Safe division for natural numbers
+
+Idris provides a function called `divNat` that divides two numbers. Checking the documentation:
+
+```
+Idris> :doc divNat
+Prelude.Nat.divNat : Nat -> Nat -> Nat
+    
+    The function is not total as there are missing cases
+```
+
+We can try to use it a couple of times:
+
+```
+Idris> divNat 4 2
+2 : Nat
+Idris> divNat 4 1
+4 : Nat
+Idris> divNat 4 0
+divNat 4 0 : Nat
+```
+
+As expected, partial functions do not cover all inputs and thus `divNat` does not return a computed value when we divide by zero.
+
+Q> How do we make a function like `divNat` total?
+Q>
+Q> The only way to make this work is to pass a proof to `divNat` that says that the divisor is not zero. Idris has a built-in function for that, called `divNatNZ`.
+
+We can check the documentation of this function as follows:
+
+```
+Idris> :doc divNatNZ
+Prelude.Nat.divNatNZ : Nat -> (y : Nat) -> Not (y = 0) -> Nat
+    Division where the divisor is not zero.
+    The function is Total
+```
+
+This function is total, but we need to also provide a parameter (proof) that the divisor is not zero. Fortunately, Idris also provides a function called `SIsNotZ`, which accepts any natural number (through implicit argument `x`) and returns a proof for `x + 1` is not zero.
+
+We can try to construct a few proofs:
+
+```
+Idris> SIsNotZ {x = 0}
+SIsNotZ : (1 = 0) -> Void
+Idris> SIsNotZ {x = 1}
+SIsNotZ : (2 = 0) -> Void
+Idris> SIsNotZ {x = 2}
+SIsNotZ : (3 = 0) -> Void
+```
+
+Great. It seems we have everything we need. We can safely divide as follows:
+
+```
+Idris> divNatNZ 4 2 (SIsNotZ {x = 1})
+2 : Nat
+Idris> divNatNZ 4 1 (SIsNotZ {x = 0})
+4 : Nat
+Idris> divNatNZ 4 0 (SIsNotZ {x = ???})
+4 : Nat
+```
+
+We cannot construct a proof for the third case, and so it will never be able to divide by zero, which is not allowed anyway.
+
+X> ### Exercise 11
+X>
+X> Implement `SuccIsNotZ` for `MyNat` that works similarly to `SIsNotZ`.
+
+### 6.2.6. Maximum of two numbers
 
 I> ### Definition 6
 I>
@@ -406,14 +469,14 @@ our_proof : (a : Nat) -> (b : Nat) -> a <= b -> maximum a b = b
 our_proof a b a_lt_b = ?prf
 ```
 
-However this won't work since `a <= b` is a `Bool`, not a `Type`. At the type level, we need to rely on `LTE`, since it is a `Type`.
+However this won't work since `a <= b` is a `Bool`, not a `Type`. At the type level, we need to rely on `LTE` which is a `Type`.
 
 ```
 our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
 our_proof a b a_lt_b = ?prf
 ```
 
-This compiles and now we have to figure out the hole. If we check its type, we get
+This compiles and we have to figure out the hole. If we check its type, we get
 
 ```
   a : Nat
@@ -466,8 +529,7 @@ Holes: Main.a
 
 Q> How do we go from {$$}S(a) \leq S(b) \to a \leq b{/$$}?
 Q>
-Q> It seems pretty obvious that if we know that {$$}1 \leq 2{/$$}, then also {$$}0 \leq 1{/$$}, but we still need to find out how to tell Idris that this is true. For this, Idris has a built-in function `fromLteSucc
-{$$}If only we had a way to convert the type of `a_lt_b` to `a`. Luckily, Idris has a built-in function `fromLteSucc`:
+Q> It seems pretty obvious that if we know that {$$}1 \leq 2{/$$}, then also {$$}0 \leq 1{/$$}, but we still need to find out how to tell Idris that this is true. For this, Idris has a built-in function `fromLteSucc`:
 Q>
 Q> ```
 Q> Idris> :doc fromLteSucc
@@ -475,7 +537,7 @@ Q> Prelude.Nat.fromLteSucc : LTE (S m) (S n) -> LTE m n
 Q>     If two numbers are ordered, their predecessors are too
 Q> ```
 
-It seems we now have everything we need to conclude our proof. We can proceed as follows:
+It seems we have everything we need to conclude our proof. We can proceed as follows:
 
 ```
 total
@@ -495,80 +557,99 @@ our_proof Z (S k) _          = Refl
 our_proof (S k) (S j) a_lt_b = rewrite (our_proof k j (fromLteSucc a_lt_b)) in Refl
 ```
 
-X> ### Exercise 11
+X> ### Exercise 12
 X>
 X> Use `fromLteSucc` with implicits to construct some proofs.
 
-## 6.4. Trees
+## 6.3. Trees
 
-Q> What is a tree structure?
-Q>
-Q> Woot.
-
-We can define a tree structure similarly using the following implementation:
+A tree structure is a way to represent hierarchical data. We can define a tree structure using the following implementation:
 
 ```
-data Tree = Empty | Leaf Int | Node Tree Tree
+data Tree = Leaf | Node Nat Tree Tree
 ```
 
 Which states that a tree is defined as one of:
 
-1. `Empty`, which has no values
-1. `Leaf`, which has a single value
-1. `Node` (points to another `Empty` or `Leaf`)
+1. `Leaf`, which has no values
+1. `Node`, which holds a number and points to two other trees (which can be either `Node`s or `Leaf`s)
 
-As mentioned above, functions (or operations) on the algebraic data types can be defined by using pattern match to extract values. As an example, let's take a look at the depth function which calculates the depth of a tree:
-
-### 6.3.1. Our first proof (depth of any tree is >= 0)
+For example, to represent the following tree, we can use the expression `Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf)`:
 
 ```
-depth : Tree -> Int
-depth Empty = 0
-depth (Leaf n) = 1
-depth (Node l r) = 1 + max (depth l) (depth r)
+  2
+ / \
+1   3
 ```
 
-If we pass a `Tree` to the function `depth`, then Idris will pattern match the types and we can extract the values. For example, in the `Node` case, we pattern match to extract the sub-trees `l` and `r` for further processing.
-
-## 6.5. Monoids
-
-A Monoid is an abstract algebraic structure. Monoids, as with other algebraic structures are useful because they share a set of properties in which programmers can later take for granted.
-
-I> ### Definition 6
+I> ### Definition 7
 I>
-I> Monoid is consisted of a set {$$}S{/$$}, together with a binary operator {$$}\oplus{/$$} such that the following properties are fulfilled:
-I>
-I> 1. Closure {$$}\forall a, b \in S : a \oplus b \in S{/$$}, which means that the result of the operation also belongs in the same set {$$}S{/$$}
-I> 1. Associattivity {$$}\forall a, b, c \in S : (a \oplus b) \oplus c = a \oplus (b \oplus c){/$$}, which means tthat the order of evaluation does not matter. This is useful for parallel processing
-I> 1. Identity {$$}\exists e \forall a : a \oplus e = e \oplus a = a{/$$}, which means that there exists an element such that it doesn't alter the value when used with the operator. This can useful with recursion for example, as the base case where the recursion terminates
+I> The depth of a tree is defined as the number of links between nodes.
 
-For example, the set of natural numbers with the addition operator is a monoid:
-
-1. Closure: The sum of two natural numbers is also a natural number
-1. Associativitty: The order of addition will not change the result, i.e. {$$}(a + b) + c = a + (b + c){/$$}
-1. Identity: The identity element zero fulfills this property, so we have that {$$}a + 0 = 0 + a = a{/$$}
-
-Now we can implement the interface as follows:
+We can implement the recursive function `depth` as follows:
 
 ```
-interface Monoid a where
-    mempty : a -- Identity
-    mappend : a -> a -> a -- Associative operation
+depth : Tree -> Nat
+depth Leaf = 0
+depth (Node n l r) = 1 + maximum (depth l) (depth r)
 ```
 
-Let's see the implementation for the `Monoid Nat`, that is, {$$}(Nat, +){/$$}:
+If we pass a `Tree` to the function `depth`, then Idris will pattern match the types and we can extract the values. For example, in the `Node` case, we pattern match to extract the sub-trees `l` and `r` for further processing. For the `Leaf` case, since it's just an empty leaf there are no links to it.
+
+### 6.4.1. The depth of any tree is >= 0
+
+We can approach the proof as follows:
 
 ```
-implementation Monoid Integer where
-    mempty = 0
-    mappend a b = a + b
+depth_tree_gt_0 : (tr : Tree) -> GTE (depth tr) 0
+depth_tree_gt_0 tr = ?prf
 ```
 
-For example
+For the hole, we get:
 
 ```
-Idris> mappend 1 2
-3 : Integer
+  tr : Tree
+--------------------------------------
+prf : LTE 0 (depth tr)
 ```
 
-Prove properties.
+Doesn't seem like we have enough information. We can proceed by proof with cases:
+
+```
+depth_tree_gt_0 : (tr : Tree) -> GTE (depth tr) 0
+depth_tree_gt_0 Leaf             = ?prf1
+depth_tree_gt_0 (Node v tr1 tr2) = ?prf2
+```
+
+The holes are:
+
+```
+Idris> :t prf1
+--------------------------------------
+prf1 : LTE 0 0
+Holes: Main.prf2, Main.prf1
+Idris> :t prf2
+  tr1 : Tree
+  tr2 : Tree
+  _t : Nat
+--------------------------------------
+prf2 : LTE 0 (S (maximum (depth tr1) (depth tr2)))
+```
+
+For the first case, it's pretty easy. We just use the constructor `LTEZero` with implicit `right = 0`:
+
+```
+depth_tree_gt_0 : (tr : Tree) -> GTE (depth tr) 0
+depth_tree_gt_0 Leaf             = LTEZero {right = 0}
+depth_tree_gt_0 (Node v tr1 tr2) = ?prf2
+```
+
+For the second case, it also seems we need to use `LTEZero`, but the second argument is `(S (maximum (depth tr1) (depth tr2)))`.
+
+```
+depth_tree_gt_0 : (tr : Tree) -> GTE (depth tr) 0
+depth_tree_gt_0 Leaf             = LTEZero {right = 0}
+depth_tree_gt_0 (Node v tr1 tr2) = LTEZero {right = 1 + maximum (depth tr1) (depth tr2)}
+```
+
+And thus, we have proven that the depth of any tree is greater or equal to zero.
