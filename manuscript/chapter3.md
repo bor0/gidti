@@ -271,6 +271,19 @@ In order to use a given of form:
 | {$$}\exists! x P(x){/$$} | Introduce a new variable, say {$$}x_0{/$$} so that {$$}P(x_0){/$$} is true. |
 | | Can also use that {$$}\forall x \forall y (P(x) \land P(y) \to x = y){/$$} |
 
+For example, we can use these techniques to do the following proofs:
+
+1. {$$}A \land B \to A \lor B{/$$} - To prove this goal, we will use proof by cases:
+    1. Proof for {$$}A{/$$}: Since we're given {$$}A \land B{/$$}, we are also given {$$}A{/$$}. Thus, {$$}A{/$$}
+    1. Proof for {$$}B{/$$}: Since we're given {$$}A \land B{/$$}, we are also given {$$}B{/$$}. Thus, {$$}B{/$$}
+    1. Thus, {$$}A \lor B{/$$}
+1. {$$}A \land B \leftrightarrow B \land A{/$$} - To prove this goal, we will prove both sides for the implications:
+    1. Proof for {$$}A \land B \to B \land A{/$$}: We can assume that {$$}A \land B{/$$}, thus we have both {$$}A{/$$} and {$$}B{/$$}. To prove the goal of {$$}B \land A{/$$}, we need to prove {$$}B{/$$} and {$$}A{/$$} separately, which we already have as givens.
+    1. Proof for {$$}B \land A \to A \land B{/$$}: We can assume that {$$}B \land A{/$$}, thus we have both {$$}B{/$$} and {$$}A{/$$}. To prove the goal of {$$}A \land B{/$$}, we need to prove {$$}A{/$$} and {$$}B{/$$} separately, which we already have as givens.
+    1. Thus, {$$}A \land B \leftrightarrow B \land A{/$$}
+1. {$$}\forall x, x = x{/$$} - We know that for any number {$$}x{/$$}, this number is equal to itself. Thus, {$$}\forall x, x = x{/$$}.
+1. {$$}\exists x, x > 0{/$$} - To prove this, we only need to find an {$$}x{/$$} such that it is greater than 0. One valid example is 1. Thus, {$$}\exists x, x > 0{/$$}.
+
 X> ### Exercise 12
 X>
 X> We've used the rules modus tollens and modus ponens without giving an actual proof for them. Try to prove by yourself that these two rules hold, either by constructing a truth table or a three-column proof:
