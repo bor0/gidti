@@ -459,7 +459,7 @@ ifThenElse True  t e = t
 ifThenElse False t e = e
 ```
 
-This function uses either the `t` or the `e` parameter, but not both. But the way it is written, it will evaluate both arguments before returning a result. It is a good optimization to only evaluate the parameter that is used. However, to achieve this, in Idris there is a built in support for lazy evaluation. The implementation is:
+This function uses either the `t` or the `e` parameter, but not both. But the way it is written, it will evaluate both arguments before returning a result. It is a good optimization to only evaluate the parameter that is used. However, to achieve this, in Idris there is a built-in support for lazy evaluation. The implementation is:
 
 ```
 data Lazy : Type -> Type where
