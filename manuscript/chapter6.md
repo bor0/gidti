@@ -23,7 +23,7 @@ X> Check the documentation of the equality type with `:doc (=)`.
 
 X> ### Exercise 2
 X>
-X> Evaluate `the Nat 3` and `the Integer 3` and note the differences.
+X> Evaluate `the Nat 3` and `the Integer 3` and note the differences. Afterwards, try to implement `the'` that will act just like `the` and test the previous evaluations again.
 
 ## 6.1. Weekdays
 
@@ -190,7 +190,7 @@ With this syntax, we're telling Idris that the reflexivity of `False = True` is 
 
 X> ### Exercise 4
 X>
-X> Check the documentation of `Void`.
+X> Check the documentation of `Void`, and try to implement `Void'` yourself. Rewrite the proof above to use `Void'` instead of `Void`.
 
 ## 6.2. Natural numbers
 

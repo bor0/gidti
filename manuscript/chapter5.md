@@ -57,7 +57,7 @@ X> Write a function `five_if_zero` which accepts a natural number, and returns 5
 
 ### 5.1.2. Defining our own types
 
-In Idris, types are first-class citizens. This means that types can be computed and passed to other functions. We define new types by using the keyword `data`. There are a couple of ways to define types. One example is by using the so called `Haskell98` syntax:
+In Idris, types are first-class citizens. This means that types can be computed and passed to other functions. We define new types by using the keyword `data`. All types should begin with an uppercase letter, since lowercase letter variables are reserved for polymorphic types in functions. There are a couple of ways to define types. One example is by using the so called `Haskell98` syntax:
 
 ```
 data A a b = A_inst a b
@@ -168,6 +168,14 @@ With the syntax `let X in Y` we're defining a set of variables `X` which are onl
 
 ```
 Idris> let f = 1 in f
+1 : Integer
+```
+
+Alternatively, the REPL has a command `:let` that allows us to set a variable without evaluating it:
+
+```
+Idris> :let f = 1
+Idris> f
 1 : Integer
 ```
 
