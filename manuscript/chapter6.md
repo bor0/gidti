@@ -59,7 +59,7 @@ our_first_proof : next_day Mon = Tue
 our_first_proof = ?prf
 ```
 
-Note how we used a function at the type level, for the type of `our_first_proof` which is `next_day Mon = Tue`. Since `next_day` is total, Idris will be able to evaluate `next_day Mon` at compile-time. We used a hole for the definition since we still don't know what the proof will look like. If we run this code in Idris, it will tell us we have a hole `prf` to fill:
+Note how we used the function `next_day Mon = Tue` at the type level, for the type of `our_first_proof`. Since `next_day` is total, Idris will be able to evaluate `next_day Mon` at compile-time. We used a hole for the definition since we still don't know what the proof will look like. If we run this code in Idris, it will tell us we have a hole `prf` to fill:
 
 ```
 Type checking ./first_proof.idr
@@ -83,11 +83,15 @@ Idris> :r
 Type checking ./first_proof.idr
 ```
 
-Which means that we've successfully proven that `next_day Mon = Tue`, that is, after Monday comes Tuesday!
+The type check was successful. Per the Curry-Howard isomorphism, this means that we've successfully proven that `next_day Mon = Tue`. So, after Monday comes Tuesday!
 
 X> ### Exercise 3
 X>
 X> Remove one or more pattern match definitions of `next_day` and observe the error that Idris will produce. Afterwards, alter the function to not be total, and observe the error.
+
+X> ### Exercise 4
+X>
+X> Implement `prev_day` and prove that before Monday comes Sunday.
 
 ### 6.1.2. Second proof (rewrite)
 
@@ -120,7 +124,7 @@ In this definition, `day` and `day_eq_Mon` are our assumptions (givens). If we r
 prf : is_it_monday day = True
 ```
 
-We see that along with `prf` we also get `day` and `day_eq_Mon` in the list of givens, per the left hand side of the function definition of `our_second_proof`.
+Note how checking the type of the hole lists the given(s) (above the separator), and our goal(s) (below the separator). We see that along with `prf` we also get `day` and `day_eq_Mon` in the list of givens, per the left hand side of the function definition of `our_second_proof`.
 
 Q> How do we replace something we have in the givens, with the goal?
 Q>
@@ -149,6 +153,14 @@ prf : True = True
 ```
 
 Changing `?prf` to `Refl` completes the proof. We just proved that {$$}\forall x \in \text{Weekdays}, x = \text{Mon} \to IsItMonday(x){/$$}. We assumed {$$}x = \text{Mon}{/$$} is true (by pattern matching against `day_eq_Mon` in our definition), and then used rewriting to alter `x`.
+
+X> ### Exercise 5
+X>
+X> Implement the function `is_it_sunday` that returns `True` if the given day is Sunday, and `False` otherwise.
+
+X> ### Exercise 6
+X>
+X> Prove the following formula in Idris: {$$}\forall x \in \text{Weekdays}, x = \text{Sun} \to IsItSunday(x){/$$}
 
 ### 6.1.3. Third proof (impossible)
 
@@ -188,13 +200,19 @@ our_third_proof Refl impossible
 
 With this syntax, we're telling Idris that the reflexivity of `False = True` is impossible, and thus the proof is complete.
 
-X> ### Exercise 4
+X> ### Exercise 7
 X>
 X> Check the documentation of `Void`, and try to implement `Void'` yourself. Rewrite the proof above to use `Void'` instead of `Void`.
 
+X> ### Exercise 8
+X>
+X> Prove that `1 = 2` is a contradiction.
+X>
+X> Hint: The type is `1 = 2 -> Void`
+
 ## 6.2. Natural numbers
 
-As we have seen, natural numbers are very powerful. In this section we will do proofs related to them, and also do a bit of induction. We will start with the following definitions for natural numbers:
+As we've seen, natural numbers are very powerful. In this section we will do proofs related to them, and also do a bit of induction. Recall that a natural number is defined either as zero, or as successor to natural number. So, `0, S 0, S (S 0), ...` are the first natural numbers. We will start with the following definitions for natural numbers:
 
 ```
 data MyNat = Zero | Succ MyNat
@@ -206,7 +224,7 @@ mynat_plus (Succ k) m = Succ (mynat_plus k m)
 
 Note how the definition of `MyNat` is recursive compared to `Weekday`. A consequence of that is that we may need to use induction for some proofs.
 
-X> ### Exercise 5
+X> ### Exercise 9
 X>
 X> Compare the addition definition to definition 19 in chapter 3.
 
@@ -221,7 +239,7 @@ total our_first_proof : (a : MyNat) -> mynat_plus Zero a = a
 our_first_proof a = ?prf
 ```
 
-If we check the type of the hole, we get that the goal is `prf : a = a`, so changing the hole to a `Refl` completes the proof. Idris was able to derive the proof by directly substituting definitions.
+If we check the type of the hole, we get that the goal is `prf : a = a`, so changing the hole to a `Refl` completes the proof. Idris was able to automatically infer the proof by directly substituting definitions.
 
 To prove the existence of a successor, i.e. `Succ x`, per intuitionistic logic we need to construct a pair where the first element is `x`, and the second element is `Succ x`:
 
@@ -244,10 +262,10 @@ our_second_proof = ?prf
 If we check the type of the hole, we get:
 
 ```
+Holes: Main.prf
 Idris> :t prf
 --------------------------------------
 prf : MyNat
-Holes: Main.prf
 ```
 
 Q> By the definition of `MyNat` we are sure that there exists a type constructor of `MyNat`, but how do we tell Idris?
@@ -273,13 +291,13 @@ prf : MyNat
 
 Changing `prf` to `the_number` concludes the proof.
 
-X> ### Exercise 6
+X> ### Exercise 10
 X>
 X> Simplify `our_second_proof` without the usage of `let`.
 X>
 X> Hint: Providing a valid type constructor that satisfies (inhabits) the type is a constructive proof.
 
-X> ### Exercise 7
+X> ### Exercise 11
 X>
 X> Construct a proof similar to `our_second_proof` without defining a function for it, and by using the function `the`.
 
@@ -306,18 +324,17 @@ our_third_proof Zero     = ?base
 our_third_proof (Succ k) = ?inductive_hypothesis
 ```
 
-Checking the types of the holes:
+Note how we used pattern match against the definition of natural numbers. Pattern matching is similar to using proof by cases. Checking the types of the holes:
 
 ```
+Holes: Main.inductive_hypothesis, Main.base
 Idris> :t base
 --------------------------------------
 base : Zero = Zero
-Holes: Main.inductive_hypothesis, Main.base
 Idris> :t inductive_hypothesis
   k : MyNat
 --------------------------------------
 inductive_hypothesis : Succ (mynat_plus k Zero) = Succ k
-Holes: Main.inductive_hypothesis, Main.base
 ```
 
 For the base case, we can just use `Refl`, but for the inductive step we need to do something different. We need to find a way to assume (add to list of givens) {$$}a + 0 = a{/$$}, and show that it follows {$$}(a + 1) + 0 = a + 1{/$$} from that assumption. Since we pattern match on `Succ k`, we can use recursion on `k` along with `let` to generate the hypothesis:
@@ -347,7 +364,7 @@ our_third_proof (Succ k) = let inductive_hypothesis = our_third_proof k in rewri
 
 This concludes the proof.
 
-X> ### Exercise 8
+X> ### Exercise 12
 X>
 X> Observe the similarity between this proof and the proof in section 3.4.2.
 
@@ -379,11 +396,11 @@ Idris> LTESucc {left = Z} {right = S Z}
 LTESucc : LTE 0 1 -> LTE 1 2
 ```
 
-X> ### Exercise 9
+X> ### Exercise 13
 X>
 X> Check the documentation of `GTE`, and then evaluate `GTE 2 2`. Observe what Idris returns, and think how `GTE` can be implemented in terms of `LTE`.
 
-X> ### Exercise 10
+X> ### Exercise 14
 X>
 X> We used the built-in type `LTE` which is defined for `Nat`. Try to come up with a `LTE` definition for `MyNat`.
 
@@ -450,15 +467,19 @@ Idris> divNatNZ 4 0 (SIsNotZ {x = ???})
 
 We cannot construct a proof for the third case, and so it will never be able to divide by zero, which is not allowed anyway.
 
-X> ### Exercise 11
+X> ### Exercise 15
 X>
 X> Implement `SuccIsNotZ` for `MyNat` that works similarly to `SIsNotZ`.
+
+X> ### Exercise 16
+X>
+X> Implement `divMyNatNZ` for `MyNat` that works similarly to `divNatNZ`.
 
 ### 6.2.6. Maximum of two numbers
 
 I> ### Definition 6
 I>
-I> The maximum of two numbers, a and b, is defined as:
+I> The maximum of two numbers `a` and `b` is defined as:
 I>
 I> {$$}max(a, b) = \left\{ \begin{array}{ll} b\text{, if } a \leq b \\   a\text{, otherwise} \end{array} \right.{/$$}
 
@@ -469,7 +490,7 @@ our_proof : (a : Nat) -> (b : Nat) -> a <= b -> maximum a b = b
 our_proof a b a_lt_b = ?prf
 ```
 
-However this won't work since `a <= b` is a `Bool`, not a `Type`. At the type level, we need to rely on `LTE` which is a `Type`.
+However this won't work since `a <= b` is a `Bool` (per the function `<=`), not a `Type`. The definition for `=` only accepts `Type`s. So, at the type level we need to rely on `LTE` which is a `Type`.
 
 ```
 our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
@@ -511,20 +532,19 @@ It seems like we made progress, as this gives us something to work with. We can 
 our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
 our_proof Z Z _              = Refl
 our_proof Z (S k) _          = Refl
-our_proof (S k) (S j) a_lt_b = let I_H = (our_proof k j ?a) in rewrite IH in Refl
+our_proof (S k) (S j) a_lt_b = let I_H = (our_proof k j ?prf) in rewrite IH in Refl
 ```
 
 The hole produces the following:
 
 ```
-Holes: Main.a
-Idris> :t a
+Holes: Main.prf
+Idris> :t prf
   k : Nat
   j : Nat
   a_lt_b : LTE (S k) (S j)
 --------------------------------------
-a : LTE k j
-Holes: Main.a
+prf : LTE k j
 ```
 
 Q> How do we go from {$$}S(a) \leq S(b) \to a \leq b{/$$}?
@@ -557,7 +577,7 @@ our_proof Z (S k) _          = Refl
 our_proof (S k) (S j) a_lt_b = rewrite (our_proof k j (fromLteSucc a_lt_b)) in Refl
 ```
 
-X> ### Exercise 12
+X> ### Exercise 17
 X>
 X> Use `fromLteSucc` with implicits to construct some proofs.
 
@@ -582,11 +602,11 @@ For example, to represent the following tree, we can use the expression `Node 2 
 1   3
 ```
 
-X> ### Exercise 13
+X> ### Exercise 18
 X>
 X> Come up with a few trees by using the type constructors above.
 
-### 6.4.1. The depth of any tree is >= 0
+### 6.4.1. Depth of trees
 
 I> ### Definition 7
 I>
@@ -596,7 +616,7 @@ We can implement the recursive function `depth` as follows:
 
 ```
 depth : Tree -> Nat
-depth Leaf = 0
+depth Leaf         = 0
 depth (Node n l r) = 1 + maximum (depth l) (depth r)
 ```
 
@@ -623,13 +643,13 @@ depth_tree_gt_0 Leaf             = ?prf1
 depth_tree_gt_0 (Node v tr1 tr2) = ?prf2
 ```
 
-The holes are:
+Checking the types of the holes:
 
 ```
+Holes: Main.prf2, Main.prf1
 Idris> :t prf1
 --------------------------------------
 prf1 : LTE 0 0
-Holes: Main.prf2, Main.prf1
 Idris> :t prf2
   tr1 : Tree
   tr2 : Tree
@@ -698,7 +718,7 @@ Idris> length_tree (Node 1 (Node 2 Leaf Leaf) Leaf)
 2 : Nat
 ```
 
-### 6.4.3. Length of tree is same as length of mapped tree
+### 6.4.3. Length of mapped trees
 
 Now, we want to prove that for a given tree, and _any_ function `f`, the length of that tree will be the same as the length of that tree mapped with the function `f`:
 
@@ -716,11 +736,11 @@ proof_1 (Node v tr1 tr2) f = ?i_h
 Checking the types of the holes:
 
 ```
+Holes: Main.i_h, Main.base
 Idris> :t base
   f : Nat -> Nat
 --------------------------------------
 base : 0 = 0
-Holes: Main.i_h, Main.base
 Idris> :t i_h
   v : Nat
   tr1 : Tree
@@ -729,7 +749,6 @@ Idris> :t i_h
 --------------------------------------
 i_h : S (plus (length_tree tr1) (length_tree tr2)) =
       S (plus (length_tree (map_tree f tr1)) (length_tree (map_tree f tr2)))
-Holes: Main.i_h, Main.base
 ```
 
 For the base case we can just use `Refl`. However, for the inductive hypothesis, we need to do something different. We can try applying the proof recursively to `tr1` and `tr2` respectively:
@@ -745,6 +764,7 @@ proof_1 (Node v tr1 tr2) f = let IH_1 = proof_1 tr1 f in
 We get to the following proof state at this point:
 
 ```
+Holes: Main.conclusion
 Idris> :t conclusion
   v : Nat
   tr1 : Tree
@@ -755,7 +775,6 @@ Idris> :t conclusion
 --------------------------------------
 conclusion : S (plus (length_tree tr1) (length_tree tr2)) =
              S (plus (length_tree (map_tree f tr1)) (length_tree (map_tree f tr2)))
-Holes: Main.conclusion
 ```
 
 From here, we can just rewrite the hypothesis:
