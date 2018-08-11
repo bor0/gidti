@@ -275,7 +275,7 @@ Even though the cube has 8 kinds of systems, we will only cover the 4 most impor
 1. Expressions depending on types, that is, polymorphism. This is called System F {$$}\lambda 2{/$$}:
     1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t, \lambda X.t{/$$}
     1. Type constructors: {$$}\text{X}, \forall \text{X.T}{/$$}
-    1. Example: The polymorphic function {$$}concat : \text{List a} \to \text{List a} \to \text{List a}{/$$}, where the same {$$}\text{a}{/$$} is bound to all arguments.
+    1. Example: The polymorphic function {$$}concat : \text{List a} \to \text{List a} \to \text{List a}{/$$}, where the same {$$}\text{a}{/$$} is bound to all arguments. This function can be used on {$$}\text{List Nat}{/$$}, {$$}\text{List Bool}{/$$}, etc.
 1. Types depending on types. This is called System lambda-omega {$$}\lambda \omega{/$$}:
     1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t{/$$}
     1. Type constructors: {$$}\text{X}, \lambda \text{X:K.T}, \text{T T}{/$$}
