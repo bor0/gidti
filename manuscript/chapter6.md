@@ -404,7 +404,7 @@ X> ### Exercise 14
 X>
 X> We used the built-in type `LTE` which is defined for `Nat`. Try to come up with a `LTE` definition for `MyNat`.
 
-### 6.2.5. Safe division for natural numbers
+### 6.2.5. Safe division
 
 Idris provides a function called `divNat` that divides two numbers. Checking the documentation:
 
@@ -606,7 +606,7 @@ X> ### Exercise 18
 X>
 X> Come up with a few trees by using the type constructors above.
 
-### 6.4.1. Depth of trees
+### 6.4.1. Depth
 
 I> ### Definition 7
 I>
@@ -676,7 +676,7 @@ depth_tree_gt_0 (Node v tr1 tr2) = LTEZero {right = 1 + maximum (depth tr1) (dep
 
 And thus, we have proven that the depth of any tree is greater or equal to zero.
 
-### 6.4.2. Mapping and length of trees
+### 6.4.2. Map and length
 
 We saw how we can use `map` with lists. It would be neat if we had a way to map trees as well. The following definition will allow us to do exactly that:
 
