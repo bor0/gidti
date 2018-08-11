@@ -7,8 +7,8 @@ I>
 I> 1. A **formal language** that contains:
 I>     1. A finite set of symbols, which when combined are used for constructing new formulas (finite strings of symbols)
 I>     1. A grammar, which is a rule that tells us how we can construct formulas based on the symbols (well-formed formulas)
-I> 1. A set of **axioms**, that is, a starting set that we take for granted without having any proofs for.
-I> 1. A set of **inference rules**.
+I> 1. A set of **axioms**, that is, a starting set that we take for granted without having any proofs for
+I> 1. A set of **inference rules**
 
 After a formal system is defined, other formal systems can extend it. For example, the ZFC set theory is based on first-order logic, which is based on propositional logic which represents a formal system. We'll discuss this theory briefly in the next chapter.
 
@@ -57,10 +57,10 @@ We will show (or prove) how we can get from `MII` to `MIIU` using the inference 
 We can represent the formal description of this system as follows:
 
 1. Formal language
-    1. Set of symbols is {$$}\{ M, I, U \}{/$$}.
-    1. A string is well-formed if the first letter is `M` and there are no other `M` letters. Examples: `M`, `MIUIU`, `MUUUIII`.
-1. `MI` is the starting string, i.e. axiom.
-1. The rules of inference are defined in the table above.
+    1. Set of symbols is {$$}\{ M, I, U \}{/$$}
+    1. A string is well-formed if the first letter is `M` and there are no other `M` letters. Examples: `M`, `MIUIU`, `MUUUIII`
+1. `MI` is the starting string, i.e. axiom
+1. The rules of inference are defined in the table above
 
 Q> ### Can we get from `MI` to `MU` with this system?
 Q>

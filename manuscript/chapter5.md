@@ -451,7 +451,7 @@ I> ### Definition 4
 I>
 I> Lazy evaluation means that parameters are evaluated only when necessary. Conversely, strict evaluation means that all parameters are evaluated on a function call. As an example:
 
-Idris evaluates parameters in a strict fashion[^ch5n3].
+Idris evaluates parameters in a strict fashion[^ch5n3]. For example, let's take a look at the following function:
 
 ```
 ifThenElse : Bool -> a -> a -> a
@@ -527,7 +527,7 @@ data MyList : (n : Nat) -> Type where
 What we've done above is we created a new type called `MyList` which accepts a natural number and returns a `Type`, that is joined with two type constructors:
 
 1. `Empty` - which is just the empty list
-1. `Cons : (x : Nat) -> (xs : MyList len) -> MyList (S len)` - which, given a natural number and a list of length `len`, it will return a list of length `S len`, that is, `len + 1`.
+1. `Cons : (x : Nat) -> (xs : MyList len) -> MyList (S len)` - which, given a natural number and a list of length `len`, it will return a list of length `S len`, that is, `len + 1`
 
 If we now use the following code snippet, it will pass the compile-time checks:
 
@@ -622,7 +622,7 @@ There are three built-in higher order functions that are generally useful: `map`
 
 1. `map` is a function that takes as input a function with a single parameter, and a list, and returns a list where all members of the list have this function applied
 1. `filter` is a function that takes as input a function (predicate) with a single parameter (that returns a `Bool`), and a list, and only returns those members in the list whose predicate evaluates to `True`
-1. `fold` is a function that takes as input a combining function that accepts two parameters (current value and accumulator), an initial value, and a list, and returns a value combined with this function. There are two types of folds, a left and a right one, which combines from the left and from the right respectively.
+1. `fold` is a function that takes as input a combining function that accepts two parameters (current value and accumulator), an initial value, and a list, and returns a value combined with this function. There are two types of folds, a left and a right one, which combines from the left and from the right respectively
 
 As an example usage:
 
@@ -729,8 +729,8 @@ swap (a, b) = (b, a)
 The isomorphism says that this function has an equivalent form of a mathematical proof. Although it may not be immediately obvious, let's consider the following proof: Given {$$}P \land Q{/$$}, prove that {$$}Q \land P{/$$}. In order to prove it, we have to use 2 inference rules: and-introduction and and-elimination, which are defined as follows:
 
 1. And-introduction means that if we are given {$$}P{/$$}, {$$}Q{/$$}, then we can construct a proof for {$$}P \land Q{/$$}
-1. Left and-elimination means that if we are given {$$}P \land Q{/$$}, we can conclude {$$}P{/$$}.
-1. Right and-elimination means that if we are given {$$}P \land Q{/$$}, we can conclude {$$}Q{/$$}.
+1. Left and-elimination means that if we are given {$$}P \land Q{/$$}, we can conclude {$$}P{/$$}
+1. Right and-elimination means that if we are given {$$}P \land Q{/$$}, we can conclude {$$}Q{/$$}
 
 If we try to implement this proof in Idris, we can represent it as a product type, as follows:
 
@@ -761,7 +761,7 @@ I> ### Definition 6
 I>
 I> Functions can be roughly categorized in two parts: **pure** and **impure**.
 I>
-I> 1. Pure functions are functions that every time they are called, they will produce the same result
+I> 1. Pure functions are functions that every time they are called, will produce the same result
 I> 1. In contrast, impure functions are functions that might return different result on a function call
 
 An example of a pure function is {$$}f(x) = x + 1{/$$}. An example of an impure function is {$$}f(x) = \text{launch x rockets}{/$$}. Since this function causes side-effects, sometimes the launch of the rockets may not be successful (e.g. the case where we have no more rockets to launch).
@@ -856,4 +856,4 @@ X> ```
 
 [^ch5n2]: This is equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.
 
-[^ch5n3]: In Haskell, the default behaviour is lazy evaluation.
+[^ch5n3]: In contrast, the default behaviour in Haskell is lazy evaluation.

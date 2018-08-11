@@ -13,8 +13,8 @@ I>
 I> Peano's axioms is a system of axioms that describes the natural numbers. It consists of 9 axioms, but we will name only a few:
 I>
 I> 1. 0 (zero) is a natural number
-I> 1. For every number {$$}x{/$$}, we have that {$$}S(x){/$$} is a natural number, namely the successor function.
-I> 1. For every number {$$}x{/$$}, we have that {$$}x = x{/$$}, namely that equality is reflexive.
+I> 1. For every number {$$}x{/$$}, we have that {$$}S(x){/$$} is a natural number, namely the successor function
+I> 1. For every number {$$}x{/$$}, we have that {$$}x = x{/$$}, namely that equality is reflexive
 
 We will discuss these concepts next in a bit more details.
 
@@ -35,10 +35,10 @@ I> | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\top{/$
 
 In other words:
 
-1. {$$}\top \land \top{/$$} = {$$}\top{/$$}, other combinations are {$$}\bot{/$$}.
-1. {$$}\bot \lor \bot{/$$} = {$$}\bot{/$$}, other combinations are {$$}\top{/$$}.
-1. {$$}\top \to \bot{/$$} = {$$}\bot{/$$}, other combinations are {$$}\top{/$$}.
-1. {$$}\lnot \bot{/$$} = {$$}\top{/$$}, {$$}\lnot \top{/$$} = {$$}\bot{/$$}.
+1. {$$}\top \land \top{/$$} = {$$}\top{/$$}, other combinations are {$$}\bot{/$$}
+1. {$$}\bot \lor \bot{/$$} = {$$}\bot{/$$}, other combinations are {$$}\top{/$$}
+1. {$$}\top \to \bot{/$$} = {$$}\bot{/$$}, other combinations are {$$}\top{/$$}
+1. {$$}\lnot \bot{/$$} = {$$}\top{/$$}, {$$}\lnot \top{/$$} = {$$}\bot{/$$}
 
 We can also use variables to represent statements. For example, we can say `a = Salad is organic`, and thus {$$}a{/$$} is a true statement. Another statement is `a = Rock is organic`, and thus {$$}a{/$$} is a false statement. The statement `a = Hi there!` is neither a true nor a false statement, and thus
 is not a proposition.

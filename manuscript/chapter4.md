@@ -18,8 +18,8 @@ I> ### Definition 3
 I>
 I> Algebraic data types are types where we can additionally specify the form for each of the elements. They are called "algebraic" in the sense that the data types are constructed using algebraic operations. The algebra here is sum and product:
 I>
-I> 1. Sum (union) is alternation. It is denoted as {$$}\text{A | B}{/$$} and it means that the value is either of type A or B, but not both.
-I> 1. Product is combination. It is denoted as {$$}\text{A B}{/$$} and it means that the value is a pair where the first element is of type A, and the second element is of type B.
+I> 1. Sum (union) is alternation. It is denoted as {$$}\text{A | B}{/$$} and it means that the value is either of type A or B, but not both
+I> 1. Product is combination. It is denoted as {$$}\text{A B}{/$$} and it means that the value is a pair where the first element is of type A, and the second element is of type B
 
 As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}\text{Real}{/$$} for real numbers. Now, for the sum (union) we can construct a new type {$$}\text{Nat | Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat | Real}{/$$}, {$$}3.14 : \text{Nat | Real}{/$$}, etc. For the product type, we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 1.5 : \text{Nat Real}{/$$}, {$$}2 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
 
@@ -283,7 +283,7 @@ Even though the cube has 8 kinds of systems, we will only cover the 4 most impor
 1. Types depending on expressions, that is, dependent types. This is called System LF {$$}\lambda P{/$$}:
     1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t{/$$}
     1. Type constructors: {$$}\Pi x:\text{T . T}, \text{T t}{/$$}
-    1. Example: The dependently-typed function {$$}concat : \text{List 3} \to \text{List 5} \to \text{List 8}{/$$}, where {$$}\text{List}{/$$} limits the number of elements at a type level.
+    1. Example: The dependently-typed function {$$}concat : \text{List 3} \to \text{List 5} \to \text{List 8}{/$$}, where {$$}\text{List}{/$$} limits the number of elements at a type level
 
 The system in the upper-right angle {$$}\lambda P \omega{/$$} represents Calculus of Constructions. It is a separate type theory that is used by the interactive theorem prover Coq. We will not get into the details of this type theory as part of this book.
 
