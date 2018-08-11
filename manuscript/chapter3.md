@@ -282,11 +282,18 @@ X> 1. Modus ponens: {$$}(p \to q, p) \to q{/$$}
 
 I> ### Definition 18
 I>
+I> Recursive functions are those functions that refer to themselves. We have the following properties for such functions:
+I>
+I> 1. A simple base case (or cases) - a terminating case that returns a value without using recursion
+I> 1. A set of rules that reduce the other cases towards the base case
+
+I> ### Definition 19
+I>
 I> Mathematical induction is a proof method that is used to prove that a predicate {$$}P(n){/$$} is true for all natural numbers {$$}n{/$$}. It consists of proving two parts: a base case and an inductive step. For the base case we need to show that what we want to prove {$$}P(n){/$$} is true for some starting value, {$$}k{/$$}, which is usually zero. For the inductive step, we need to prove that {$$}P(n) \to P(n+1){/$$}, that is, if we assume that {$$}P(n){/$$} is true, then {$$}P(n+1){/$$} must follow as a consequence. After having proven these two parts, we can conclude that {$$}P(n){/$$} holds for all natural numbers. So the formula that we need to prove is {$$}P(0) \land ( P(n) \to P(n+1) ){/$$}.
 
 To understand why mathematical induction works, as an example it is best to visualize dominoes arranged in a sequence. If we push the first domino, it will push the second, which will push the third, and so on to infinity. That is, if we position the dominoes such that if one falls it will push the next one, i.e. {$$}P(n){/$$} implies {$$}P(n+1){/$$}, and we push the first one {$$}P(0){/$$}, then all the dominoes will fall, i.e. {$$}P(n){/$$} is true in general.
 
-I> ### Definition 19
+I> ### Definition 20
 I>
 I> We are given this recursive definition for adding numbers:
 I>
@@ -295,7 +302,7 @@ I> 1. {$$}S(m) + n = S(m + n){/$$}, where {$$}S{/$$} is the successor function, 
 
 For example, in order to prove that {$$}\forall n, n + 0 = n{/$$} in the system of Peano's axioms, we can proceed by induction (this is an axiom). For the base case, we have that {$$}0 + 0 = 0{/$$}, which is true (by definition of adding numbers, for {$$}n = 0{/$$}). For the inductive step, we first assume that {$$}n + 0 = n{/$$} is true, and prove that {$$}S(n) + 0 = S(n){/$$}. By definition of addition, we have {$$}S(n) + 0 = S(n + 0){/$$}. Now if we use the inductive hypothesis we have {$$}S(n + 0) = S(n){/$$}, which is what we needed to show. With this example, we can see how induction and natural numbers are closely related to each other. Note how we proved {$$}n + 0 = n{/$$}, given {$$}n = 0 + n{/$$}. That is, we proved that addition with 0 is commutative.
 
-I> ### Definition 20
+I> ### Definition 21
 I>
 I> {$$}a{/$$} is divisible by {$$}b{/$$} if there exists a natural number {$$}k{/$$} so that {$$}a = bk{/$$}.
 
