@@ -606,7 +606,7 @@ X> ### Exercise 18
 X>
 X> Come up with a few trees by using the type constructors above.
 
-### 6.4.1. Depth
+### 6.3.1. Depth
 
 I> ### Definition 7
 I>
@@ -676,7 +676,7 @@ depth_tree_gt_0 (Node v tr1 tr2) = LTEZero {right = 1 + maximum (depth tr1) (dep
 
 And thus, we have proven that the depth of any tree is greater or equal to zero.
 
-### 6.4.2. Map and length
+### 6.3.2. Map and length
 
 We saw how we can use `map` with lists. It would be neat if we had a way to map trees as well. The following definition will allow us to do exactly that:
 
@@ -718,7 +718,7 @@ Idris> length_tree (Node 1 (Node 2 Leaf Leaf) Leaf)
 2 : Nat
 ```
 
-### 6.4.3. Length of mapped trees
+### 6.3.3. Length of mapped trees
 
 Now, we want to prove that for a given tree, and _any_ function `f`, the length of that tree will be the same as the length of that tree mapped with the function `f`:
 
