@@ -43,7 +43,7 @@ I> | 2       | `M`x {$$}\to{/$$} M`xx`    | Double the string after `M`         
 I> | 3       | x`III`y {$$}\to{/$$} x`U`y | Replace `III` inside a string with `U`       | `MUIIIU` to `MUUU` |
 I> | 4       | x`UU`y {$$}\to{/$$} xy     | Remove `UU` from inside a string             | `MUUU` to `MU`     |
 
-We will show (or prove) how we can get from `MII` to `MIIU` using the inference rules:
+We will show (or prove) how we can get from `MI` to `MIIU` using the inference rules:
 
 1. `MI` (axiom)
 1. `MII` (rule 2)
