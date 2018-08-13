@@ -42,6 +42,9 @@ I> | 1       | x`I` {$$}\to{/$$} x`IU`    | Add `U` at the end of a string endin
 I> | 2       | `M`x {$$}\to{/$$} M`xx`    | Double the string after `M`                  | `MIU` to `MIUIU`   |
 I> | 3       | x`III`y {$$}\to{/$$} x`U`y | Replace `III` inside a string with `U`       | `MUIIIU` to `MUUU` |
 I> | 4       | x`UU`y {$$}\to{/$$} xy     | Remove `UU` from inside a string             | `MUUU` to `MU`     |
+I>
+
+The `x` in the inference rules stands for any symbol(s). For example, `MI` matches rule 2 for `x = I`, and it can also match rule 1 for `x = M`. Another example is `MII` that matches rule 2 for `x = II`, and rule 1 for `x = MI`.
 
 We will show (or prove) how we can get from `MI` to `MIIU` using the inference rules:
 
