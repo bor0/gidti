@@ -24,7 +24,7 @@ At its core, mathematical logic deals with mathematical concepts expressed using
 
 I> ### Definition 3
 I>
-I> The propositional branch of logic is concerned with the study of **propositions**, which are statements that are either {$$}\top{/$$} (true) or {$$}\bot{/$$} (false). Propositions are formed by other propositions with the use of logical connectives. The most basic logical connectives are {$$}\land{/$$} (and), {$$}\lor{/$$} (or), {$$}\to{/$$} (implication), and {$$}\lnot{/$$} (negation). The connectives are commutative, meaning {$$}a \oplus b = b \oplus a{/$$}, that is the order is irrelevant). These are their values:
+I> The propositional branch of logic is concerned with the study of **propositions**, which are statements that are either {$$}\top{/$$} (true) or {$$}\bot{/$$} (false). Propositions are formed by other propositions with the use of logical connectives. The most basic logical connectives are {$$}\land{/$$} (and), {$$}\lor{/$$} (or), {$$}\to{/$$} (implication), and {$$}\lnot{/$$} (negation). These are their values:
 I>
 I> | {$$}a{/$$} | {$$}b{/$$} | {$$}a \land b{/$$} | {$$}a \lor b{/$$} | {$$}a \to b{/$$} | {$$}\lnot a{/$$} |
 I> | --- | --- | --- | --- | --- | --- |
