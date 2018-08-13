@@ -37,7 +37,7 @@ I>
 I> We're given a starting string `MI`, combined with a few inference rules, or transformation rules:
 I>
 I> | **No.** | **Rule**                   | **Description**                              | **Example**        |
-I> | ------- | -------------------------- | ---------------------------------------------| ------------------ |
+I> | ------- | -------------------------- | -------------------------------------------- | ------------------ |
 I> | 1       | x`I` {$$}\to{/$$} x`IU`    | Add `U` at the end of a string ending in `I` | `MI` to `MIU`      |
 I> | 2       | `M`x {$$}\to{/$$} M`xx`    | Double the string after `M`                  | `MIU` to `MIUIU`   |
 I> | 3       | x`III`y {$$}\to{/$$} x`U`y | Replace `III` inside a string with `U`       | `MUIIIU` to `MUUU` |
