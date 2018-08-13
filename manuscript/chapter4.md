@@ -184,7 +184,7 @@ Propositions can also be defined through types. For example. in order to prove t
 
 One thing worth noting is that, in Idris there are "two" types of truths: {$$}\text{Bool}{/$$} and {$$}\text{Type}{/$$}. Even though there is some similarity (in terms of proofs), in Idris they are fundamentally different. The type {$$}\text{Bool}{/$$} can have a value of {$$}True{/$$} or {$$}False{/$$}, while the type {$$}\text{Type}{/$$} is either provable or not provable[^ch4n7].
 
-This system is useful since with the usage of computer algorithms we can find a constructive proof for some object (assuming it exists). As a consequence, this is why it can be considered as a way to make a programming language act like a proof-assistant.
+This system is useful since with the use of computer algorithms we can find a constructive proof for some object (assuming it exists). As a consequence, this is why it can be considered as a way to make a programming language act like a proof-assistant.
 
 I> ### Definition 9
 I>
@@ -223,7 +223,7 @@ X> We've used rule 1 and rule 2 in example 2. Try to come up with different ways
 
 X> ### Exercise 10
 X>
-X> Combine the usage of rules along with the connectives described above, so for example, try to come up with a recursive type and then try to construct some new objects from it.
+X> Combine the use of rules along with the connectives described above, so for example, try to come up with a recursive type and then try to construct some new objects from it.
 
 ### 4.4.1. Intuitionistic logic
 

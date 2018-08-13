@@ -2,7 +2,7 @@
 
 Metamath is a programming language that can express theorems accompanied by a proof checker. The interesting thing about this language is its simplicity. We start by defining a formal system (variables, symbols, axioms and rules of inference), and proceed with building new theorems based on the formal system.
 
-As we've seen, proofs in mathematics (and Idris to some point) are usually done at a very high level. Even though the foundations are formal systems, it does not make sense to do proofs at a very low level since it is difficult to do an actual proof. However, we will show that there are such programming languages like Metamath, that work at the lowest level, that is formal systems.
+As we've seen, proofs in mathematics (and Idris to some degree) are usually done at a very high level. Even though the foundations are formal systems, it is very difficult to do proofs at a low level. However, we will show that there are such programming languages like Metamath, that work at the lowest level, that is formal systems.
 
 The most basic concept in Metamath is the substitution method. Metamath uses an RPN stack[^apan1] to build hypotheses, and then rewrites using the rules of inference in order to reach a conclusion. Metamath has a very simple syntax. A token is a Metamath token if it starts with `$`, and is a user-generated token otherwise. The following is a list of Metamath's tokens:
 
@@ -23,7 +23,7 @@ Besides these tokens, there are several rules:
 1. An expression that contains `$f`, `$e` or `$d` is active in the given block from the start of the definition until the end of the block. An expression that contains `$a` or `$p` is active from the start of the definition until the end of the file
 1. Proof blocks have an effect on the access of definitions, i.e. scoping. For a given code in a block, only `$a` and `$p` remain visible outside of the block
 
-In the following example we'll define a formal system and demonstrate the usage of the rule modus ponens in order to get to a new theorem, based on our initial axioms.
+In the following example we'll define a formal system and demonstrate the use of the rule modus ponens in order to get to a new theorem, based on our initial axioms.
 
 ```
 $( Declaration of constants $)

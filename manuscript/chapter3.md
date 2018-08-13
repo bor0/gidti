@@ -235,7 +235,7 @@ For example, to prove the statement {$$}A \land B \to B{/$$}, we can approach as
 
 Note that wherever {$$}A \land B{/$$} is true, then so is {$$}A \land B \to B{/$$}, which means that this is a valid logical argument, according to the definition 4.
 
-However, if our statements involve the usage of quantifiers, then doing proofs with truth tables is impossible. Therefore, we will try to prove the same statement by means of a formal proof.
+However, if our statements involve the use of quantifiers, then doing proofs with truth tables is impossible. Therefore, we will try to prove the same statement by means of a formal proof.
 
 To prove that {$$}A \land B \to B{/$$}, we start by assuming that {$$}A \land B{/$$} is true, since otherwise the statement is vacuously true by definition for implication. If {$$}A \land B{/$$} is true, then both {$$}A{/$$} and {$$}B{/$$} are true by definition of `and`, that is, we can conclude {$$}B{/$$}.
 

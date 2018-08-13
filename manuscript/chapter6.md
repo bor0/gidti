@@ -103,7 +103,7 @@ is_it_monday Mon = True
 is_it_monday _   = False
 ```
 
-For the sake of example, we will prove that for any given day, if it's Monday then `is_it_monday` will return `True`, and `False` otherwise. It's obvious by the definition of `is_it_monday`, but proving that is a whole different story. The type definition that we need to prove is:
+For the sake of example, we will prove that for any given day, if it's Monday then `is_it_monday` will return `True`, and `False` otherwise. It's obvious from the definition of `is_it_monday`, but proving that is a whole different story. The type definition that we need to prove is:
 
 ```
 our_second_proof : (day : Weekday) -> day = Mon -> is_it_monday day = True
@@ -115,7 +115,7 @@ We gave a name of the first parameter `day : Weekday` so that we can refer to it
 our_second_proof day day_eq_Mon = Refl
 ```
 
-In this definition, `day` and `day_eq_Mon` are our assumptions (givens). If we run this code in Idris, it will produce an error at compile-time since it cannot deduce that `True` is equal to `is_it_monday day`. In the previous proof example, Idris was able to infer everything by the definitions at compile-time. However, at this point we need to help Idris do the inference since it cannot derive the proof based only on the definitions. We can change the `Refl` to a hole `?prf`:
+In this definition, `day` and `day_eq_Mon` are our assumptions (givens). If we run this code in Idris, it will produce an error at compile-time since it cannot deduce that `True` is equal to `is_it_monday day`. In the previous proof example, Idris was able to infer everything from the definitions at compile-time. However, at this point we need to help Idris do the inference since it cannot derive the proof based only on the definitions. We can change the `Refl` to a hole `?prf`:
 
 ```
   day : Weekday
@@ -164,7 +164,7 @@ X> Prove the following formula in Idris: {$$}\forall x \in \text{Weekdays}, x = 
 
 ### 6.1.3. Third proof (impossible)
 
-As an inspiration from the previous section, we will prove that `is_it_monday Tue = True` is a contradiction.
+In this section we will prove that `is_it_monday Tue = True` is a contradiction.
 
 Per intuitionistic logic, in order to prove that {$$}P{/$$} is a contradiction, we need to prove {$$}P \to \bot{/$$}. Idris provides an empty data type (without type constructors, i.e. proofs) for that, which is called `Void`.
 
@@ -212,7 +212,7 @@ X> Hint: The type is `1 = 2 -> Void`
 
 ## 6.2. Natural numbers
 
-As we've seen, natural numbers are very powerful. In this section we will do proofs related to them, and also do a bit of induction. Recall that a natural number is defined either as zero, or as successor to natural number. So, `0, S 0, S (S 0), ...` are the first natural numbers. We will start with the following definitions for natural numbers:
+As we've seen, natural numbers are very powerful. In this section we will prove facts about them, and also do a bit of induction. Recall that a natural number is defined either as zero, or as the successor of a natural number. So, `0, S 0, S (S 0), ...` are the first natural numbers. We will start with the following definitions for natural numbers:
 
 ```
 data MyNat = Zero | Succ MyNat
@@ -244,8 +244,8 @@ If we check the type of the hole, we get that the goal is `prf : a = a`, so chan
 To prove the existence of a successor, i.e. `Succ x`, per intuitionistic logic we need to construct a pair where the first element is `x`, and the second element is `Succ x`:
 
 ```
-total our_first_proof_2 : MyNat -> (MyNat, MyNat)
-our_first_proof_2 x = (x, Succ x)
+total our_second_proof : MyNat -> (MyNat, MyNat)
+our_second_proof x = (x, Succ x)
 ```
 
 We just proved that {$$}\exists x \in \text{MyNat}, Succ(x){/$$}.
@@ -293,7 +293,7 @@ Changing `prf` to `the_number` concludes the proof.
 
 X> ### Exercise 10
 X>
-X> Simplify `our_second_proof` without the usage of `let`.
+X> Simplify `our_second_proof` without the use of `let`.
 X>
 X> Hint: Providing a valid type constructor that satisfies (inhabits) the type is a constructive proof.
 
@@ -312,7 +312,7 @@ our_third_proof a = Refl
 
 If we try to run the code above, Idris will produce an error that there is a type mismatch between `a` and `mynat_plus a Zero`.
 
-Q> It seems that we have just about all the definitions we need, but we're missing a piece. But, how do we re-use our definitions?
+Q> It seems that we have just about all the definitions we need, but we're missing a piece. How do we re-use our definitions?
 Q>
 Q> To prove that {$$}a + 0 = a{/$$}, we can use mathematical induction starting with the definitions we already have as the base case, and building on top of that until {$$}a + 0 = a{/$$}. That is, we need to prove that {$$}0 + 0 = 0 \to (a - a) + 0 = a - a \to ... \to (a - 1) + 0 = a - 1 \to a + 0 = a{/$$}.
 
@@ -324,7 +324,7 @@ our_third_proof Zero     = ?base
 our_third_proof (Succ k) = ?inductive_hypothesis
 ```
 
-Note how we used pattern match against the definition of natural numbers. Pattern matching is similar to using proof by cases. Checking the types of the holes:
+Note how we used pattern matching against the definition of natural numbers. Pattern matching is similar to using proof by cases. Checking the types of the holes:
 
 ```
 Holes: Main.inductive_hypothesis, Main.base
@@ -337,7 +337,7 @@ Idris> :t inductive_hypothesis
 inductive_hypothesis : Succ (mynat_plus k Zero) = Succ k
 ```
 
-For the base case, we can just use `Refl`, but for the inductive step we need to do something different. We need to find a way to assume (add to list of givens) {$$}a + 0 = a{/$$}, and show that it follows {$$}(a + 1) + 0 = a + 1{/$$} from that assumption. Since we pattern match on `Succ k`, we can use recursion on `k` along with `let` to generate the hypothesis:
+For the base case, we can just use `Refl`, but for the inductive step we need to do something different. We need to find a way to assume (add to list of givens) {$$}a + 0 = a{/$$}, and show that {$$}(a + 1) + 0 = a + 1{/$$} follows from that assumption. Since we pattern match on `Succ k`, we can use recursion on `k` along with `let` to generate the hypothesis:
 
 ```
 total our_third_proof : (a : MyNat) -> mynat_plus a Zero = a
@@ -382,7 +382,7 @@ Idris> :t LTEZero
 LTEZero : LTE 0 right
 ```
 
-So, `LTEZero` does not accept any arguments, but at the type level it can be passed `right`. With the usage of implicits, we can construct a very simple proof to show that {$$}0 \leq 1{/$$}:
+So, `LTEZero` does not accept any arguments, but at the type level it can be passed `right`. With the use of implicits, we can construct a very simple proof to show that {$$}0 \leq 1{/$$}:
 
 ```
 Idris> LTEZero {right = S Z}
@@ -583,7 +583,7 @@ X> Use `fromLteSucc` with implicits to construct some proofs.
 
 ## 6.3. Trees
 
-A tree structure is a way to represent hierarchical data. We can define a tree structure using the following implementation:
+A tree structure is a way to represent hierarchical data. We will work with binary trees in this section, which are trees that contain exactly two sub-trees. We can define this tree structure using the following implementation:
 
 ```
 data Tree = Leaf | Node Nat Tree Tree
@@ -602,6 +602,8 @@ For example, to represent the following tree, we can use the expression `Node 2 
 1   3
 ```
 
+Edges can be thought of as the number of "links" from a node to its children. Node 2 in the tree above has two edges: {$$}(2, 1){/$$} and {$$}(2, 3){/$$}.
+
 X> ### Exercise 18
 X>
 X> Come up with a few trees by using the type constructors above.
@@ -610,7 +612,7 @@ X> Come up with a few trees by using the type constructors above.
 
 I> ### Definition 7
 I>
-I> The depth of a tree is defined as the number of links between nodes.
+I> The depth of a tree is defined as the number of edges from the node to the root.
 
 We can implement the recursive function `depth` as follows:
 
@@ -620,7 +622,9 @@ depth Leaf         = 0
 depth (Node n l r) = 1 + maximum (depth l) (depth r)
 ```
 
-If we pass a `Tree` to the function `depth`, then Idris will pattern match the types and we can extract the values. For example, in the `Node` case, we pattern match to extract the sub-trees `l` and `r` for further processing. For the `Leaf` case, since it's just an empty leaf there are no links to it. We can approach the proof as follows:
+If we pass a `Tree` to the function `depth`, then Idris will pattern match the types and we can extract the values. For example, in the `Node` case, we pattern match to extract the sub-trees `l` and `r` for further processing. For the `Leaf` case, since it's just an empty leaf there are no links to it.
+
+In order to prove that the `depth` of a tree is greater than or equal to zero, we can approach the proof as follows:
 
 ```
 depth_tree_gt_0 : (tr : Tree) -> GTE (depth tr) 0
@@ -676,7 +680,7 @@ depth_tree_gt_0 (Node v tr1 tr2) = LTEZero {right = 1 + maximum (depth tr1) (dep
 
 And thus, we have proven that the depth of any tree is greater or equal to zero.
 
-### 6.3.2. Map and length
+### 6.3.2. Map and size
 
 We saw how we can use `map` with lists. It would be neat if we had a way to map trees as well. The following definition will allow us to do exactly that:
 
@@ -697,33 +701,33 @@ Node 3 (Node 2 Leaf Leaf) (Node 4 Leaf Leaf) : Tree
 
 I> ### Definition 8
 I>
-I> The length of a tree is defined as the number of nodes.
+I> The size of a tree is defined as the number of nodes.
 
-We will now implement `length_tree` which is supposed to return the total count of all nodes contained in a tree:
+We will now implement `size_tree` which is supposed to return the total count of all nodes contained in a tree:
 
 ```
-length_tree : Tree -> Nat
-length_tree Leaf = 0
-length_tree (Node n l r) = 1 + (length_tree l) + (length_tree r)
+size_tree : Tree -> Nat
+size_tree Leaf = 0
+size_tree (Node n l r) = 1 + (size_tree l) + (size_tree r)
 ```
 
 Trying it with a few trees:
 
 ```
-Idris> length_tree Leaf
+Idris> size_tree Leaf
 0 : Nat
-Idris> length_tree (Node 1 Leaf Leaf)
+Idris> size_tree (Node 1 Leaf Leaf)
 1 : Nat
-Idris> length_tree (Node 1 (Node 2 Leaf Leaf) Leaf)
+Idris> size_tree (Node 1 (Node 2 Leaf Leaf) Leaf)
 2 : Nat
 ```
 
 ### 6.3.3. Length of mapped trees
 
-Now, we want to prove that for a given tree, and _any_ function `f`, the length of that tree will be the same as the length of that tree mapped with the function `f`:
+Now, we want to prove that for a given tree, and _any_ function `f`, the size of that tree will be the same as the size of that tree mapped with the function `f`:
 
 ```
-proof_1 : (tr : Tree) -> (f : Nat -> Nat) -> length_tree tr = length_tree (map_tree f tr)
+proof_1 : (tr : Tree) -> (f : Nat -> Nat) -> size_tree tr = size_tree (map_tree f tr)
 ```
 
 This type definition describes exactly that. We will use proof by cases and pattern match on `tr`:
@@ -747,14 +751,14 @@ Idris> :t i_h
   tr2 : Tree
   f : Nat -> Nat
 --------------------------------------
-i_h : S (plus (length_tree tr1) (length_tree tr2)) =
-      S (plus (length_tree (map_tree f tr1)) (length_tree (map_tree f tr2)))
+i_h : S (plus (size_tree tr1) (size_tree tr2)) =
+      S (plus (size_tree (map_tree f tr1)) (size_tree (map_tree f tr2)))
 ```
 
 For the base case we can just use `Refl`. However, for the inductive hypothesis, we need to do something different. We can try applying the proof recursively to `tr1` and `tr2` respectively:
 
 ```
-proof_1 : (tr : Tree) -> (f : Nat -> Nat) -> length_tree tr = length_tree (map_tree f tr)
+proof_1 : (tr : Tree) -> (f : Nat -> Nat) -> size_tree tr = size_tree (map_tree f tr)
 proof_1 Leaf _             = Refl
 proof_1 (Node v tr1 tr2) f = let IH_1 = proof_1 tr1 f in
                              let IH_2 = proof_1 tr2 f in
@@ -770,11 +774,11 @@ Idris> :t conclusion
   tr1 : Tree
   tr2 : Tree
   f : Nat -> Nat
-  IH_1 : length_tree tr1 = length_tree (map_tree f tr1)
-  IH_2 : length_tree tr2 = length_tree (map_tree f tr2)
+  IH_1 : size_tree tr1 = size_tree (map_tree f tr1)
+  IH_2 : size_tree tr2 = size_tree (map_tree f tr2)
 --------------------------------------
-conclusion : S (plus (length_tree tr1) (length_tree tr2)) =
-             S (plus (length_tree (map_tree f tr1)) (length_tree (map_tree f tr2)))
+conclusion : S (plus (size_tree tr1) (size_tree tr2)) =
+             S (plus (size_tree (map_tree f tr1)) (size_tree (map_tree f tr2)))
 ```
 
 From here, we can just rewrite the hypothesis:
@@ -788,8 +792,8 @@ proof_1 (Node v tr1 tr2) f = let IH_1 = proof_1 tr1 f in
 At this point, we will have:
 
 ```
-conclusion : S (plus (length_tree (map_tree f tr1)) (length_tree (map_tree f tr2))) =
-             S (plus (length_tree (map_tree f tr1)) (length_tree (map_tree f tr2)))
+conclusion : S (plus (size_tree (map_tree f tr1)) (size_tree (map_tree f tr2))) =
+             S (plus (size_tree (map_tree f tr1)) (size_tree (map_tree f tr2)))
 ```
 
 We can just use `Refl` instead of `?conclusion` to finish the proof.
