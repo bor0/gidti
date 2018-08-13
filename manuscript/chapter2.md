@@ -10,7 +10,7 @@ I>     1. A grammar, which is a rule that tells us how we can construct formulas
 I> 1. A set of **axioms**, that is, a starting set that we take for granted without having any proofs for
 I> 1. A set of **inference rules**
 
-After a formal system is defined, other formal systems can extend it. For example, the ZFC set theory is based on first-order logic, which is based on propositional logic which represents a formal system. We'll discuss this theory briefly in the next chapter.
+After a formal system is defined, other formal systems can extend it. For example, set theory is based on first-order logic, which is based on propositional logic which represents a formal system. We'll discuss this theory briefly in the next chapter.
 
 I> ### Definition 2
 I>
@@ -86,6 +86,6 @@ X> ### Exercise 2
 X>
 X> Try to think of a real-world scenario and model it using a formal system, and then try to apply a few of the transformation rules in order to demonstrate how we can get from point A to point B.
 
-[^ch2n1]: Note that this theorem only holds for systems that allow expressing arithmetic of natural numbers (e.g. Peano, ZFC, but first-order logic also has some paradoxes if we allow self-referential statements). We will look into this systems in the next chapter.
+[^ch2n1]: Note that this theorem only holds for systems that allow expressing arithmetic of natural numbers (e.g. Peano, set theory, but first-order logic also has some paradoxes if we allow self-referential statements). We will look into this systems in the next chapter.
 
 [^ch2n2]: After having introduced ourselves to proofs, you will be given an exercise to prove this fact.
