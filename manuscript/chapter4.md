@@ -1,6 +1,6 @@
 # 4. Type theory
 
-There are some type theories that can serve as an alternative foundation of mathematics, as opposed to standard set theory (i.e. ZFC). One such well known type theory is Martin-L&#246;f's intuitionistic theory of types, which is an extension of Alonzo Church's simply typed {$$}\lambda{/$$}-calculus. Before we begin working with Idris, we will get familiar with these theories, upon which Idris is built as a language.
+There are some type theories that can serve as an alternative foundation of mathematics, as opposed to standard set theory. One such well known type theory is Martin-L&#246;f's intuitionistic theory of types, which is an extension of Alonzo Church's simply typed {$$}\lambda{/$$}-calculus. Before we begin working with Idris, we will get familiar with these theories, upon which Idris is built as a language.
 
 I> ### Definition 1
 I>
@@ -174,7 +174,7 @@ X> Think of a way to construct a different sum dependent type, and express it us
 
 ## 4.4. Intuitionistic theory of types
 
-The core "construct" in Idris are types. As we've seen, foundations are based on type theory. As we've also seen, in classic mathematical logic we have sets and propositions, according to the ZFC set theory.
+The core "construct" in Idris are types. As we've seen, foundations are based on type theory. As we've also seen, in classic mathematical logic we have sets and propositions, according to set theory.
 
 The intuitionistic theory of types (or constructive type theory) offers an alternative foundation to mathematics. This theory was introduced by Martin-L&#246;f, a swedish mathematician in 1972. It is based on the isomorphism (or "equality") that propositions are types. We will cover this in details in 5.2, after introducing Idris's syntax.
 

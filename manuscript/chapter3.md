@@ -6,7 +6,7 @@ We will give a short introduction to two theories that are relevant to this chap
 
 I> ### Definition 1
 I>
-I> The ZFC set theory, named after mathematicians Ernst Zermelo and Abraham Fraenkel, is a type of a formal system. The C stands for choice, after the axiom of choice[^ch3n1]. ZFC is the most common **foundation of mathematics**. It is a branch of mathematical logic that works with **sets**, which are collections of objects. It consists of 9 axioms, but we will not introduce them as they are out of scope for this book.
+I> Set theory is a type of a formal system, which is the most common **foundation of mathematics**. It is a branch of mathematical logic that works with **sets**, which are collections of objects.
 
 I> ### Definition 2
 I>
@@ -128,7 +128,7 @@ For example if {$$}A = \{ a, b \}{/$$} and {$$}B = \{ 1, 2, 3 \}{/$$} then the c
 
 I> ### Definition 15
 I>
-I> **Functions** are defined in terms of relations[^ch3n2]. A binary (2-tuple) set {$$}F{/$$} represents a mapping[^ch3n3] from some set {$$}A{/$$} to some set {$$}B{/$$}, where {$$}F{/$$} is a subset of the Cartesian product of {$$}A{/$$} and {$$}B{/$$}. That is, a function {$$}f{/$$} from {$$}A{/$$} to {$$}B{/$$} is denoted {$$}f : A \to B{/$$} and is a subset of {$$}F{/$$}, i.e. {$$}f \subseteq F{/$$}. There is one more constraint that functions have, namely, that they cannot produce 2 or more different values for a single input.
+I> **Functions** are defined in terms of relations[^ch3n1]. A binary (2-tuple) set {$$}F{/$$} represents a mapping[^ch3n2] from some set {$$}A{/$$} to some set {$$}B{/$$}, where {$$}F{/$$} is a subset of the Cartesian product of {$$}A{/$$} and {$$}B{/$$}. That is, a function {$$}f{/$$} from {$$}A{/$$} to {$$}B{/$$} is denoted {$$}f : A \to B{/$$} and is a subset of {$$}F{/$$}, i.e. {$$}f \subseteq F{/$$}. There is one more constraint that functions have, namely, that they cannot produce 2 or more different values for a single input.
 
 For example, the function {$$}f(x) = x + 1{/$$} is a function that, given a number, returns it increased by one. So {$$}f(1) = 2{/$$}, {$$}f(2) = 3{/$$}, etc. Another way to represent this function is using the 2-tuple set: {$$}f = \{ (1, 2), (2, 3), (3, 4), \ldots \}{/$$}.
 
@@ -254,7 +254,7 @@ In order to prove a goal of a given form:
 | {$$}P \leftrightarrow Q{/$$} | Prove both {$$}P \to Q{/$$} and {$$}Q \to P{/$$} |
 | {$$}\forall x P(x){/$$} | Assume that {$$}x{/$$} is an arbitrary object and prove that {$$}P(x){/$$} |
 | {$$}\exists x P(x){/$$} | Find an {$$}x{/$$} such that {$$}P(x){/$$} is true |
-| {$$}\exists! x P(x){/$$}[^ch3n4] | Prove {$$}\exists x P(x){/$$} (existence) and |
+| {$$}\exists! x P(x){/$$}[^ch3n3] | Prove {$$}\exists x P(x){/$$} (existence) and |
 | | {$$}\forall x \forall y (P(x) \land P(y) \to x = y){/$$} (uniqueness) separately |
 
 In order to use a given of form:
@@ -327,10 +327,8 @@ X> ### Exercise 14
 X>
 X> Prove that {$$}2^n - 3{/$$} is not divisible by 3. Hint: Use {$$}n = 2{/$$} as the base case.
 
-[^ch3n1]: This axiom states that the Cartesian product of non-empty sets is non-empty.
+[^ch3n1]: It is worth noting that in set theory, {$$}P{/$$} would be a subset of a relation, i.e. {$$}P \subseteq A \times \{ T, F \}{/$$}, where {$$}A{/$$} is a set of some inputs, for example `Salad` and `Rock` in the example. When working with other systems we need to be careful, as this is not the case with first-order logic. In the case of first-order logic, we have {$$}P(Salad) = \top{/$$}, {$$}P(Rock) = \bot{/$$}, etc as atomic statements, not mathematical functions (i.e. they cannot be broken down into smaller statements). This is what makes first-order logic independent of set theory.
 
-[^ch3n2]: It is worth noting that in set theory, {$$}P{/$$} would be a subset of a relation, i.e. {$$}P \subseteq A \times \{ T, F \}{/$$}, where {$$}A{/$$} is a set of some inputs, for example `Salad` and `Rock` in the example. When working with other systems we need to be careful, as this is not the case with first-order logic. In the case of first-order logic, we have {$$}P(Salad) = \top{/$$}, {$$}P(Rock) = \bot{/$$}, etc as atomic statements, not mathematical functions (i.e. they cannot be broken down into smaller statements). This is what makes first-order logic independent of set theory.
+[^ch3n2]: In other words, a function is a subset of all combinations of ordered pairs whose first element is an element of {$$}A{/$$} and second element is an element of {$$}B{/$$}.
 
-[^ch3n3]: In other words, a function is a subset of all combinations of ordered pairs whose first element is an element of {$$}A{/$$} and second element is an element of {$$}B{/$$}.
-
-[^ch3n4]: The notation {$$}\exists!{/$$} stands for unique existential quantifier. It means that **only one** object fulfills the predicate, as opposed to {$$}\exists{/$$}, which states that **at least one** object fulfills the predicate.
+[^ch3n3]: The notation {$$}\exists!{/$$} stands for unique existential quantifier. It means that **only one** object fulfills the predicate, as opposed to {$$}\exists{/$$}, which states that **at least one** object fulfills the predicate.
