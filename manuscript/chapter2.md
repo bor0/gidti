@@ -2,27 +2,11 @@
 
 All engineering disciplines involve some usage of logic. The foundations of Idris, as we will see later, are based on a system that implements (or encodes) classic mathematical logic so that we can easily "map" this logic and its inference rules to computer programs.
 
-We will give a short introduction to two theories that are relevant to this chapter.
-
-I> ### Definition 1
-I>
-I> Set theory is a type of a formal system, which is the most common **foundation of mathematics**. It is a branch of mathematical logic that works with **sets**, which are collections of objects.
-
-I> ### Definition 2
-I>
-I> Peano's axioms is a system of axioms that describes the natural numbers. It consists of 9 axioms, but we will name only a few:
-I>
-I> 1. 0 (zero) is a natural number
-I> 1. For every number {$$}x{/$$}, we have that {$$}S(x){/$$} is a natural number, namely the successor function
-I> 1. For every number {$$}x{/$$}, we have that {$$}x = x{/$$}, namely that equality is reflexive
-
-We will discuss these concepts next in a bit more details.
-
 ## 2.1. Hierarchy of mathematical logic and definitions
 
 At its core, mathematical logic deals with mathematical concepts expressed using formal logical systems. In this section we'll take a look at the hierarchy of these logical systems. The reason why we have different levels of hierarchies is that at each level we have more power in expressiveness. Further, these logical systems are what will allow us to produce proofs.
 
-I> ### Definition 3
+I> ### Definition 1
 I>
 I> The propositional branch of logic is concerned with the study of **propositions**, which are statements that are either {$$}\top{/$$} (true) or {$$}\bot{/$$} (false). Propositions are formed by other propositions with the use of logical connectives. The most basic logical connectives are {$$}\land{/$$} (and), {$$}\lor{/$$} (or), {$$}\to{/$$} (implication), and {$$}\lnot{/$$} (negation). These are their values:
 I>
@@ -43,13 +27,13 @@ In other words:
 We can also use variables to represent statements. For example, we can say `a = Salad is organic`, and thus {$$}a{/$$} is a true statement. Another statement is `a = Rock is organic`, and thus {$$}a{/$$} is a false statement. The statement `a = Hi there!` is neither a true nor a false statement, and thus
 is not a proposition.
 
-I> ### Definition 4
+I> ### Definition 2
 I>
 I> An argument is a list of propositions. An argument is valid iff in the case where all of the propositions are true, the conclusion is also true.
 
 For example, given the two propositions {$$}a \lor b{/$$} and {$$}\lnot b{/$$}, we can conclude {$$}a{/$$}.
 
-I> ### Definition 5
+I> ### Definition 3
 I>
 I> The first-order logic logical system extends propositional logic by additionally covering **predicates** and **quantifiers**. A predicate {$$}P(x){/$$} takes as an input {$$}x{/$$}, and produces either true or false as an output. There are two quantifiers introduced: {$$}\forall{/$$} (universal quantifier) and {$$}\exists{/$$} (existential quantifier).
 
@@ -57,13 +41,25 @@ One example of a predicate is `P(x) = x is organic`, with {$$}P(Salad) = \top{/$
 
 In the following example the universal quantifier says that the predicate will hold for **all** possible choices of {$$}x{/$$}: {$$}\forall x P(x){/$$}. Alternatively, the existential quantifier says that the predicate will hold for **at least one** choice of {$$}x{/$$}: {$$}\exists x P(x){/$$}.
 
+I> ### Definition 4
+I>
+I> Set theory is a type of a formal system, which is the most common **foundation of mathematics**. It is a branch of mathematical logic that works with **sets**, which are collections of objects.
+
 Another example of combining a predicate with the universal quantifier is `P(x) = x is a mammal`, then {$$}\forall x P(x){/$$} is true, for all {$$}x{/$$} ranging over the set of humans.
 
-I> ### Definition 6
+I> ### Definition 5
 I>
 I> The higher-order logical system [second-order logic, third-order-logic, ..., higher-order (nth-order) logic] extends the quantifiers that range over individuals.
 
 For example, the second-order logic quantifies over sets. Third-order logic quantifies over sets of sets, and so on.
+
+I> ### Definition 6
+I>
+I> Peano's axioms is a system of axioms that describes the natural numbers. It consists of 9 axioms, but we will name only a few:
+I>
+I> 1. 0 (zero) is a natural number
+I> 1. For every number {$$}x{/$$}, we have that {$$}S(x){/$$} is a natural number, namely the successor function
+I> 1. For every number {$$}x{/$$}, we have that {$$}x = x{/$$}, namely that equality is reflexive
 
 I> ### Definition 7
 I>
