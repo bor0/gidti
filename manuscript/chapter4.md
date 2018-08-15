@@ -222,7 +222,7 @@ X> Write a lambda function that returns `True` if the parameter passed to it is 
 
 ### 4.1.4. Recursive functions
 
-By Definition 18 of chapter 2, recursive functions are those functions that refer to themselves. One example is the function `even : Nat -> Bool`, a function that checks if a natural number is even or not. It can be defined as follows:
+By Definition 18 of Chapter 2, recursive functions are those functions that refer to themselves. One example is the function `even : Nat -> Bool`, a function that checks if a natural number is even or not. It can be defined as follows:
 
 ```
 even : Nat -> Bool
@@ -520,7 +520,7 @@ X> Find out a few binary operators for `Nat` by searching `Nat -> Nat -> Nat`, a
 
 ### 4.1.10. Dependent types
 
-We will implement the `List n` data type that we discussed in section 4.3, which should limit the length of a list at the type level. To not conflict with the built-in Idris' `List`, we'll name it `MyList`. We can implement it as follows:
+We will implement the `List n` data type that we discussed in Section 4.3, which should limit the length of a list at the type level. To not conflict with the built-in Idris' `List`, we'll name it `MyList`. We can implement it as follows:
 
 ```
 data MyList : (n : Nat) -> Type where
@@ -764,7 +764,7 @@ X> ### Exercise 23
 X>
 X> Given `data Or a b = Or_introl a | Or_intror b`, show that {$$}a \to (a \lor b){/$$} and {$$}b \to (a \lor b){/$$}.
 X>
-X> Hint: Check the documentation of `the` with `:doc the`, and use it with the type constructors. Programs are proofs, and types are the theorems proven. You may want to come back to this exercise after you finish reading chapter 5.
+X> Hint: Check the documentation of `the` with `:doc the`, and use it with the type constructors. Programs are proofs, and types are the theorems proven. You may want to come back to this exercise after you finish reading Chapter 5.
 
 ## 4.3. IO
 
