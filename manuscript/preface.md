@@ -6,7 +6,7 @@ I was always curious to understand how things work. As a result, I became very i
 
 I will consider this book successful if it provides you with some additional knowledge. I tried to write this book so that the definitions and examples provided in it show how different pieces of the puzzle are connected to each other.
 
-Feel free to contact me at buritomath@gmail.com for any questions you might have, and I will do my best to answer. You can also access my blog at https://bor0.wordpress.com to check out some of my latest work.
+Feel free to contact me at buritomath@gmail.com for any questions you might have, and I will do my best to answer. You can also access my blog at bor0.wordpress.com to check out some of my latest work.
 
 Finally, thank you for purchasing this book! I hope that you will learn new techniques reading this book, and that it will spark up some more interests for logic, dependent types, and type theory.
 

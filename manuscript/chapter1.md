@@ -36,12 +36,12 @@ I> ### Definition 4
 I>
 I> We're given a starting string `MI`, combined with a few inference rules, or transformation rules:
 I>
-I> | **No.** | **Rule**                   | **Description**                              | **Example**        |
-I> | ------- | -------------------------- | -------------------------------------------- | ------------------ |
-I> | 1       | x`I` {$$}\to{/$$} x`IU`    | Add `U` at the end of a string ending in `I` | `MI` to `MIU`      |
-I> | 2       | `M`x {$$}\to{/$$} M`xx`    | Double the string after `M`                  | `MIU` to `MIUIU`   |
-I> | 3       | x`III`y {$$}\to{/$$} x`U`y | Replace `III` inside a string with `U`       | `MUIIIU` to `MUUU` |
-I> | 4       | x`UU`y {$$}\to{/$$} xy     | Remove `UU` from inside a string             | `MUUU` to `MU`     |
+I> | **No.** | **Rule**                   | **Description**                        | **Example**        |
+I> | ------- | -------------------------- | -------------------------------------- | ------------------ |
+I> | 1       | x`I` {$$}\to{/$$} x`IU`    | Append `U` at a string ending in `I`   | `MI` to `MIU`      |
+I> | 2       | `M`x {$$}\to{/$$} M`xx`    | Double the string after `M`            | `MIU` to `MIUIU`   |
+I> | 3       | x`III`y {$$}\to{/$$} x`U`y | Replace `III` inside a string with `U` | `MUIIIU` to `MUUU` |
+I> | 4       | x`UU`y {$$}\to{/$$} xy     | Remove `UU` from inside a string       | `MUUU` to `MU`     |
 I>
 
 The `x` in the inference rules stands for any symbol(s). For example, `MI` matches rule 2 for `x = I`, and it can also match rule 1 for `x = M`. Another example is `MII` that matches rule 2 for `x = II`, and rule 1 for `x = MI`.
