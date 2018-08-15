@@ -4,7 +4,7 @@ Software proof of correctness is a proof that the software is functioning accord
 
 Idris is a general purpose functional programming[^ch1n1] language that supports dependent types. The features of Idris are influenced by Haskell, another general purpose functional programming language. However, Haskell does not support dependent types. Idris shares many features with the programming language Haskell, especially in the part of syntax and types, where Idris has a more advanced type system. There are several other programming languages that have support for dependent types[^ch1n2], however, I chose Idris for its very readable syntax.
 
-The first version of Idris was released in 2009 and is developed by The Idris Community. Seen as a programming language, it is a functional language implemented with dependent types. Seen as a logical system, it implements intuitionistic type theory, which we will cover in details in the following chapters. We will show how these two views relate to each other in section 5.2, with the Curry-Howard correspondence.
+The first version of Idris was released in 2009 and is developed by The Idris Community. Seen as a programming language, it is a functional language implemented with dependent types. Seen as a logical system, it implements intuitionistic type theory, which we will cover in details in the following chapters. We will show how these two views relate to each other in section 4.2, with the Curry-Howard correspondence.
 
 Idris allows us to express mathematical statements. By mechanically examining these statements, it helps us find formal proof of the program's formal specification.
 
