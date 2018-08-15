@@ -41,19 +41,15 @@ One example of a predicate is `P(x) = x is organic`, with {$$}P(Salad) = \top{/$
 
 In the following example the universal quantifier says that the predicate will hold for **all** possible choices of {$$}x{/$$}: {$$}\forall x P(x){/$$}. Alternatively, the existential quantifier says that the predicate will hold for **at least one** choice of {$$}x{/$$}: {$$}\exists x P(x){/$$}.
 
-I> ### Definition 4
-I>
-I> Set theory is a type of a formal system, which is the most common **foundation of mathematics**. It is a branch of mathematical logic that works with **sets**, which are collections of objects.
-
 Another example of combining a predicate with the universal quantifier is `P(x) = x is a mammal`, then {$$}\forall x P(x){/$$} is true, for all {$$}x{/$$} ranging over the set of humans.
 
-I> ### Definition 5
+I> ### Definition 4
 I>
 I> The higher-order logical system [second-order logic, third-order-logic, ..., higher-order (nth-order) logic] extends the quantifiers that range over individuals.
 
 For example, the second-order logic quantifies over sets. Third-order logic quantifies over sets of sets, and so on.
 
-I> ### Definition 6
+I> ### Definition 5
 I>
 I> Peano's axioms is a system of axioms that describes the natural numbers. It consists of 9 axioms, but we will name only a few:
 I>
@@ -61,14 +57,14 @@ I> 1. 0 (zero) is a natural number
 I> 1. For every number {$$}x{/$$}, we have that {$$}S(x){/$$} is a natural number, namely the successor function
 I> 1. For every number {$$}x{/$$}, we have that {$$}x = x{/$$}, namely that equality is reflexive
 
-I> ### Definition 7
+I> ### Definition 6
 I>
 I> The ninth axiom in Peano's axioms is the induction axiom. It states the following: if {$$}P{/$$} is a predicate where {$$}P(0){/$$} is true, and for every {$$}P(n){/$$} we can prove that {$$}P(n+1){/$$}, then {$$}P(n){/$$} is true for all natural numbers.
 
 Peano's axioms are expressed using a combination of first-order and second-order logic. This concept consists of a set of axioms for the natural numbers, and all of them are statements in first-order logic. An exception of this is the induction axiom, which is in second-order since it quantifies over predicates. The base axioms can be augmented with arithmetical operations of addition, multiplication and the order relation, which can also be
 defined using first-order axioms.
 
-I> ### Definition 8
+I> ### Definition 7
 I>
 I> The turnstile symbol is similar to implication. It is denoted as {$$}\Gamma \vdash A{/$$}, where {$$}\Gamma{/$$} is a set of statements and {$$}A{/$$} is a conclusion. It is {$$}\top{/$$} iff it is impossible for all statements in {$$}\Gamma{/$$} to be {$$}\top{/$$}, and {$$}A{/$$} to be {$$}\bot{/$$}. In the Metamath appendix we'll cover an interesting difference between implication and this symbol.
 
@@ -81,6 +77,10 @@ X>
 X> Think of a real-world predicate and express the truthness of it using the {$$}\forall{/$$} and {$$}\exists{/$$} symbols.
 
 ## 2.2. Set theory abstractions
+
+I> ### Definition 8
+I>
+I> Set theory is a type of a formal system, which is the most common **foundation of mathematics**. It is a branch of mathematical logic that works with **sets**, which are collections of objects.
 
 Like in programming, building abstractions in mathematics is of equal importance. However, the best way to understand something is to get to the bottom of it. We'll start by working from the lowest level to the top. So we will start with the most basic object (the unordered collection) and work our way up to defining functions. Functions are an important core concept of Idris, however, as we will see in the theory that Idris relies on, functions are used as a primitive notion (an axiom) instead of being built on top of something else.
 
@@ -230,7 +230,7 @@ For example, to prove the statement {$$}A \land B \to B{/$$}, we can approach as
 | {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\top{/$$} |
 | {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$} |
 
-Note that wherever {$$}A \land B{/$$} is true, then so is {$$}A \land B \to B{/$$}, which means that this is a valid logical argument, according to Definition 4.
+Note that wherever {$$}A \land B{/$$} is true, then so is {$$}A \land B \to B{/$$}, which means that this is a valid logical argument, according to Definition 2.
 
 However, if our statements involve the use of quantifiers, then doing proofs with truth tables is impossible. Therefore, we will try to prove the same statement by means of a formal proof.
 
