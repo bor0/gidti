@@ -23,7 +23,7 @@ add_1 : Nat -> Nat
 add_1 x = x + 1
 ```
 
-With the code above we're defining a function {$$}f(x) = x + 1{/$$}, where {$$}x{/$$} is natural number and {$$}f(x){/$$} (the result) is also a natural number[^ch5n1]. The first line `add_1 : Nat -> Nat` specifies the type of our function, that is, it is a function that takes a natural number and returns a natural number. The second line, `add_1 x = x + 1` is the definition of the function, which states that if `add_1` is called with a number `x`, the result would be `x + 1`. As can be seen by the example, every function has to be provided a type definition. We can interact as follows once in REPL mode:
+With the code above we're defining a function {$$}f(x) = x + 1{/$$}, where {$$}x{/$$} is natural number and {$$}f(x){/$$} (the result) is also a natural number[^ch4n1]. The first line `add_1 : Nat -> Nat` specifies the type of our function, that is, it is a function that takes a natural number and returns a natural number. The second line, `add_1 x = x + 1` is the definition of the function, which states that if `add_1` is called with a number `x`, the result would be `x + 1`. As can be seen by the example, every function has to be provided a type definition. We can interact as follows once in REPL mode:
 
 ```
 Idris> add_1 5
@@ -357,7 +357,7 @@ X> Hint: The type is `sum' : MyList Nat -> Nat`.
 
 ### 4.1.6. Interfaces and implementations
 
-Interfaces are defined using the `interface` keyword, and they allow us to add constraints to functions that implements them[^ch5n2]. As an example, we'll take a look at the `Eq` interface:
+Interfaces are defined using the `interface` keyword, and they allow us to add constraints to functions that implements them[^ch4n2]. As an example, we'll take a look at the `Eq` interface:
 
 ```
 interface Eq a where
@@ -455,7 +455,7 @@ I> ### Definition 4
 I>
 I> Lazy evaluation means that parameters are evaluated only when necessary. Conversely, strict evaluation means that all parameters are evaluated on a function call. As an example:
 
-Idris evaluates parameters in a strict fashion[^ch5n3]. For example, let's take a look at the following function:
+Idris evaluates parameters in a strict fashion[^ch4n3]. For example, let's take a look at the following function:
 
 ```
 ifThenElse : Bool -> a -> a -> a
@@ -865,8 +865,8 @@ X> main = do
 X>     putStrLn ("The number is: " ++ (<??> 12345))
 X> ```
 
-[^ch5n1]: It is worth noting that in Haskell we have types and kinds. Kinds are similar to types, that is, they are defined as one level above types in simply typed lambda calculus. For example, types such as `Nat` have a kind `Nat :: *` and it's stated that `Nat` is of kind `*`. Types such as `Nat -> Nat` have a kind of `* -> *`. Since in Idris types are first-class citizens, there is no distinction between types and kinds.
+[^ch4n1]: It is worth noting that in Haskell we have types and kinds. Kinds are similar to types, that is, they are defined as one level above types in simply typed lambda calculus. For example, types such as `Nat` have a kind `Nat :: *` and it's stated that `Nat` is of kind `*`. Types such as `Nat -> Nat` have a kind of `* -> *`. Since in Idris types are first-class citizens, there is no distinction between types and kinds.
 
-[^ch5n2]: This is equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.
+[^ch4n2]: This is equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.
 
-[^ch5n3]: In contrast, the default behaviour in Haskell is lazy evaluation.
+[^ch4n3]: In contrast, the default behaviour in Haskell is lazy evaluation.
