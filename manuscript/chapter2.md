@@ -179,7 +179,7 @@ We can use the following proof to claim that {$$}1 = 3{/$$}:
 1. {$$}1 = 2{/$$} and {$$}2 = 3{/$$} (from 1 and 2 combined)
 1. {$$}1 = 3{/$$}, from 3 and the inference rule
 
-We know that in general, {$$}1 = 3{/$$} does not make any sense. But, in the context of the givens above, this proof is valid.
+We know that in general, {$$}1 = 3{/$$} does not make any sense. But, in the context of the given above, this proof is valid.
 
 X> ### Exercise 10
 X>

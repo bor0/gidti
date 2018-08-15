@@ -27,7 +27,7 @@ X> Evaluate `the Nat 3` and `the Integer 3` and note the differences. Afterwards
 
 ## 5.1. Weekdays
 
-In this section we will introduce a way to represent weekdays, and then do some proofs with them.
+In this section we will introduce a way to represent weekdays and then do some proofs with them.
 
 We start with the following data structure, for weekdays:
 
@@ -69,7 +69,7 @@ Idris> :t prf
 prf : Tue = Tue
 ```
 
-Checking the type of `prf`, we notice how Idris evaluated the left part of the equation at compile-time. In order to prove that `Tue = Tue`, we can just use `Refl`:
+Checking the type of `prf` we notice how Idris evaluated the left part of the equation at compile-time. In order to prove that `Tue = Tue`, we can just use `Refl`:
 
 ```
 our_first_proof : next_day Mon = Tue
@@ -87,15 +87,15 @@ The type check was successful. Per the Curry-Howard isomorphism, this means that
 
 X> ### Exercise 3
 X>
-X> Remove one or more pattern match definitions of `next_day` and observe the error that Idris will produce. Afterwards, alter the function to not be total, and observe the error.
+X> Remove one or more pattern match definitions of `next_day` and observe the error that Idris will produce. Afterwards, alter the function, so that it is not total anymore, and observe the error.
 
 X> ### Exercise 4
 X>
-X> Implement `prev_day` and prove that before Monday comes Sunday.
+X> Implement `prev_day` and prove that Sunday comes before Monday.
 
 ### 5.1.2. Second proof (rewrite)
 
-In addition to the previous proof, we'll implement a function that accepts a `Weekday` and returns `True` if it's Monday, and `False` otherwise.
+In addition to the previous proof, we'll implement a function that accepts a `Weekday` and returns `True` if it's Monday and `False` otherwise.
 
 ```
 is_it_monday : Weekday -> Bool
@@ -103,19 +103,19 @@ is_it_monday Mon = True
 is_it_monday _   = False
 ```
 
-For the sake of example, we will prove that for any given day, if it's Monday then `is_it_monday` will return `True`, and `False` otherwise. It's obvious from the definition of `is_it_monday`, but proving that is a whole different story. The type definition that we need to prove is:
+For the sake of example, we will prove that for any given day, if it's Monday then `is_it_monday` will return `True` and `False` otherwise. It's obvious from the definition of `is_it_monday`, but proving that is a whole different story. The type definition that we need to prove is:
 
 ```
 our_second_proof : (day : Weekday) -> day = Mon -> is_it_monday day = True
 ```
 
-We gave a name of the first parameter `day : Weekday` so that we can refer to it in the rest of the type definition. The second parameter says that `day = Mon`, and the return value is `is_it_monday day = True`. We can treat the first and the second parameter as givens, since we are allowed to assume them (per definition of implication). With that, we proceed to the function definition:
+We gave a name of the first parameter `day : Weekday`, so that we can refer to it in the rest of the type definition. The second parameter says that `day = Mon` and the return value is `is_it_monday day = True`. We can treat the first and the second parameter as given, since we are allowed to assume them (per definition of implication). With that, we proceed to the function definition:
 
 ```
 our_second_proof day day_eq_Mon = Refl
 ```
 
-In this definition, `day` and `day_eq_Mon` are our assumptions (givens). If we run this code in Idris, it will produce an error at compile-time since it cannot deduce that `True` is equal to `is_it_monday day`. In the previous proof example, Idris was able to infer everything from the definitions at compile-time. However, at this point we need to help Idris do the inference since it cannot derive the proof based only on the definitions. We can change the `Refl` to a hole `?prf`:
+In this definition, `day` and `day_eq_Mon` are our assumptions (given). If we run this code in Idris, it will produce an error at compile-time since it cannot deduce that `True` is equal to `is_it_monday day`. In the previous proof example, Idris was able to infer everything from the definitions at compile-time. However, at this point we need to help Idris do the inference since it cannot derive the proof based only on the definitions. We can change the `Refl` to a hole `?prf`:
 
 ```
   day : Weekday
@@ -124,9 +124,9 @@ In this definition, `day` and `day_eq_Mon` are our assumptions (givens). If we r
 prf : is_it_monday day = True
 ```
 
-Note how checking the type of the hole lists the given(s) (above the separator), and our goal(s) (below the separator). We see that along with `prf` we also get `day` and `day_eq_Mon` in the list of givens, per the left hand side of the function definition of `our_second_proof`.
+Note how checking the type of the hole lists the given/premises (above the separator), and our goal(s) (below the separator). We see that along with `prf` we also get `day` and `day_eq_Mon` in the list of given, per the left hand side of the function definition of `our_second_proof`.
 
-Q> How do we replace something we have in the givens, with the goal?
+Q> How do we replace something we have in the given, with the goal?
 Q>
 Q> If we only had a way to tell Idris that it just needs to replace `day` with `day = Mon` to get to `is_it_monday Mon = True`, it will be able to infer the rest.
 
@@ -198,11 +198,11 @@ our_third_proof : is_it_monday Tue = True -> Void
 our_third_proof Refl impossible
 ```
 
-With this syntax, we're telling Idris that the reflexivity of `False = True` is impossible, and thus the proof is complete.
+With this syntax, we're telling Idris that the reflexivity of `False = True` is impossible and thus the proof is complete.
 
 X> ### Exercise 7
 X>
-X> Check the documentation of `Void`, and try to implement `Void'` yourself. Rewrite the proof above to use `Void'` instead of `Void`.
+X> Check the documentation of `Void` and try to implement `Void'` yourself. Rewrite the proof above to use `Void'` instead of `Void`.
 
 X> ### Exercise 8
 X>
@@ -212,7 +212,7 @@ X> Hint: The type is `1 = 2 -> Void`
 
 ## 5.2. Natural numbers
 
-As we've seen, natural numbers are very powerful. In this section we will prove facts about them, and also do a bit of induction. Recall that a natural number is defined either as zero, or as the successor of a natural number. So, `0, S 0, S (S 0), ...` are the first natural numbers. We will start with the following definitions for natural numbers:
+As we've seen in the previous chapters, natural numbers are very powerful. In this section we will prove facts about them and also do a bit of induction. Recall that a natural number is defined either as zero or as the successor of a natural number. So, `0, S 0, S (S 0), ...` are the first natural numbers. We will start with the following definitions for natural numbers:
 
 ```
 data MyNat = Zero | Succ MyNat
@@ -232,7 +232,7 @@ X> Compare the addition definition to Definition 19 in chapter 2.
 
 We will prove that {$$}0 + a = a{/$$}, given the definitions for natural numbers and addition.
 
-For that, we need to implement a function that accepts a natural number `a`, and returns the proposition that `mynat_plus Zero a = a`.
+For that, we need to implement a function that accepts a natural number `a` and returns the proposition that `mynat_plus Zero a = a`.
 
 ```
 total our_first_proof : (a : MyNat) -> mynat_plus Zero a = a
@@ -241,7 +241,7 @@ our_first_proof a = ?prf
 
 If we check the type of the hole, we get that the goal is `prf : a = a`, so changing the hole to a `Refl` completes the proof. Idris was able to automatically infer the proof by directly substituting definitions.
 
-To prove the existence of a successor, i.e. `Succ x`, per intuitionistic logic we need to construct a pair where the first element is `x`, and the second element is `Succ x`:
+To prove the existence of a successor, i.e. `Succ x`, per intuitionistic logic we need to construct a pair where the first element is `x` and the second element is `Succ x`:
 
 ```
 total our_second_proof : MyNat -> (MyNat, MyNat)
@@ -250,7 +250,7 @@ our_second_proof x = (x, Succ x)
 
 We just proved that {$$}\exists x \in \text{MyNat}, Succ(x){/$$}.
 
-### 5.2.2. Second proof (introduction of new givens)
+### 5.2.2. Second proof (introduction of a new given)
 
 An alternative way to prove that a natural number exists is as follows:
 
@@ -272,7 +272,7 @@ Q> By the definition of `MyNat` we are sure that there exists a type constructor
 
 I> ### Definition 5
 I>
-I> The `let` keyword that we introduced earlier allows us to add a new given to the list of givens.
+I> The `let` keyword that we introduced earlier allows us to add a new given to the list.
 
 We can slightly rewrite our code:
 
@@ -299,7 +299,7 @@ X> Hint: Providing a valid type constructor that satisfies (inhabits) the type i
 
 X> ### Exercise 11
 X>
-X> Construct a proof similar to `our_second_proof` without defining a function for it, and by using the function `the`.
+X> Construct a proof similar to `our_second_proof` without defining a function for it and by using the function `the`.
 
 ### 5.2.3. Third proof (induction)
 
@@ -314,7 +314,7 @@ If we try to run the code above, Idris will produce an error that there is a typ
 
 Q> It seems that we have just about all the definitions we need, but we're missing a piece. How do we re-use our definitions?
 Q>
-Q> To prove that {$$}a + 0 = a{/$$}, we can use mathematical induction starting with the definitions we already have as the base case, and building on top of that until {$$}a + 0 = a{/$$}. That is, we need to prove that {$$}0 + 0 = 0 \to (a - a) + 0 = a - a \to ... \to (a - 1) + 0 = a - 1 \to a + 0 = a{/$$}.
+Q> To prove that {$$}a + 0 = a{/$$}, we can use mathematical induction starting with the definitions we already have as the base case and building on top of that until {$$}a + 0 = a{/$$}. That is, we need to prove that {$$}0 + 0 = 0 \to (a - a) + 0 = a - a \to ... \to (a - 1) + 0 = a - 1 \to a + 0 = a{/$$}.
 
 From here, we rewrite our function to contain a base case and an inductive step:
 
@@ -337,7 +337,7 @@ Idris> :t inductive_hypothesis
 inductive_hypothesis : Succ (mynat_plus k Zero) = Succ k
 ```
 
-For the base case, we can just use `Refl`, but for the inductive step we need to do something different. We need to find a way to assume (add to list of givens) {$$}a + 0 = a{/$$}, and show that {$$}(a + 1) + 0 = a + 1{/$$} follows from that assumption. Since we pattern match on `Succ k`, we can use recursion on `k` along with `let` to generate the hypothesis:
+For the base case we can just use `Refl`, but for the inductive step we need to do something different. We need to find a way to assume (add to list of given) {$$}a + 0 = a{/$$} and show that {$$}(a + 1) + 0 = a + 1{/$$} follows from that assumption. Since we pattern match on `Succ k`, we can use recursion on `k` along with `let` to generate the hypothesis:
 
 ```
 total our_third_proof : (a : MyNat) -> mynat_plus a Zero = a
@@ -345,7 +345,7 @@ our_third_proof Zero     = Refl
 our_third_proof (Succ k) = let inductive_hypothesis = our_third_proof k in ?conclusion
 ```
 
-Our proof givens and goals become:
+Our proof given and goals become:
 
 ```
   k : MyNat
@@ -382,7 +382,7 @@ Idris> :t LTEZero
 LTEZero : LTE 0 right
 ```
 
-So, `LTEZero` does not accept any arguments, but at the type level it can be passed `right`. With the use of implicits, we can construct a very simple proof to show that {$$}0 \leq 1{/$$}:
+So, `LTEZero` does not accept any arguments, but at the type level can be passed `right`. With the use of implicits, we can construct a very simple proof to show that {$$}0 \leq 1{/$$}:
 
 ```
 Idris> LTEZero {right = S Z}
@@ -398,7 +398,7 @@ LTESucc : LTE 0 1 -> LTE 1 2
 
 X> ### Exercise 13
 X>
-X> Check the documentation of `GTE`, and then evaluate `GTE 2 2`. Observe what Idris returns, and think how `GTE` can be implemented in terms of `LTE`.
+X> Check the documentation of `GTE`, and then evaluate `GTE 2 2`. Observe what Idris returns and think how `GTE` can be implemented in terms of `LTE`.
 
 X> ### Exercise 14
 X>
@@ -465,7 +465,7 @@ Idris> divNatNZ 4 0 (SIsNotZ {x = ???})
 4 : Nat
 ```
 
-We cannot construct a proof for the third case, and so it will never be able to divide by zero, which is not allowed anyway.
+We cannot construct a proof for the third case and so it will never be able to divide by zero, which is not allowed anyway.
 
 X> ### Exercise 15
 X>
@@ -567,7 +567,7 @@ our_proof Z (S k) _          = Refl
 our_proof (S k) (S j) a_lt_b = let IH = (our_proof k j (fromLteSucc a_lt_b)) in rewrite IH in Refl
 ```
 
-Or, a more simplified version:
+or a more simplified version:
 
 ```
 total
@@ -678,7 +678,7 @@ depth_tree_gt_0 Leaf             = LTEZero {right = 0}
 depth_tree_gt_0 (Node v tr1 tr2) = LTEZero {right = 1 + maximum (depth tr1) (depth tr2)}
 ```
 
-And thus, we have proven that the depth of any tree is greater or equal to zero.
+Thus, we have proven that the depth of any tree is greater or equal to zero.
 
 ### 5.3.2. Map and size
 
@@ -690,7 +690,7 @@ map_tree _ Leaf             = Leaf
 map_tree f (Node v tr1 tr2) = (Node (f v) (map_tree f tr1) (map_tree f tr2))
 ```
 
-The function `map_tree` accepts a function and a `Tree`, and then returns a modified `Tree` where the function is applied to all values of nodes. In the case of `Leaf`, it just returns `Leaf`, because there's nothing to map to. In the case of a `Node`, we return a new `Node` whose value is applied to the function `f`, and then recursively map over the left and right branches of the node. We can use it as follows:
+The function `map_tree` accepts a function and a `Tree` and then returns a modified `Tree` where the function is applied to all values of nodes. In the case of `Leaf`, it just returns `Leaf`, because there's nothing to map to. In the case of a `Node`, we return a new `Node` whose value is applied to the function `f` and then recursively map over the left and right branches of the node. We can use it as follows:
 
 ```
 Idris> Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf)
@@ -701,7 +701,7 @@ Node 3 (Node 2 Leaf Leaf) (Node 4 Leaf Leaf) : Tree
 
 I> ### Definition 8
 I>
-I> The size of a tree is defined as the number of nodes.
+I> The size of a tree is defined as the sum of the levels of all nodes.
 
 We will now implement `size_tree` which is supposed to return the total count of all nodes contained in a tree:
 
@@ -724,7 +724,7 @@ Idris> size_tree (Node 1 (Node 2 Leaf Leaf) Leaf)
 
 ### 5.3.3. Length of mapped trees
 
-Now, we want to prove that for a given tree, and _any_ function `f`, the size of that tree will be the same as the size of that tree mapped with the function `f`:
+Now, we want to prove that for a given tree and _any_ function `f`, the size of that tree will be the same as the size of that tree mapped with the function `f`:
 
 ```
 proof_1 : (tr : Tree) -> (f : Nat -> Nat) -> size_tree tr = size_tree (map_tree f tr)

@@ -2,7 +2,7 @@
 
 This section is only relevant to programmers that have experience with some of the programming languages: C, JavaScript, C#, PHP, Python. Feel free to skip it, as it will only demonstrate how Idris can interact with these programming languages.
 
-In the following examples we will see how we can compile Idris code. A given program in Idris can be compiled to a binary executable, or a backend for some other programming language. If we decide to compile to a binary executable, then the C backend will be used by default.
+In the following examples we will see how we can compile Idris code. A given program in Idris can be compiled to a binary executable or a backend for some other programming language. If we decide to compile to a binary executable, then the C backend will be used by default.
 
 ## Codegen
 
@@ -21,7 +21,7 @@ The package `IRTS` (which is a collection of modules) is built-in in Idris and i
 
 ## Compilation
 
-In the following examples we will show how Idris generates a binary executable and JavaScript code, as well as the difference between total and partial functions and how Idris handles both cases. We will define a dependent type `Vect` which will allow us to work with lists, and additionally have the length of the list at the type level:
+In the following examples we will show how Idris generates a binary executable and JavaScript code, as well as the difference between total and partial functions and how Idris handles both cases. We will define a dependent type `Vect`, which will allow us to work with lists and additionally have the length of the list at the type level:
 
 ```
 data Vect : Nat -> Type -> Type where
