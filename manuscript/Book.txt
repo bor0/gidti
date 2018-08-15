@@ -2,12 +2,12 @@ preface.md
 acknowledgements.md
 introduction.md
 part1.md
+chapter1.md
 chapter2.md
 chapter3.md
-chapter4.md
 part2.md
+chapter4.md
 chapter5.md
-chapter6.md
 conclusion.md
 further-reading.md
 appendix-a.md
