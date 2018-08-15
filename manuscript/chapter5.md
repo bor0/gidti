@@ -132,7 +132,7 @@ Q> If we only had a way to tell Idris that it just needs to replace `day` with `
 
 I> ### Definition 3
 I>
-I> The `rewrite` keyword can be used to rewrite expressions. If we have `X : x = y`, then the syntax `rewrite X in Y` will replace all occurences of `x` with `y` in `Y`.
+I> The `rewrite` keyword can be used to rewrite expressions. If we have `X : x = y`, then the syntax `rewrite X in Y` will replace all occurrences of `x` with `y` in `Y`.
 
 With the power to do rewrites, we can attempt the proof as follows:
 

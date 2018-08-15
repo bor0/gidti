@@ -74,7 +74,7 @@ X> Come up with a few propositions and combine them using some of the connective
 
 X> ### Exercise 2
 X>
-X> Think of a real-world predicate and express the truthness of it using the {$$}\forall{/$$} and {$$}\exists{/$$} symbols.
+X> Think of a real-world predicate and express the truthiness of it using the {$$}\forall{/$$} and {$$}\exists{/$$} symbols.
 
 ## 2.2. Set theory abstractions
 
@@ -318,7 +318,7 @@ I> {$$}a{/$$} is divisible by {$$}b{/$$} if there exists a natural number {$$}k{
 
 X> ### Exercise 13
 X>
-X> Come up with a predicate, and then prove its truthness using mathematical induction.
+X> Come up with a predicate, and then prove its truthiness using mathematical induction.
 
 X> ### Exercise 14
 X>

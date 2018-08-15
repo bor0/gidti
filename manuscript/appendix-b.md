@@ -2,11 +2,11 @@
 
 This section is only relevant to programmers that have experience with some of the programming languages: C, JavaScript, C#, PHP, Python. Feel free to skip it, as it will only demonstrate how Idris can interact with these programming languages.
 
-In the following examples we will see how we can compile Idris code. A given program in Idris can be compiled to a binary executable or a backend for some other programming language. If we decide to compile to a binary executable, then the C backend will be used by default.
+In the following examples we will see how we can compile Idris code. A given program in Idris can be compiled to a binary executable or a back-end for some other programming language. If we decide to compile to a binary executable, then the C back-end will be used by default.
 
 ## Codegen
 
-The keywords `module` and `import` allow us to specify a name of the current executing code context and load other modules by referring to their names respectively. We can implement our own backend for a given programming language, for which we need to create a so-called Codegen (`CG`) program in Idris. An empty `CG` program would look like this:
+The keywords `module` and `import` allow us to specify a name of the current executing code context and load other modules by referring to their names respectively. We can implement our own back-end for a given programming language, for which we need to create a so-called Codegen (`CG`) program in Idris. An empty `CG` program would look like this:
 
 ```
 module IRTS.CodegenEmpty(codegenEmpty) where
@@ -111,7 +111,7 @@ What is your name? Hi
 Hello Hi
 ```
 
-We get a run-time error from JavaScript. If we do the same with the C backend:
+We get a run-time error from JavaScript. If we do the same with the C back-end:
 
 ```
 boro@bor0:~/Desktop/idris-test$ idris --codegen C test.idr -o test
@@ -125,7 +125,7 @@ What is your name? Hi
 Hello Hi
 ```
 
-It causes a segmentation fault, which is a runtime error. As a conclusion, if we use partial functions then we need to do additional checks in the code to cover the cases for potential run-time errors. Alternatively, if we want to take full advantage of the safety that the type system offers, we should define all functions as total.
+It causes a segmentation fault, which is a run-time error. As a conclusion, if we use partial functions then we need to do additional checks in the code to cover the cases for potential run-time errors. Alternatively, if we want to take full advantage of the safety that the type system offers, we should define all functions as total.
 
 By defining the function `list_to_vect` to be total, we specify that every input has to have an output. All the remaining checks are done at compile-time by Idris and with that we're guaranteed that all callers of this function satisfy the types.
 
