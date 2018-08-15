@@ -8,13 +8,7 @@ The first version of Idris was released in 2009 and is developed by The Idris Co
 
 Idris allows us to express mathematical statements. By mechanically examining these statements, it helps us find formal proof of the program's formal specification.
 
-To fully understand how proofs work in Idris, we will start defining their foundations in the following order:
-
-1. Formal systems
-1. Classical mathematical logic
-1. Lambda calculus
-1. Intuitionistic logic
-1. Type theory (which is a more "up-to-date" version of classical mathematical logic)
+To fully understand how proofs in Idris work, we will start with the foundations, by defining, in order: formal systems, classical mathematical logic, lambda calculus, intuitionistic logic, and type theory (which is a more "up-to-date" version of classical mathematical logic).
 
 [^ch1n1]: The core concept of functional programming languages is a mathematical function.
 
