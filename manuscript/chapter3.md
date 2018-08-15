@@ -1,334 +1,304 @@
-# 3. Classic mathematical logic
+# 3. Type theory
 
-All engineering disciplines involve some usage of logic. The foundations of Idris, as we will see later, are based on a system that implements (or encodes) classic mathematical logic so that we can easily "map" this logic and its inference rules to computer programs.
-
-We will give a short introduction to two theories that are relevant to this chapter.
+There are some type theories that can serve as an alternative foundation of mathematics, as opposed to standard set theory. One such well known type theory is Martin-L&#246;f's intuitionistic theory of types, which is an extension of Alonzo Church's simply typed {$$}\lambda{/$$}-calculus. Before we begin working with Idris, we will get familiar with these theories, upon which Idris is built as a language.
 
 I> ### Definition 1
 I>
-I> Set theory is a type of a formal system, which is the most common **foundation of mathematics**. It is a branch of mathematical logic that works with **sets**, which are collections of objects.
+I> Type theory is defined as a class of formal systems. In these theories, every object is joined with a type, and operations upon these objects are constrained by the joined types. In order to say that {$$}x{/$$} is of type {$$}\text{X}{/$$}, we denote {$$}x : \text{X}{/$$}. Functions are a primitive concept in type theory [^ch4n1].
+
+For example, with {$$}1 : \text{Nat}, 2 : \text{Nat}{/$$} we can say that 1 and 2 are of type {$$}\text{Nat}{/$$}, that is natural numbers. An operation (function) {$$}+ : \text{Nat} \to \text{Nat} \to \text{Nat}{/$$} is interpreted as a function which takes two objects of type {$$}\text{Nat}{/$$} and returns an object of type {$$}\text{Nat}{/$$}.
 
 I> ### Definition 2
 I>
-I> Peano's axioms is a system of axioms that describes the natural numbers. It consists of 9 axioms, but we will name only a few:
-I>
-I> 1. 0 (zero) is a natural number
-I> 1. For every number {$$}x{/$$}, we have that {$$}S(x){/$$} is a natural number, namely the successor function
-I> 1. For every number {$$}x{/$$}, we have that {$$}x = x{/$$}, namely that equality is reflexive
+I> In type theory, a type constructor is a function that builds new types from old ones. This function accepts types and as a result it returns a new type.
 
-We will discuss these concepts next in a bit more details.
-
-## 3.1. Hierarchy of mathematical logic and definitions
-
-At its core, mathematical logic deals with mathematical concepts expressed using formal logical systems. In this section we'll take a look at the hierarchy of these logical systems. The reason why we have different levels of hierarchies is that at each level we have more power in expressiveness. Further, these logical systems are what will allow us to produce proofs.
+Idris supports algebraic data types. These data types are a kind of complex types, that is, types constructed by combining other types. Two classes of algebraic types are **product types** and **sum types**.
 
 I> ### Definition 3
 I>
-I> The propositional branch of logic is concerned with the study of **propositions**, which are statements that are either {$$}\top{/$$} (true) or {$$}\bot{/$$} (false). Propositions are formed by other propositions with the use of logical connectives. The most basic logical connectives are {$$}\land{/$$} (and), {$$}\lor{/$$} (or), {$$}\to{/$$} (implication), and {$$}\lnot{/$$} (negation). These are their values:
+I> Algebraic data types are types where we can additionally specify the form for each of the elements. They are called "algebraic" in the sense that the data types are constructed using algebraic operations. The algebra here is sum and product:
 I>
-I> | {$$}a{/$$} | {$$}b{/$$} | {$$}a \land b{/$$} | {$$}a \lor b{/$$} | {$$}a \to b{/$$} | {$$}\lnot a{/$$} |
-I> | --- | --- | --- | --- | --- | --- |
-I> | {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$} | {$$}\bot{/$$} |
-I> | {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$} |
-I> | {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$} |
-I> | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\top{/$$} |
+I> 1. Sum (union) is alternation. It is denoted as {$$}\text{A | B}{/$$} and it means that the value is either of type A or B, but not both
+I> 1. Product is combination. It is denoted as {$$}\text{A B}{/$$} and it means that the value is a pair where the first element is of type A, and the second element is of type B
 
-In other words:
+As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}\text{Real}{/$$} for real numbers. Now, for the sum (union) we can construct a new type {$$}\text{Nat | Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat | Real}{/$$}, {$$}3.14 : \text{Nat | Real}{/$$}, etc. For the product type, we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 1.5 : \text{Nat Real}{/$$}, {$$}2 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
 
-1. {$$}\top \land \top{/$$} = {$$}\top{/$$}, other combinations are {$$}\bot{/$$}
-1. {$$}\bot \lor \bot{/$$} = {$$}\bot{/$$}, other combinations are {$$}\top{/$$}
-1. {$$}\top \to \bot{/$$} = {$$}\bot{/$$}, other combinations are {$$}\top{/$$}
-1. {$$}\lnot \bot{/$$} = {$$}\top{/$$}, {$$}\lnot \top{/$$} = {$$}\bot{/$$}
+Finally, Idris supports dependent types[^ch4n2]. These kind of types are so powerful, they can encode most properties of programs, and with their help Idris can prove invariants at compile-time. This is what makes Idris a so called proof assistant[^ch4n3]. As we will see in section 4.2, types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software.
 
-We can also use variables to represent statements. For example, we can say `a = Salad is organic`, and thus {$$}a{/$$} is a true statement. Another statement is `a = Rock is organic`, and thus {$$}a{/$$} is a false statement. The statement `a = Hi there!` is neither a true nor a false statement, and thus
-is not a proposition.
+Q> ### Why are types useful?
+Q>
+Q> Russell's paradox (per the mathematician Bertrand Russell) states the following: In a village in which there is only one barber, there is a rule according to which the barber shaves everyone who don't shave themselves, and no-one else. Now, who shaves the barber? In order to attempt to solve the paradox, we can assume that the barber shaves himself. Then, he's one of those who shave themselves, but the barber shaves only those who do not shave themselves, which is a contradiction. Alternatively, if we assume that the barber does not shave himself, then he is in the group of people whom which the barber shaves, which again is a contradiction.
+Q>
+Q> Some set theories are affected by Russell's paradox. As a response to this, between 1902 and 1908, Bertrand Russell himself proposed different type theories an attempt to resolve the issue. By joining types to values, we avoid the paradox because in this theory every set is defined as having elements from a distinct type, for example, {$$}\text{Type 1}{/$$}. Elements from {$$}\text{Type 1}{/$$} can be included in a different set, say, elements of {$$}\text{Type 2}{/$$}, and so forth. Thus, the paradox is no longer an issue since the set of elements of {$$}\text{Type 1}{/$$} cannot be contained in their own set, since the types do not match. In a way, we're adding hierarchy to sets in order to resolve the issue of "self-referential" sets. This is also the case with Idris, where we have that {$$}\text{Type : Type 1 : Type 2}{/$$}, etc.
+Q>
+Q> Thus, for Russell's paradox specifically, if we set the type of a person to be {$$}\text{P}{/$$}, then the list of people would be of type {$$}\text{List P}{/$$}. However, there is no way to express {$$}\{ \text{P} \lvert \text{P} \in \text{P} \}{/$$}, since {$$}\text{List P}{/$$} only contains elements of type {$$}\text{P}{/$$}, and not {$$}\text{List P}{/$$}.
+
+## 3.1. Lambda calculus
+
+We will start this chapter by giving a formal definition of what lambda calculus is, and then we will explain each piece of the formal definition.
 
 I> ### Definition 4
 I>
-I> An argument is a list of propositions. An argument is valid iff in the case where all of the propositions are true, the conclusion is also true.
-
-For example, given the two propositions {$$}a \lor b{/$$} and {$$}\lnot b{/$$}, we can conclude {$$}a{/$$}.
-
-I> ### Definition 5
+I> Lambda calculus is a formal system for expressing computation[^ch4n4].
+I> Per Wikipedia, the set of symbols for this system is defined as:
 I>
-I> The first-order logic logical system extends propositional logic by additionally covering **predicates** and **quantifiers**. A predicate {$$}P(x){/$$} takes as an input {$$}x{/$$}, and produces either true or false as an output. There are two quantifiers introduced: {$$}\forall{/$$} (universal quantifier) and {$$}\exists{/$$} (existential quantifier).
-
-One example of a predicate is `P(x) = x is organic`, with {$$}P(Salad) = \top{/$$}, but {$$}P(Rock) = \bot{/$$}.
-
-In the following example the universal quantifier says that the predicate will hold for **all** possible choices of {$$}x{/$$}: {$$}\forall x P(x){/$$}. Alternatively, the existential quantifier says that the predicate will hold for **at least one** choice of {$$}x{/$$}: {$$}\exists x P(x){/$$}.
-
-Another example of combining a predicate with the universal quantifier is `P(x) = x is a mammal`, then {$$}\forall x P(x){/$$} is true, for all {$$}x{/$$} ranging over the set of humans.
-
-I> ### Definition 6
+I> 1. There are variables {$$}v_1, v_2, \ldots{/$$}
+I> 1. There are only two abstract symbols: {$$}.{/$$} and {$$}\lambda{/$$}
+I> 1. There are parentheses: {$$}({/$$} and {$$}){/$$}
 I>
-I> The higher-order logical system (second-order logic, third-order-logic, ..., higher-order (nth-order) logic) extends the quantifiers that range over individuals.
-
-For example, the second-order logic quantifies over sets. Third-order logic quantifies over sets of sets, and so on.
-
-I> ### Definition 7
+I> The set of grammar rules {$$}\Lambda{/$$} for well-formed expressions is defined as:
 I>
-I> The ninth axiom in Peano's axioms is the induction axiom. It states the following: if {$$}P{/$$} is a predicate where {$$}P(0){/$$} is true, and for every {$$}P(n){/$$} we can prove that {$$}P(n+1){/$$}, then {$$}P(n){/$$} is true for all natural numbers.
+I> 1. If {$$}x{/$$} is a variable, then {$$}x \in \Lambda{/$$}
+I> 1. If {$$}x{/$$} is a variable and {$$}M \in \Lambda{/$$}, then {$$}(\lambda x.M) \in \Lambda{/$$} (rule of abstraction)
+I> 1. If {$$}M, N \in \Lambda{/$$}, then {$$}(M \ N) \in \Lambda{/$$} (rule of application)
 
-Peano's axioms are expressed using a combination of first-order and second-order logic. This concept consists of a set of axioms for the natural numbers, and all of them are statements in first-order logic. An exception of this is the induction axiom, which is in second-order since it quantifies over predicates. The base axioms can be augmented with arithmetical operations of addition, multiplication and the order relation, which can also be
-defined using first-order axioms.
+Abstraction is when we define a function to which no arguments are applied, that is, there are no function calls. Application is when we apply arguments to some defined function.
 
-I> ### Definition 8
-I>
-I> The turnstile symbol is similar to implication. It is denoted as {$$}\Gamma \vdash A{/$$}, where {$$}\Gamma{/$$} is a set of statements and {$$}A{/$$} is a conclusion. It is {$$}\top{/$$} iff it is impossible for all statements in {$$}\Gamma{/$$} to be {$$}\top{/$$}, and {$$}A{/$$} to be {$$}\bot{/$$}. In the Metamath appendix we'll cover an interesting difference between implication and this symbol.
+Some well-formed expressions are {$$}\lambda f \ x . f \ x{/$$} and {$$}\lambda f \ x . f \ (f \ x){/$$}. In fact, we can encode numbers this way. The first example can be thought of as the number one, and the second as the number two. This encoding is known as the Church encoding. Operations on numbers (plus, minus, etc) can also be defined in a similar way. With the {$$}\lambda{/$$} symbol we begin an abstraction and with the {$$}.{/$$} symbol we separate the abstraction from the function body. In other words, 1 is defined roughly as {$$}f(x){/$$}, and 2 as {$$}f(f(x)){/$$}. Note that {$$}f{/$$} and {$$}x{/$$} do not have special definitions, they are abstract objects.
 
 X> ### Exercise 1
 X>
-X> Come up with a few propositions and combine them using some of the connectives explained above.
+X> Convince yourself that the expression {$$}\lambda f \ x . f \ x{/$$} is a well-formed expression by writing down each one of the grammar rules used.
+
+### 3.1.1. Terms reduction
+
+I> ### Definition 5
+I>
+I> There are two types of variables in the Lambda calculus: free and bound. Bound variables are those who appear within the {$$}\lambda{/$$} abstraction. Analogously, free variables are those who do not appear in the {$$}\lambda{/$$} abstraction.
+
+For example, in the expression {$$}\lambda y . x \ y{/$$} we have that {$$}y{/$$} is a bound variable, and {$$}x{/$$} is a free one.
+
+I> ### Definition 6
+I>
+I> The rules of terms reduction allow us to compute (simplify) lambda expressions. There are three types of reduction:
+I>
+I> 1. {$$}\alpha{/$$} - (alpha) reduction: Renaming bound variables
+I> 1. {$$}\beta{/$$} - (beta) reduction: Applying arguments to functions
+I> 1. {$$}\eta{/$$} - (eta) reduction: Two functions are "equal" iff they return the same result for all arguments
+
+For example, for the expression {$$}(\lambda x . f \ x) \ y{/$$}, we can use alpha reduction to get to {$$}(\lambda z . f \ z) \ y{/$$}, by changing {$$}x{/$$} to {$$}z{/$$}. Using beta reduction, the expression can further be reduced to just {$$}f \ y{/$$}, since we "consumed" the {$$}z{/$$} by removing it from the abstraction and wherever it occured in the body we just replaced it with what was applied to it, that is {$$}y{/$$}. Finally, with eta reduction, we can rewrite {$$}(\lambda x . f \ x){/$$} to just {$$}f{/$$}, since they are equivalent.
+
+Given these rules, we can define the successor function as {$$}SUCC = \lambda n\ f\ x\ . f\ (n\ f\ x){/$$}. So, now we can try to apply 1 to {$$}SUCC{/$$}:
+
+1. Evaluating {$$}SUCC \ 1 ={/$$}
+1. Substitute the very own definitions of {$$}SUCC{/$$} and 1: {$$}(\lambda n \ f \ x . f \ (n \ f \ x)) \ (\lambda f \ x . f \ x) ={/$$}
+1. Apply 1 to {$$}SUCC{/$$} i.e. "consume" {$$}n{/$$} by beta reduction: {$$}\lambda f \ x . f \ ((\lambda f \ x . f \ x) \ f \ x) ={/$$}
+1. Finally, apply {$$}f{/$$} and {$$}x{/$$} to a function that accepts {$$}f{/$$} and {$$}x{/$$} (which is just the body of the abstraction): {$$}\lambda f \ x . f \ (f \ x) = 2{/$$}
 
 X> ### Exercise 2
 X>
-X> Think of a real-world predicate and express the truthness of it using the {$$}\forall{/$$} and {$$}\exists{/$$} symbols.
-
-## 3.2. Set theory abstractions
-
-Like in programming, building abstractions in mathematics is of equal importance. However, the best way to understand something is to get to the bottom of it. We'll start by working from the foundations level upwards. So we will start with the most basic object (the unordered collection) and work our way up to defining functions. Functions are an important core concept of Idris, however, as we will see in the theory that Idris relies on, functions are used as a primitive notion (an axiom) instead of being built on top of something else.
-
-I> ### Definition 9
-I>
-I> A set is an **unordered** collection of objects. The objects can be anything. It is usually denoted by comma separating the list of objects and enclosing them using curly braces.
-
-For example, one set of fruits is {$$}\{ apple, banana \}{/$$}. Since it is an unordered collection we have that {$$}\{ apple, banana \} = \{ banana, apple \}{/$$}.
-
-I> ### Definition 10
-I>
-I> Set membership states that a given object is belonging to a set. It is denoted using the {$$}\in{/$$} operator.
-
-For example, {$$}apple \in \{ apple, banana \}{/$$} says that `apple` is in that set.
-
-I> ### Definition 11
-I>
-I> An {$$}n{/$$}-tuple is an **ordered collection** of {$$}n{/$$} objects. As with sets, the objects can be anything. It is usually denoted by comma separating the list of objects and enclosing them using parenthesis.
-
-We can represent it as follows: {$$}(a_1, a_2, ..., a_n){/$$}. In order to represent this to its set alternative, we can use the set {$$}\{ \{ 1, \{ a_1 \} \}, \{ 2, \{ a_2 \} \}, \ldots, \{ n, \{ a_n \} \} \}{/$$}. This will now allow us to extract the {$$}k{/$$}-th element of the tuple, by picking {$$}x{/$$} such that {$$}\{ k, \{ x \} \} \in A{/$$}. Having done that, now we have that {$$}(a, b) = (c, d) \equiv a = c \land b = d{/$$}, that is, two tuples are equal iff their first and second elements respectively are equal. This is what makes them ordered.
-
-One valid tuple is {$$}(1 pm, 2 pm, 3 pm){/$$} which represents 3 hours of a day sequentially.
-
-I> ### Definition 12
-I>
-I> An n-ary relation is just a set of {$$}n{/$$}-tuples with different values.
-
-For example, the "is bigger than" relation represents a 2-tuple (pair), for the following set: {$$}\{ (cat, mouse), (mouse, cheese), (cat, cheese) \}{/$$}.
-
-I> ### Definition 13
-I>
-I> {$$}A{/$$} is a subset of {$$}B{/$$} if all elements of {$$}A{/$$} are found in {$$}B{/$$} (but not necessarily vice-versa). We denote it as such: {$$}A \subseteq B{/$$}.
-
-For example, the expressions {$$}\{ 1, 2 \} \subseteq \{ 1, 2, 3 \}{/$$} and {$$}\{ 1, 2, 3 \} \subseteq \{ 1, 2, 3 \}{/$$} are both true. But this expression is not true: {$$}\{ 1, 2, 3 \} \subseteq \{ 1, 2 \}{/$$}.
-
-I> ### Definition 14
-I>
-I> A Cartesian product is defined as the set {$$}\{ (a, b) \}{/$$} such that for all {$$}a{/$$} and {$$}b{/$$}, we have that {$$}a \in A \land b \in B{/$$}. It is denoted as {$$}A \times B{/$$}.
-
-For example if {$$}A = \{ a, b \}{/$$} and {$$}B = \{ 1, 2, 3 \}{/$$} then the combinations are: {$$}A \times B = \{ (a, 1), (a, 2), (a, 3), (b, 1), (b, 2), (b, 3) \}{/$$}.
-
-I> ### Definition 15
-I>
-I> **Functions** are defined in terms of relations[^ch3n1]. A binary (2-tuple) set {$$}F{/$$} represents a mapping[^ch3n2] from some set {$$}A{/$$} to some set {$$}B{/$$}, where {$$}F{/$$} is a subset of the Cartesian product of {$$}A{/$$} and {$$}B{/$$}. That is, a function {$$}f{/$$} from {$$}A{/$$} to {$$}B{/$$} is denoted {$$}f : A \to B{/$$} and is a subset of {$$}F{/$$}, i.e. {$$}f \subseteq F{/$$}. There is one more constraint that functions have, namely, that they cannot produce 2 or more different values for a single input.
-
-For example, the function {$$}f(x) = x + 1{/$$} is a function that, given a number, returns it increased by one. So {$$}f(1) = 2{/$$}, {$$}f(2) = 3{/$$}, etc. Another way to represent this function is using the 2-tuple set: {$$}f = \{ (1, 2), (2, 3), (3, 4), \ldots \}{/$$}.
-
-One simple way to think of functions is in form of tables. For a function accepting a single parameter {$$}f(x){/$$}, we have a two-column table where the first column is the input, and the second column is the output. For a function accepting two parameters {$$}x{/$$} and {$$}y{/$$}, {$$}f(x, y){/$$}, we have a three-column table where the first and second columns are the inputs, and the third one is the output. Thus, to display the function discussed above in a form of table, it would look like this:
-
-| {$$}x{/$$} | {$$}f(x){/$$} |
-| --- | --- |
-| a | 1 |
-| b | 2 |
+X> Evaluate {$$}SUCC \ 2{/$$} to find out the definition of number 3.
 
 X> ### Exercise 3
 X>
-X> Think of a set of objects and try to express that some object belongs to that set.
+X> Come up with your own functions that operates on the Church numerals. It can be as simple as returning the same number, or a constant one.
+
+## 3.2. Lambda calculus with types
+
+I> ### Definition 5
+I>
+I> Simply typed lambda calculus is a type theory which adds types to lambda calculus. It joins the system with a unique type constructor {$$}\to{/$$} which constructs types for functions. The formal definition and the set of lambda expressions is similar to that of lambda calculus, with the addition of types.
+I>
+I> The set of symbols for this system is defined as:
+I>
+I> 1. There are variables {$$}v_1, v_2, \ldots{/$$}
+I> 1. There are only two abstract symbols: {$$}.{/$$} and {$$}\lambda{/$$}
+I> 1. There are parentheses: {$$}({/$$} and {$$}){/$$}
+I>
+I> The set of grammar rules {$$}\Lambda{/$$} for well-formed expressions is defined as:
+I>
+I> 1. If {$$}x{/$$} is a variable, then {$$}x \in \Lambda{/$$}
+I> 1. If {$$}x{/$$} is a variable and {$$}M \in \Lambda{/$$}, then {$$}(\lambda x.M) \in \Lambda{/$$} (rule of abstraction)
+I> 1. If {$$}M, N \in \Lambda{/$$}, then {$$}(M \ N) \in \Lambda{/$$} (rule of application)
+I> 1. If {$$}x{/$$} is a variable, {$$}T{/$$} is a type, and {$$}M \in \Lambda{/$$}, then {$$}(\lambda x:T.M) \in \Lambda{/$$}
+I> 1. If {$$}x{/$$} is a variable and {$$}T{/$$} is a type, then {$$}x:T \in \Lambda{/$$}
+I>
+I> There is a single type constructors:
+I>
+I> 1. For some type {$$}A{/$$}, the type constructor {$$}T{/$$} is defined as {$$}\text{A | T} \to \text{T}{/$$}
+
+That is, an expression in this system can additionally be an abstraction with {$$}x{/$$} having joined a type (rule 4) or an expression of a variable having joined a type {$$}\text{T}{/$$} (rule 5), where our type constructor is a sum type and it says that we either have primitive types or a way to form new types. Now, in attempt to re-define Church numerals and the successor function we have to be careful as the types of these definitions have to match. Let's recall the Church numerals:
+
+1. Number 1, i.e. {$$}\lambda f \ x . f \ x{/$$}
+1. Number 2, i.e. {$$}\lambda f \ x . f \ (f \ x){/$$}
+
+Given the definition of 1, its type must have the form {$$}(\text{a} \to \text{b}) \to \text{a} \to \text{b}{/$$} for some values {$$}\text{a}{/$$} and {$$}\text{b}{/$$}. We are expecting to be able to apply {$$}x{/$$} to {$$}f{/$$}, and so if {$$}x : \text{a}{/$$} then {$$}f : \text{a} \to \text{b}{/$$} in order for our types to match correctly. With similar reasoning, we have the same type for 2. At this point, we have the type of {$$}(\text{a} \to \text{b}) \to \text{a} \to \text{b}{/$$}. Finally, with the given definition of 2, we can note that expressions of type {$$}\text{b}{/$$} need to be able to be applied to functions of type {$$}\text{a} \to \text{b}{/$$}, since the result of applying {$$}f{/$$} to {$$}x{/$$} serves as the argument of {$$}f{/$$}. The most general way for that to be true is if {$$}a = b{/$$}. So, as a result we have the type {$$}(\text{a} \to \text{a}) \to \text{a} \to \text{a}{/$$}. We can denote this type definition to be {$$}\text{Nat}{/$$}. Now we have the following for our numbers:
+
+1. Number 1 becomes {$$}\lambda [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f \ x : \text{Nat}{/$$}
+1. Number 2 becomes {$$}\lambda [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f \ (f \ x) : \text{Nat}{/$$}
+
+The (typed) successor function is: {$$}SUCC = \lambda [n:\text{Nat}]\ [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f\ (n\ f\ x) : \text{Nat} \to \text{Nat}{/$$}
 
 X> ### Exercise 4
 X>
-X> Think of a set of objects whose order matters and try to express it in terms of an ordered collection.
+X> Come up with a definition of the typed number 3.
 
 X> ### Exercise 5
 X>
-X> Think of a relation (for example, a relation between two persons in a family tree) and express it using the notation described.
+X> Apply the typed {$$}SUCC{/$$} to 1 and confirm that the result is 2. Make sure you confirm that the types also match in the process of evaluation.
 
 X> ### Exercise 6
 X>
-X> Come up with two subset expressions, one that is true and another one that is false.
+X> In Exercise 3 you were asked to come up with a function. Try to figure out the types of this function or, if not applicable, come up with a new function and then figure out its types using the reasoning above.
+
+## 3.3. Dependent types
+
+I> ### Definition 6
+I>
+I> Dependent types are types whose definition depends on some value.
+
+A list of numbers is a type ({$$}\text{List}{/$$}, for example). However, a list of numbers where the second element of the list is larger than the first element of the list is a dependent type.
+
+I> ### Definition 7
+I> ###
+I> A dependent product type is a collection of types {$$}B : \text{A} \to U{/$$} where for each element {$$}a : \text{A}{/$$}, there's an assigned type {$$}B(a) : U{/$$}, where {$$}U{/$$} is a universe of types[^ch4n5]. We say that {$$}B(a){/$$} varies with {$$}a{/$$}. It is denoted as {$$}\Pi(x : \text{A}), B(x){/$$}.
+
+This definition might seem a bit scary and tricky to grasp, but it really is simple, and it is best to see it in action through the following example:
+
+1. Our universe of types contains all possible types. For example, {$$}\text{Type}{/$$}, {$$}\text{Nat}{/$$}, etc, so {$$}U = \{ \text{Type}, \text{Nat}, \text{List n}, \ldots \}{/$$}
+1. Our collection of interest of types is {$$}\text{List n}{/$$}, which represents a list of {$$}n{/$$} elements. That is, {$$}A = \{ \text{List n} \}{/$$}
+
+The definition states that, in the universe {$$}U{/$$}, there exists a function {$$}B(n) = \text{List n}{/$$}. {$$}B{/$$} is the collection of functions which given a number {$$}n{/$$}, will return a list of {$$}n{/$$} numbers. So, we have the following list as an example: {$$}[1] : \text{B(1)}{/$$}, that is {$$}[1] : \text{List 1}{/$$}. Another example list is {$$}[1, 2] : \text{List 2}{/$$}, and so on. In general, we have a function that takes an {$$}n{/$$} and produces a {$$}\text{List n}{/$$}, that is, {$$}f : \text{n} \to \text{List n}{/$$}, where the possible types for it are {$$}f : 1 \to \text{List 1}{/$$}, {$$}f : 2 \to \text{List 2}{/$$}, etc. We've just constructed our first dependent type!
+
+I> ### Definition 8
+I>
+I> A dependent sum type can be used to represent indexed pairs, where the type of the second element depends on the type of the first element. That is, if we have {$$}a : \text{A}{/$$} and {$$}b : \text{B(a)}{/$$}, then this makes a sum type. We denote it as {$$}\Sigma(x : \text{A}), B(x){/$$}.
+
+For example, if we set {$$}A = \text{Nat}{/$$}, and {$$}B(a) = \text{List a}{/$$}, i.e. {$$}\Sigma(x : \text{Nat}), \text{List x}{/$$}, we can construct the following pairs: {$$}(1, [1]), (2, [1, 2]), (3, [1, 2, 3]){/$$}, etc.
 
 X> ### Exercise 7
 X>
-X> Think of two sets, and combine them using the definition of Cartesian product. Afterwards, think of two subset expressions, one that is true and another one that is false.
+X> Think of a way to construct a different product dependent type and express it by using the reasoning above.
 
 X> ### Exercise 8
 X>
-X> Think of a valid function and represent it using the table approach.
+X> Think of a way to construct a different sum dependent type and express it using the reasoning above.
+
+## 3.4. Intuitionistic theory of types
+
+The core "construct" in Idris are types. As we've seen, foundations are based on type theory. As we've also seen, in classic mathematical logic we have sets and propositions, according to set theory.
+
+The intuitionistic theory of types (or constructive type theory) offers an alternative foundation to mathematics. This theory was introduced by Martin-L&#246;f, a Swedish mathematician in 1972. It is based on the isomorphism (or "equality") that propositions are types. We will cover this in details in 5.2, after introducing Idris's syntax.
+
+Proving a theorem in this system consists of constructing[^ch4n6] (or providing evidence for) a particular object. If we want to prove something about a type {$$}\text{A}{/$$} and we know that {$$}a : \text{A}{/$$}, then {$$}a{/$$} is one proof for {$$}\text{A}{/$$}. Note how we say one proof, because there can be many other elements of type {$$}\text{A}{/$$}.
+
+Propositions can also be defined through types. For example. in order to prove that {$$}4 = 4{/$$}, we need to find an object {$$}x{/$$} of type {$$}\text{4 = 4}{/$$}, that is {$$}x : \text{4 = 4}{/$$}. One such object is {$$}refl{/$$} (which can be thought of as an axiom), which stands for reflexivity, which states that {$$}x = x{/$$} for all {$$}x{/$$}.
+
+One thing worth noting is that in Idris there are "two" types of truths: {$$}\text{Bool}{/$$} and {$$}\text{Type}{/$$}. Even though there is some similarity (in terms of proofs), in Idris they are fundamentally different. The type {$$}\text{Bool}{/$$} can have a value of {$$}True{/$$} or {$$}False{/$$}, while the type {$$}\text{Type}{/$$} is either provable or not provable[^ch4n7].
+
+This system is useful since with the use of computer algorithms we can find a constructive proof for some object (assuming it exists). As a consequence, this is why it can be considered as a way to make a programming language act like a proof-assistant.
+
+I> ### Definition 9
+I>
+I> A context is defined as a list of variables {$$}x_1 : \text{A}_1, x_2 : \text{A}_2, x_3 : \text{A}_3, \ldots{/$$}
+
+I> ### Definition 10
+I>
+I> A formal definition of Intuitionistic theory is that it consists of objects and types.
+I>
+I> The grammar of well formed formulas in this system are:
+I>
+I> 1. {$$}\Gamma \vdash s : \text{Type}{/$$} means that {$$}s{/$$} is a well formed type in context {$$}\Gamma{/$$}
+I> 1. {$$}\Gamma \vdash t : \text{s}{/$$} means that {$$}t{/$$} is a well formed expression of type {$$}\text{s}{/$$} in context {$$}\Gamma{/$$}
+I> 1. {$$}\Gamma \vdash \text{s} = \text{t}{/$$} means that s and t are the same type in context {$$}\Gamma{/$$}
+I> 1. {$$}\Gamma \vdash t = u : \text{s}{/$$} means that t and u are equal expressions of type s in context {$$}\Gamma{/$$}
+I> 1. {$$}\vdash \Gamma{/$$} means that {$$}\Gamma{/$$} is a well formed context of types
+I>
+I> The type constructors are:
+I>
+I> 1. {$$}\Pi{/$$} types and {$$}\Sigma{/$$} types, as we've discussed them earlier
+I> 1. Finite types, that is, the nullary (empty) type 0 or {$$}\bot{/$$}, the unary type 1 or {$$}\top{/$$}, and the boolean type 2
+I> 1. The equality type, where for given {$$}a, b : \text{A}{/$$}, the expression {$$}a = b{/$$} represents proof of equality. There is a canonical element {$$}a = a{/$$}, that is, an "axiom" for the reflexivity proof: {$$}refl : \Pi \text{(a : A) a = a}{/$$}
+I> 1. Inductive (or recursive) types, for example {$$}\text{Nat = Z | S Nat}{/$$}. In this way we can implement product and sum types which encode conjunction and disjunction respectively
+I>
+I> The inference rules are:
+I>
+I> 1. The rule of type equality which states that if an object is of a type {$$}\text{A}{/$$}, and there is another type {$$}\text{B}{/$$} equal to {$$}\text{A}{/$$}, then that object is of type {$$}\text{B}{/$$}: {$$}(\Gamma \vdash a : \text{A}, \Gamma \vdash \text{A} = \text{B}) \vdash (\Gamma \vdash a : \text{B}){/$$}
+I>
+I> The remaining inference rules are specific to the type formers, for example introduction and elimination. We will show an example using these rules in 5.2.
+
+As an example, rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}\text{Nat} : \text{Type}{/$$} per rule 1.
 
 X> ### Exercise 9
 X>
-X> Write down the corresponding input and output sets for the function you implemented in exercise 6.
-
-## 3.3. Substitution and proofs
-
-Substitution lies at the heart of mathematics. A similar statement can be made about programming, but we will cover this in the later chapters with so called **pure** and **impure** functions. Substitution can be applied in different contexts involving formal objects containing symbols. It consists of systematically replacing occurrences of some symbol by a given value.
-
-For example, let's assume we have the following as givens:
-
-1. An inference rule that states: If {$$}a = b{/$$} and {$$}b = c{/$$}, then {$$}a = c{/$$}
-1. Two axioms that state: {$$}1 = 2{/$$} and {$$}2 = 3{/$$}
-
-Then we can use the following proof to claim that {$$}1 = 3{/$$}:
-
-1. {$$}1 = 2{/$$} (axiom)
-1. {$$}2 = 3{/$$} (axiom)
-1. {$$}1 = 2{/$$} and {$$}2 = 3{/$$} (from 1 and 2 combined)
-1. {$$}1 = 3{/$$}, from 3 and the inference rule
-
-We know that in general, {$$}1 = 3{/$$} does not make any sense. But, in the context of the givens above, this proof is valid.
+X> We've used rule 1 and rule 2 in the example above. Try to come up with different ways to use each one of the rules described above.
 
 X> ### Exercise 10
 X>
-X> With the given axioms of Peano, prove that {$$}1 = S(0){/$$} and {$$}2 = S(S(0)){/$$} are natural numbers.
+X> Combine the use of rules along with the connectives described above and try to come up with a recursive type and then construct some new objects from it.
+
+### 3.4.1. Intuitionistic logic
+
+I> ### Definition 10
+I>
+I> A constructive proof proves the existence of a mathematical object by creating or constructing the object itself. This is contrary to non-constructive proofs which prove existence of objects without giving a concrete example.
+
+I> ### Definition 11
+I>
+I> Intuitionistic logic, also known as constructive logic, is a type of logic which is different than the classical logic in terms that it "works" with the notion of constructive proof.
+
+I> ### Definition 12
+I>
+I> The BHK (Brouwer-Heyting-Kolmogorov) interpretation is a mapping of intuitionistic logic to classical mathematical logic, namely:
+I>
+I> 1. A proof of {$$}P \land Q{/$$} is a product type {$$}\text{A B}{/$$}, where {$$}a{/$$} is a proof of {$$}\text{P}{/$$} and {$$}b{/$$} is a proof of {$$}\text{Q}{/$$}
+I> 1. A proof of {$$}P \lor Q{/$$} is a product type {$$}\text{A B}{/$$}, where {$$}a{/$$} is 0 and {$$}b{/$$} is a proof of {$$}\text{P}{/$$}, or {$$}a{/$$} is 1 and {$$}b{/$$} is a proof of {$$}\text{Q}{/$$}
+I> 1. A proof of {$$}P \to Q{/$$} is a function {$$}f{/$$} that converts a proof of {$$}\text{P}{/$$} to a proof of {$$}\text{Q}{/$$}
+I> 1. A proof of {$$}\exists x \in S : f(x){/$$} is a pair {$$}\text{A B}{/$$} where {$$}a{/$$} is an element of {$$}\text{S}{/$$}, and {$$}b{/$$} is a proof of {$$}f(x){/$$} (dependent sum types)
+I> 1. A proof of {$$}\forall x \in S : f(x){/$$} is a function {$$}f{/$$} that converts an element {$$}a{/$$} from {$$}\text{S}{/$$} to a proof of {$$}f(x){/$$} (dependent product types)
+I> 1. A proof of {$$}\lnot P{/$$} is defined as {$$}P \to \bot{/$$}, that is, the proof is a function {$$}f{/$$} that converts a proof of {$$}\text{P}{/$$} to proof of {$$}\bot{/$$}
+I> 1. There is no proof of {$$}\bot{/$$}
+
+For example, to prove distributivity of {$$}\land{/$$} with respect to {$$}\lor{/$$}, that is, {$$}P \land (Q \lor R) = (P \land Q) \lor (P \land R){/$$}, we need to construct a proof for the function of type {$$}f : \text{P (Q | R)} \to \text{P Q | P R}{/$$}. That is, a function that takes a product type of {$$}\text{P}{/$$} and sum type of {$$}\text{Q}{/$$} and {$$}\text{R}{/$$}, and returns a sum type of product {$$}\text{P}{/$$} and {$$}\text{Q}{/$$}, and product {$$}\text{P}{/$$} and {$$}\text{R}{/$$}. Here's the function that accomplishes that:
+
+```
+f (x, left y) = left (x, y)
+f (x, left y') = right (x, y')
+```
+
+This notation (which is pretty similar to how we would write it in Idris) uses `(x, y)` to denote product type, that is, extract values from a product-type pair, and `left` and `right` to denote type constructors for sum type in order to extract values from a sum-type pair. In the second part of this book we will introduce Idris and its syntax.
 
 X> ### Exercise 11
 X>
-X> Come up with several axioms and inference rules and try to do a proof similar to the example above.
+X> Try to use some of the proofs in the earlier chapters as a motivation and work them out by using intuitionistic logic.
 
-## 3.4. Mathematical proofs
+## 3.5. Lambda cube
 
-I> ### Definition 16
-I>
-I> A proof is defined as an inferential **argument** for a set of given mathematical propositions.
+In mathematics, the lambda cube represents the extensions to simply typed lambda calculus (bottom-left), where each direction is a separate extension. Each axis of the cube has its own form of abstraction.
 
-I> ### Definition 17
-I>
-I> Modus ponens (method of affirming) and modus tollens (method of denying) are two inference rules in logic. Their definition is as follows:
-I> 1. Modus ponens states: If we are given {$$}p \to q{/$$} and {$$}p{/$$}, then we can conclude {$$}q{/$$}
-I> 1. Modus tollens states: If we are given {$$}p \to q{/$$} and {$$}\lnot q{/$$}, then we can conclude {$$}\lnot p{/$$}
+![Lambda cube](images/lambda_cube.png)
 
-As we've defined before, an argument is a list of statements. There are several ways to do mathematical proofs. One of them is by using the so-called
-three-column proofs.
+Even though the cube has 8 kinds of systems, we will only cover the 4 most important that relate to Idris:
 
-For example, given {$$}A \lor B{/$$}, {$$}B \to C{/$$}, {$$}\lnot C{/$$}, prove {$$}A{/$$}. We can approach the proof as follows:
+1. Expressions depending on expressions, using the simply typed lambda calculus {$$}\lambda \to{/$$}:
+    1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t{/$$}
+    1. Type constructors: {$$}\text{T} \to \text{T}{/$$}
+    1. Example: The Church numerals we've discussed before: 1, {$$}\lambda[f : (\text{a} \to \text{a})]\ [x : \text{a}] . f \ x : \text{Nat}{/$$}
+1. Expressions depending on types (polymorphism). This is called System F {$$}\lambda 2{/$$}:
+    1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t, \lambda X.t{/$$}
+    1. Type constructors: {$$}\text{X}, \forall \text{X.T}{/$$}
+    1. Example: The polymorphic function {$$}concat : \text{List a} \to \text{List a} \to \text{List a}{/$$}, where the same {$$}\text{a}{/$$} is bound to all arguments. This function can be used on {$$}\text{List Nat}{/$$}, {$$}\text{List Bool}{/$$}, etc.
+1. Types depending on types. This is called System lambda-omega {$$}\lambda \omega{/$$}:
+    1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t{/$$}
+    1. Type constructors: {$$}\text{X}, \lambda \text{X:K.T}, \text{T T}{/$$}
+    1. Example: {$$}\text{List a}{/$$}, where {$$}\text{a}{/$$} can be {$$}\text{Nat}{/$$}, {$$}\text{Real}{/$$}, etc.
+1. Types depending on expressions (dependent types). This is called System LF {$$}\lambda P{/$$}:
+    1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t{/$$}
+    1. Type constructors: {$$}\Pi x:\text{T . T}, \text{T t}{/$$}
+    1. Example: The dependently-typed function {$$}concat : \text{List 3} \to \text{List 5} \to \text{List 8}{/$$}, where {$$}\text{List}{/$$} limits the number of elements at a type level
 
-| No. | Step | Reasoning |
-| --- | --- | --- |
-| 1 | {$$}A \lor B{/$$} | Given |
-| 2 | {$$}B \to C{/$$} | Given |
-| 3 | {$$}\lnot C{/$$} | Given |
-| 4 | {$$}(B \to C) \land \lnot C{/$$} | 2 and 3 |
-| 5 | {$$}\lnot B{/$$} | Modus tollens rule on 4, i.e. {$$}(p \to q \land \lnot q) \to \lnot p{/$$} |
-| 6 | {$$}(A \lor B) \land \lnot B{/$$} | 1 and 5 |
-| 7 | {$$}A{/$$} | 6, where {$$}p \land \lnot p{/$$} is a contradiction, i.e. invalid argument |
+The system in the upper-right angle {$$}\lambda P \omega{/$$} represents Calculus of Constructions. It is a separate type theory that is used by the interactive theorem prover Coq. We will not get into the details of this type theory as part of this book.
 
-However, this type of proof contains many details. Ideally, the proof should be short, clear and concise about what we want to prove.
+[^ch4n1]: Unlike in set theory, where they are defined in terms of relations.
 
-Another proof technique that we can use is by constructing a truth table. The way truth tables are constructed for a given statement is to break it down into atoms and then include every subset of the expression.
+[^ch4n2]: Dependent types are the reason why Idris can formally prove mathematical statements, compared to other programming languages. While useful, since we can check whether an expression fulfills a given condition at compile-time, dependent types add complexity to a type system. In order to calculate type "equality" of dependent types, computations are necessary. If we allow any values for dependent types, then solving an equality of a type may involve deciding whether two programs produce the same result. Thus, the check may become undecidable.
 
-For example, to prove the statement {$$}A \land B \to B{/$$}, we can approach as follows:
+[^ch4n3]: In general, Idris combines a lot of functionalities from mainstream languages (Java, C, C++) and some functionalities from proof assistants, which further blurs the line between these two kinds of software.
 
-| {$$}A{/$$} | {$$}B{/$$} | {$$}A \land B{/$$} | {$$}A \land B \to B{/$$} |
-| --- | --- | --- | --- |
-| {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\top{/$$} |
-| {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\top{/$$} |
-| {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\top{/$$} |
-| {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$} |
+[^ch4n4]: A Turing machine can express any algorithm. Any formal system that can simulate a Turing machine is called Turing complete. Since a Turing machine can express any algorithm, so does any Turing complete system. This property is used to show equivalence of formal systems in terms of the algorithms they can express. (Untyped) Lambda calculus is Turing complete.
 
-Note that wherever {$$}A \land B{/$$} is true, then so is {$$}A \land B \to B{/$$}, which means that this is a valid logical argument, according to the definition 4.
+[^ch4n5]: Collections in general are considered to be subcollections of some large universal collection, also called the universe. Depending on the context, the definition of this universe will vary.
 
-However, if our statements involve the use of quantifiers, then doing proofs with truth tables is impossible. Therefore, we will try to prove the same statement by means of a formal proof.
+[^ch4n6]: As a consequence that we need to provide an object as an evidence in order to prove something, the law of excluded middle {$$}P \lor \lnot P{/$$} is not defined in this logic, whereas in classic mathematical logic this is given as an axiom. For some propositions, for example, {$$}P{/$$} is an odd number or not, there are proofs that we can provide. However, for some propositions this is impossible, for example, {$$}P{/$$} is a program that halts or not. So, unlike classic mathematical logic, in this logic the law of excluded middle does not exist due to the undecidability problem.
 
-To prove that {$$}A \land B \to B{/$$}, we start by assuming that {$$}A \land B{/$$} is true, since otherwise the statement is vacuously true by definition for implication. If {$$}A \land B{/$$} is true, then both {$$}A{/$$} and {$$}B{/$$} are true by definition of `and`, that is, we can conclude {$$}B{/$$}.
-
-Do not worry if the previous paragraph sounded too magical. There is not much magic involved. Usually it comes down to using a few rules (or "tricks", if you will) for how we can use given information and achieve our goal. We will summarize these proof techniques next.
-
-### 3.4.1. Proof techniques
-
-In order to prove a goal of a given form:
-
-| Goal form | Technique |
-| --- | --- |
-| {$$}P \to Q{/$$} | Assume that {$$}P{/$$} is true and prove {$$}Q{/$$} |
-| {$$}\lnot P{/$$} | Assume that {$$}P{/$$} is true and arrive at a contradiction |
-| {$$}P_1 \land P_2 \land \ldots \land P_n{/$$} | Prove each one of {$$}P_1, P_2, \ldots, P_n{/$$} separately |
-| {$$}P_1 \lor P_2 \lor \ldots \lor P_n{/$$} | Use proof by cases, where in each case you prove one of {$$}P_1, P_2, \ldots, P_n{/$$} |
-| {$$}P \leftrightarrow Q{/$$} | Prove both {$$}P \to Q{/$$} and {$$}Q \to P{/$$} |
-| {$$}\forall x P(x){/$$} | Assume that {$$}x{/$$} is an arbitrary object and prove that {$$}P(x){/$$} |
-| {$$}\exists x P(x){/$$} | Find an {$$}x{/$$} such that {$$}P(x){/$$} is true |
-| {$$}\exists! x P(x){/$$}[^ch3n3] | Prove {$$}\exists x P(x){/$$} (existence) and |
-| | {$$}\forall x \forall y (P(x) \land P(y) \to x = y){/$$} (uniqueness) separately |
-
-In order to use a given of form:
-
-| Given form | Technique |
-| --- | --- |
-| {$$}P \to Q{/$$} | If {$$}P{/$$} is also given, then conclude that Q (by modus ponens) |
-| {$$}\lnot P{/$$} | If {$$}P{/$$} can be proven true, then conclude a contradiction |
-| {$$}P_1 \land P_2 \land \ldots \land P_n{/$$} | Treat each one of {$$}P_1, P_2, \ldots, P_n{/$$} as a given |
-| {$$}P_1 \lor P_2 \lor \ldots \lor P_n{/$$} | Use proof by cases, where in each case you assume one of {$$}P_1, P_2, \ldots, P_n{/$$} |
-| {$$}P \leftrightarrow Q{/$$} | Conclude both {$$}P \to Q{/$$} and {$$}Q \to P{/$$} |
-| {$$}\forall x P(x){/$$} | For any {$$}x{/$$}, conclude that {$$}P(x){/$$} |
-| {$$}\exists x P(x){/$$} | Introduce a new variable, say {$$}x_0{/$$} so that {$$}P(x_0){/$$} is true |
-| {$$}\exists! x P(x){/$$} | Introduce a new variable, say {$$}x_0{/$$} so that {$$}P(x_0){/$$} is true. |
-| | Can also use that {$$}\forall x \forall y (P(x) \land P(y) \to x = y){/$$} |
-
-For example, we can use these techniques to do the following proofs:
-
-1. {$$}A \land B \to A \lor B{/$$} - To prove this goal, we will use proof by cases:
-    1. Proof for {$$}A{/$$}: Since we're given {$$}A \land B{/$$}, we are also given {$$}A{/$$}. Thus, {$$}A{/$$}
-    1. Proof for {$$}B{/$$}: Since we're given {$$}A \land B{/$$}, we are also given {$$}B{/$$}. Thus, {$$}B{/$$}
-    1. Thus, {$$}A \lor B{/$$}
-1. {$$}A \land B \leftrightarrow B \land A{/$$} - To prove this goal, we will prove both sides for the implications:
-    1. Proof for {$$}A \land B \to B \land A{/$$}: We can assume that {$$}A \land B{/$$}, thus we have both {$$}A{/$$} and {$$}B{/$$}. To prove the goal of {$$}B \land A{/$$}, we need to prove {$$}B{/$$} and {$$}A{/$$} separately, which we already have as givens.
-    1. Proof for {$$}B \land A \to A \land B{/$$}: We can assume that {$$}B \land A{/$$}, thus we have both {$$}B{/$$} and {$$}A{/$$}. To prove the goal of {$$}A \land B{/$$}, we need to prove {$$}A{/$$} and {$$}B{/$$} separately, which we already have as givens.
-    1. Thus, {$$}A \land B \leftrightarrow B \land A{/$$}
-1. {$$}\forall x, x = x{/$$} - We know that for any number {$$}x{/$$}, this number is equal to itself. Thus, {$$}\forall x, x = x{/$$}.
-1. {$$}\exists x, x > 0{/$$} - To prove this, we only need to find an {$$}x{/$$} such that it is greater than 0. One valid example is 1. Thus, {$$}\exists x, x > 0{/$$}.
-
-X> ### Exercise 12
-X>
-X> We've used the rules modus tollens and modus ponens without giving an actual proof for them. Try to prove by yourself that these two rules hold, either by constructing a truth table or a three-column proof:
-X>
-X> 1. Modus tollens: {$$}(p \to q, \lnot q) \to \lnot p{/$$}
-X> 1. Modus ponens: {$$}(p \to q, p) \to q{/$$}
-
-### 3.4.2. Mathematical induction
-
-I> ### Definition 18
-I>
-I> Recursive functions are those functions that refer to themselves. We have the following properties for such functions:
-I>
-I> 1. A simple base case (or cases) - a terminating case that returns a value without using recursion
-I> 1. A set of rules that reduce the other cases towards the base case
-
-I> ### Definition 19
-I>
-I> Mathematical induction is a proof method that is used to prove that a predicate {$$}P(n){/$$} is true for all natural numbers {$$}n{/$$}. It consists of proving two parts: a base case and an inductive step. For the base case we need to show that what we want to prove {$$}P(n){/$$} is true for some starting value, {$$}k{/$$}, which is usually zero. For the inductive step, we need to prove that {$$}P(n) \to P(n+1){/$$}, that is, if we assume that {$$}P(n){/$$} is true, then {$$}P(n+1){/$$} must follow as a consequence. After having proven these two parts, we can conclude that {$$}P(n){/$$} holds for all natural numbers. So the formula that we need to prove is {$$}P(0) \land ( P(n) \to P(n+1) ){/$$}.
-
-To understand why mathematical induction works, as an example it is best to visualize dominoes arranged in a sequence. If we push the first domino, it will push the second, which will push the third, and so on to infinity. That is, if we position the dominoes such that if one falls it will push the next one, i.e. {$$}P(n){/$$} implies {$$}P(n+1){/$$}, and we push the first one {$$}P(0){/$$}, then all the dominoes will fall, i.e. {$$}P(n){/$$} is true in general.
-
-I> ### Definition 20
-I>
-I> We are given this recursive definition for adding numbers:
-I>
-I> 1. Zero is a left identity for addition, that is {$$}n = 0 + n{/$$}
-I> 1. {$$}S(m) + n = S(m + n){/$$}, where {$$}S{/$$} is the successor function, that is {$$}S(0) = 1, S(1) = 2{/$$}, etc.
-
-For example, in order to prove that {$$}\forall n, n + 0 = n{/$$} in the system of Peano's axioms, we can proceed by induction (this is an axiom). For the base case, we have that {$$}0 + 0 = 0{/$$}, which is true (by definition of adding numbers, for {$$}n = 0{/$$}). For the inductive step, we first assume that {$$}n + 0 = n{/$$} is true, and prove that {$$}S(n) + 0 = S(n){/$$}. By definition of addition, we have {$$}S(n) + 0 = S(n + 0){/$$}. Now if we use the inductive hypothesis we have {$$}S(n + 0) = S(n){/$$}, which is what we needed to show. With this example, we can see how induction and natural numbers are closely related to each other. Note how we proved {$$}n + 0 = n{/$$}, given {$$}n = 0 + n{/$$}. That is, we proved that addition with 0 is commutative.
-
-I> ### Definition 21
-I>
-I> {$$}a{/$$} is divisible by {$$}b{/$$} if there exists a natural number {$$}k{/$$} so that {$$}a = bk{/$$}.
-
-X> ### Exercise 13
-X>
-X> Come up with a predicate, and then prove its truthness using mathematical induction.
-
-X> ### Exercise 14
-X>
-X> Prove that {$$}2^n - 3{/$$} is not divisible by 3. Hint: Use {$$}n = 2{/$$} as the base case.
-
-[^ch3n1]: It is worth noting that in set theory, {$$}P{/$$} would be a subset of a relation, i.e. {$$}P \subseteq A \times \{ T, F \}{/$$}, where {$$}A{/$$} is a set of some inputs, for example `Salad` and `Rock` in the example. When working with other systems we need to be careful, as this is not the case with first-order logic. In the case of first-order logic, we have {$$}P(Salad) = \top{/$$}, {$$}P(Rock) = \bot{/$$}, etc as atomic statements, not mathematical functions (i.e. they cannot be broken down into smaller statements). This is what makes first-order logic independent of set theory.
-
-[^ch3n2]: In other words, a function is a subset of all combinations of ordered pairs whose first element is an element of {$$}A{/$$} and second element is an element of {$$}B{/$$}.
-
-[^ch3n3]: The notation {$$}\exists!{/$$} stands for unique existential quantifier. It means that **only one** object fulfills the predicate, as opposed to {$$}\exists{/$$}, which states that **at least one** object fulfills the predicate.
+[^ch4n7]: It is provable in case we can construct an object of such type, and not provable otherwise.

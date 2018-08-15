@@ -1,4 +1,4 @@
-# 7. Conclusion
+# Conclusion
 
 We've seen how powerful types are. They allow us to put additional constraints on functions, which helps with reasoning about our programs. For example, if we look at the following function, we immediately know by its type that it returns a natural number:
 
