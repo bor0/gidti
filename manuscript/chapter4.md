@@ -400,44 +400,59 @@ X> ### Exercise 13
 X>
 X> Try to define a function to be `total`, and at the same time make sure you are not covering all input cases. Note what Idris returns in this case.
 
-### 4.1.7. Documentation and searching
+### 4.1.7. Higher order functions
 
-By using the `:doc` command, we can get detailed information about a data type:
+I> ### Definition 4
+I>
+I> A higher order function is a function that takes one or more functions as parameters or returns a function as a result.
 
-```
-Idris> :doc Nat
-Data type Prelude.Nat.Nat : Type
-    Natural numbers: unbounded, unsigned integers which can be pattern matched.
-    
-Constructors:
-    Z : Nat
-        Zero
-        
-    S : Nat -> Nat
-        Successor
-```
+There are three built-in higher order functions that are generally useful: `map`, `filter`, `fold` (left and right). Here's the description of each:
 
-We can use the command `:search` to get a list of functions that have the corresponding type. For example:
+1. `map` is a function that takes as input a function with a single parameter and a list and returns a list where all members of the list have this function applied to
+1. `filter` is a function that takes as input a function (predicate) with a single parameter (that returns a `Bool`) and a list and only returns those members in the list whose predicate evaluates to `True`
+1. `fold` is a function that takes as input a combining function that accepts two parameters (current value and accumulator), an initial value and a list and returns a value combined with this function. There are two types of folds, a left and a right one, which combines from the left and from the right respectively
+
+As an example usage:
 
 ```
-Idris> :search (Nat -> Nat)
-...
-
-= Prelude.Nat.S : Nat -> Nat
-Successor
-
-= Prelude.Nat.fact : Nat -> Nat
-Factorial function
-...
+Idris> map (\x => x + 1) [1, 2, 3]
+[2, 3, 4] : List Integer
+Idris> filter (\x => x > 1) [1, 2, 3]
+[2, 3] : List Integer
+Idris> foldl (\x, y => x + y) 0 [1, 2, 3]
+6 : Integer
+Idris> foldr (\x, y => x + y) 0 [1, 2, 3]
+6 : Integer
 ```
+
+We can actually implement the map function ourselves:
+
+```
+mymap : (a -> a) -> List a -> List a
+mymap _ [] = []
+mymap f (x::xs) = (f x) :: (mymap f xs)
+```
+
+Note that `::` is used by the built-in `List` type, and is equivalent to `Cons` we've used earlier. In addition, the built-in `List` type is polymorphic. 
 
 X> ### Exercise 14
 X>
-X> Check the documentation for `Bool` and `List`.
+X> Do a few different calculations with `mymap` in order to get a deeper understanding of how it works.
 
 X> ### Exercise 15
 X>
-X> Find out a few binary operators for `Nat` by searching `Nat -> Nat -> Nat`, and then try to use some of them.
+X> Implement a function `myfilter` that acts just like the `filter` function.
+X>
+X> Hint: Use `:t filter` to get its type.
+
+X> ### Exercise 16
+X>
+X> Given `foldl (\x, y => [y] ++ x) [] [1, 2, 3]` and `foldr (\x, y => y ++ [x]) [] [1, 2, 3]`:
+X>
+X> 1. Evaluate both of them in Idris to see the values produced
+X> 2. Try to understand the differences between the 2 expressions
+X> 3. Remove the square brackets `[` and `]` in the lambda body to see what errors Idris produces
+X> 4. Evaluate them on paper to figure out why they produce the given results
 
 ### 4.1.8. Dependent types
 
@@ -449,7 +464,7 @@ data MyList : (n : Nat) -> Type where
     Cons  : (x : Nat) -> (xs : MyList len) -> MyList (S len)
 ```
 
-What we've done above is we created a new type called `MyList` which accepts a natural number and returns a `Type`, that is joined with two type constructors:
+We created a new type called `MyList` which accepts a natural number and returns a `Type`, that is joined with two type constructors:
 
 1. `Empty` - which is just the empty list
 1. `Cons : (x : Nat) -> (xs : MyList len) -> MyList (S len)` - which, given a natural number and a list of length `len`, will return a list of length `S len`, that is, `len + 1`
@@ -481,7 +496,7 @@ Which is a way of Idris telling us that our types do not match and that it canno
 
 In this example we've implemented a dependent type that puts the length of the list at the type level. In other programming languages that do not support dependent types, this is usually checked at the code level (run-time) and compile-time checks are not able to verify this.
 
-X> ### Exercise 16
+X> ### Exercise 17
 X>
 X> Come up with a function `isSingleton` that accepts a `Bool` and returns a `Type`. This function should return a type of `Nat` in the `True` case, and `List Nat` otherwise. Further, implement a function `mkSingle` that accepts a `Bool`, and returns `isSingleton True` or `isSingleton False`, and as a computed value will either return `0` or `Empty`.
 X>
@@ -533,7 +548,7 @@ Idris> lengthMyList {n = 1} (Cons 1 Empty)
 1 : Nat
 ```
 
-X> ### Exercise 17
+X> ### Exercise 18
 X>
 X> Try to evaluate the following code and observe the results:
 X>
@@ -541,59 +556,44 @@ X> ```
 X> lengthMyList {n = 2} (Cons 1 Empty)
 X> ```
 
-### 4.1.10. Higher order functions
+### 4.1.10. Documentation and searching
 
-I> ### Definition 4
-I>
-I> A higher order function is a function that takes one or more functions as parameters or returns a function as a result.
-
-There are three built-in higher order functions that are generally useful: `map`, `filter`, `fold` (left and right). Here's the description of each:
-
-1. `map` is a function that takes as input a function with a single parameter and a list and returns a list where all members of the list have this function applied to
-1. `filter` is a function that takes as input a function (predicate) with a single parameter (that returns a `Bool`) and a list and only returns those members in the list whose predicate evaluates to `True`
-1. `fold` is a function that takes as input a combining function that accepts two parameters (current value and accumulator), an initial value and a list and returns a value combined with this function. There are two types of folds, a left and a right one, which combines from the left and from the right respectively
-
-As an example usage:
+By using the `:doc` command, we can get detailed information about a data type:
 
 ```
-Idris> map (\x => x + 1) [1, 2, 3]
-[2, 3, 4] : List Integer
-Idris> filter (\x => x > 1) [1, 2, 3]
-[2, 3] : List Integer
-Idris> foldl (\x, y => x + y) 0 [1, 2, 3]
-6 : Integer
-Idris> foldr (\x, y => x + y) 0 [1, 2, 3]
-6 : Integer
+Idris> :doc Nat
+Data type Prelude.Nat.Nat : Type
+    Natural numbers: unbounded, unsigned integers which can be pattern matched.
+    
+Constructors:
+    Z : Nat
+        Zero
+        
+    S : Nat -> Nat
+        Successor
 ```
 
-We can actually implement the map function ourselves:
+We can use the command `:search` to get a list of functions that have the corresponding type. For example:
 
 ```
-mymap : (a -> a) -> List a -> List a
-mymap _ [] = []
-mymap f (x::xs) = (f x) :: (mymap f xs)
+Idris> :search (Nat -> Nat)
+...
+
+= Prelude.Nat.S : Nat -> Nat
+Successor
+
+= Prelude.Nat.fact : Nat -> Nat
+Factorial function
+...
 ```
-
-Note that `::` is used by the built-in `List` type, and is equivalent to `Cons` we've used earlier. In addition, the built-in `List` type is polymorphic. 
-
-X> ### Exercise 18
-X>
-X> Do a few different calculations with `mymap` in order to get a deeper understanding of how it works.
 
 X> ### Exercise 19
 X>
-X> Implement a function `myfilter` that acts just like the `filter` function.
-X>
-X> Hint: Use `:t filter` to get its type.
+X> Check the documentation for `Bool` and `List`.
 
 X> ### Exercise 20
 X>
-X> Given `foldl (\x, y => [y] ++ x) [] [1, 2, 3]` and `foldr (\x, y => y ++ [x]) [] [1, 2, 3]`:
-X>
-X> 1. Evaluate both of them in Idris to see the values produced
-X> 2. Try to understand the differences between the 2 expressions
-X> 3. Remove the square brackets `[` and `]` in the lambda body to see what errors Idris produces
-X> 4. Evaluate them on paper to figure out why they produce the given results
+X> Find out a few binary operators for `Nat` by searching `Nat -> Nat -> Nat`, and then try to use some of them.
 
 ## 4.2. Curry-Howard isomorphism
 
