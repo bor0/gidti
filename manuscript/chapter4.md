@@ -14,7 +14,7 @@ There are two working modes in Idris: REPL (read-evaluate-print-loop) i.e. inter
 
 You can copy any of the example codes to some file, say, `test.idr` and launch Idris in REPL mode by writing `idris test.idr`. This will allow you to interact with Idris given the definitions in the file. If you change the contents of the file, that is, update the definitions, you can use the command `:r` while in REPL mode to reload the definitions.
 
-### 4.1.1. Basic definitions
+### 4.1.1. Defining functions
 
 Functions are defined as follows:
 
@@ -55,7 +55,7 @@ X> ### Exercise 2
 X>
 X> Write a function `five_if_zero` which accepts a natural number, and returns 5 when called with an argument of 0, otherwise returns the same number. For example, `five_if_zero 0` should return 5. `five_if_zero 123` should return 123.
 
-### 4.1.2. Defining our own types
+### 4.1.2. Defining types
 
 In Idris, types are first-class citizens. This means that types can be computed and passed to other functions. We define new types by using the keyword `data`. All types should begin with an uppercase letter, since lowercase letter variables are reserved for polymorphic types in functions. There are a couple of ways to define types. One example is by using the so called `Haskell98` syntax:
 
@@ -355,56 +355,7 @@ X> Come up with a definition for `sum'`, which should return a number that will 
 X>
 X> Hint: The type is `sum' : MyList Nat -> Nat`.
 
-### 4.1.6. Interfaces and implementations
-
-Interfaces are defined using the `interface` keyword, and they allow us to add constraints to functions that implements them[^ch4n2]. As an example, we'll take a look at the `Eq` interface:
-
-```
-interface Eq a where
-    (==) : a -> a -> Bool
-    (/=) : a -> a -> Bool
-        -- Minimal complete definition:
-        --      (==) or (/=)
-    x /= y     =  not (x == y)
-    x == y     =  not (x /= y)
-```
-
-Note how we can specify comments in the code by using two dashes. Comments are ignored by the Idris compiler and are only useful to the reader of the code.
-
-This definition says that if a function implements this interface then it has to support (or implement) the functions `==` and `/=` for the type that it's used. Additionally the interface also contains a definition for the methods themselves, but this is optional. Since the definition of `==` depends on `/=` (and vice-versa), it will be sufficient to only override one of them (if we need to), and the other one will be automatically generated. As an example, let's assume that we have a data type:
-
-```
-data Foo : Type where
-    Fooinst : Nat -> String -> Foo
-```
-
-To implement `Eq` for `Foo`, we can use the following syntax:
-
-```
-implementation Eq Foo where
-    (Fooinst x1 str1) == (Fooinst x2 str2) = (x1 == x2) && (str1 == str2)
-```
-
-We use `==` for `Nat` and `String`, since this is already defined in Idris itself. With this, we can easily use `==` and `/=` on the types:
-
-```
-Idris> Fooinst 3 "orange" == Fooinst 6 "apple"
-False : Bool
-Idris> Fooinst 3 "orange" /= Fooinst 6 "apple"
-True : Bool
-```
-
-X> ### Exercise 13
-X>
-X> Implement your own data type `Person` that accepts `name` and `age` and implement an interface for comparing `Person`s.
-X>
-X> Hint: One valid data type is:
-X>
-X> ```
-X> data Person name age = Personinst name age
-X> ```
-
-### 4.1.7. Total and partial functions
+### 4.1.6. Total and partial functions
 
 I> ### Definition 3
 I>
@@ -445,41 +396,11 @@ Idris> test2 1
 
 We can note that the evaluation of `test 1` does not produce a computed value as a result. Note that at compile-time, Idris will **evaluate the types only for total functions**.
 
-X> ### Exercise 14
+X> ### Exercise 13
 X>
 X> Try to define a function to be `total`, and at the same time make sure you are not covering all input cases. Note what Idris returns in this case.
 
-### 4.1.8. Strict evaluation
-
-I> ### Definition 4
-I>
-I> Lazy evaluation means that parameters are evaluated only when necessary. Conversely, strict evaluation means that all parameters are evaluated on a function call. As an example:
-
-Idris evaluates parameters in a strict fashion[^ch4n3]. For example, let's take a look at the following function:
-
-```
-ifThenElse : Bool -> a -> a -> a
-ifThenElse True  t e = t
-ifThenElse False t e = e
-```
-
-This function uses either the `t` or the `e` parameter, but not both. But the way it is written, it will evaluate both arguments before returning a result. It is a good optimization to only evaluate the parameter that is used. However, to achieve this, in Idris there is a built-in support for lazy evaluation. The implementation is:
-
-```
-data Lazy : Type -> Type where
-    Delay : (val : a) -> Lazy a
-    Force : Lazy a -> a
-```
-
-A value of type `Lazy a` will not be evaluated until `Force` is called upon it. Now we can write our `ifThenElse` function in the following way:
-
-```
-ifThenElse : Bool -> Lazy a -> Lazy a -> a
-ifThenElse True  t e = t
-ifThenElse False t e = e
-```
-
-### 4.1.9. Documentation and searching
+### 4.1.7. Documentation and searching
 
 By using the `:doc` command, we can get detailed information about a data type:
 
@@ -510,15 +431,15 @@ Factorial function
 ...
 ```
 
-X> ### Exercise 15
+X> ### Exercise 14
 X>
 X> Check the documentation for `Bool` and `List`.
 
-X> ### Exercise 16
+X> ### Exercise 15
 X>
 X> Find out a few binary operators for `Nat` by searching `Nat -> Nat -> Nat`, and then try to use some of them.
 
-### 4.1.10. Dependent types
+### 4.1.8. Dependent types
 
 We will implement the `List n` data type that we discussed in Section 4.3, which should limit the length of a list at the type level. To not conflict with the built-in Idris' `List`, we'll name it `MyList`. We can implement it as follows:
 
@@ -560,15 +481,15 @@ Which is a way of Idris telling us that our types do not match and that it canno
 
 In this example we've implemented a dependent type that puts the length of the list at the type level. In other programming languages that do not support dependent types, this is usually checked at the code level (run-time) and compile-time checks are not able to verify this.
 
-X> ### Exercise 17
+X> ### Exercise 16
 X>
 X> Come up with a function `isSingleton` that accepts a `Bool` and returns a `Type`. This function should return a type of `Nat` in the `True` case, and `List Nat` otherwise. Further, implement a function `mkSingle` that accepts a `Bool`, and returns `isSingleton True` or `isSingleton False`, and as a computed value will either return `0` or `Empty`.
 X>
 X> Hint: The data definitions are `isSingleton : Bool -> Type` and `mkSingle : (x : Bool) -> isSingleton x` respectively.
 
-### 4.1.11. Implicit parameters (or arguments)
+### 4.1.9. Implicit parameters
 
-Implicit parameters allow us to bring values from the type level to the program level. At the program level, by using curly braces we allow them to be used in the body of the function. Let's take a look at the following example, which uses our dependent type `MyList` that we defined earlier:
+Implicit parameters (arguments) allow us to bring values from the type level to the program level. At the program level, by using curly braces we allow them to be used in the body of the function. Let's take a look at the following example, which uses our dependent type `MyList` that we defined earlier:
 
 ```
 lengthMyList : MyList n -> Nat
@@ -612,7 +533,7 @@ Idris> lengthMyList {n = 1} (Cons 1 Empty)
 1 : Nat
 ```
 
-X> ### Exercise 18
+X> ### Exercise 17
 X>
 X> Try to evaluate the following code and observe the results:
 X>
@@ -620,9 +541,9 @@ X> ```
 X> lengthMyList {n = 2} (Cons 1 Empty)
 X> ```
 
-### 4.1.12. Higher order functions
+### 4.1.10. Higher order functions
 
-I> ### Definition 5
+I> ### Definition 4
 I>
 I> A higher order function is a function that takes one or more functions as parameters or returns a function as a result.
 
@@ -655,17 +576,17 @@ mymap f (x::xs) = (f x) :: (mymap f xs)
 
 Note that `::` is used by the built-in `List` type, and is equivalent to `Cons` we've used earlier. In addition, the built-in `List` type is polymorphic. 
 
-X> ### Exercise 19
+X> ### Exercise 18
 X>
 X> Do a few different calculations with `mymap` in order to get a deeper understanding of how it works.
 
-X> ### Exercise 20
+X> ### Exercise 19
 X>
 X> Implement a function `myfilter` that acts just like the `filter` function.
 X>
 X> Hint: Use `:t filter` to get its type.
 
-X> ### Exercise 21
+X> ### Exercise 20
 X>
 X> Given `foldl (\x, y => [y] ++ x) [] [1, 2, 3]` and `foldr (\x, y => y ++ [x]) [] [1, 2, 3]`:
 X>
@@ -673,62 +594,6 @@ X> 1. Evaluate both of them in Idris to see the values produced
 X> 2. Try to understand the differences between the 2 expressions
 X> 3. Remove the square brackets `[` and `]` in the lambda body to see what errors Idris produces
 X> 4. Evaluate them on paper to figure out why they produce the given results
-
-### 4.1.13. Reasoning by cases
-
-Let us assume that we have the following data structure:
-
-```
-data Probably x = Kinda x | Nope
-```
-
-The `Probably` data structure allows us to encode an additional value for the given polymorphic type. So, if we use `Probably Bool` and we know that `Bool` has only two constructors, then with `Probably Bool` we get one additional constructor, `Nope`. Further, let's see how we can use this data type as an example:
-
-```
-right_answer : Int -> Probably Bool
-right_answer 1  = Kinda False
-right_answer 42 = Kinda True
-right_answer _  = Nope
-```
-
-Now let's assume that we just want to return a `Bool` in terms of `right_answer`, that is `True` for the 42 case and `False` otherwise. To extract values from this function, we can take several approaches:
-
-1. We can use pattern matching
-1. We can use the `if...then...else` syntax
-
-Another alternative is to use the `case` keyword, which has a form of:
-
-```
-case (conditional_to_check) of
-    pattern_match_1 => ...
-    pattern_match_2 => ...
-    ...
-    _               => ...
-```
-
-It works similarly to pattern matching, but can be convenient when we have a function that has more than a few lines of code, and we need to pattern match somewhere in between. If we did a separate pattern match instead, we would have to duplicate the existing lines of code. This is not optimal, since with `case` we can pattern match right away. The underscore `_` matches all unspecified cases.
-
-```
-is_right : Int -> Bool
-is_right x = case (right_answer x) of
-                 Kinda y => case y of
-                     True => True
-                     _    => False
-                 _ => False
-```
-
-Interacting:
-
-```
-Idris> is_right 1
-False : Bool
-Idris> is_right 42
-True : Bool
-```
-
-X> ### Exercise 22
-X>
-X> Idris has a built-in data similar to `Probably`, which is called `Maybe`. Check its documentation with `:doc` and rework `right_answer` and `is_right` to work with `Maybe` instead.
 
 ## 4.2. Curry-Howard isomorphism
 
@@ -760,7 +625,7 @@ As we've discussed, we can use product types to encode pairs. Now we can note th
 1. Left-elimination, which is a pattern match of `And_intro a _` is equivalent to the first element of the product type
 1. Right-elimination, which is a pattern match of `And_intro _ b` is equivalent to the second element of the product type
 
-X> ### Exercise 23
+X> ### Exercise 21
 X>
 X> Given `data Or a b = Or_introl a | Or_intror b`, show that {$$}a \to (a \lor b){/$$} and {$$}b \to (a \lor b){/$$}.
 X>
@@ -770,7 +635,7 @@ X> Hint: Check the documentation of `the` with `:doc the`, and use it with the t
 
 IO stands for Input/Output. Examples of a few IO operations are: write to a disk file, talk to a network computer, launch rockets. 
 
-I> ### Definition 6
+I> ### Definition 5
 I>
 I> Functions can be roughly categorized in two parts: **pure** and **impure**.
 I>
@@ -851,11 +716,11 @@ Idris> pack ['H', 'e', 'l', 'l', 'o']
 "Hello" : String
 ```
 
-X> ### Exercise 24
+X> ### Exercise 22
 X>
 X> Create a program that accepts a `String` and then prints the length of the input string.
 
-X> ### Exercise 25
+X> ### Exercise 23
 X>
 X> Find the function that converts a `Nat` to a `String` (search for `Nat -> String`) and then finish the following program:
 X>
@@ -866,7 +731,3 @@ X>     putStrLn ("The number is: " ++ (<??> 12345))
 X> ```
 
 [^ch4n1]: It is worth noting that in Haskell we have types and kinds. Kinds are similar to types, that is, they are defined as one level above types in simply typed lambda calculus. For example, types such as `Nat` have a kind `Nat :: *` and it's stated that `Nat` is of kind `*`. Types such as `Nat -> Nat` have a kind of `* -> *`. Since in Idris types are first-class citizens, there is no distinction between types and kinds.
-
-[^ch4n2]: This is equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.
-
-[^ch4n3]: In contrast, the default behaviour in Haskell is lazy evaluation.
