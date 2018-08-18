@@ -608,7 +608,7 @@ function (pattern_match_1) with (expression)
 Note how we have to specify new pattern matching clauses after the line that uses the `with` keyword. This is so because we won't have the original pattern match in context. Given this, an alternative definition of the function above is:
 
 ```
-total even_members' : Natlist -> Natlist
+total even_members' : MyList Nat -> MyList Nat
 even_members' End = End
 even_members' (Element x l') with (even x)
   even_members' (Element x l') | True  = Element x (even_members' l')
