@@ -38,19 +38,19 @@ In the following example we will see how total and partial functions can both pa
 list_to_vect : List Char -> Vect 2 Char
 list_to_vect (x :: y :: []) = VCons x (VCons y VNil)
 --list_to_vect _ = VCons 'a' (VCons 'b' VNil)
- 
+
 vect_to_list : Vect 2 Char -> List Char
 vect_to_list (VCons a (VCons b VNil)) = a :: b :: []
- 
+
 wrapunwrap : String -> String
 wrapunwrap name = pack (vect_to_list (list_to_vect (unpack name)))
- 
+
 greet : IO ()
 greet = do
     putStr "What is your name? "
     name <- getLine
     putStrLn ("Hello " ++ (wrapunwrap name))
- 
+
 main : IO ()
 main = do
     putStrLn "Following greet, enter any number of chars"
@@ -80,20 +80,20 @@ Idris> :exec
 Following greet, enter any number of chars
 What is your name? Hi
 Hello Hi
-Idris> 
+Idris>
 ```
 
 Idris stopped the process execution. Going one step further, after we compile:
 
 ```
 boro@bor0:~/idris-test$ idris --codegen node test.idr -o test.js
-boro@bor0:~/idris-test$ node test.js 
+boro@bor0:~/idris-test$ node test.js
 Following greet, enter any number of chars
 What is your name? Hello
 /Users/boro/idris-test/test.js:177
     $cg$7 = new $HC_2_1$Prelude__List___58__58_($cg$2.$1, new $HC_2_1$Prelude__List___58__58_($cg$9.$1, $HC_0_0$Prelude__List__Nil));
                                                                                                     ^
- 
+
 TypeError: Cannot read property '$1' of undefined
     at Main__greet (/Users/boro/idris-test/test.js:177:101)
     at Main__main (/Users/boro/idris-test/test.js:187:12)
@@ -105,7 +105,7 @@ TypeError: Cannot read property '$1' of undefined
     at Module.load (module.js:573:32)
     at tryModuleLoad (module.js:513:12)
     at Function.Module._load (module.js:505:3)
-boro@bor0:~/idris-test$ node test.js 
+boro@bor0:~/idris-test$ node test.js
 Following greet, enter any number of chars
 What is your name? Hi
 Hello Hi
