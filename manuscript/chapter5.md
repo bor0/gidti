@@ -581,6 +581,105 @@ X> ### Exercise 17
 X>
 X> Use `fromLteSucc` with implicits to construct some proofs.
 
+### 5.2.7 List of even naturals
+
+We will prove that a list of even numbers contains no odd numbers. We will re-use the functions `even` in 4.1.4 and `even_members` in 4.1.11. We will also need another function to check if a list has odd numbers:
+
+```
+total has_odd : MyList Nat -> Bool
+has_odd End            = False
+has_odd (Element x l') = if (even x) then False else has_odd l'
+```
+
+Now, to prove that a list of even members contains no odd members, we can use the following type definition:
+
+```
+even_members_list_only_even : (l : MyList Nat) -> has_odd (even_members l) = False
+```
+
+Note that `has_odd` is branching computation depending on the value of `even x`, so we have to pattern match with value of expressions, by using the `with` keyword. The base case is simply `Refl`:
+
+```
+even_members_list_only_even End = Refl
+```
+
+However, for the inductive step, we will use `with` on `even n` and produce a proof depending on the evenness of the number:
+
+```
+even_members_list_only_even (Element n l') with (even n) proof even_n
+  even_members_list_only_even (Element n l') | False = let IH = even_members_list_only_even l' in ?a
+  even_members_list_only_even (Element n l') | True  = let IH = even_members_list_only_even l' in ?b
+```
+
+Note how we specified `proof even_n` right after the expression in the `with` match. The `proof` keyword followed by a variable brings us the proof of the expression to the list of premises. So, `with (even n) proof even_n` will pattern match on the expression `even n`, and will also bring the proof `even n = True` in the premises. If we now check the first hole:
+
+```
+  n : Nat
+  l' : MyList Nat
+  even_n : False = even n
+  IH : has_odd (even_members l') = False
+--------------------------------------
+a : has_odd (even_members l') = False
+```
+
+That should be simple, we can just use `IH` to solve the goal. For the second hole, we have:
+
+```
+  n : Nat
+  l' : MyList Nat
+  even_n : True = even n
+  IH : has_odd (even_members l') = False
+--------------------------------------
+b : ifThenElse (even n) (Delay False) (Delay (has_odd (even_members l'))) = False
+```
+
+Whoops, seems that `if...then...else` uses a lazy structure, which is kind of tricky to rewrite to. In order to make our proof simpler, we will rewrite the `has_odd` function:
+
+```
+total has_odd : MyList Nat -> Bool
+has_odd End = False
+has_odd (Element x l') with (even x)
+  has_odd (Element x l') | True  = has_odd l'
+  has_odd (Element x l') | False = True
+```
+
+Now our goal becomes:
+
+```
+  n : Nat
+  l' : MyList Nat
+  even_n : True = even n
+  IH : has_odd (even_members l') = False
+--------------------------------------
+b : with block in Main.has_odd (even n) n (even_members l') = False
+```
+
+Q> How do we rewrite the inductive hypothesis to the goal in this case?
+Q>
+Q> It seems that we can't just rewrite here. We have two equalities `IH: x = False` and `b: x' = False`. We need to swap `IH: False = x` in order to be able to apply it to the goal. Idris provides a function called `sym` which takes an equality of `a = b` and converts it to `b = a`.
+
+We can try to rewrite `sym even_n` to the goal, and it now becomes:
+
+```
+  n : Nat
+  l' : MyList Nat
+  even_n : True = even n
+  IH : has_odd (even_members l') = False
+  _rewrite_rule : even n = True
+--------------------------------------
+b : has_odd (even_members l') = False
+```
+
+Thus, the complete proof:
+
+```
+even_members_list_only_even : (l : MyList Nat) -> has_odd (even_members l) = False
+even_members_list_only_even End = Refl
+even_members_list_only_even (Element n l') with (even n) proof even_n
+  even_members_list_only_even (Element n l') | False = let IH = even_members_list_only_even l' in IH
+  even_members_list_only_even (Element n l') | True  = let IH = even_members_list_only_even l' in rewrite sym even_n in IH
+```
+
 ## 5.3. Trees
 
 A tree structure is a way to represent hierarchical data. We will work with binary trees in this section, which are trees that contain exactly two sub-trees. We can define this tree structure using the following implementation:
