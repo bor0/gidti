@@ -345,9 +345,9 @@ X> Hint: The type is `length' : MyList a -> Nat`
 
 X> ### Exercise 11
 X>
-X> Come up with a definition for `even-only'`, which should return a new list with even natural numbers only.
+X> Come up with a definition for `even_members`, which should return a new list with even natural numbers only.
 X>
-X> Hint: The type is `even-only' : MyList Nat -> MyList Nat`. You can re-use the definition of `even` we've discussed earlier.
+X> Hint: The type is `even_members : MyList Nat -> MyList Nat`. You can re-use the definition of `even` we've discussed earlier.
 
 X> ### Exercise 12
 X>
@@ -360,7 +360,7 @@ X> Hint: The type is `sum' : MyList Nat -> Nat`.
 I> ### Definition 3
 I>
 I> A total function is a function that:
-I> 
+I>
 I> 1. Terminates for all possible inputs
 I> 1. Returns a value of a potentially infinite result
 
@@ -433,7 +433,7 @@ mymap _ [] = []
 mymap f (x::xs) = (f x) :: (mymap f xs)
 ```
 
-Note that `::` is used by the built-in `List` type, and is equivalent to `Cons` we've used earlier. In addition, the built-in `List` type is polymorphic. 
+Note that `::` is used by the built-in `List` type, and is equivalent to `Cons` we've used earlier. In addition, the built-in `List` type is polymorphic.
 
 X> ### Exercise 14
 X>
@@ -456,30 +456,30 @@ X> 4. Evaluate them on paper to figure out why they produce the given results
 
 ### 4.1.8. Dependent types
 
-We will implement the `List n` data type that we discussed in Section 4.3, which should limit the length of a list at the type level. To not conflict with the built-in Idris' `List`, we'll name it `MyList`. We can implement it as follows:
+We will implement the `List n` data type that we discussed in Section 4.3, which should limit the length of a list at the type level. Idris already has a built-in list like this called `Vect`, so to not conflict we'll name it `MyVect`. We can implement it as follows:
 
 ```
-data MyList : (n : Nat) -> Type where
-    Empty : MyList 0
-    Cons  : (x : Nat) -> (xs : MyList len) -> MyList (S len)
+data MyVect : (n : Nat) -> Type where
+    Empty : MyVect 0
+    Cons  : (x : Nat) -> (xs : MyVect len) -> MyVect (S len)
 ```
 
-We created a new type called `MyList` which accepts a natural number and returns a `Type`, that is joined with two type constructors:
+We created a new type called `MyVect` which accepts a natural number and returns a `Type`, that is joined with two type constructors:
 
 1. `Empty` - which is just the empty list
-1. `Cons : (x : Nat) -> (xs : MyList len) -> MyList (S len)` - which, given a natural number and a list of length `len`, will return a list of length `S len`, that is, `len + 1`
+1. `Cons : (x : Nat) -> (xs : MyVect len) -> MyVect (S len)` - which, given a natural number and a list of length `len`, will return a list of length `S len`, that is, `len + 1`
 
 If we now use the following code snippet, it will pass the compile-time checks:
 
 ```
-x : MyList 2
+x : MyVect 2
 x = Cons 1 (Cons 2 Empty)
 ```
 
 However, if we try to use this code snippet instead:
 
 ```
-x : MyList 3
+x : MyVect 3
 x = Cons 1 (Cons 2 Empty)
 ```
 
@@ -487,9 +487,9 @@ we will get the following error:
 
 ```
 Type mismatch between
-	MyList 0 (Type of Empty)
+	MyVect 0 (Type of Empty)
 and
-	MyList 1 (Expected type)
+	MyVect 1 (Expected type)
 ```
 
 Which is a way of Idris telling us that our types do not match and that it cannot verify the "proof" provided.
@@ -498,53 +498,53 @@ In this example we've implemented a dependent type that puts the length of the l
 
 X> ### Exercise 17
 X>
-X> Come up with a function `isSingleton` that accepts a `Bool` and returns a `Type`. This function should return a type of `Nat` in the `True` case, and `List Nat` otherwise. Further, implement a function `mkSingle` that accepts a `Bool`, and returns `isSingleton True` or `isSingleton False`, and as a computed value will either return `0` or `Empty`.
+X> Come up with a function `isSingleton` that accepts a `Bool` and returns a `Type`. This function should return a type of `Nat` in the `True` case, and `MyVectt Nat` otherwise. Further, implement a function `mkSingle` that accepts a `Bool`, and returns `isSingleton True` or `isSingleton False`, and as a computed value will either return `0` or `Empty`.
 X>
 X> Hint: The data definitions are `isSingleton : Bool -> Type` and `mkSingle : (x : Bool) -> isSingleton x` respectively.
 
 ### 4.1.9. Implicit parameters
 
-Implicit parameters (arguments) allow us to bring values from the type level to the program level. At the program level, by using curly braces we allow them to be used in the body of the function. Let's take a look at the following example, which uses our dependent type `MyList` that we defined earlier:
+Implicit parameters (arguments) allow us to bring values from the type level to the program level. At the program level, by using curly braces we allow them to be used in the body of the function. Let's take a look at the following example, which uses our dependent type `MyVect` that we defined earlier:
 
 ```
-lengthMyList : MyList n -> Nat
-lengthMyList { n = Z } list = 0
-lengthMyList { n = k } list = k
+lengthMyVect : MyVect n -> Nat
+lengthMyVect { n = Z } list = 0
+lengthMyVect { n = k } list = k
 ```
 
-In this case, we've defined a function `lengthMyList` that takes a `MyList` and returns a natural number. The value `n` in the body of the function will be the same as the value of `n` at the type level. They are called implicit parameters because the caller of this function needn't pass these parameters. In the function body we define implicit parameters with curly braces and we also need to specify the list parameter which is of type `MyList n` to pattern match against it. But, note how we don't refer to the list parameter in the computation part of this function and instead we can use an underscore (which represents an unused parameter) to get to:
+In this case, we've defined a function `lengthMyVect` that takes a `MyVect` and returns a natural number. The value `n` in the body of the function will be the same as the value of `n` at the type level. They are called implicit parameters because the caller of this function needn't pass these parameters. In the function body we define implicit parameters with curly braces and we also need to specify the list parameter which is of type `MyVect n` to pattern match against it. But, note how we don't refer to the list parameter in the computation part of this function and instead we can use an underscore (which represents an unused parameter) to get to:
 
 ```
-lengthMyList : MyList n -> Nat
-lengthMyList { n = Z } _ = 0
-lengthMyList { n = k } _ = k 
+lengthMyVect : MyVect n -> Nat
+lengthMyVect { n = Z } _ = 0
+lengthMyVect { n = k } _ = k
 ```
 
 We can also have implicit parameters at the type level. As a matter of fact, an equivalent type definition of that function is:
 
 ```
-lengthMyList : {n : Nat} -> MyList n -> Nat
+lengthMyVect : {n : Nat} -> MyVect n -> Nat
 ```
 
 If we ask Idris to give us the type of this function, we will get the following for either of the type definitions above:
 
 ```
-Idris> :t lengthMyList
-lengthMyList : MyList n -> Nat
+Idris> :t lengthMyVect
+lengthMyVect : MyVect n -> Nat
 ```
 
 However, we can use the command `:set showimplicits` which will show the implicits on the type level. If we do that, we will get the following for either of the type definitions above:
 
 ```
 Idris> :set showimplicits
-Idris> :t lengthMyList
-lengthMyList : {n : Nat} -> MyList n -> Nat
+Idris> :t lengthMyVect
+lengthMyVect : {n : Nat} -> MyVect n -> Nat
 ```
 
 To pass values for implicit arguments, we can use the following syntax:
 
 ```
-Idris> lengthMyList {n = 1} (Cons 1 Empty)
+Idris> lengthMyVect {n = 1} (Cons 1 Empty)
 1 : Nat
 ```
 
@@ -553,10 +553,73 @@ X>
 X> Try to evaluate the following code and observe the results:
 X>
 X> ```
-X> lengthMyList {n = 2} (Cons 1 Empty)
+X> lengthMyVect {n = 2} (Cons 1 Empty)
 X> ```
 
-### 4.1.10. Documentation and searching
+### 4.1.10. Strict evaluation
+
+I> ### Definition 5
+I>
+I> Lazy evaluation means that parameters are evaluated only when necessary. Conversely, strict evaluation means that all parameters are evaluated on a function call. As an example:
+
+Idris evaluates parameters in a strict fashion[^ch4n2]. For example, let's take a look at the following function:
+
+```
+ifThenElse : Bool -> a -> a -> a
+ifThenElse True  t e = t
+ifThenElse False t e = e
+```
+
+This function uses either the `t` or the `e` parameter, but not both. But the way it is written, it will evaluate both arguments before returning a result. It is a good optimization to only evaluate the parameter that is used. However, to achieve this, in Idris there is a built-in support for lazy evaluation. The implementation is:
+
+```
+data Lazy : Type -> Type where
+    Delay : (val : a) -> Lazy a
+    Force : Lazy a -> a
+```
+
+A value of type `Lazy a` will not be evaluated until `Force` is called upon it. Now we can write our `ifThenElse` function in the following way:
+
+```
+ifThenElse : Bool -> Lazy a -> Lazy a -> a
+ifThenElse True  t e = t
+ifThenElse False t e = e
+```
+
+### 4.1.11. Pattern matching expressions
+
+We've seen how pattern matching is a powerful concept, in that it allows us to pattern match against type constructors. For example we can write a filtering function that given a list of naturals produces a list of even naturals, by re-using the earlier definition of `even`:
+
+```
+total even_members : MyList Nat -> MyList Nat
+even_members End            = End
+even_members (Element x l') = if (even x) then (Element x (even_members l')) else even_members l'
+```
+
+The function above is a recursive function, and depending on the value of `even x`, it will branch the recursion. But note that we can't easily pattern match against the result of `even x`, that is we have to use it in the function body to do a check. Idris provides another additional keyword `with` that allows us to pattern match a value of some expression. The keyword `with` has the following syntax:
+
+```
+function (pattern_match_1) with (expression)
+    pattern_match_1' | (value of expression to match) = ...
+    pattern_match_2' | (value of expression to match) = ...
+    ...
+```
+
+Note how we have to specify new pattern matching clauses after the line that uses the `with` keyword. This is so because we won't have the original pattern match in context. Given this, an alternative definition of the function above is:
+
+```
+total even_members' : Natlist -> Natlist
+even_members' End = End
+even_members' (Element x l') with (even x)
+  even_members' (Element x l') | True  = Element x (even_members' l')
+  even_members' (Element _ l') | False = (even_members' l')
+```
+
+In this function we defined two new pattern matches after the line that uses the `with` keyword. Since we don't have `x` and `l'` in this new pattern matching context, we have to rewrite them on the left side of the pipe, and on the right side of the pipe we pattern match against the value of `even x`, and then branch the recursion (computation).
+
+We will see an interesting difference between functions written using `if...then...else` and `with` in the proofs section.
+
+### 4.1.12. Documentation and searching
 
 By using the `:doc` command, we can get detailed information about a data type:
 
@@ -633,9 +696,9 @@ X> Hint: Check the documentation of `the` with `:doc the`, and use it with the t
 
 ## 4.3. IO
 
-IO stands for Input/Output. Examples of a few IO operations are: write to a disk file, talk to a network computer, launch rockets. 
+IO stands for Input/Output. Examples of a few IO operations are: write to a disk file, talk to a network computer, launch rockets.
 
-I> ### Definition 5
+I> ### Definition 6
 I>
 I> Functions can be roughly categorized in two parts: **pure** and **impure**.
 I>
@@ -731,3 +794,5 @@ X>     putStrLn ("The number is: " ++ (<??> 12345))
 X> ```
 
 [^ch4n1]: It is worth noting that in Haskell we have types and kinds. Kinds are similar to types, that is, they are defined as one level above types in simply typed lambda calculus. For example, types such as `Nat` have a kind `Nat :: *` and it's stated that `Nat` is of kind `*`. Types such as `Nat -> Nat` have a kind of `* -> *`. Since in Idris types are first-class citizens, there is no distinction between types and kinds.
+
+[^ch4n2]: In contrast, the default behaviour in Haskell is lazy evaluation.
