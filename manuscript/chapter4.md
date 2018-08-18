@@ -560,7 +560,7 @@ X> ```
 
 I> ### Definition 5
 I>
-I> Lazy evaluation means that parameters are evaluated only when necessary. Conversely, strict evaluation means that all parameters are evaluated on a function call. As an example:
+I> Lazy evaluation means that parameters are evaluated only when necessary. Conversely, strict evaluation means that all parameters are evaluated on a function call.
 
 Idris evaluates parameters in a strict fashion[^ch4n2]. For example, let's take a look at the following function:
 

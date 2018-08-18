@@ -581,7 +581,7 @@ X> ### Exercise 17
 X>
 X> Use `fromLteSucc` with implicits to construct some proofs.
 
-### 5.2.7 List of even naturals
+### 5.2.7. List of even naturals
 
 We will prove that a list of even numbers contains no odd numbers. We will re-use the functions `even` in 4.1.4 and `even_members` in 4.1.11. We will also need another function to check if a list has odd numbers:
 
@@ -611,7 +611,7 @@ even_members_list_only_even (Element n l') with (even n) proof even_n
   even_members_list_only_even (Element n l') | True  = let IH = even_members_list_only_even l' in ?b
 ```
 
-Note how we specified `proof even_n` right after the expression in the `with` match. The `proof` keyword followed by a variable brings us the proof of the expression to the list of premises. So, `with (even n) proof even_n` will pattern match on the expression `even n`, and will also bring the proof `even n = True` in the premises. If we now check the first hole:
+Note how we specified `proof even_n` right after the expression in the `with` match. The `proof` keyword followed by a variable brings us the proof of the expression to the list of premises. So, `with (even n) proof even_n` will pattern match on the expression `even n`, and will also bring the proof `even n` in the premises. If we now check the first hole:
 
 ```
   n : Nat
