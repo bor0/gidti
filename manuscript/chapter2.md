@@ -12,7 +12,7 @@ I> ### Definition 1
 I>
 I> The propositional branch of logic is concerned with the study of **propositions**, which are statements that are either {$$}\top{/$$} (true) or {$$}\bot{/$$} (false). Variables can be used to represent propositions. Propositions are formed by other propositions with the use of logical connectives. The most basic logical connectives are {$$}\land{/$$} (and), {$$}\lor{/$$} (or), {$$}\lnot{/$$} (negation), and {$$}\to{/$$} (implication).
 
-For example, we can say `a = Salad is organic`, and thus {$$}a{/$$} is a true statement. Another statement is `a = Rock is organic`, and thus {$$}a{/$$} is a false statement. The statement `a = Hi there!` is neither a true nor a false statement, and thus is not a proposition.
+For example, we can say `a = Salad is organic`, and thus `a` is a true statement. Another statement is `a = Rock is organic`, and thus `a` is a false statement. The statement `a = Hi there!` is neither a true nor a false statement, and thus is not a proposition.
 
 The "and" connective means that both {$$}a{/$$} and {$$}b{/$$} have to be true in order for {$$}a \land b{/$$} to be true. For example, the statement `I like milk and sugar` is true as a whole iff both `I like milk` and `I like sugar` are true.
 
@@ -204,7 +204,7 @@ I> ### Definition 14
 I>
 I> Substitution consists of systematically replacing occurrences of some symbol with a given value. It can be applied in different contexts involving formal objects containing symbols. 
 
-For example, let's assume we have the following:
+For example, let's assume that we have the following:
 
 1. An inference rule that states: If {$$}a = b{/$$} and {$$}b = c{/$$}, then {$$}a = c{/$$}
 1. Two axioms that state: {$$}1 = 2{/$$} and {$$}2 = 3{/$$}
@@ -226,7 +226,7 @@ I> ### Definition 16
 I>
 I> A proof is defined as an inferential **argument** for a list of given mathematical propositions. To prove a mathematical fact, we need to show that the conclusion (goal that we want to prove) logically follows from the hypothesis (list of given propositions).
 
-For example, to prove that a goal {$$}G{/$$} follows from the following list of given propositions {$$}g_1, g_2, \ldots, g_n{/$$}, we need to show {$$}(g_1 \land g_2 \land \ldots \land g_n) \to G{$$}. Note the relation between the implication[^ch2n4] (conditional statement) connective and proofs.
+For example, to prove that a goal {$$}G{/$$} follows from the following list of given propositions {$$}g_1, g_2, \ldots, g_n{/$$}, we need to show {$$}(g_1 \land g_2 \land \ldots \land g_n) \to G{/$$}. Note the relation between the implication[^ch2n4] (conditional statement) connective and proofs.
 
 X> ### Exercise 10
 X>
@@ -291,7 +291,7 @@ For example, given {$$}A \lor B{/$$}, {$$}B \to C{/$$}, {$$}\lnot C{/$$}, prove 
 
 ### 2.3.3. Formal proofs
 
-We've seen how we can construct proofs with truth tables. However, if our statements involve the use of quantifiers, then doing proofs with truth tables is impossible. Three-column proofs, in contrast, contain many details. Ideally, the proof should be short, clear and concise about what we want to prove. Therefore, we will try to prove the same statement by means of a formal proof.
+We've seen how we can construct proofs with truth tables. However, if our statements involve the use of quantifiers, then doing proofs with truth tables is impossible. Three-column proofs, in contrast, contain many details. Ideally, the proof should be short, clear and concise about what we want to prove. Therefore, we will try to prove a statement by means of a formal proof.
 
 To prove that {$$}A \land B \to B{/$$}, we start by assuming that {$$}A \land B{/$$} is true, since otherwise the statement is vacuously true by definition for implication. If {$$}A \land B{/$$} is true, then both {$$}A{/$$} and {$$}B{/$$} are true by definition of `and`, that is, we can conclude {$$}B{/$$}.
 
