@@ -57,7 +57,7 @@ This definition of implication might be a bit counter-intuitive the way we use i
 | {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\top{/$$}    |
 | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\top{/$$}    |
 
-As stated in Definition 1, propositions can also be defined (or combined) in terms of other propositions. For example, we can choose {$$}a{/$$} to be `I like milk` and {$$}b{/$$} to be `I like sugar`. So {$$}a \land b{/$$} means that we like both milk and sugar. Now, if we let {$$}c{/$$} be `I am cool`, then with {$$}a \land b \to c{/$$} we say: `If I like milk and sugar, then I am cool`. Note how we took a proposition {$$}a \land b{/$$} and modified it with another connective to form a new proposition.
+As stated in Definition 1, propositions can also be defined (or combined) in terms of other propositions. For example, we can choose {$$}a{/$$} to be `I like milk` and {$$}b{/$$} to be `I like sugar`. So {$$}a \land b{/$$} means that I like both milk and sugar. Now, if we let {$$}c{/$$} be `I am cool` then with {$$}a \land b \to c{/$$} we say: `If I like milk and sugar, then I am cool`. Note how we took a proposition {$$}a \land b{/$$} and modified it with another connective to form a new proposition.
 
 X> ### Exercise 1
 X>
@@ -257,7 +257,7 @@ I> ### Definition 17
 I>
 I> A mathematical argument is valid iff in the case where all of the propositions are true, the conclusion is also true.
 
-Note that wherever {$$}A \land B{/$$} is true (the list of given propositions, or premises, or hypothesis), then so is {$$}A \land B \to B{/$$} (the conclusion), which means that this is a valid logical argument, according to Definition 17.
+Note that wherever {$$}A \land B{/$$} is true (the list of given propositions, or premises, or hypothesis) then so is {$$}A \land B \to B{/$$} (the conclusion), which means that this is a valid logical argument according to Definition 17.
 
 X> ### Exercise 12
 X>
@@ -293,7 +293,7 @@ For example, given {$$}A \lor B{/$$}, {$$}B \to C{/$$}, {$$}\lnot C{/$$}, prove 
 
 We've seen how we can construct proofs with truth tables. However, if our statements involve the use of quantifiers, then doing proofs with truth tables is impossible. Three-column proofs, in contrast, contain many details. Ideally, the proof should be short, clear and concise about what we want to prove. Therefore, we will try to prove a statement by means of a formal proof.
 
-To prove that {$$}A \land B \to B{/$$}, we start by assuming that {$$}A \land B{/$$} is true, since otherwise the statement is vacuously true by definition for implication. If {$$}A \land B{/$$} is true, then both {$$}A{/$$} and {$$}B{/$$} are true by definition of `and`, that is, we can conclude {$$}B{/$$}.
+To prove {$$}A \land B \to B{/$$}, we start by assuming that {$$}A \land B{/$$} is true, since otherwise the statement is vacuously true by definition for implication. If {$$}A \land B{/$$} is true, then both {$$}A{/$$} and {$$}B{/$$} are true by definition of `and`, that is, we can conclude {$$}B{/$$}.
 
 Do not worry if the previous paragraph sounded too magical. There is not much magic involved. Usually it comes down to using a few rules (or "tricks", if you will) for how we can use given information and achieve our goal. We will summarize these proof techniques next.
 
