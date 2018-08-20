@@ -35,11 +35,10 @@ Q> Thus, for Russell's paradox specifically, if we set the type of a person to b
 
 ## 3.1. Lambda calculus
 
-We will start this chapter by giving a formal definition of what lambda calculus is, and then we will explain each piece of the formal definition.
+Lambda calculus is a formal system for expressing computation[^ch3n4]. The grammar rules are divided in two parts: function abstraction and function application. Function abstraction defines what a function does, and function application "computes" a function. For example {$$}f(x) = x + 1{/$$} is a function abstraction and {$$}f(3){/$$} is a function application. The equality sign {$$}={/$$} is replaced with a dot, and instead of writing {$$}f(x){/$$} we write {$$}\lambda x{/$$}. To represent {$$}f(x) = x + 1{/$$} we write {$$}\lambda x . x + 1{/$$}. Parentheses allow us to specify the order of evaluation.
 
 I> ### Definition 4
 I>
-I> Lambda calculus is a formal system for expressing computation[^ch3n4].
 I> Per Wikipedia, the set of symbols for this system is defined as:
 I>
 I> 1. There are variables {$$}v_1, v_2, \ldots{/$$}
@@ -52,9 +51,7 @@ I> 1. If {$$}x{/$$} is a variable, then {$$}x \in \Lambda{/$$}
 I> 1. If {$$}x{/$$} is a variable and {$$}M \in \Lambda{/$$}, then {$$}(\lambda x.M) \in \Lambda{/$$} (rule of abstraction)
 I> 1. If {$$}M, N \in \Lambda{/$$}, then {$$}(M \ N) \in \Lambda{/$$} (rule of application)
 
-Abstraction is when we define a function to which no arguments are applied, that is, there are no function calls. Application is when we apply arguments to some defined function.
-
-Some well-formed expressions are {$$}\lambda f \ x . f \ x{/$$} and {$$}\lambda f \ x . f \ (f \ x){/$$}. In fact, we can encode numbers this way. The first example can be thought of as the number one, and the second as the number two. This encoding is known as the Church encoding. Operations on numbers (plus, minus, etc) can also be defined in a similar way. With the {$$}\lambda{/$$} symbol we begin an abstraction and with the {$$}.{/$$} symbol we separate the abstraction from the function body. In other words, 1 is defined roughly as {$$}f(x){/$$}, and 2 as {$$}f(f(x)){/$$}. Note that {$$}f{/$$} and {$$}x{/$$} do not have special definitions, they are abstract objects.
+Some well-formed expressions are {$$}\lambda f \ x . f \ x{/$$} and {$$}\lambda f \ x . f \ (f \ x){/$$}. In fact, we can encode numbers this way. The first example can be thought of as the number one, and the second as the number two. In other words, the number 1 is defined roughly as {$$}f(x){/$$}, and 2 as {$$}f(f(x)){/$$}. Note that {$$}f{/$$} and {$$}x{/$$} do not have special definitions, they are abstract objects. This encoding is known as the Church encoding. Operations on numbers (plus, minus, etc) can also be defined in a similar way. 
 
 X> ### Exercise 1
 X>
