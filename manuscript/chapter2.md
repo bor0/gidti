@@ -226,7 +226,7 @@ I> ### Definition 16
 I>
 I> A proof is defined as an inferential **argument** for a list of given mathematical propositions. To prove a mathematical fact, we need to show that the conclusion (goal that we want to prove) logically follows from the hypothesis (list of given propositions).
 
-For example, to prove that a goal {$$}G{/$$} follows from the following list of given propositions {$$}g_1, g_2, \ldots, g_n{/$$}, we need to show {$$}(g_1 \land g_2 \land \ldots \land g_n) \to G{/$$}. Note the relation between the implication[^ch2n4] (conditional statement) connective and proofs.
+For example, to prove that a goal {$$}G{/$$} follows from a set of given propositions {$$}\{ g_1, g_2, \ldots, g_n \}{/$$}, we need to show {$$}(g_1 \land g_2 \land \ldots \land g_n) \to G{/$$}. Note the relation between the implication[^ch2n4] (conditional statement) connective and proofs.
 
 X> ### Exercise 10
 X>
