@@ -400,13 +400,13 @@ X> ### Exercise 13
 X>
 X> Try to define a function to be `total`, and at the same time make sure you are not covering all input cases. Note what Idris returns in this case.
 
-### 4.1.7. Higher order functions
+### 4.1.7. Higher-order functions
 
 I> ### Definition 4
 I>
-I> A higher order function is a function that takes one or more functions as parameters or returns a function as a result.
+I> A higher-order function is a function that takes one or more functions as parameters or returns a function as a result.
 
-There are three built-in higher order functions that are generally useful: `map`, `filter`, `fold` (left and right). Here's the description of each:
+There are three built-in higher-order functions that are generally useful: `map`, `filter`, `fold` (left and right). Here's the description of each:
 
 1. `map` is a function that takes as input a function with a single parameter and a list and returns a list where all members of the list have this function applied to
 1. `filter` is a function that takes as input a function (predicate) with a single parameter (that returns a `Bool`) and a list and only returns those members in the list whose predicate evaluates to `True`
