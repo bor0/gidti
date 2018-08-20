@@ -48,7 +48,7 @@ The implication connective allows us to express conditional statements. It means
 1. If it doesn't rain, then the ground is wet. This one is a bit tricky to grasp. The reason why we define it to be true is that we don't really know much about the wetness of the ground, other than the fact that it did not rain. Maybe it was already wet prior to the rain, or someone poured water on the ground.
 1. If it doesn't rain, then the ground is not wet. This is obviously true.
 
-This definition of implication might be a bit counter-intuitive the way we use it in day to day speaking. When we say `If it rains, then the ground is wet` we usually mean both that `If the ground is wet, then it rains` and `If it rains, then the ground is wet`. This is known as biconditional, however, for the purposes of this book we will be using conditional (implication).
+This definition of implication might be a bit counter-intuitive the way we use it in day to day speaking. When we say `If it rains, then the ground is wet` we usually mean both that `If the ground is wet, then it rains` and `If it rains, then the ground is wet`. This is known as biconditional and is denoted as {$$}a \leftrightarrow b{/$$}.
 
 | {$$}a{/$$}    | {$$}b{/$$}    | {$$}a \to b{/$$} |
 | ------------- | ------------- | ---------------- |
@@ -82,9 +82,14 @@ In the following example the universal quantifier says that the predicate will h
 
 Another example of combining a predicate with the universal quantifier is `P(x) = x is a mammal`, then {$$}\forall x P(x){/$$} is true, for all {$$}x{/$$} ranging over the set of humans.
 
+The negation of the quantifiers is defined as follows:
+
+1. {$$}\lnot (\forall x P(x)) \leftrightarrow \exists x, \lnot P(x){/$$}
+1. {$$}\lnot (\exists x P(x)) \leftrightarrow \forall x, \lnot P(x){/$$}
+
 X> ### Exercise 2
 X>
-X> Think of a real-world predicate and express the truthiness of it using the {$$}\forall{/$$} and {$$}\exists{/$$} symbols.
+X> Think of a real-world predicate and express the truthiness of it using the {$$}\forall{/$$} and {$$}\exists{/$$} symbols. Afterwards, negate both the universal and existential quantifier.
 
 ### 2.1.3. Higher-order logic
 
@@ -226,7 +231,7 @@ I> ### Definition 16
 I>
 I> A proof is defined as an inferential **argument** for a list of given mathematical propositions. To prove a mathematical fact, we need to show that the conclusion (goal that we want to prove) logically follows from the hypothesis (list of given propositions).
 
-For example, to prove that a goal {$$}G{/$$} follows from a set of given propositions {$$}\{ g_1, g_2, \ldots, g_n \}{/$$}, we need to show {$$}(g_1 \land g_2 \land \ldots \land g_n) \to G{/$$}. Note the relation between the implication[^ch2n4] (conditional statement) connective and proofs.
+For example, to prove that a goal {$$}G{/$$} follows from a set of given propositions {$$}\{ g_1, g_2, \ldots, g_n \}{/$$}, we need to show {$$}(g_1 \land g_2 \land \ldots \land g_n) \to G{/$$}. Note the relation between the implication connective[^ch2n4] (conditional statement) and proofs.
 
 X> ### Exercise 10
 X>
@@ -238,7 +243,7 @@ X> Come up with several axioms and inference rules and try to do a proof similar
 
 ### 2.3.1. Proofs by truth tables
 
-For example, the proposition {$$}A \land B \to B{/$$} is true for **any** values of {$$}A{/$$} and {$$}B{/$$}.
+Here's one claim: The proposition {$$}A \land B \to B{/$$} is true for **any** values of {$$}A{/$$} and {$$}B{/$$}.
 
 Q> How do you convince someone that this proposition is really true?
 Q>
@@ -289,6 +294,10 @@ For example, given {$$}A \lor B{/$$}, {$$}B \to C{/$$}, {$$}\lnot C{/$$}, prove 
 | 6   | {$$}(A \lor B) \land \lnot B{/$$} | 1 and 5   |
 | 7   | {$$}A{/$$}                        | 6, where {$$}p \land \lnot p{/$$} is a contradiction, i.e. invalid argument |
 
+X> ### Exercise 13
+X>
+X> Prove {$$}((A \lor B) \land \lnot B) \to A{/$$} using three-column proof technique.
+
 ### 2.3.3. Formal proofs
 
 We've seen how we can construct proofs with truth tables. However, if our statements involve the use of quantifiers, then doing proofs with truth tables is impossible. Three-column proofs, in contrast, contain many details. Ideally, the proof should be short, clear and concise about what we want to prove. Therefore, we will try to prove a statement by means of a formal proof.
@@ -296,6 +305,10 @@ We've seen how we can construct proofs with truth tables. However, if our statem
 To prove {$$}A \land B \to B{/$$}, we start by assuming that {$$}A \land B{/$$} is true, since otherwise the statement is vacuously true by definition for implication. If {$$}A \land B{/$$} is true, then both {$$}A{/$$} and {$$}B{/$$} are true by definition of `and`, that is, we can conclude {$$}B{/$$}.
 
 Do not worry if the previous paragraph sounded too magical. There is not much magic involved. Usually it comes down to using a few rules (or "tricks", if you will) for how we can use given information and achieve our goal. We will summarize these proof techniques next.
+
+X> ### Exercise 14
+X>
+X> Prove {$$}((A \lor B) \land \lnot B) \to A{/$$} by means of a formal proof.
 
 ### 2.3.4. Proof techniques
 
@@ -340,12 +353,20 @@ For example, we can use these techniques to do the following proofs:
 1. {$$}\forall x, x = x{/$$} - We know that for any number {$$}x{/$$}, this number is equal to itself. Thus, {$$}\forall x, x = x{/$$}.
 1. {$$}\exists x, x > 0{/$$} - To prove this, we only need to find an {$$}x{/$$} such that it is greater than 0. One valid example is 1. Thus, {$$}\exists x, x > 0{/$$}.
 
-X> ### Exercise 13
+X> ### Exercise 15
 X>
-X> We've used the rules modus tollens and modus ponens without giving an actual proof for them. Try to prove by yourself that these two rules hold, either by constructing a truth table or a three-column proof:
+X> We've used the rules modus tollens and modus ponens without giving an actual proof for them. Try to prove by yourself that these two rules hold, both by constructing a truth table and a three-column proof:
 X>
 X> 1. Modus tollens: {$$}((p \to q) \land \lnot q) \to \lnot p{/$$}
 X> 1. Modus ponens: {$$}((p \to q) \land p) \to q{/$$}
+
+X> ### Exercise 16
+X>
+X> Prove each one of the proofs above using both truth tables and three-column proofs techniques.
+
+X> ### Exercise 17
+X>
+X> Try to come up with a few propositions for each goal/given form, combine them, and prove them by means of a formal proof.
 
 ### 2.3.5. Mathematical induction
 
@@ -358,7 +379,12 @@ I> 1. A set of rules that reduce the other cases towards the base case
 
 I> ### Definition 20
 I>
-I> Mathematical induction is a proof method that is used to prove that a predicate {$$}P(n){/$$} is true for all natural numbers {$$}n{/$$}. It consists of proving two parts: a base case and an inductive step. For the base case we need to show that what we want to prove {$$}P(n){/$$} is true for some starting value {$$}k{/$$}, which is usually zero. For the inductive step, we need to prove that {$$}P(n) \to P(n+1){/$$}, that is, if we assume that {$$}P(n){/$$} is true, then {$$}P(n+1){/$$} must follow as a consequence. After having proven these two parts, we can conclude that {$$}P(n){/$$} holds for all natural numbers. So the formula that we need to prove is {$$}P(0) \land ( P(n) \to P(n+1) ){/$$}.
+I> Mathematical induction is a proof method that is used to prove that a predicate {$$}P(n){/$$} is true for all natural numbers {$$}n{/$$}. It consists of proving two parts: a base case and an inductive step.
+I>
+I> 1. For the base case we need to show that what we want to prove {$$}P(n){/$$} is true for some starting value {$$}k{/$$}, which is usually zero.
+I> 1. For the inductive step, we need to prove that {$$}P(n) \to P(n+1){/$$}, that is, if we assume that {$$}P(n){/$$} is true, then {$$}P(n+1){/$$} must follow as a consequence.
+I>
+I> After proving the two parts, we can conclude that {$$}P(n){/$$} holds for all natural numbers. The formula that we need to prove is {$$}P(0) \land ( P(n) \to P(n+1) ){/$$}.
 
 To understand why mathematical induction works, as an example it is best to visualize dominoes arranged in a sequence. If we push the first domino, it will push the second, which will push the third, and so on to infinity. That is, if we position the dominoes such that if one falls it will push the next one, i.e. {$$}P(n){/$$} implies {$$}P(n+1){/$$}, and we push the first one {$$}P(0){/$$}, then all the dominoes will fall, i.e. {$$}P(n){/$$} is true in general.
 
@@ -375,13 +401,15 @@ I> ### Definition 22
 I>
 I> {$$}a{/$$} is divisible by {$$}b{/$$} if there exists a natural number {$$}k{/$$} so that {$$}a = bk{/$$}.
 
-X> ### Exercise 14
+X> ### Exercise 18
 X>
 X> Come up with a predicate, and then prove its truthiness using mathematical induction.
 
-X> ### Exercise 15
+X> ### Exercise 19
 X>
-X> Prove that {$$}2^n - 3{/$$} is not divisible by 3. Hint: Use {$$}n = 2{/$$} as the base case.
+X> Prove that {$$}2^n - 3{/$$} is not divisible by 3.
+X>
+X> Hint: Use {$$}n = 2{/$$} as the base case.
 
 [^ch2n1]: Since unrestricted quantification leads to inconsistency, higher-order logic is an attempt to avoid this. We will look into Russell's paradox later as an example.
 
