@@ -193,13 +193,13 @@ I> ### Definition 10
 I>
 I> A formal definition of Intuitionistic theory is that it consists of objects and types.
 I>
-I> The grammar of well formed formulas in this system are:
+I> The grammar of well-formed formulas in this system are:
 I>
-I> 1. {$$}\Gamma \vdash s : \text{Type}{/$$} means that {$$}s{/$$} is a well formed type in context {$$}\Gamma{/$$}
-I> 1. {$$}\Gamma \vdash t : \text{s}{/$$} means that {$$}t{/$$} is a well formed expression of type {$$}\text{s}{/$$} in context {$$}\Gamma{/$$}
+I> 1. {$$}\Gamma \vdash s : \text{Type}{/$$} means that {$$}s{/$$} is a well-formed type in context {$$}\Gamma{/$$}
+I> 1. {$$}\Gamma \vdash t : \text{s}{/$$} means that {$$}t{/$$} is a well-formed expression of type {$$}\text{s}{/$$} in context {$$}\Gamma{/$$}
 I> 1. {$$}\Gamma \vdash \text{s} = \text{t}{/$$} means that s and t are the same type in context {$$}\Gamma{/$$}
 I> 1. {$$}\Gamma \vdash t = u : \text{s}{/$$} means that t and u are equal expressions of type s in context {$$}\Gamma{/$$}
-I> 1. {$$}\vdash \Gamma{/$$} means that {$$}\Gamma{/$$} is a well formed context of types
+I> 1. {$$}\vdash \Gamma{/$$} means that {$$}\Gamma{/$$} is a well-formed context of types
 I>
 I> The type constructors are:
 I>
@@ -214,7 +214,7 @@ I> 1. The rule of type equality which states that if an object is of a type {$$}
 I>
 I> The remaining inference rules are specific to the type formers, for example introduction and elimination. We will show an example using these rules in 5.2.
 
-As an example, rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}\text{Nat} : \text{Type}{/$$} per rule 1.
+As an example, rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well-formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}\text{Nat} : \text{Type}{/$$} per rule 1.
 
 X> ### Exercise 9
 X>
