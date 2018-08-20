@@ -8,24 +8,52 @@ At its core, mathematical logic deals with mathematical concepts expressed using
 
 I> ### Definition 1
 I>
-I> The propositional branch of logic is concerned with the study of **propositions**, which are statements that are either {$$}\top{/$$} (true) or {$$}\bot{/$$} (false). Propositions are formed by other propositions with the use of logical connectives. The most basic logical connectives are {$$}\land{/$$} (and), {$$}\lor{/$$} (or), {$$}\to{/$$} (implication), and {$$}\lnot{/$$} (negation). These are their values:
-I>
-I> | {$$}a{/$$} | {$$}b{/$$} | {$$}a \land b{/$$} | {$$}a \lor b{/$$} | {$$}a \to b{/$$} | {$$}\lnot a{/$$} |
-I> | --- | --- | --- | --- | --- | --- |
-I> | {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$} | {$$}\bot{/$$} |
-I> | {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$} |
-I> | {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$} |
-I> | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\top{/$$} |
+I> The propositional branch of logic is concerned with the study of **propositions**, which are statements that are either {$$}\top{/$$} (true) or {$$}\bot{/$$} (false). Variables can be used to represent propositions. Propositions are formed by other propositions with the use of logical connectives. The most basic logical connectives are {$$}\land{/$$} (and), {$$}\lor{/$$} (or), {$$}\lnot{/$$} (negation), and {$$}\to{/$$} (implication).
 
-In other words:
+For example, we can say `a = Salad is organic`, and thus {$$}a{/$$} is a true statement. Another statement is `a = Rock is organic`, and thus {$$}a{/$$} is a false statement. The statement `a = Hi there!` is neither a true nor a false statement, and thus is not a proposition.
 
-1. {$$}\top \land \top{/$$} = {$$}\top{/$$}, other combinations are {$$}\bot{/$$}
-1. {$$}\bot \lor \bot{/$$} = {$$}\bot{/$$}, other combinations are {$$}\top{/$$}
-1. {$$}\top \to \bot{/$$} = {$$}\bot{/$$}, other combinations are {$$}\top{/$$}
-1. {$$}\lnot \bot{/$$} = {$$}\top{/$$}, {$$}\lnot \top{/$$} = {$$}\bot{/$$}
+The "and" connective means that both {$$}a{/$$} and {$$}b{/$$} have to be true in order for {$$}a \land b{/$$} to be true. For example, the statement `I like milk and sugar` is true as a whole iff both `I like milk` and `I like sugar` are true.
 
-We can also use variables to represent statements. For example, we can say `a = Salad is organic`, and thus {$$}a{/$$} is a true statement. Another statement is `a = Rock is organic`, and thus {$$}a{/$$} is a false statement. The statement `a = Hi there!` is neither a true nor a false statement, and thus
-is not a proposition.
+| {$$}a{/$$}    | {$$}b{/$$}    | {$$}a \land b{/$$} |
+| ------------- | ------------- | ------------------ |
+| {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$}      |
+| {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$}      |
+| {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\bot{/$$}      |
+| {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$}      |
+
+The "or" connective means that either of {$$}a{/$$} or {$$}b{/$$} has to be true in order for {$$}a \lor b{/$$} to be true. It will also be true if both {$$}a{/$$} and {$$}b{/$$} are true. This is known as inclusive or. For example, the statement `I like milk or sugar` is true as a whole if at least one of `I like milk` or `I like sugar` is true.
+
+This definition of "or" might be a bit counter-intuitive the way we use it in day to day speaking. When we say `I like milk or sugar` we normally mean one of them but not both. This is known as exclusive or, however, for the purposes of this book we will be using inclusive or.
+
+| {$$}a{/$$}    | {$$}b{/$$}    | {$$}a \lor b{/$$} |
+| ------------- | ------------- | ----------------- |
+| {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$}     |
+| {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\top{/$$}     |
+| {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\top{/$$}     |
+| {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$}     |
+
+The negation connective simply swaps the truthness of a proposition. The easiest way to negate any statement is to just prepend `It is not the case that` to it. For example, the negation of `I like milk` is `It is not the case that I like milk`, or simply `I don't like milk`.
+
+| {$$}a{/$$}    | {$$}\lnot a{/$$} |
+| ------------- | ---------------- |
+| {$$}\top{/$$} | {$$}\bot{/$$}    |
+| {$$}\bot{/$$} | {$$}\top{/$$}    |
+
+The implication connective allows us to express conditional statements. It means that {$$}a \to b{/$$} is false iff {$$}a{/$$} is true, and {$$}b{/$$} is false. For example, if we choose {$$}a{/$$} to be `It rains` and {$$}b{/$$} to be `The ground is wet` then there are four possibilities:
+
+1. If it rains, then the ground is wet. This is obviously true.
+1. If it rains, then the ground is not wet. This is a false statement, i.e. the false case.
+1. If it doesn't rain, then the ground is wet. This one is a bit tricky to grasp. The reason why we define it to be true is that we don't really know much about the wetness of the ground, other than the fact that it did not rain. Maybe it was already wet prior to the rain, or someone poured water on the ground.
+1. If it doesn't rain, then the ground is not wet. This is obviously true.
+
+This definition of implication might be a bit counter-intuitive the way we use it in day to day speaking. When we say `If it rains, then the ground is wet` we usually mean both that `If the ground is wet, then it rains` and `If it rains, then the ground is wet`. This is known as biconditional, however, for the purposes of this book we will be using conditional (implication).
+
+| {$$}a{/$$}    | {$$}b{/$$}    | {$$}a \to b{/$$} |
+| ------------- | ------------- | ---------------- |
+| {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$}    |
+| {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$}    |
+| {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\top{/$$}    |
+| {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\top{/$$}    |
 
 I> ### Definition 2
 I>
