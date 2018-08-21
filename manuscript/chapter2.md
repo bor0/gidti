@@ -12,34 +12,34 @@ I> ### Definition 1
 I>
 I> The propositional branch of logic is concerned with the study of **propositions**, which are statements that are either {$$}\top{/$$} (true) or {$$}\bot{/$$} (false). Variables can be used to represent propositions. Propositions are formed by other propositions with the use of logical connectives. The most basic logical connectives are {$$}\land{/$$} (and), {$$}\lor{/$$} (or), {$$}\lnot{/$$} (negation), and {$$}\to{/$$} (implication).
 
-For example, we can say `a = Salad is organic`, and thus `a` is a true statement. Another statement is `a = Rock is organic`, and thus `a` is a false statement. The statement `a = Hi there!` is neither a true nor a false statement, and thus is not a proposition.
+For example, we can say `a = Salad is organic`, and thus the variable `a` represents a true statement. Another statement is `a = Rock is organic`, and thus `a` is a false statement. The statement `a = Hi there!` is neither a true nor a false statement, and thus is not a proposition.
 
 The "and" connective means that both {$$}a{/$$} and {$$}b{/$$} have to be true in order for {$$}a \land b{/$$} to be true. For example, the statement `I like milk and sugar` is true as a whole iff both `I like milk` and `I like sugar` are true.
 
-| {$$}a{/$$}    | {$$}b{/$$}    | {$$}a \land b{/$$} |
-| ------------- | ------------- | ------------------ |
-| {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$}      |
-| {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$}      |
-| {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\bot{/$$}      |
-| {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$}      |
+| {$$}\textbf{a}{/$$} | {$$}\textbf{b}{/$$} | {$$}a \land b{/$$} |
+| ------------------- | ------------------- | ------------------ |
+| {$$}\top{/$$}       | {$$}\top{/$$}       | {$$}\top{/$$}      |
+| {$$}\top{/$$}       | {$$}\bot{/$$}       | {$$}\bot{/$$}      |
+| {$$}\bot{/$$}       | {$$}\top{/$$}       | {$$}\bot{/$$}      |
+| {$$}\bot{/$$}       | {$$}\bot{/$$}       | {$$}\bot{/$$}      |
 
 The "or" connective means that either of {$$}a{/$$} or {$$}b{/$$} has to be true in order for {$$}a \lor b{/$$} to be true. It will also be true if both {$$}a{/$$} and {$$}b{/$$} are true. This is known as inclusive or. For example, the statement `I like milk or sugar` is true as a whole if at least one of `I like milk` or `I like sugar` is true.
 
 This definition of "or" might be a bit counter-intuitive the way we use it in day to day speaking. When we say `I like milk or sugar` we normally mean one of them but not both. This is known as exclusive or, however, for the purposes of this book we will be using inclusive or.
 
-| {$$}a{/$$}    | {$$}b{/$$}    | {$$}a \lor b{/$$} |
-| ------------- | ------------- | ----------------- |
-| {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$}     |
-| {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\top{/$$}     |
-| {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\top{/$$}     |
-| {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$}     |
+| {$$}\textbf{a}{/$$} | {$$}\textbf{b}{/$$} | {$$}a \lor b{/$$} |
+| ------------------- | ------------------- | ----------------- |
+| {$$}\top{/$$}       | {$$}\top{/$$}       | {$$}\top{/$$}     |
+| {$$}\top{/$$}       | {$$}\bot{/$$}       | {$$}\top{/$$}     |
+| {$$}\bot{/$$}       | {$$}\top{/$$}       | {$$}\top{/$$}     |
+| {$$}\bot{/$$}       | {$$}\bot{/$$}       | {$$}\bot{/$$}     |
 
-The negation connective simply swaps the truthness of a proposition. The easiest way to negate any statement is to just prepend `It is not the case that` to it. For example, the negation of `I like milk` is `It is not the case that I like milk`, or simply `I don't like milk`.
+The negation connective simply swaps the truthness of a proposition. The easiest way to negate any statement is to just prepend `It is not the case that ...` to it. For example, the negation of `I like milk` is `It is not the case that I like milk`, or simply `I don't like milk`.
 
-| {$$}a{/$$}    | {$$}\lnot a{/$$} |
-| ------------- | ---------------- |
-| {$$}\top{/$$} | {$$}\bot{/$$}    |
-| {$$}\bot{/$$} | {$$}\top{/$$}    |
+| {$$}\textbf{a}{/$$} | {$$}\lnot a{/$$} |
+| ------------------- | ---------------- |
+| {$$}\top{/$$}       | {$$}\bot{/$$}    |
+| {$$}\bot{/$$}       | {$$}\top{/$$}    |
 
 The implication connective allows us to express conditional statements. It means that {$$}a \to b{/$$} is false iff {$$}a{/$$} is true, and {$$}b{/$$} is false. For example, if we choose {$$}a{/$$} to be `It rains` and {$$}b{/$$} to be `The ground is wet` then there are four possibilities:
 
@@ -48,14 +48,14 @@ The implication connective allows us to express conditional statements. It means
 1. If it doesn't rain, then the ground is wet. This one is a bit tricky to grasp. The reason why we define it to be true is that we don't really know much about the wetness of the ground, other than the fact that it did not rain. Maybe it was already wet prior to the rain, or someone poured water on the ground.
 1. If it doesn't rain, then the ground is not wet. This is obviously true.
 
-This definition of implication might be a bit counter-intuitive the way we use it in day to day speaking. When we say `If it rains, then the ground is wet` we usually mean both that `If the ground is wet, then it rains` and `If it rains, then the ground is wet`. This is known as biconditional and is denoted as {$$}a \leftrightarrow b{/$$}.
+This definition of implication might be a bit counter-intuitive the way we use it in day to day speaking. When we say `If it rains, then the ground is wet` we usually mean both that `If the ground is wet, then it rains` and `If it rains, then the ground is wet`. This is known as biconditional and is denoted as {$$}a \leftrightarrow b{/$$}, or simply {$$}a \ \text{iff} \ b{/$$}.
 
-| {$$}a{/$$}    | {$$}b{/$$}    | {$$}a \to b{/$$} |
-| ------------- | ------------- | ---------------- |
-| {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$}    |
-| {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$}    |
-| {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\top{/$$}    |
-| {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\top{/$$}    |
+| {$$}\textbf{a}{/$$} | {$$}\textbf{b}{/$$} | {$$}a \to b{/$$} |
+| ------------------- | ------------------- | ---------------- |
+| {$$}\top{/$$}       | {$$}\top{/$$}       | {$$}\top{/$$}    |
+| {$$}\top{/$$}       | {$$}\bot{/$$}       | {$$}\bot{/$$}    |
+| {$$}\bot{/$$}       | {$$}\top{/$$}       | {$$}\top{/$$}    |
+| {$$}\bot{/$$}       | {$$}\bot{/$$}       | {$$}\top{/$$}    |
 
 As stated in Definition 1, propositions can also be defined (or combined) in terms of other propositions. For example, we can choose {$$}a{/$$} to be `I like milk` and {$$}b{/$$} to be `I like sugar`. So {$$}a \land b{/$$} means that I like both milk and sugar. Now, if we let {$$}c{/$$} be `I am cool` then with {$$}a \land b \to c{/$$} we say: `If I like milk and sugar, then I am cool`. Note how we took a proposition {$$}a \land b{/$$} and modified it with another connective to form a new proposition.
 
@@ -74,22 +74,22 @@ X> Try to come up with a sensible statement in English for each of the propositi
 
 I> ### Definition 2
 I>
-I> The first-order logic logical system extends propositional logic by additionally covering **predicates** and **quantifiers**. A predicate {$$}P(x){/$$} takes as an input {$$}x{/$$}, and produces either true or false as an output. There are two quantifiers introduced: {$$}\forall{/$$} (universal quantifier) and {$$}\exists{/$$} (existential quantifier).
+I> The first-order logic logical system extends propositional logic by additionally covering **predicates** and **quantifiers**. A predicate {$$}P(x){/$$} takes an input {$$}x{/$$}, and produces either true or false as an output. There are two quantifiers introduced: {$$}\forall{/$$} (universal quantifier) and {$$}\exists{/$$} (existential quantifier).
 
 One example of a predicate is `P(x) = x is organic`, with {$$}P(Salad) = \top{/$$}, but {$$}P(Rock) = \bot{/$$}.
 
-In the following example the universal quantifier says that the predicate will hold for **all** possible choices of {$$}x{/$$}: {$$}\forall x P(x){/$$}. Alternatively, the existential quantifier says that the predicate will hold for **at least one** choice of {$$}x{/$$}: {$$}\exists x P(x){/$$}.
+In the following example the universal quantifier says that the predicate will hold for **all** possible choices of {$$}x{/$$}: {$$}\forall x, P(x){/$$}. Alternatively, the existential quantifier says that the predicate will hold for **at least one** choice of {$$}x{/$$}: {$$}\exists x, P(x){/$$}.
 
-Another example of combining a predicate with the universal quantifier is `P(x) = x is a mammal`, then {$$}\forall x P(x){/$$} is true, for all {$$}x{/$$} ranging over the set of humans.
+Another example of combining a predicate with the universal quantifier is `P(x) = x is a mammal`, then {$$}\forall x, P(x){/$$} is true, for all {$$}x{/$$} ranging over the set of humans.
 
 The negation of the quantifiers is defined as follows:
 
-1. {$$}\lnot (\forall x P(x)) \leftrightarrow \exists x, \lnot P(x){/$$}
-1. {$$}\lnot (\exists x P(x)) \leftrightarrow \forall x, \lnot P(x){/$$}
+1. Negation of universal quantifier: {$$}\lnot (\forall x, P(x)) \leftrightarrow \exists x, \lnot P(x){/$$}
+1. Negation of existential quantifier: {$$}\lnot (\exists x, P(x)) \leftrightarrow \forall x, \lnot P(x){/$$}
 
 X> ### Exercise 2
 X>
-X> Think of a real-world predicate and express the truthiness of it using the {$$}\forall{/$$} and {$$}\exists{/$$} symbols. Afterwards, negate both the universal and existential quantifier.
+X> Think of a real-world predicate and express its truthiness using the {$$}\forall{/$$} and {$$}\exists{/$$} symbols. Afterwards, negate both the universal and existential quantifier.
 
 ### 2.1.3. Higher-order logic
 
@@ -166,12 +166,12 @@ I> **Functions** are defined in terms of relations[^ch2n2]. A binary (2-tuple) s
 
 For example, the function {$$}f(x) = x + 1{/$$} is a function that, given a number, returns it increased by one. So {$$}f(1) = 2{/$$}, {$$}f(2) = 3{/$$}, etc. Another way to represent this function is using the 2-tuple set: {$$}f = \{ (1, 2), (2, 3), (3, 4), \ldots \}{/$$}.
 
-One simple way to think of functions is in form of tables. For a function accepting a single parameter {$$}f(x){/$$}, we have a two-column table where the first column is the input, and the second column is the output. For a function accepting two parameters {$$}x{/$$} and {$$}y{/$$}, {$$}f(x, y){/$$}, we have a three-column table where the first and second columns represent the input, and the third column is the output. Thus, to display the function discussed above in a form of table, it would look like this:
+One simple way to think of functions is in form of tables. For a function {$$}f(x){/$$} accepting a single parameter {$$}x{/$$}, we have a two-column table where the first column is the input, and the second column is the output. For a function {$$}f(x, y){/$$} accepting two parameters {$$}x{/$$} and {$$}y{/$$} we have a three-column table where the first and second columns represent the input, and the third column is the output. Thus, to display the function discussed above in a form of table, it would look like this:
 
-| {$$}x{/$$} | {$$}f(x){/$$} |
-|----------- | ------------- |
-| a          | 1             |
-| b          | 2             |
+| {$$}\textbf{x}{/$$} | {$$}f(x){/$$} |
+|-------------------- | ------------- |
+| a                   | 1             |
+| b                   | 2             |
 
 X> ### Exercise 3
 X>
@@ -199,7 +199,7 @@ X> Think of a valid function and represent it using the table approach.
 
 X> ### Exercise 9
 X>
-X> Write down the corresponding input and output sets for the function you implemented in Exercise 6.
+X> Write down the corresponding input and output sets for the function you implemented in Exercise 8.
 
 ## 2.3. Substitution and mathematical proofs
 
@@ -251,12 +251,12 @@ Q> We can use one proof technique which is to construct a truth table. The way t
 
 For example, to prove the statement {$$}A \land B \to B{/$$}, we can approach as follows:
 
-| {$$}A{/$$}    | {$$}B{/$$}    | {$$}A \land B{/$$} | {$$}A \land B \to B{/$$} |
-| ------------- | ------------- | ------------------ | ------------------------ |
-| {$$}\bot{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$}      | {$$}\top{/$$}            |
-| {$$}\bot{/$$} | {$$}\top{/$$} | {$$}\bot{/$$}      | {$$}\top{/$$}            |
-| {$$}\top{/$$} | {$$}\bot{/$$} | {$$}\bot{/$$}      | {$$}\top{/$$}            |
-| {$$}\top{/$$} | {$$}\top{/$$} | {$$}\top{/$$}      | {$$}\top{/$$}            |
+| {$$}\textbf{A}{/$$} | {$$}\textbf{B}{/$$} | {$$}A \land B{/$$} | {$$}A \land B \to B{/$$} |
+| ------------------- | ------------------- | ------------------ | ------------------------ |
+| {$$}\bot{/$$}       | {$$}\bot{/$$}       | {$$}\bot{/$$}      | {$$}\top{/$$}            |
+| {$$}\bot{/$$}       | {$$}\top{/$$}       | {$$}\bot{/$$}      | {$$}\top{/$$}            |
+| {$$}\top{/$$}       | {$$}\bot{/$$}       | {$$}\bot{/$$}      | {$$}\top{/$$}            |
+| {$$}\top{/$$}       | {$$}\top{/$$}       | {$$}\top{/$$}      | {$$}\top{/$$}            |
 
 I> ### Definition 17
 I>
@@ -272,8 +272,7 @@ X> Hint: The statement to prove is {$$}((A \lor B) \land \lnot B) \to A{/$$}.
 
 ### 2.3.2. Three-column proofs
 
-As we've defined before, an argument is a list of statements. There are several ways to do mathematical proofs. One of them is by using the so-called
-three-column proofs.
+As we've defined before, an argument is a list of statements. There are several ways to do mathematical proofs. Another one of them is by using the so-called three-column proofs. For this technique we construct a table with three columns: number of step, step (or expression derived), and reasoning (explanation of how we got to the particular step).
 
 I> ### Definition 18
 I>
@@ -312,7 +311,7 @@ X> Prove {$$}((A \lor B) \land \lnot B) \to A{/$$} by means of a formal proof.
 
 ### 2.3.4. Proof techniques
 
-In order to prove a goal of a given form:
+In order to **prove** a goal of form:
 
 | Goal form | Technique |
 | --- | --- |
@@ -321,12 +320,12 @@ In order to prove a goal of a given form:
 | {$$}P_1 \land P_2 \land \ldots \land P_n{/$$} | Prove each one of {$$}P_1, P_2, \ldots, P_n{/$$} separately |
 | {$$}P_1 \lor P_2 \lor \ldots \lor P_n{/$$} | Use proof by cases, where in each case you prove one of {$$}P_1, P_2, \ldots, P_n{/$$} |
 | {$$}P \leftrightarrow Q{/$$} | Prove both {$$}P \to Q{/$$} and {$$}Q \to P{/$$} |
-| {$$}\forall x P(x){/$$} | Assume that {$$}x{/$$} is an arbitrary object and prove that {$$}P(x){/$$} |
-| {$$}\exists x P(x){/$$} | Find an {$$}x{/$$} such that {$$}P(x){/$$} is true |
-| {$$}\exists! x P(x){/$$}[^ch2n5] | Prove {$$}\exists x P(x){/$$} (existence) and |
-| | {$$}\forall x \forall y (P(x) \land P(y) \to x = y){/$$} (uniqueness) separately |
+| {$$}\forall x, P(x){/$$} | Assume that {$$}x{/$$} is an arbitrary object and prove that {$$}P(x){/$$} |
+| {$$}\exists x, P(x){/$$} | Find an {$$}x{/$$} such that {$$}P(x){/$$} is true |
+| {$$}\exists! x, P(x){/$$}[^ch2n5] | Prove {$$}\exists x, P(x){/$$} (existence) and |
+| | {$$}\forall x \forall y, (P(x) \land P(y) \to x = y){/$$} (uniqueness) separately |
 
-In order to use a given of form:
+In order to **use** a given of form:
 
 | Given form | Technique |
 | --- | --- |
@@ -335,14 +334,14 @@ In order to use a given of form:
 | {$$}P_1 \land P_2 \land \ldots \land P_n{/$$} | Treat each one of {$$}P_1, P_2, \ldots, P_n{/$$} as a given |
 | {$$}P_1 \lor P_2 \lor \ldots \lor P_n{/$$} | Use proof by cases, where in each case you assume one of {$$}P_1, P_2, \ldots, P_n{/$$} |
 | {$$}P \leftrightarrow Q{/$$} | Conclude both {$$}P \to Q{/$$} and {$$}Q \to P{/$$} |
-| {$$}\forall x P(x){/$$} | For any {$$}x{/$$}, conclude that {$$}P(x){/$$} |
-| {$$}\exists x P(x){/$$} | Introduce a new variable, say {$$}x_0{/$$} so that {$$}P(x_0){/$$} is true |
-| {$$}\exists! x P(x){/$$} | Introduce a new variable, say {$$}x_1{/$$} so that {$$}P(x_1){/$$} is true. |
-| | Can also use that {$$}\forall x \forall y (P(x) \land P(y) \to x = y){/$$} |
+| {$$}\forall x, P(x){/$$} | For any {$$}x{/$$}, conclude that {$$}P(x){/$$} |
+| {$$}\exists x, P(x){/$$} | Introduce a new variable, say {$$}x_0{/$$} so that {$$}P(x_0){/$$} is true |
+| {$$}\exists! x, P(x){/$$} | Introduce a new variable, say {$$}x_1{/$$} so that {$$}P(x_1){/$$} is true. |
+| | Can also use that {$$}\forall x \forall y, (P(x) \land P(y) \to x = y){/$$} |
 
 For example, we can use these techniques to do the following proofs:
 
-1. {$$}A \land B \to A \lor B{/$$} - To prove this goal, we will use proof by cases:
+1. {$$}A \land B \to A \lor B{/$$} - To prove this goal, we will assume {$$}A \land B{/$$} and use proof by cases:
     1. Proof for {$$}A{/$$}: Since we're given {$$}A \land B{/$$}, we are also given {$$}A{/$$}. Thus, {$$}A{/$$}
     1. Proof for {$$}B{/$$}: Since we're given {$$}A \land B{/$$}, we are also given {$$}B{/$$}. Thus, {$$}B{/$$}
     1. Thus, {$$}A \lor B{/$$}
@@ -362,7 +361,7 @@ X> 1. Modus ponens: {$$}((p \to q) \land p) \to q{/$$}
 
 X> ### Exercise 16
 X>
-X> Prove each one of the proofs above using both truth tables and three-column proofs techniques.
+X> Prove each one of the proofs above using both truth tables and three-column proofs techniques. Since it is impossible to represent quantifiers with truth tables, skip doing 3 and 4.
 
 X> ### Exercise 17
 X>
@@ -381,8 +380,8 @@ I> ### Definition 20
 I>
 I> Mathematical induction is a proof method that is used to prove that a predicate {$$}P(n){/$$} is true for all natural numbers {$$}n{/$$}. It consists of proving two parts: a base case and an inductive step.
 I>
-I> 1. For the base case we need to show that what we want to prove {$$}P(n){/$$} is true for some starting value {$$}k{/$$}, which is usually zero.
-I> 1. For the inductive step, we need to prove that {$$}P(n) \to P(n+1){/$$}, that is, if we assume that {$$}P(n){/$$} is true, then {$$}P(n+1){/$$} must follow as a consequence.
+I> 1. For the **base** case we need to show that what we want to prove {$$}P(n){/$$} is true for some starting value {$$}k{/$$}, which is usually zero.
+I> 1. For the **inductive** step, we need to prove that {$$}P(n) \to P(n+1){/$$}, that is, if we assume that {$$}P(n){/$$} is true, then {$$}P(n+1){/$$} must follow as a consequence.
 I>
 I> After proving the two parts, we can conclude that {$$}P(n){/$$} holds for all natural numbers. The formula that we need to prove is {$$}P(0) \land ( P(n) \to P(n+1) ){/$$}.
 
