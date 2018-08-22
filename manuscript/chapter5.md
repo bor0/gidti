@@ -106,7 +106,8 @@ is_it_monday _   = False
 For the sake of example, we will prove that for any given day, if it's Monday then `is_it_monday` will return `True` and `False` otherwise. It's obvious from the definition of `is_it_monday`, but proving that is a whole different story. The type definition that we need to prove is:
 
 ```
-our_second_proof : (day : Weekday) -> day = Mon -> is_it_monday day = True
+our_second_proof : (day : Weekday) -> day = Mon ->
+    is_it_monday day = True
 ```
 
 We gave a name of the first parameter `day : Weekday`, so that we can refer to it in the rest of the type definition. The second parameter says that `day = Mon` and the return value is `is_it_monday day = True`. We can treat the first and the second parameter as given, since we are allowed to assume them (per definition of implication). With that, we proceed to the function definition:
@@ -137,7 +138,8 @@ I> The `rewrite` keyword can be used to rewrite expressions. If we have `X : x =
 With the power to do rewrites, we can attempt the proof as follows:
 
 ```
-our_second_proof : (day : Weekday) -> day = Mon -> is_it_monday day = True
+our_second_proof : (day : Weekday) -> day = Mon ->
+    is_it_monday day = True
 our_second_proof day day_eq_Mon = rewrite day_eq_Mon in ?prf
 ```
 
@@ -321,20 +323,20 @@ From here, we rewrite our function to contain a base case and an inductive step:
 ```
 total our_third_proof : (a : MyNat) -> mynat_plus a Zero = a
 our_third_proof Zero     = ?base
-our_third_proof (Succ k) = ?inductive_hypothesis
+our_third_proof (Succ k) = ?ind_hypothesis
 ```
 
 Note how we used pattern matching against the definition of natural numbers. Pattern matching is similar to using proof by cases. Checking the types of the holes:
 
 ```
-Holes: Main.inductive_hypothesis, Main.base
+Holes: Main.ind_hypothesis, Main.base
 Idris> :t base
 --------------------------------------
 base : Zero = Zero
-Idris> :t inductive_hypothesis
+Idris> :t ind_hypothesis
   k : MyNat
 --------------------------------------
-inductive_hypothesis : Succ (mynat_plus k Zero) = Succ k
+ind_hypothesis : Succ (mynat_plus k Zero) = Succ k
 ```
 
 For the base case we can just use `Refl`, but for the inductive step we need to do something different. We need to find a way to assume (add to list of given) {$$}a + 0 = a{/$$} and show that {$$}(a + 1) + 0 = a + 1{/$$} follows from that assumption. Since we pattern match on `Succ k`, we can use recursion on `k` along with `let` to generate the hypothesis:
@@ -342,14 +344,15 @@ For the base case we can just use `Refl`, but for the inductive step we need to 
 ```
 total our_third_proof : (a : MyNat) -> mynat_plus a Zero = a
 our_third_proof Zero     = Refl
-our_third_proof (Succ k) = let inductive_hypothesis = our_third_proof k in ?conclusion
+our_third_proof (Succ k) = let ind_hypothesis = our_third_proof k in
+                           ?conclusion
 ```
 
 Our proof given and goals become:
 
 ```
   k : MyNat
-  inductive_hypothesis : mynat_plus k Zero = k
+  ind_hypothesis : mynat_plus k Zero = k
 --------------------------------------
 conclusion : Succ (mynat_plus k Zero) = Succ k
 ```
@@ -359,7 +362,9 @@ To prove the conclusion, we can simply rewrite the inductive hypothesis in the g
 ```
 total our_third_proof : (a : MyNat) -> mynat_plus a Zero = a
 our_third_proof Zero     = Refl
-our_third_proof (Succ k) = let inductive_hypothesis = our_third_proof k in rewrite inductive_hypothesis in Refl
+our_third_proof (Succ k) = let ind_hypothesis = our_third_proof k in
+                           rewrite ind_hypothesis in
+                           Refl
 ```
 
 This concludes the proof.
@@ -532,7 +537,9 @@ It seems like we made progress, as this gives us something to work with. We can 
 our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
 our_proof Z Z _              = Refl
 our_proof Z (S k) _          = Refl
-our_proof (S k) (S j) a_lt_b = let I_H = (our_proof k j ?prf) in rewrite IH in Refl
+our_proof (S k) (S j) a_lt_b = let I_H = (our_proof k j ?prf) in
+                               rewrite IH in
+                               Refl
 ```
 
 The hole produces the following:
@@ -564,7 +571,10 @@ total
 our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
 our_proof Z Z _              = Refl
 our_proof Z (S k) _          = Refl
-our_proof (S k) (S j) a_lt_b = let IH = (our_proof k j (fromLteSucc a_lt_b)) in rewrite IH in Refl
+our_proof (S k) (S j) a_lt_b = let fls = fromLteSucc a_lt_b in
+                               let IH  = (our_proof k j fls) in
+                               rewrite IH in
+                               Refl
 ```
 
 or a more simplified version:
@@ -574,7 +584,9 @@ total
 our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
 our_proof Z Z _              = Refl
 our_proof Z (S k) _          = Refl
-our_proof (S k) (S j) a_lt_b = rewrite (our_proof k j (fromLteSucc a_lt_b)) in Refl
+our_proof (S k) (S j) a_lt_b = rewrite
+                               (our_proof k j (fromLteSucc a_lt_b)) in
+                               Refl
 ```
 
 X> ### Exercise 17
@@ -594,7 +606,8 @@ has_odd (Cons x l') = if (even x) then False else has_odd l'
 Now, to prove that a list of even members contains no odd members, we can use the following type definition:
 
 ```
-even_members_list_only_even : (l : MyList Nat) -> has_odd (even_members l) = False
+even_members_list_only_even : (l : MyList Nat) ->
+    has_odd (even_members l) = False
 ```
 
 Note that `has_odd` is branching computation depending on the value of `even x`, so we have to pattern match with value of expressions, by using the `with` keyword. The base case is simply `Refl`:
@@ -607,8 +620,10 @@ However, for the inductive step, we will use `with` on `even n` and produce a pr
 
 ```
 even_members_list_only_even (Cons n l') with (even n) proof even_n
-  even_members_list_only_even (Cons n l') | False = let IH = even_members_list_only_even l' in ?a
-  even_members_list_only_even (Cons n l') | True  = ?b
+  even_members_list_only_even (Cons n l') | False =
+      let IH = even_members_list_only_even l' in ?a
+  even_members_list_only_even (Cons n l') | True  =
+      ?b
 ```
 
 Note how we specified `proof even_n` right after the expression in the `with` match. The `proof` keyword followed by a variable brings us the proof of the expression to the list of premises. So, `with (even n) proof even_n` will pattern match on the expression `even n`, and will also bring the proof `even n` in the premises. If we now check the first hole:
@@ -629,7 +644,8 @@ That should be simple, we can just use `IH` to solve the goal. For the second ho
   l' : MyList Nat
   even_n : True = even n
 --------------------------------------
-b : ifThenElse (even n) (Delay False) (Delay (has_odd (even_members l'))) = False
+b : ifThenElse (even n) (Delay False) (Delay (has_odd
+    (even_members l'))) = False
 ```
 
 Seems that `if...then...else` uses a lazy structure, but nevertheless uses `(even n)` to branch the computation.
@@ -652,11 +668,16 @@ b : False = False
 Thus, the complete proof:
 
 ```
-even_members_list_only_even : (l : MyList Nat) -> has_odd (even_members l) = False
+even_members_list_only_even : (l : MyList Nat) ->
+    has_odd (even_members l) = False
 even_members_list_only_even End = Refl
 even_members_list_only_even (Cons n l') with (even n) proof even_n
-  even_members_list_only_even (Cons n l') | False = let IH = even_members_list_only_even l' in IH
-  even_members_list_only_even (Cons n l') | True  = rewrite sym even_n in Refl
+  even_members_list_only_even (Cons n l') | False =
+      let IH = even_members_list_only_even l' in
+      IH
+  even_members_list_only_even (Cons n l') | True  =
+      rewrite sym even_n in
+      Refl
 ```
 
 X> ### Exercise 18
@@ -756,8 +777,10 @@ For the second case, it also seems we need to use `LTEZero`, but the second argu
 
 ```
 depth_tree_gt_0 : (tr : Tree) -> GTE (depth tr) 0
-depth_tree_gt_0 Leaf             = LTEZero {right = 0}
-depth_tree_gt_0 (Node v tr1 tr2) = LTEZero {right = 1 + maximum (depth tr1) (depth tr2)}
+depth_tree_gt_0 Leaf             =
+    LTEZero {right = 0}
+depth_tree_gt_0 (Node v tr1 tr2) =
+    LTEZero {right = 1 + maximum (depth tr1) (depth tr2)}
 ```
 
 Thus, we have proven that the depth of any tree is greater or equal to zero.
@@ -769,7 +792,9 @@ We saw how we can use `map` with lists. It would be neat if we had a way to map 
 ```
 map_tree : (Nat -> Nat) -> Tree -> Tree
 map_tree _ Leaf             = Leaf
-map_tree f (Node v tr1 tr2) = (Node (f v) (map_tree f tr1) (map_tree f tr2))
+map_tree f (Node v tr1 tr2) = (Node (f v)
+                                    (map_tree f tr1)
+                                    (map_tree f tr2))
 ```
 
 The function `map_tree` accepts a function and a `Tree` and then returns a modified `Tree` where the function is applied to all values of nodes. In the case of `Leaf`, it just returns `Leaf`, because there's nothing to map to. In the case of a `Node`, we return a new `Node` whose value is applied to the function `f` and then recursively map over the left and right branches of the node. We can use it as follows:
@@ -777,7 +802,8 @@ The function `map_tree` accepts a function and a `Tree` and then returns a modif
 ```
 Idris> Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf)
 Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf) : Tree
-Idris> map_tree (\x => x + 1) (Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf))
+Idris> map_tree (\x => x + 1) (Node 2 (Node 1 Leaf Leaf)
+    (Node 3 Leaf Leaf))
 Node 3 (Node 2 Leaf Leaf) (Node 4 Leaf Leaf) : Tree
 ```
 
@@ -809,7 +835,8 @@ Idris> size_tree (Node 1 (Node 2 Leaf Leaf) Leaf)
 Now, we want to prove that for a given tree and _any_ function `f`, the size of that tree will be the same as the size of that tree mapped with the function `f`:
 
 ```
-proof_1 : (tr : Tree) -> (f : Nat -> Nat) -> size_tree tr = size_tree (map_tree f tr)
+proof_1 : (tr : Tree) -> (f : Nat -> Nat) ->
+    size_tree tr = size_tree (map_tree f tr)
 ```
 
 This type definition describes exactly that. We will use proof by cases and pattern match on `tr`:
@@ -833,14 +860,15 @@ Idris> :t i_h
   tr2 : Tree
   f : Nat -> Nat
 --------------------------------------
-i_h : S (plus (size_tree tr1) (size_tree tr2)) =
-      S (plus (size_tree (map_tree f tr1)) (size_tree (map_tree f tr2)))
+i_h: S (plus (size_tree tr1) (size_tree tr2)) =
+     S (plus (size_tree (map_tree f tr1)) (size_tree (map_tree f tr2)))
 ```
 
 For the base case we can just use `Refl`. However, for the inductive hypothesis, we need to do something different. We can try applying the proof recursively to `tr1` and `tr2` respectively:
 
 ```
-proof_1 : (tr : Tree) -> (f : Nat -> Nat) -> size_tree tr = size_tree (map_tree f tr)
+proof_1 : (tr : Tree) -> (f : Nat -> Nat) ->
+    size_tree tr = size_tree (map_tree f tr)
 proof_1 Leaf _             = Refl
 proof_1 (Node v tr1 tr2) f = let IH_1 = proof_1 tr1 f in
                              let IH_2 = proof_1 tr2 f in
@@ -860,7 +888,8 @@ Idris> :t conclusion
   IH_2 : size_tree tr2 = size_tree (map_tree f tr2)
 --------------------------------------
 conclusion : S (plus (size_tree tr1) (size_tree tr2)) =
-             S (plus (size_tree (map_tree f tr1)) (size_tree (map_tree f tr2)))
+             S (plus (size_tree (map_tree f tr1))
+                 (size_tree (map_tree f tr2)))
 ```
 
 From here, we can just rewrite the hypothesis:
@@ -868,14 +897,18 @@ From here, we can just rewrite the hypothesis:
 ```
 proof_1 (Node v tr1 tr2) f = let IH_1 = proof_1 tr1 f in
                              let IH_2 = proof_1 tr2 f in
-                             rewrite IH_1 in rewrite IH_2 in ?conclusion
+                             rewrite IH_1 in
+                             rewrite IH_2 in
+                             ?conclusion
 ```
 
 At this point, we will have:
 
 ```
-conclusion : S (plus (size_tree (map_tree f tr1)) (size_tree (map_tree f tr2))) =
-             S (plus (size_tree (map_tree f tr1)) (size_tree (map_tree f tr2)))
+conclusion : S (plus (size_tree (map_tree f tr1))
+                 (size_tree (map_tree f tr2))) =
+             S (plus (size_tree (map_tree f tr1))
+                 (size_tree (map_tree f tr2)))
 ```
 
 We can just use `Refl` instead of `?conclusion` to finish the proof.

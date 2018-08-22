@@ -591,7 +591,9 @@ We've seen how pattern matching is a powerful concept, in that it allows us to p
 ```
 total even_members : MyList Nat -> MyList Nat
 even_members End         = End
-even_members (Cons x l') = if (even x) then (Cons x (even_members l')) else even_members l'
+even_members (Cons x l') = if (even x)
+                           then (Cons x (even_members l'))
+                           else even_members l'
 ```
 
 The function above is a recursive function, and depending on the value of `even x`, it will branch the recursion. But note that we can't easily pattern match against the result of `even x`, that is we have to use it in the function body to do a check. Idris provides another additional keyword `with` that allows us to pattern match a value of some expression. The keyword `with` has the following syntax:
@@ -624,7 +626,8 @@ By using the `:doc` command, we can get detailed information about a data type:
 ```
 Idris> :doc Nat
 Data type Prelude.Nat.Nat : Type
-    Natural numbers: unbounded, unsigned integers which can be pattern matched.
+    Natural numbers: unbounded, unsigned integers which can be pattern
+    matched.
     
 Constructors:
     Z : Nat
