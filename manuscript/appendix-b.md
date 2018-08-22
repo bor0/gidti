@@ -1,8 +1,91 @@
-# Appendix B: Codegen targets, compilation, and FFI
+# Appendix B: IO, Codegen targets, compilation, and FFI
 
 This section is only relevant to programmers that have experience with some of the programming languages: C, JavaScript, C#, PHP, Python. Feel free to skip it, as it will only demonstrate how Idris can interact with these programming languages.
 
 In the following examples we will see how we can compile Idris code. A given program in Idris can be compiled to a binary executable or a back-end for some other programming language. If we decide to compile to a binary executable, then the C back-end will be used by default.
+
+## IO
+
+IO stands for Input/Output. Examples of a few IO operations are: write to a disk file, talk to a network computer, launch rockets.
+
+Functions can be roughly categorized in two parts: **pure** and **impure**.
+
+1. Pure functions are functions that will produce the same result every time they are called
+1. Impure functions are functions that might return different result on a function call
+
+An example of a pure function is {$$}f(x) = x + 1{/$$}. An example of an impure function is {$$}f(x) = \text{launch x rockets}{/$$}. Since this function causes side-effects, sometimes the launch of the rockets may not be successful (e.g. the case where we have no more rockets to launch).
+
+Computer programs are not usable if there is no interaction with the user. One problem arises with languages such as Idris (where expressions are mathematical and have no side effects) is that IO contains side effects. For this reason, such interactions will be encapsulated in a data structure that looks something like:
+
+```
+data IO a -- IO operation that returns a value of type a
+```
+
+The concrete definition for `IO` is built within Idris itself, that is why we will leave it at the data abstraction as defined above. But what `IO` does is it describes all operations that need to be executed. The resulting operations are executed externally by the Idris Run-Time System (or `IRTS`). The most basic IO program is the following one:
+
+```
+main : IO ()
+main = putStrLn "Hello world"
+```
+
+The type of `putStrLn` says that this function receives a `String` and returns an `IO` operation.
+
+```
+Idris> :t putStrLn
+putStrLn : String -> IO ()
+```
+
+We can read from the input similarly:
+
+```
+getLine : IO String
+```
+
+In order to combine several IO functions, we can use the `do` notation as follows:
+
+```
+main : IO ()
+main = do
+    putStr "What's your name? "
+    name <- getLine
+    putStr "Nice to meet you, "
+    putStrLn name
+```
+
+In the REPL, we can say `:x main` to execute the IO function. Alternatively, if we save that code to `test.idr`, we can use the command `idris test.idr -o test` in order to output an executable file that we can use on our system. Interacting with it:
+
+```
+boro@bor0:~$ idris test.idr -o test
+boro@bor0:~$ ./test
+What's your name? Boro
+Nice to meet you, Boro
+boro@bor0:~$
+```
+
+Let's slightly rewrite our code by abstracting out the concatenation into a separate function:
+
+```
+concat_string : String -> String -> String
+concat_string a b = a ++ b
+
+main : IO ()
+main = do
+    putStr "What's your name? "
+    name <- getLine
+    let concatenated = concat_string "Nice to meet you, " name
+    putStrLn concatenated
+```
+
+Note how we use the `let x = y` syntax with pure functions, where in contrast we use the `x <- y` with impure functions.
+
+The `++` operator is a built-in one used to concatenate strings and lists. A `String` can be viewed as a list of `Char`. In fact, Idris has functions called `pack` and `unpack` that allow for conversion between these two data types:
+
+```
+Idris> unpack "Hello"
+['H', 'e', 'l', 'l', 'o'] : List Char
+Idris> pack ['H', 'e', 'l', 'l', 'o']
+"Hello" : String
+```
 
 ## Codegen
 

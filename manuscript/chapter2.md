@@ -203,7 +203,7 @@ X> Write down the corresponding input and output sets for the function you imple
 
 ## 2.3. Substitution and mathematical proofs
 
-Substitution lies at the heart of mathematics. A similar statement can be made about programming, but we will cover this in the later chapters with so called **pure** and **impure** functions.
+Substitution lies at the heart of mathematics[^ch2n4]. 
 
 I> ### Definition 14
 I>
@@ -231,7 +231,7 @@ I> ### Definition 16
 I>
 I> A proof is defined as an inferential **argument** for a list of given mathematical propositions. To prove a mathematical fact, we need to show that the conclusion (goal that we want to prove) logically follows from the hypothesis (list of given propositions).
 
-For example, to prove that a goal {$$}G{/$$} follows from a set of given propositions {$$}\{ g_1, g_2, \ldots, g_n \}{/$$}, we need to show {$$}(g_1 \land g_2 \land \ldots \land g_n) \to G{/$$}. Note the relation between the implication connective[^ch2n4] (conditional statement) and proofs.
+For example, to prove that a goal {$$}G{/$$} follows from a set of given propositions {$$}\{ g_1, g_2, \ldots, g_n \}{/$$}, we need to show {$$}(g_1 \land g_2 \land \ldots \land g_n) \to G{/$$}. Note the relation between the implication connective[^ch2n5] (conditional statement) and proofs.
 
 X> ### Exercise 10
 X>
@@ -322,7 +322,7 @@ In order to **prove** a goal of form:
 | {$$}P \leftrightarrow Q{/$$} | Prove both {$$}P \to Q{/$$} and {$$}Q \to P{/$$} |
 | {$$}\forall x, P(x){/$$} | Assume that {$$}x{/$$} is an arbitrary object and prove that {$$}P(x){/$$} |
 | {$$}\exists x, P(x){/$$} | Find an {$$}x{/$$} such that {$$}P(x){/$$} is true |
-| {$$}\exists! x, P(x){/$$}[^ch2n5] | Prove {$$}\exists x, P(x){/$$} (existence) and |
+| {$$}\exists! x, P(x){/$$}[^ch2n6] | Prove {$$}\exists x, P(x){/$$} (existence) and |
 | | {$$}\forall x \forall y, (P(x) \land P(y) \to x = y){/$$} (uniqueness) separately |
 
 In order to **use** a given of form:
@@ -416,6 +416,8 @@ X> Hint: Use {$$}n = 2{/$$} as the base case.
 
 [^ch2n3]: In other words, a function is a subset of all combinations of ordered pairs whose first element is an element of {$$}A{/$$} and second element is an element of {$$}B{/$$}.
 
-[^ch2n4]: The turnstile symbol is similar to implication. It is denoted as {$$}\Gamma \vdash A{/$$}, where {$$}\Gamma{/$$} is a set of statements and {$$}A{/$$} is a conclusion. It is {$$}\top{/$$} iff it is impossible for all statements in {$$}\Gamma{/$$} to be {$$}\top{/$$}, and {$$}A{/$$} to be {$$}\bot{/$$}. In the Metamath appendix we'll cover an interesting difference between implication and this symbol.
+[^ch2n4]: A similar statement can be made about programming, but we will cover an interesting case in Appendix B related to **pure** and **impure** functions.
 
-[^ch2n5]: The notation {$$}\exists!{/$$} stands for unique existential quantifier. It means that **only one** object fulfills the predicate, as opposed to {$$}\exists{/$$}, which states that **at least one** object fulfills the predicate.
+[^ch2n5]: The turnstile symbol is similar to implication. It is denoted as {$$}\Gamma \vdash A{/$$}, where {$$}\Gamma{/$$} is a set of statements and {$$}A{/$$} is a conclusion. It is {$$}\top{/$$} iff it is impossible for all statements in {$$}\Gamma{/$$} to be {$$}\top{/$$}, and {$$}A{/$$} to be {$$}\bot{/$$}. In Appendix A we'll cover an interesting difference between implication and this symbol.
+
+[^ch2n6]: The notation {$$}\exists!{/$$} stands for unique existential quantifier. It means that **only one** object fulfills the predicate, as opposed to {$$}\exists{/$$}, which states that **at least one** object fulfills the predicate.
