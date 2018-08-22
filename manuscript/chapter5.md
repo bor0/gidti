@@ -608,7 +608,7 @@ However, for the inductive step, we will use `with` on `even n` and produce a pr
 ```
 even_members_list_only_even (Element n l') with (even n) proof even_n
   even_members_list_only_even (Element n l') | False = let IH = even_members_list_only_even l' in ?a
-  even_members_list_only_even (Element n l') | True  = let IH = even_members_list_only_even l' in ?b
+  even_members_list_only_even (Element n l') | True  = ?b
 ```
 
 Note how we specified `proof even_n` right after the expression in the `with` match. The `proof` keyword followed by a variable brings us the proof of the expression to the list of premises. So, `with (even n) proof even_n` will pattern match on the expression `even n`, and will also bring the proof `even n` in the premises. If we now check the first hole:
@@ -628,35 +628,15 @@ That should be simple, we can just use `IH` to solve the goal. For the second ho
   n : Nat
   l' : MyList Nat
   even_n : True = even n
-  IH : has_odd (even_members l') = False
 --------------------------------------
 b : ifThenElse (even n) (Delay False) (Delay (has_odd (even_members l'))) = False
 ```
 
-Whoops, seems that `if...then...else` uses a lazy structure, which is kind of tricky to rewrite to. In order to make our proof simpler, we will rewrite the `has_odd` function:
-
-```
-total has_odd : MyList Nat -> Bool
-has_odd End = False
-has_odd (Element x l') with (even x)
-  has_odd (Element x l') | True  = has_odd l'
-  has_odd (Element x l') | False = True
-```
-
-Now our goal becomes:
-
-```
-  n : Nat
-  l' : MyList Nat
-  even_n : True = even n
-  IH : has_odd (even_members l') = False
---------------------------------------
-b : with block in Main.has_odd (even n) n (even_members l') = False
-```
+Seems that `if...then...else` uses a lazy structure, but nevertheless uses `(even n)` to branch the computation.
 
 Q> How do we rewrite the inductive hypothesis to the goal in this case?
 Q>
-Q> It seems that we can't just rewrite here. We have two equalities `IH: x = False` and `b: x' = False`. We need to swap `IH: False = x` in order to be able to apply it to the goal. Idris provides a function called `sym` which takes an equality of `a = b` and converts it to `b = a`.
+Q> It seems that we can't just rewrite here, since `even_n` has the order of the equality reversed. Idris provides a function called `sym` which takes an equality of `a = b` and converts it to `b = a`.
 
 We can try to rewrite `sym even_n` to the goal, and it now becomes:
 
@@ -664,10 +644,9 @@ We can try to rewrite `sym even_n` to the goal, and it now becomes:
   n : Nat
   l' : MyList Nat
   even_n : True = even n
-  IH : has_odd (even_members l') = False
   _rewrite_rule : even n = True
 --------------------------------------
-b : has_odd (even_members l') = False
+b : False = False
 ```
 
 Thus, the complete proof:
@@ -677,8 +656,12 @@ even_members_list_only_even : (l : MyList Nat) -> has_odd (even_members l) = Fal
 even_members_list_only_even End = Refl
 even_members_list_only_even (Element n l') with (even n) proof even_n
   even_members_list_only_even (Element n l') | False = let IH = even_members_list_only_even l' in IH
-  even_members_list_only_even (Element n l') | True  = let IH = even_members_list_only_even l' in rewrite sym even_n in IH
+  even_members_list_only_even (Element n l') | True  = rewrite sym even_n in Refl
 ```
+
+X> ### Exercise 18
+X>
+X> Rewrite `has_odd` to use `with` in the recursive case, and then repeat the proof above.
 
 ## 5.3. Trees
 
@@ -703,7 +686,7 @@ For example, to represent the following tree, we can use the expression `Node 2 
 
 Edges can be thought of as the number of "links" from a node to its children. Node 2 in the tree above has two edges: {$$}(2, 1){/$$} and {$$}(2, 3){/$$}.
 
-X> ### Exercise 18
+X> ### Exercise 19
 X>
 X> Come up with a few trees by using the type constructors above.
 
