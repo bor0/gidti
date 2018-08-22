@@ -1,6 +1,6 @@
 # Appendix B: IO, Codegen targets, compilation, and FFI
 
-This section is only relevant to programmers that have experience with some of the programming languages: C, JavaScript, C#, PHP, Python. Feel free to skip it, as it will only demonstrate how Idris can interact with these programming languages.
+This section is mostly relevant to programmers that have experience with some of the programming languages: C, JavaScript, C#, PHP, Python. Feel free to skip it, as it will only demonstrate how Idris can interact with the outside world (IO) and these programming languages.
 
 In the following examples we will see how we can compile Idris code. A given program in Idris can be compiled to a binary executable or a back-end for some other programming language. If we decide to compile to a binary executable, then the C back-end will be used by default.
 
