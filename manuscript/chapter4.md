@@ -1,4 +1,4 @@
-# 4. Introduction to Idris
+# 4. Programming in Idris
 
 In this chapter, we will introduce Idris' syntax, by defining functions and types.
 
@@ -6,7 +6,7 @@ Depending at what level of abstraction we are working on, types and proofs can g
 
 Idris, even though a research language, can still have its own uses. It is a Turing complete language, which means that it has the same expressive power as other programming languages, for example Java, or C++.
 
-There are several ways to install Idris. For Haskellers, one way is to install Idris as an additional package with `cabal install idris`. The second way is direct Idris installation via https://www.idris-lang.org/download.
+Idris can be downloaded and installed via https://www.idris-lang.org/download.
 
 ## 4.1. Basic syntax and definitions
 
@@ -77,7 +77,7 @@ data A : Type -> Type -> Type where
 	A_inst : a -> b -> A a b
 ```
 
-, which is equivalent to the following definition, where we define an empty data structure along with an axiom:
+Which is equivalent to the following definition, where we define an empty data structure along with an axiom:
 
 ```
 data A : Type -> Type -> Type
@@ -164,7 +164,7 @@ X> ### Exercise 5
 X>
 X> Repeat Exercise 4 and use holes to check the types of the expressions used in your function definition.
 
-### 4.1.3. Lambda anonymous functions
+### 4.1.3. Anonymous lambda functions
 
 With the syntax `let X in Y` we're defining a set of variables `X` which are only visible in the body of `Y`. As an example, here is one way to use this syntax:
 
@@ -207,7 +207,7 @@ Abstractions are right-associative (just like in lambda calculus), which means t
 
 Note that `a` is a polymorphic type, which means that it can accept all types which are either defined by the programmer or primitive ones.
 
-The `if...then...else` syntax is defined as follows, which is quite intuitive:
+The `if...then...else` syntax is defined as follows:
 
 ```
 Idris> if 1 == 1 then 'a' else 'b'
@@ -303,39 +303,39 @@ I> ### Definition 2
 I>
 I> A recursive data type is a data type where in some of its constructors there is a reference to the same data type.
 
-We will start by defining a recursive data type, which is a data type that in the constructor refers to itself. In fact, earlier in this book we already gave a recursive definition of `Nat`. As a motivating example, we will try to define the representation of lists. For this data type we'll use a combination of sum and product types. A list is defined as either `End` (end of list) or `Element`, which is a value appended to another `MyList`:
+We will start by defining a recursive data type, which is a data type that in the constructor refers to itself. In fact, earlier in this book we already gave a recursive definition of `Nat`. As a motivating example, we will try to define the representation of lists. For this data type we'll use a combination of sum and product types. A list is defined as either `End` (end of list) or `Cons` (construct), which is a value appended to another `MyList`:
 
 ```
-data MyList a = Element a (MyList a) | End
+data MyList a = Cons a (MyList a) | End
 ```
 
-This means that the type `MyList` has two constructors, `End` and `Element`. If it's `End`, then it's the end of the list (and does not accept any more values). However, if it's `Element`, then we can append another value (e.g. `Element 3`), but afterwards we have to specify another value of type `MyList a` (which can be `End` or another `Element`). This definition allows us to define a list. As an example, this is how we would represent {$$}(1, 2, 3){/$$} using our `Element End` representation:
+This means that the type `MyList` has two constructors, `End` and `Cons`. If it's `End`, then it's the end of the list (and does not accept any more values). However, if it's `Cons`, then we can append another value (e.g. `Cons 3`), but afterwards we have to specify another value of type `MyList a` (which can be `End` or another `Cons`). This definition allows us to define a list. As an example, this is how we would represent {$$}(1, 2, 3){/$$} using our `Cons End` representation:
 
 ```
-Idris> :t Element 1 (Element 2 End)
-Element 1 (Element 2 End) : MyList Integer
-Idris> :t Element 'a' (Element 'b' End)
-Element 'a' (Element 'b' End) : MyList Char
+Idris> :t Cons 1 (Cons 2 End)
+Cons 1 (Cons 2 End) : MyList Integer
+Idris> :t Cons 'a' (Cons 'b' End)
+Cons 'a' (Cons 'b' End) : MyList Char
 ```
 
 Note how Idris automatically infers the polymorphic type to `MyList Integer` and `MyList Char`. Here is one way of implementing the concatenation function, which given two lists, should produce a list with the elements appended:
 
 ```
 add' : MyList a -> MyList a -> MyList a
-add' End ys            = ys
-add' (Element x xs) ys = Element x (add' xs ys)
+add' End ys         = ys
+add' (Cons x xs) ys = Cons x (add' xs ys)
 ```
 
-The first line of the code says that `add'` is a function that accepts two polymorphic lists (`MyList Nat`, `MyList Char`, etc), and produces the same list as a result. The second line of the code pattern matches against the first list and when it's empty we just return the second list. The third line of the code also pattern matches against the first list, but this time it covers the `Element` case. So, whenever there is an `Element` in the first list, as a result we return this element `Element x`, appended recursively to `add' xs ys`, where `xs` is the remainder of the first list and `ys` is the second list. Example usage:
+The first line of the code says that `add'` is a function that accepts two polymorphic lists (`MyList Nat`, `MyList Char`, etc), and produces the same list as a result. The second line of the code pattern matches against the first list and when it's empty we just return the second list. The third line of the code also pattern matches against the first list, but this time it covers the `Cons` case. So, whenever there is an `Cons` in the first list, as a result we return this element `Cons x`, appended recursively to `add' xs ys`, where `xs` is the remainder of the first list and `ys` is the second list. Example usage:
 
 ```
-Idris> add' (Element 1 (Element 2 (Element 3 End))) (Element 4 End)
-Element 1 (Element 2 (Element 3 (Element 4 End))) : MyList Integer
+Idris> add' (Cons 1 (Cons 2 (Cons 3 End))) (Cons 4 End)
+Cons 1 (Cons 2 (Cons 3 (Cons 4 End))) : MyList Integer
 ```
 
 X> ### Exercise 9
 X>
-X> Unfold `add' (Element 1 (Element 2 (Element 3 End))) (Element 4 End)` on paper to get a better understanding of how this definition appends two lists.
+X> Unfold `add' (Cons 1 (Cons 2 (Cons 3 End))) (Cons 4 End)` on paper to get a better understanding of how this definition appends two lists.
 
 X> ### Exercise 10
 X>
@@ -508,7 +508,6 @@ Implicit parameters (arguments) allow us to bring values from the type level to 
 
 ```
 lengthMyVect : MyVect n -> Nat
-lengthMyVect { n = Z } list = 0
 lengthMyVect { n = k } list = k
 ```
 
@@ -516,7 +515,6 @@ In this case, we've defined a function `lengthMyVect` that takes a `MyVect` and 
 
 ```
 lengthMyVect : MyVect n -> Nat
-lengthMyVect { n = Z } _ = 0
 lengthMyVect { n = k } _ = k
 ```
 
@@ -592,8 +590,8 @@ We've seen how pattern matching is a powerful concept, in that it allows us to p
 
 ```
 total even_members : MyList Nat -> MyList Nat
-even_members End            = End
-even_members (Element x l') = if (even x) then (Element x (even_members l')) else even_members l'
+even_members End         = End
+even_members (Cons x l') = if (even x) then (Cons x (even_members l')) else even_members l'
 ```
 
 The function above is a recursive function, and depending on the value of `even x`, it will branch the recursion. But note that we can't easily pattern match against the result of `even x`, that is we have to use it in the function body to do a check. Idris provides another additional keyword `with` that allows us to pattern match a value of some expression. The keyword `with` has the following syntax:
@@ -610,9 +608,9 @@ Note how we have to specify new pattern matching clauses after the line that use
 ```
 total even_members' : MyList Nat -> MyList Nat
 even_members' End = End
-even_members' (Element x l') with (even x)
-  even_members' (Element x l') | True  = Element x (even_members' l')
-  even_members' (Element _ l') | False = (even_members' l')
+even_members' (Cons x l') with (even x)
+  even_members' (Cons x l') | True  = Cons x (even_members' l')
+  even_members' (Cons _ l') | False = (even_members' l')
 ```
 
 In this function we defined two new pattern matches after the line that uses the `with` keyword. Since we don't have `x` and `l'` in this new pattern matching context, we have to rewrite them on the left side of the pipe, and on the right side of the pipe we pattern match against the value of `even x`, and then branch the recursion (computation).

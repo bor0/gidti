@@ -1,4 +1,4 @@
-# 5. Programming in Idris
+# 5. Proving in Idris
 
 In this chapter we will provide several examples to demonstrate the power of Idris. We will do mathematical proofs. There are a lot of built-ins in Idris that will help us achieve our goals. So in each section we will introduce the relevant definitions.
 
@@ -587,8 +587,8 @@ We will prove that a list of even numbers contains no odd numbers. We will re-us
 
 ```
 total has_odd : MyList Nat -> Bool
-has_odd End            = False
-has_odd (Element x l') = if (even x) then False else has_odd l'
+has_odd End         = False
+has_odd (Cons x l') = if (even x) then False else has_odd l'
 ```
 
 Now, to prove that a list of even members contains no odd members, we can use the following type definition:
@@ -606,9 +606,9 @@ even_members_list_only_even End = Refl
 However, for the inductive step, we will use `with` on `even n` and produce a proof depending on the evenness of the number:
 
 ```
-even_members_list_only_even (Element n l') with (even n) proof even_n
-  even_members_list_only_even (Element n l') | False = let IH = even_members_list_only_even l' in ?a
-  even_members_list_only_even (Element n l') | True  = ?b
+even_members_list_only_even (Cons n l') with (even n) proof even_n
+  even_members_list_only_even (Cons n l') | False = let IH = even_members_list_only_even l' in ?a
+  even_members_list_only_even (Cons n l') | True  = ?b
 ```
 
 Note how we specified `proof even_n` right after the expression in the `with` match. The `proof` keyword followed by a variable brings us the proof of the expression to the list of premises. So, `with (even n) proof even_n` will pattern match on the expression `even n`, and will also bring the proof `even n` in the premises. If we now check the first hole:
@@ -654,9 +654,9 @@ Thus, the complete proof:
 ```
 even_members_list_only_even : (l : MyList Nat) -> has_odd (even_members l) = False
 even_members_list_only_even End = Refl
-even_members_list_only_even (Element n l') with (even n) proof even_n
-  even_members_list_only_even (Element n l') | False = let IH = even_members_list_only_even l' in IH
-  even_members_list_only_even (Element n l') | True  = rewrite sym even_n in Refl
+even_members_list_only_even (Cons n l') with (even n) proof even_n
+  even_members_list_only_even (Cons n l') | False = let IH = even_members_list_only_even l' in IH
+  even_members_list_only_even (Cons n l') | True  = rewrite sym even_n in Refl
 ```
 
 X> ### Exercise 18
