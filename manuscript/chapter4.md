@@ -260,7 +260,10 @@ False
 
 We see how this exhibits a recursive behaviour since the recursive cases were reduced to the base case in attempt to get a result. With this example, we can see the power of recursion and how it allows us to process values in a repeating manner.
 
-A recursive function can generate an **iterative** or a **recursive** process. An iterative process is a process where the "state" is captured completely by its parameters. A recursive one, in contrast, is one where the "state" is not captured by the parameters, and so it relies on "deferred" evaluations. In the example above, `even` generates a recursive process since it needs to go down to the base case, and then build its way back up to do the calculations that were "deferred". Alternatively, we can rewrite `even` so that it captures the "state" by introducing another variable, as such:
+A recursive function can generate an **iterative** or a **recursive** process:
+
+1. An iterative process is a process where the return value at any point in computation is captured completely by its parameters.
+1. A recursive one, in contrast, is one where the return value is not captured at any point in computation by the parameters, and so it relies on postponed evaluations. In the example above, `even` generates a recursive process since it needs to go down to the base case, and then build its way back up to do the calculations that were postponed. Alternatively, we can rewrite `even` so that it captures the return value by introducing another variable, as such:
 
 ```
 even : Nat -> Bool -> Bool
@@ -268,7 +271,7 @@ even Z t     = t
 even (S k) t = even k (not t)
 ```
 
-Now, at any point in computation, we can view the state of the function result by referring to the second parameter. As a consequence, this function now generates an iterative process, since the results are captured in the parameters. Note how we brought down the base case to refer to the parameter, instead of a constant `True`. Here is how Idris evaluates `even 5 True`:
+In this case, we can refer to the return value of the function (second parameter) at any point in computation. As a consequence this function generates an iterative process, since the results are captured in the parameters. Note how we brought down the base case to refer to the parameter, instead of a constant `True`. Here is how Idris evaluates `even 5 True`:
 
 ```
 even 5 True =
@@ -359,12 +362,9 @@ X> Hint: The type is `sum' : MyList Nat -> Nat`.
 
 I> ### Definition 3
 I>
-I> A total function is a function that:
-I>
-I> 1. Terminates for all possible inputs
-I> 1. Returns a value of a potentially infinite result
+I> A total function is a function that terminates (or returns a value) for all possible inputs.
 
-Analogously to the definition above, a partial function is one that does not hold for at least one of the points stated in it. If a function is total, its type can be understood as a precise description of what that function does. Idris differentiates total from partial functions. As an example, if we assume that we have a function that returns a `String`, then:
+Analogously to the definition above, a partial function is one that does not have a definition for at least one input. If a function is total, its type can be understood as a precise description of what that function does. Idris differentiates total from partial functions. As an example, if we assume that we have a function that returns a `String`, then:
 
 1. If it's total, it will return a `String` in finite time
 1. If it's partial, then unless it crashes or enters in an infinite loop, it will return a `String`
@@ -568,7 +568,7 @@ ifThenElse True  t e = t
 ifThenElse False t e = e
 ```
 
-This function uses either the `t` or the `e` parameter, but not both. But the way it is written, it will evaluate both arguments before returning a result. It is a good optimization to only evaluate the parameter that is used. However, to achieve this, in Idris there is a built-in support for lazy evaluation. The implementation is:
+This function uses either the `t` or the `e` parameter, but not both. But the way it is written, it will evaluate both arguments before returning a result. It is a good optimization to only evaluate the parameter that is used. However, to achieve this, in Idris there is a special built-in for lazy evaluation. The implementation looks something like:
 
 ```
 data Lazy : Type -> Type where

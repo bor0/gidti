@@ -243,14 +243,18 @@ our_first_proof a = ?prf
 
 If we check the type of the hole, we get that the goal is `prf : a = a`, so changing the hole to a `Refl` completes the proof. Idris was able to automatically infer the proof by directly substituting definitions.
 
-To prove the existence of a successor, i.e. `Succ x`, per intuitionistic logic we need to construct a pair where the first element is `x` and the second element is `Succ x`:
+To prove the existence of a successor, i.e. `Succ x`, per intuitionistic logic we need to construct a pair where the first element is `x : MyNat` and the second element is `Succ x : MyNat`. Idris has a built-in data structure for constructing dependent pairs called `DPair`.
 
 ```
-total our_second_proof : MyNat -> (MyNat, MyNat)
-our_second_proof x = (x, Succ x)
+total our_second_proof : MyNat -> DPair MyNat (\_ => MyNat)
+our_second_proof x = MkDPair x x
 ```
 
 We just proved that {$$}\exists x \in \text{MyNat}, Succ(x){/$$}.
+
+X> ### Exercise 10
+X>
+X> Check the documentation of `DPair` and `MkDPair` and try to construct some dependent pairs.
 
 ### 5.2.2. Second proof (introduction of a new given)
 
@@ -293,13 +297,13 @@ prf : MyNat
 
 Changing `prf` to `the_number` concludes the proof.
 
-X> ### Exercise 10
+X> ### Exercise 11
 X>
 X> Simplify `our_second_proof` without the use of `let`.
 X>
 X> Hint: Providing a valid type constructor that satisfies (inhabits) the type is a constructive proof.
 
-X> ### Exercise 11
+X> ### Exercise 12
 X>
 X> Construct a proof similar to `our_second_proof` without defining a function for it and by using the function `the`.
 
@@ -369,7 +373,7 @@ our_third_proof (Succ k) = let ind_hypothesis = our_third_proof k in
 
 This concludes the proof.
 
-X> ### Exercise 12
+X> ### Exercise 13
 X>
 X> Observe the similarity between this proof and the proof in Section 2.3.5.
 
@@ -401,11 +405,11 @@ Idris> LTESucc {left = Z} {right = S Z}
 LTESucc : LTE 0 1 -> LTE 1 2
 ```
 
-X> ### Exercise 13
+X> ### Exercise 14
 X>
 X> Check the documentation of `GTE`, and then evaluate `GTE 2 2`. Observe what Idris returns and think how `GTE` can be implemented in terms of `LTE`.
 
-X> ### Exercise 14
+X> ### Exercise 15
 X>
 X> We used the built-in type `LTE` which is defined for `Nat`. Try to come up with a `LTE` definition for `MyNat`.
 
@@ -472,11 +476,11 @@ Idris> divNatNZ 4 0 (SIsNotZ {x = ???})
 
 We cannot construct a proof for the third case and so it will never be able to divide by zero, which is not allowed anyway.
 
-X> ### Exercise 15
+X> ### Exercise 16
 X>
 X> Implement `SuccIsNotZ` for `MyNat` that works similarly to `SIsNotZ`.
 
-X> ### Exercise 16
+X> ### Exercise 17
 X>
 X> Implement `divMyNatNZ` for `MyNat` that works similarly to `divNatNZ`.
 
@@ -589,7 +593,7 @@ our_proof (S k) (S j) a_lt_b = rewrite
                                Refl
 ```
 
-X> ### Exercise 17
+X> ### Exercise 18
 X>
 X> Use `fromLteSucc` with implicits to construct some proofs.
 
@@ -684,7 +688,7 @@ Q> How did mathematical induction work in this case?
 Q>
 Q> Mathematical induction is defined in terms of natural numbers, but in this case we used induction to prove a fact about a list. This works because we used a more general induction called structural induction. According to Wikipedia, structural induction is used to prove that some proposition {$$}P(x){/$$} holds for all {$$}x{/$$} of some sort of recursively defined structure, such as formulas, lists, or trees. For example, for lists we used `End` as the base case, and `Cons` as the inductive step. Thus, mathematical induction is a special case of structural induction for the `Nat` type.
 
-X> ### Exercise 18
+X> ### Exercise 19
 X>
 X> Rewrite `has_odd` to use `with` in the recursive case, and then repeat the proof above.
 
@@ -711,7 +715,7 @@ For example, to represent the following tree, we can use the expression `Node 2 
 
 Edges can be thought of as the number of "links" from a node to its children. Node 2 in the tree above has two edges: {$$}(2, 1){/$$} and {$$}(2, 3){/$$}.
 
-X> ### Exercise 19
+X> ### Exercise 20
 X>
 X> Come up with a few trees by using the type constructors above.
 
