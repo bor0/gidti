@@ -680,6 +680,10 @@ even_members_list_only_even (Cons n l') with (even n) proof even_n
       Refl
 ```
 
+Q> How did mathematical induction work in this case?
+Q>
+Q> Mathematical induction is defined in terms of natural numbers, but in this case we used induction to prove a fact about a list. This works because we used a more general induction called structural induction. According to Wikipedia, structural induction is used to prove that some proposition {$$}P(x){/$$} holds for all {$$}x{/$$} of some sort of recursively defined structure, such as formulas, lists, or trees. For example, for lists we used `End` as the base case, and `Cons` as the inductive step. Thus, mathematical induction is a special case of structural induction for the `Nat` type.
+
 X> ### Exercise 18
 X>
 X> Rewrite `has_odd` to use `with` in the recursive case, and then repeat the proof above.
