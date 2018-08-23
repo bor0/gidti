@@ -55,15 +55,15 @@ X> ### Exercise 2
 X>
 X> Write a function `five_if_zero` which accepts a natural number, and returns 5 when called with an argument of 0, otherwise returns the same number. For example, `five_if_zero 0` should return 5. `five_if_zero 123` should return 123.
 
-### 4.1.2. Defining types
+### 4.1.2. Defining and inferring types
 
-In Idris, types are first-class citizens. This means that types can be computed and passed to other functions. We define new types by using the keyword `data`. All types should begin with an uppercase letter, since lowercase letter variables are reserved for polymorphic types in functions. There are a couple of ways to define types. One example is by using the so called `Haskell98` syntax:
+In Idris, types are first-class citizens. This means that types can be computed and passed to other functions. We define new types by using the keyword `data`. All types begin with an uppercase letter, while lowercase letters are reserved for polymorphic types[^ch4n2]. There are a couple of ways to define types. One example is by using the so called `Haskell98` syntax:
 
 ```
 data A a b = A_inst a b
 ```
 
-This will create a new type that accepts two arguments, `a` and `b`. Valid types are `A Nat Bool`, `A Nat Nat`, etc. The `A_inst` part is actually the type constructor that instantiates an object of such type:
+This will create a polymorphic type that accepts two arguments, `a` and `b`. Valid types are `A Nat Bool`, `A Nat Nat`, etc. The `A_inst` part is actually the type constructor that instantiates an object of such type:
 
 ```
 Idris> A_inst True True
@@ -121,7 +121,7 @@ f (B_inst_left a) = a
 
 Note how we used the data type at the function type level, and how we used the type constructor to pattern match against it.
 
-Natural numbers are defined as `data Nat = Z | S Nat`, where we either have a zero or a successor of a natural number. Natural numbers are built-in as a type in Idris. We can use the operator `==` to compare two numbers. Note that `==` is still a function, but it's an infix one. This means that unlike other functions that we define which are prefix, i.e. start at the beginning of the expression, `==` needs to appear between the parameters. For example:
+Natural numbers are defined as `data Nat = Z | S Nat`, where we either have a zero or a successor of a natural number. Note how this type is not polymorphic (it doesn't accept any variables after the type name). Natural numbers are built-in as a type in Idris. We can use the operator `==` to compare two numbers. Note that `==` is still a function, but it's an infix one. This means that unlike other functions that we define which are prefix, i.e. start at the beginning of the expression, `==` needs to appear between the parameters. For example:
 
 ```
 Idris> 1 == 1
@@ -154,7 +154,7 @@ We can now ask Idris to tell us the type of `hole1`, that is, with `:t hole1` we
 
 X> ### Exercise 3
 X>
-X> Define your own custom type. One example is `data Person name age = PersonInst name age`. Then check the type of the type constructor with `:t`.
+X> Define your own custom type. One example is `data Person = PersonInst String Nat`, where `String` represents name and `Nat` represents age. Then check the type of the type constructor with `:t`.
 
 X> ### Exercise 4
 X>
@@ -203,9 +203,7 @@ I> Currying is a concept that allows us to evaluate a function with multiple par
 
 Function application in Idris is left-associative (just like in lambda calculus), which means that if we try to evaluate `addThree 1 2 3`, then it will be evaluated as `(((addThree 1) 2) 3)`. A combination of left-associative functions and currying (i.e. partial evaluation of function) is what allows us to write `addThree 1 2 3`, which is much more readable.
 
-Abstractions are right-associative (just like in lambda calculus), which means that `addThree 1 : a -> a -> a` is equivalent to `addThree 1 : (a -> (a -> a))`. If we had written a type of `(a -> a) -> a` instead, then this function would accept as its first parameter a function that takes an `a` and returns an `a`, and then the original function also returns an `a`. This is how we can define higher-order functions which we will discuss later.
-
-Note that `a` is a polymorphic type, which means that it can accept all types which are either defined by the programmer or primitive ones.
+Abstractions are right-associative (just like in lambda calculus), which means that `addThree 1 : a -> a -> a` is equivalent to `addThree 1 : (a -> (a -> a))`. If we had written a type of `(a -> a) -> a` instead, then this function would accept as its first parameter a function that takes an `a` and returns an `a`, and then the original function also returns an `a`. This is how we can define higher-order functions which we will discuss later. Note that `a` starts with a lowercase letter, so it is a polymorphic type.
 
 The `if...then...else` syntax is defined as follows:
 
@@ -560,7 +558,7 @@ I> ### Definition 5
 I>
 I> Lazy evaluation means that parameters are evaluated only when necessary. Conversely, strict evaluation means that all parameters are evaluated on a function call.
 
-Idris evaluates parameters in a strict fashion[^ch4n2]. For example, let's take a look at the following function:
+Idris evaluates parameters in a strict fashion[^ch4n3]. For example, let's take a look at the following function:
 
 ```
 ifThenElse : Bool -> a -> a -> a
@@ -697,4 +695,6 @@ X> Hint: Check the documentation of `the` with `:doc the`, and use it with the t
 
 [^ch4n1]: It is worth noting that in Haskell we have types and kinds. Kinds are similar to types, that is, they are defined as one level above types in simply typed lambda calculus. For example, types such as `Nat` have a kind `Nat :: *` and it's stated that `Nat` is of kind `*`. Types such as `Nat -> Nat` have a kind of `* -> *`. Since in Idris types are first-class citizens, there is no distinction between types and kinds.
 
-[^ch4n2]: In contrast, the default behaviour in Haskell is lazy evaluation.
+[^ch4n2]: A polymorphic type can accept additional types as arguments, which are either defined by the programmer or primitive ones.
+
+[^ch4n3]: In contrast, the default behaviour in Haskell is lazy evaluation.
