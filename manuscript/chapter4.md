@@ -295,7 +295,7 @@ even 0 False =
 False
 ```
 
-Recursive functions combined with pattern matching are one of the most powerful tools in Idris, since they do computation. They are also useful for proving mathematical theorems with induction, as we will see in the examples later.
+To conclude, iterative processes take less calculation steps and are usually more performant than recursive processes. Recursive functions combined with pattern matching are one of the most powerful tools in Idris, since they do computation. They are also useful for proving mathematical theorems with induction, as we will see in the examples later.
 
 X> ### Exercise 7
 X>
