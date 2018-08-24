@@ -6,7 +6,7 @@ Depending at what level of abstraction we are working on, types and proofs can g
 
 Idris, even though a research language, can still have its own uses. It is a Turing complete language, which means that it has the same expressive power as other programming languages, for example Java, or C++.
 
-Idris can be downloaded and installed via https://www.idris-lang.org/download.
+Idris can be downloaded and installed via www.idris-lang.org/download.
 
 ## 4.1. Basic syntax and definitions
 
@@ -23,7 +23,7 @@ add_1 : Nat -> Nat
 add_1 x = x + 1
 ```
 
-With the code above we're defining a function {$$}f(x) = x + 1{/$$}, where {$$}x{/$$} is natural number and {$$}f(x){/$$} (the result) is also a natural number[^ch4n1]. The first line `add_1 : Nat -> Nat` specifies the type of our function, that is, it is a function that takes a natural number and returns a natural number. The second line, `add_1 x = x + 1` is the definition of the function, which states that if `add_1` is called with a number `x`, the result would be `x + 1`. As can be seen by the example, every function has to be provided a type definition. We can interact as follows once in REPL mode:
+With the code above we're defining a function {$$}f(x) = x + 1{/$$}, where {$$}x{/$$} is natural number and {$$}f(x){/$$} (the result) is also a natural number[^ch4n1]. The first line `add_1 : Nat -> Nat` specifies the type of our function, that is, it is a function that takes a natural number and returns a natural number. The second line `add_1 x = x + 1` is the definition of the function, which states that if `add_1` is called with a number `x`, the result would be `x + 1`. As can be seen by the example, every function has to be provided a type definition. We can interact as follows once in REPL mode:
 
 ```
 Idris> add_1 5
@@ -41,11 +41,11 @@ As in Haskell, we can use pattern matching. What happens during this phase is Id
 
 ```
 is_it_zero : Nat -> Bool
-is_it_zero 0 = True
+is_it_zero Z = True
 is_it_zero x = False
 ```
 
-We've just defined a function that accepts a natural number, and returns a boolean value (`True` or `False`). On the first line, we specify its type. On the second line, we pattern match against the input `0` and return `True` in that case. On the third line, we pattern match against the input `x` (which is all remaining inputs except 0). In this case, we return `False`. The code above, depending on the input, will branch the computation to the corresponding definition.
+We've just defined a function that accepts a natural number, and returns a boolean value (`True` or `False`). On the first line, we specify its type. On the second line, we pattern match against the input `Z` and return `True` in that case. On the third line, we pattern match against the input `x` (which is all remaining inputs except `Z`). In this case, we return `False`. The code above, depending on the input, will branch the computation to the corresponding definition. Note how `Z` corresponds to 0 for the type `Nat`.
 
 X> ### Exercise 1
 X>
@@ -57,34 +57,36 @@ X> Write a function `five_if_zero` which accepts a natural number, and returns 5
 
 ### 4.1.2. Defining and inferring types
 
-In Idris, types are first-class citizens. This means that types can be computed and passed to other functions. We define new types by using the keyword `data`. All types begin with an uppercase letter, while lowercase letters are reserved for polymorphic types[^ch4n2]. There are a couple of ways to define types. One example is by using the so called `Haskell98` syntax:
+In Idris, types are first-class citizens. This means that types can be computed and passed to other functions. We define new types by using the keyword `data`. All types begin with an uppercase letter, while lowercase letters are reserved for polymorphic types[^ch4n2]. There are a couple of ways to define types. One example is by using the so-called `Haskell98` syntax:
 
 ```
 data A a b = A_inst a b
 ```
 
-This will create a polymorphic type that accepts two arguments, `a` and `b`. Valid types are `A Nat Bool`, `A Nat Nat`, etc. The `A_inst` part is actually the type constructor that instantiates an object of such type:
+This will create a polymorphic type that accepts two arguments (types), `a` and `b`. Valid constructed types are `A Nat Bool`, `A Nat Nat`, etc. The `A_inst` part is actually the type constructor (a function) that instantiates an object of such type:
 
 ```
 Idris> A_inst True True
 A_inst True True : A Bool Bool
+Idris> A_inst Z True
+A_inst 0 True : A Nat Bool
 ```
 
-An equivalent definition by using the `GADT` (Generalized Algebraic Data Types) syntax:
+Note how the type changes depending on what values we pass to the constructor, due to polymorphism. An equivalent definition by using the `GADT` (Generalized Algebraic Data Types) syntax:
 
 ```
 data A : Type -> Type -> Type where
 	A_inst : a -> b -> A a b
 ```
 
-Which is equivalent to the following definition, where we define an empty data structure along with an axiom:
+Which is equivalent to the following definition, where we define an empty data structure along with an axiom for the type constructor:
 
 ```
 data A : Type -> Type -> Type
 postulate A_inst : a -> b -> A a b
 ```
 
-With the `postulate` keyword we can define axioms, which are functions that satisfy the types without giving an actual argument for construction. With the command `:t` we can check the type of an expression, so as a result, we get:
+With the `postulate` keyword we can define axioms which are functions that satisfy the types without giving an actual argument for construction. With the command `:t` we can check the type of an expression, so as a result we get:
 
 ```
 Idris> :t A
@@ -99,6 +101,14 @@ Analogously, if we want to create a sum type, we could do the following:
 
 ```
 data B a b = B_inst_left a | B_inst_right b
+```
+
+Which is equivalent to:
+
+```
+data B : Type -> Type -> Type where
+	B_inst_left : a -> B a b
+	B_inst_right : b -> B a b
 ```
 
 As a result of that, we get:
@@ -119,9 +129,11 @@ f : B a b -> a
 f (B_inst_left a) = a
 ```
 
-Note how we used the data type at the function type level, and how we used the type constructor to pattern match against it.
+Note how we used the data type at the function type level, and the type constructor in the function definition to pattern match against it.
 
-Natural numbers are defined as `data Nat = Z | S Nat`, where we either have a zero or a successor of a natural number. Note how this type is not polymorphic (it doesn't accept any variables after the type name). Natural numbers are built-in as a type in Idris. We can use the operator `==` to compare two numbers. Note that `==` is still a function, but it's an infix one. This means that unlike other functions that we define which are prefix, i.e. start at the beginning of the expression, `==` needs to appear between the parameters. For example:
+Natural numbers are defined as `data Nat = Z | S Nat`, where we either have a zero or a successor of a natural number. Note how this type is not polymorphic (it doesn't accept any variables after the type name). Natural numbers are built-in as a type in Idris.
+
+We can use the operator `==` to compare two numbers. Note that `==` is still a function, but it's an infix one. This means that unlike other functions that we define which are prefix, i.e. start at the beginning of the expression, `==` needs to appear between the parameters. For example:
 
 ```
 Idris> 1 == 1
@@ -154,7 +166,7 @@ We can now ask Idris to tell us the type of `hole1`, that is, with `:t hole1` we
 
 X> ### Exercise 3
 X>
-X> Define your own custom type. One example is `data Person = PersonInst String Nat`, where `String` represents name and `Nat` represents age. Then check the type of the type constructor with `:t`.
+X> Define your own custom type. One example is `data Person = PersonInst String Nat`, where `String` represents name and `Nat` represents age. Use the constructor to generate some objects of that type. Afterwards, use `:t` to check the type of the type constructor and the objects.
 
 X> ### Exercise 4
 X>
@@ -188,7 +200,7 @@ Idris> let addThree = (\x, y, z => x + y + z) in addThree 1 2 3
 6 : Integer
 ```
 
-With the example above, we've defined a function `addThree` that accepts three parameters and as a result it sums them. However, if we do not pass all parameters to a function, it will result in:
+With the example above, we defined a function `addThree` that accepts three parameters and as a result it sums them. However, if we do not pass all parameters to a function, it will result in:
 
 ```
 Idris> let addThree = (\x, y, z => x + y + z) in addThree 1 2
@@ -220,11 +232,11 @@ X> Write a lambda function that returns `True` if the parameter passed to it is 
 
 ### 4.1.4. Recursive functions
 
-By Definition 18 of Chapter 2, recursive functions are those functions that refer to themselves. One example is the function `even : Nat -> Bool`, a function that checks if a natural number is even or not. It can be defined as follows:
+By Definition 19 of Chapter 2, recursive functions are those functions that refer to themselves. One example is the function `even : Nat -> Bool`, a function that checks if a natural number is even or not. It can be defined as follows:
 
 ```
 even : Nat -> Bool
-even Z = True
+even Z     = True
 even (S k) = not (even k)
 ```
 
@@ -310,7 +322,7 @@ We will start by defining a recursive data type, which is a data type that in th
 data MyList a = Cons a (MyList a) | End
 ```
 
-This means that the type `MyList` has two constructors, `End` and `Cons`. If it's `End`, then it's the end of the list (and does not accept any more values). However, if it's `Cons`, then we can append another value (e.g. `Cons 3`), but afterwards we have to specify another value of type `MyList a` (which can be `End` or another `Cons`). This definition allows us to define a list. As an example, this is how we would represent {$$}(1, 2, 3){/$$} using our `Cons End` representation:
+This means that the type `MyList` has two constructors, `End` and `Cons`. If it's `End`, then it's the end of the list (and does not accept any more values). However, if it's `Cons`, then we need to append another value (e.g. `Cons 3`), but afterwards we have to specify another value of type `MyList a` (which can be `End` or another `Cons`). This definition allows us to define a list. As an example, this is how we would represent {$$}(1, 2){/$$} using our `Cons End` representation:
 
 ```
 Idris> :t Cons 1 (Cons 2 End)
@@ -396,7 +408,7 @@ We can note that the evaluation of `test 1` does not produce a computed value as
 
 X> ### Exercise 13
 X>
-X> Try to define a function to be `total`, and at the same time make sure you are not covering all input cases. Note what Idris returns in this case.
+X> Try to define a function to be `total`, and at the same time make sure you are not covering all input cases. Note what errors will Idris return in this case.
 
 ### 4.1.7. Higher-order functions
 
@@ -427,11 +439,11 @@ We can actually implement the map function ourselves:
 
 ```
 mymap : (a -> a) -> List a -> List a
-mymap _ [] = []
+mymap _ []      = []
 mymap f (x::xs) = (f x) :: (mymap f xs)
 ```
 
-Note that `::` is used by the built-in `List` type, and is equivalent to `Cons` we've used earlier. In addition, the built-in `List` type is polymorphic.
+Note that `::` is used by the built-in `List` type, and is equivalent to `Cons` we've used earlier. However, since `::` is an infix operator, it has to go between the two arguments. In addition, the built-in `List` type is polymorphic.
 
 X> ### Exercise 14
 X>
@@ -454,7 +466,7 @@ X> 4. Evaluate them on paper to figure out why they produce the given results
 
 ### 4.1.8. Dependent types
 
-We will implement the `List n` data type that we discussed in Section 4.3, which should limit the length of a list at the type level. Idris already has a built-in list like this called `Vect`, so to not conflict we'll name it `MyVect`. We can implement it as follows:
+We will implement the `List n` data type that we discussed in Section 3.3, which should limit the length of a list at the type level. Idris already has a built-in list like this called `Vect`, so to not conflict we'll name it `MyVect`. We can implement it as follows:
 
 ```
 data MyVect : (n : Nat) -> Type where
@@ -492,7 +504,7 @@ and
 
 Which is a way of Idris telling us that our types do not match and that it cannot verify the "proof" provided.
 
-In this example we've implemented a dependent type that puts the length of the list at the type level. In other programming languages that do not support dependent types, this is usually checked at the code level (run-time) and compile-time checks are not able to verify this.
+In this example we implemented a dependent type that puts the length of the list at the type level. In other programming languages that do not support dependent types, this is usually checked at the code level (run-time) and compile-time checks are not able to verify this.
 
 X> ### Exercise 17
 X>
@@ -502,14 +514,14 @@ X> Hint: The data definitions are `isSingleton : Bool -> Type` and `mkSingle : (
 
 ### 4.1.9. Implicit parameters
 
-Implicit parameters (arguments) allow us to bring values from the type level to the program level. At the program level, by using curly braces we allow them to be used in the body of the function. Let's take a look at the following example, which uses our dependent type `MyVect` that we defined earlier:
+Implicit parameters (arguments) allow us to bring values from the type level to the program level. At the program level, by using curly braces we allow them to be used in the definition of the function. Let's take a look at the following example, which uses our dependent type `MyVect` that we defined earlier:
 
 ```
 lengthMyVect : MyVect n -> Nat
 lengthMyVect { n = k } list = k
 ```
 
-In this case, we've defined a function `lengthMyVect` that takes a `MyVect` and returns a natural number. The value `n` in the body of the function will be the same as the value of `n` at the type level. They are called implicit parameters because the caller of this function needn't pass these parameters. In the function body we define implicit parameters with curly braces and we also need to specify the list parameter which is of type `MyVect n` to pattern match against it. But, note how we don't refer to the list parameter in the computation part of this function and instead we can use an underscore (which represents an unused parameter) to get to:
+In this case, we defined a function `lengthMyVect` that takes a `MyVect` and returns a natural number. The value `n` in the definition of the function will be the same as the value of `n` at the type level. They are called implicit parameters because the caller of this function needn't pass these parameters. In the function definition we define implicit parameters with curly braces and we also need to specify the list parameter which is of type `MyVect n` to pattern match against it. But, note how we don't refer to the list parameter in the computation part of this function and instead we can use an underscore (which represents an unused parameter) to get to:
 
 ```
 lengthMyVect : MyVect n -> Nat
@@ -594,7 +606,7 @@ even_members (Cons x l') = if (even x)
                            else even_members l'
 ```
 
-The function above is a recursive function, and depending on the value of `even x`, it will branch the recursion. But note that we can't easily pattern match against the result of `even x`, that is we have to use it in the function body to do a check. Idris provides another additional keyword `with` that allows us to pattern match a value of some expression. The keyword `with` has the following syntax:
+The function above is a recursive one, and depending on the value of `even x` it will branch the recursion. Since pattern matching works against type constructors, and `even x` is a function call, we can't easily pattern match against it. So we used `even x` in the function body to do the check. Idris provides another additional keyword `with` that allows us to pattern match a value of some expression. The keyword `with` has the following syntax:
 
 ```
 function (pattern_match_1) with (expression)
@@ -614,8 +626,6 @@ even_members' (Cons x l') with (even x)
 ```
 
 In this function we defined two new pattern matches after the line that uses the `with` keyword. Since we don't have `x` and `l'` in this new pattern matching context, we have to rewrite them on the left side of the pipe, and on the right side of the pipe we pattern match against the value of `even x`, and then branch the recursion (computation).
-
-We will see an interesting difference between functions written using `if...then...else` and `with` in the proofs section.
 
 ### 4.1.12. Documentation and searching
 
@@ -651,7 +661,7 @@ Factorial function
 
 X> ### Exercise 19
 X>
-X> Check the documentation for `Bool` and `List`.
+X> Check the documentation of `Bool` and `List`.
 
 X> ### Exercise 20
 X>
@@ -672,7 +682,7 @@ The isomorphism says that this function has an equivalent form of a mathematical
 1. Left and-elimination means that if we are given {$$}P \land Q{/$$}, we can conclude {$$}P{/$$}
 1. Right and-elimination means that if we are given {$$}P \land Q{/$$}, we can conclude {$$}Q{/$$}
 
-If we try to implement this proof in Idris, we can represent it as a product type, as follows:
+If we want to implement this proof in Idris, we can represent it as a product type as follows:
 
 ```
 data And a b = And_intro a b
