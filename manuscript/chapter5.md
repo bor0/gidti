@@ -1,6 +1,6 @@
 # 5. Proving in Idris
 
-In this chapter we will provide several examples to demonstrate the power of Idris. We will do mathematical proofs. There are a lot of Idris built-ins that will help us achieve our goals. So in each section we will introduce the relevant definitions.
+In this chapter we will provide several examples to demonstrate the power of Idris. We will do mathematical proofs. There are a lot of Idris built-ins that will help us achieve our goals and in each section we will introduce the relevant definitions.
 
 I> ### Definition 1
 I>
@@ -27,9 +27,7 @@ X> Evaluate `the Nat 3` and `the Integer 3` and note the differences. Afterwards
 
 ## 5.1. Weekdays
 
-In this section we will introduce a way to represent weekdays and then do some proofs with them.
-
-We start with the following data structure, for weekdays:
+In this section we will introduce a way to represent weekdays and then do some proofs with them. We start with the following data structure:
 
 ```
 data Weekday = Mon | Tue | Wed | Thu | Fri | Sat | Sun
@@ -91,7 +89,7 @@ X> Remove one or more pattern match definitions of `next_day` and observe the er
 
 X> ### Exercise 4
 X>
-X> Implement `prev_day` and prove that Sunday comes before Monday.
+X> Implement `prev_day` and prove that Sunday is before Monday.
 
 ### 5.1.2. Second proof (rewrite)
 
@@ -116,7 +114,7 @@ We gave a name of the first parameter `day : Weekday`, so that we can refer to i
 our_second_proof day day_eq_Mon = Refl
 ```
 
-In this definition, `day` and `day_eq_Mon` are our assumptions (given). If we run this code in Idris, it will produce an error at compile-time since it cannot deduce that `True` is equal to `is_it_monday day`. In the previous proof example, Idris was able to infer everything from the definitions at compile-time. However, at this point we need to help Idris do the inference since it cannot derive the proof based only on the definitions. We can change the `Refl` to a hole `?prf`:
+In this definition, `day` and `day_eq_Mon` are our assumptions (given). If we run this code in Idris, it will produce an error at compile-time since it cannot deduce that `True` is equal to `is_it_monday day`. In the previous proof example, Idris was able to infer everything from the definitions at compile-time. However, at this point we need to help Idris do the inference since it cannot derive the proof based only on the definitions. We can change the `Refl` to a hole `prf`:
 
 ```
   day : Weekday
@@ -154,7 +152,7 @@ Idris> :t prf
 prf : True = True
 ```
 
-Changing `?prf` to `Refl` completes the proof. We just proved that {$$}\forall x \in \text{Weekdays}, x = \text{Mon} \to IsItMonday(x){/$$}. We assumed {$$}x = \text{Mon}{/$$} is true (by pattern matching against `day_eq_Mon` in our definition), and then used rewriting to alter `x`.
+Changing `prf` to `Refl` completes the proof. We just proved that {$$}\forall x \in \text{Weekdays}, x = \text{Mon} \to IsItMonday(x){/$$}. We assumed {$$}x = \text{Mon}{/$$} is true (by pattern matching against `day_eq_Mon` in our definition), and then used rewriting to alter `x`.
 
 X> ### Exercise 5
 X>
@@ -162,15 +160,15 @@ X> Implement the function `is_it_sunday` that returns `True` if the given day is
 
 X> ### Exercise 6
 X>
-X> Prove the following formula in Idris: {$$}\forall x \in \text{Weekdays}, x = \text{Sun} \to IsItSunday(x){/$$}
+X> In addition to Exercise 5, Prove the following formula in Idris: {$$}\forall x \in \text{Weekdays}, x = \text{Sun} \to IsItSunday(x){/$$}.
 
 ### 5.1.3. Third proof (impossible)
 
 In this section we will prove that `is_it_monday Tue = True` is a contradiction.
 
-Per intuitionistic logic, in order to prove that {$$}P{/$$} is a contradiction, we need to prove {$$}P \to \bot{/$$}. Idris provides an empty data type (without type constructors, i.e. proofs) for that, which is called `Void`.
+Per intuitionistic logic, in order to prove that {$$}P{/$$} is a contradiction, we need to prove {$$}P \to \bot{/$$}. Idris provides an empty data type `Void`. This data type has no type constructors (proofs) for it.
 
-So, to prove that `is_it_monday Tue = True` is a contradiction, we will do the following:
+To prove that `is_it_monday Tue = True` is a contradiction, we will do the following:
 
 ```
 our_third_proof : is_it_monday Tue = True -> Void
@@ -191,7 +189,7 @@ Q> Seems that at this point we are stuck. We need to find a way to tell Idris th
 
 I> ### Definition 4
 I>
-I> The `impossible` keyword can be used to prove statements that are not true.
+I> The `impossible` keyword can be used to prove statements that are not true. With this keyword, we say that a proof for a data type cannot be constructed since there does not exist a type constructor for that particular type.
 
 We will slightly rewrite the function:
 
@@ -214,7 +212,7 @@ X> Hint: The type is `1 = 2 -> Void`
 
 ## 5.2. Natural numbers
 
-As we've seen in the previous chapters, natural numbers are very powerful. In this section we will prove facts about them and also do a bit of induction. Recall that a natural number is defined either as zero or as the successor of a natural number. So, `0, S 0, S (S 0), ...` are the first natural numbers. We will start with the following definitions for natural numbers:
+As we've seen, natural numbers is a very powerful concept. In this section we will prove facts about them and also do some induction. Recall that a natural number is defined either as zero or as the successor of a natural number. So, `0, S 0, S (S 0), ...` are the first natural numbers. We will start with the following definitions for natural numbers:
 
 ```
 data MyNat = Zero | Succ MyNat
@@ -309,14 +307,14 @@ X> Construct a proof similar to `our_second_proof` without defining a function f
 
 ### 5.2.3. Third proof (induction)
 
-We will prove that {$$}a + 0 = a{/$$}. We can try to use the same approach as in 6.2.1:
+We will prove that {$$}a + 0 = a{/$$}. We can try to use the same approach as in 5.2.1:
 
 ```
 total our_third_proof : (a : MyNat) -> mynat_plus a Zero = a
 our_third_proof a = Refl
 ```
 
-If we try to run the code above, Idris will produce an error that there is a type mismatch between `a` and `mynat_plus a Zero`.
+If we try to run the code above, Idris will produce an error saying that there is a type mismatch between `a` and `mynat_plus a Zero`.
 
 Q> It seems that we have just about all the definitions we need, but we're missing a piece. How do we re-use our definitions?
 Q>
@@ -391,7 +389,7 @@ Idris> :t LTEZero
 LTEZero : LTE 0 right
 ```
 
-So, `LTEZero` does not accept any arguments, but at the type level can be passed `right`. With the use of implicits, we can construct a very simple proof to show that {$$}0 \leq 1{/$$}:
+So, `LTEZero` does not accept any arguments, but we can pass `right` at the type level. With the use of implicits, we can construct a very simple proof to show that {$$}0 \leq 1{/$$}:
 
 ```
 Idris> LTEZero {right = S Z}
@@ -499,14 +497,14 @@ our_proof : (a : Nat) -> (b : Nat) -> a <= b -> maximum a b = b
 our_proof a b a_lt_b = ?prf
 ```
 
-However this won't work since `a <= b` is a `Bool` (per the function `<=`), not a `Type`. The definition for `=` only accepts `Type`s. So, at the type level we need to rely on `LTE` which is a `Type`.
+However this won't work since `a <= b` is a `Bool` (per the function `<=`), not a `Type`. At the type level we need to rely on `LTE` which is a `Type`.
 
 ```
 our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
 our_proof a b a_lt_b = ?prf
 ```
 
-This compiles and we have to figure out the hole. If we check its type, we get
+This compiles and we have to figure out the hole. If we check its type, we get:
 
 ```
   a : Nat
@@ -516,7 +514,7 @@ This compiles and we have to figure out the hole. If we check its type, we get
 prf : maximum a b = b
 ```
 
-This looks a bit complicated, so we can further simplify by breaking the proof into several cases (by adding pattern matching):
+This looks a bit complicated, so we can further simplify by breaking the proof into several cases by adding pattern matching for all combinations of the parameters' type constructors:
 
 ```
 our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
@@ -607,14 +605,14 @@ has_odd End         = False
 has_odd (Cons x l') = if (even x) then False else has_odd l'
 ```
 
-Now, to prove that a list of even members contains no odd members, we can use the following type definition:
+Now, to prove that a list of even numbers contains no odd numbers, we can use the following type definition:
 
 ```
 even_members_list_only_even : (l : MyList Nat) ->
     has_odd (even_members l) = False
 ```
 
-Note that `has_odd` is branching computation depending on the value of `even x`, so we have to pattern match with value of expressions, by using the `with` keyword. The base case is simply `Refl`:
+Note that `has_odd` is branching computation depending on the value of `even x`, so we have to pattern match with value of expressions by using the keyword `with`. The base case is simply `Refl`:
 
 ```
 even_members_list_only_even End = Refl
@@ -630,7 +628,7 @@ even_members_list_only_even (Cons n l') with (even n) proof even_n
       ?b
 ```
 
-Note how we specified `proof even_n` right after the expression in the `with` match. The `proof` keyword followed by a variable brings us the proof of the expression to the list of premises. So, `with (even n) proof even_n` will pattern match on the expression `even n`, and will also bring the proof `even n` in the premises. If we now check the first hole:
+Note how we specified `proof even_n` right after the expression in the `with` match. The `proof` keyword followed by a variable brings us the proof of the expression to the list of premises. So, the expression `with (even n) proof even_n` will pattern match on the results of `even n`, and will also bring the proof `even n` in the premises. If we now check the first hole:
 
 ```
   n : Nat
@@ -694,7 +692,7 @@ X> Rewrite `has_odd` to use `with` in the recursive case, and then repeat the pr
 
 ## 5.3. Trees
 
-A tree structure is a way to represent hierarchical data. We will work with binary trees in this section, which are trees that contain exactly two sub-trees. We can define this tree structure using the following implementation:
+A tree structure is a way to represent hierarchical data. We will work with binary trees in this section, which are trees that contain exactly two sub-trees (nodes). We can define this tree structure using the following implementation:
 
 ```
 data Tree = Leaf | Node Nat Tree Tree
@@ -805,7 +803,7 @@ map_tree f (Node v tr1 tr2) = (Node (f v)
                                     (map_tree f tr2))
 ```
 
-The function `map_tree` accepts a function and a `Tree` and then returns a modified `Tree` where the function is applied to all values of nodes. In the case of `Leaf`, it just returns `Leaf`, because there's nothing to map to. In the case of a `Node`, we return a new `Node` whose value is applied to the function `f` and then recursively map over the left and right branches of the node. We can use it as follows:
+The function `map_tree` accepts a function and a `Tree` and then returns a modified `Tree` where the function is applied to all values of the nodes. In the case of `Leaf`, it just returns `Leaf`, because there's nothing to map to. In the case of a `Node`, we return a new `Node` whose value is applied to the function `f` and then recursively map over the left and right branches of the node. We can use it as follows:
 
 ```
 Idris> Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf)
@@ -840,7 +838,7 @@ Idris> size_tree (Node 1 (Node 2 Leaf Leaf) Leaf)
 
 ### 5.3.3. Length of mapped trees
 
-Now, we want to prove that for a given tree and _any_ function `f`, the size of that tree will be the same as the size of that tree mapped with the function `f`:
+We want to prove that for a given tree and _any_ function `f`, the size of that tree will be the same as the size of that tree mapped with the function `f`:
 
 ```
 proof_1 : (tr : Tree) -> (f : Nat -> Nat) ->
@@ -919,4 +917,4 @@ conclusion : S (plus (size_tree (map_tree f tr1))
                  (size_tree (map_tree f tr2)))
 ```
 
-We can just use `Refl` instead of `?conclusion` to finish the proof.
+We can just use `Refl` instead of `conclusion` to finish the proof.
