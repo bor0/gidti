@@ -260,33 +260,6 @@ X> ### Exercise 11
 X>
 X> Try to use some of the proofs in the earlier chapters as a motivation and work them out by using intuitionistic logic.
 
-## 3.5. Lambda cube
-
-In mathematics, the lambda cube represents the extensions to simply typed lambda calculus (bottom-left), where each direction is a separate extension. Each axis of the cube has its own form of abstraction.
-
-![Lambda cube](images/lambda_cube.png)
-
-Even though the cube has 8 kinds of systems, we will only cover the 4 most important that relate to Idris:
-
-1. Expressions depending on expressions, using the simply typed lambda calculus {$$}\lambda \to{/$$}:
-    1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t{/$$}
-    1. Type constructors: {$$}\text{T} \to \text{T}{/$$}
-    1. Example: The Church numerals we've discussed before: 1, {$$}\lambda[f : (\text{a} \to \text{a})]\ [x : \text{a}] . f \ x : \text{Nat}{/$$}
-1. Expressions depending on types (polymorphism). This is called System F {$$}\lambda 2{/$$}:
-    1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t, \lambda X.t{/$$}
-    1. Type constructors: {$$}\text{X}, \forall \text{X.T}{/$$}
-    1. Example: The polymorphic function {$$}concat : \text{List a} \to \text{List a} \to \text{List a}{/$$}, where the same {$$}\text{a}{/$$} is bound to all arguments. This function can be used on {$$}\text{List Nat}{/$$}, {$$}\text{List Bool}{/$$}, etc.
-1. Types depending on types. This is called System lambda-omega {$$}\lambda \omega{/$$}:
-    1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t{/$$}
-    1. Type constructors: {$$}\text{X}, \lambda \text{X:K.T}, \text{T T}{/$$}
-    1. Example: {$$}\text{List a}{/$$}, where {$$}\text{a}{/$$} can be {$$}\text{Nat}{/$$}, {$$}\text{Real}{/$$}, etc.
-1. Types depending on expressions (dependent types). This is called System LF {$$}\lambda P{/$$}:
-    1. Grammar rules: {$$}x, \lambda x:\text{T} . t, t \ t{/$$}
-    1. Type constructors: {$$}\Pi x:\text{T . T}, \text{T t}{/$$}
-    1. Example: The dependently-typed function {$$}concat : \text{List 3} \to \text{List 5} \to \text{List 8}{/$$}, where {$$}\text{List}{/$$} limits the number of elements at a type level
-
-The system in the upper-right angle {$$}\lambda P \omega{/$$} represents Calculus of Constructions. It is a separate type theory that is used by the interactive theorem prover Coq. We will not get into the details of this type theory as part of this book.
-
 [^ch3n1]: Unlike in set theory, where they are defined in terms of relations.
 
 [^ch3n2]: Dependent types are the reason why Idris can formally prove mathematical statements, compared to other programming languages. While useful, since we can check whether an expression fulfills a given condition at compile-time, dependent types add complexity to a type system. In order to calculate type "equality" of dependent types, computations are necessary. If we allow any values for dependent types, then solving an equality of a type may involve deciding whether two programs produce the same result. Thus, the check may become undecidable.
