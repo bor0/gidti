@@ -215,7 +215,7 @@ I> The remaining inference rules are specific to the type formers, for example i
 
 As an example, for well-formed expressions rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well-formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}\text{Nat} : \text{Type}{/$$} per rule 1.
 
-A valid type is per rule 4 of type constructors is the natural numbers {$$}\text{Nat = Z | S Nat}{/$$}. Some valid values are {$$}\text{Z : Nat, S Z : Nat{/$$}, etc.
+A valid type is per rule 4 of type constructors is the natural numbers {$$}\text{Nat = Z | S Nat}{/$$}. Some valid values are {$$}\text{Z : Nat, S Z : Nat}{/$$}, etc.
 
 X> ### Exercise 9
 X>
