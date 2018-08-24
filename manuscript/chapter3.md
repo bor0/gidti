@@ -25,7 +25,7 @@ As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for nat
 
 Finally, Idris supports dependent types[^ch3n2]. These kind of types are so powerful, they can encode most properties of programs and with their help Idris can prove invariants at compile-time. As we will see in Section 4.2 types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software[^ch3n3]. 
 
-Q> ### Why are types useful?
+Q> Why are types useful?
 Q>
 Q> Russell's paradox (per the mathematician Bertrand Russell) states the following: In a village in which there is only one barber, there is a rule according to which the barber shaves everyone who don't shave themselves, and no-one else. Now, who shaves the barber? In order to attempt to solve the paradox, we can assume that the barber shaves himself. Then, he's one of those who shave themselves, but the barber shaves only those who do not shave themselves, which is a contradiction. Alternatively, if we assume that the barber does not shave himself, then he is in the group of people whom which the barber shaves, which again is a contradiction.
 Q>
@@ -147,7 +147,7 @@ I> Dependent types are types whose definition depends on some value.
 A list of numbers is a type ({$$}\text{List}{/$$}, for example). However, a list of numbers where the second element of the list is larger than the first element of the list is a dependent type.
 
 I> ### Definition 9
-I> ###
+I>
 I> A dependent product type is a collection of types {$$}B : \text{A} \to U{/$$} where for each element {$$}a : \text{A}{/$$}, there's an assigned type {$$}B(a) : U{/$$}, where {$$}U{/$$} is a universe of types[^ch3n5]. We say that {$$}B(a){/$$} varies with {$$}a{/$$}. It is denoted as {$$}\Pi(x : \text{A}), B(x){/$$}.
 
 This definition might seem a bit scary and tricky to grasp, but it really is simple, and it is best to see it in action through the following example:
@@ -198,14 +198,14 @@ I>
 I> 1. {$$}s : \text{Type} \in \Lambda{/$$} means that {$$}s{/$$} is a well-formed type
 I> 1. {$$}t : \text{s} \in \Lambda{/$$} means that {$$}t{/$$} is a well-formed expression of type {$$}\text{s}{/$$}
 I> 1. {$$}\text{s} = \text{t} \in \Lambda{/$$} means that {$$}\text{s}{/$$} and {$$}\text{t}{/$$} are the same type
-I> 1. {$$}t = u : \text{s} \in \Lambda{/$$} means that {$$}t{/$$} and {$$}u{/$$} are equal expressions of type {$$}s{/$$}
+I> 1. {$$}t = u : \text{s} \in \Lambda{/$$} means that {$$}t{/$$} and {$$}u{/$$} are equal expressions of type {$$}\text{s}{/$$}
 I>
 I> The type constructors are:
 I>
 I> 1. {$$}\Pi{/$$} types and {$$}\Sigma{/$$} types, as we've discussed them earlier
 I> 1. Finite types, for example the nullary (empty) type 0 or {$$}\bot{/$$}, the unary type 1 or {$$}\top{/$$}, and the boolean type 2
 I> 1. The equality type, where for given {$$}a, b : \text{A}{/$$}, the expression {$$}a = b{/$$} represents proof of equality. There is a canonical element {$$}a = a{/$$}, that is, an "axiom" for the reflexivity proof: {$$}refl : \Pi \text{(a : A) a = a}{/$$}
-I> 1. Inductive (or recursive) types, for example {$$}\text{Nat = Z | S Nat}{/$$}. In this way we can implement product and sum types which encode conjunction and disjunction respectively
+I> 1. Inductive (or recursive) types. In this way we can implement product and sum types which encode conjunction and disjunction respectively
 I>
 I> The inference rules are:
 I>
@@ -213,7 +213,9 @@ I> 1. The rule of type equality which states that if an object is of a type {$$}
 I>
 I> The remaining inference rules are specific to the type formers, for example introduction and elimination. We will show an example using these rules in 5.2.
 
-As an example, rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well-formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}\text{Nat} : \text{Type}{/$$} per rule 1.
+As an example, for well-formed expressions rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well-formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}\text{Nat} : \text{Type}{/$$} per rule 1.
+
+A valid type is per rule 4 of type constructors is the natural numbers {$$}\text{Nat = Z | S Nat}{/$$}. Some valid values are {$$}\text{Z : Nat, S Z : Nat{/$$}, etc.
 
 X> ### Exercise 9
 X>
@@ -248,7 +250,7 @@ I> 1. There is no proof of {$$}\bot{/$$}
 For example, to prove distributivity of {$$}\land{/$$} with respect to {$$}\lor{/$$}, that is, {$$}P \land (Q \lor R) = (P \land Q) \lor (P \land R){/$$}, we need to construct a proof for the function of type {$$}f : \text{P (Q | R)} \to \text{P Q | P R}{/$$}. That is, a function that takes a product type of {$$}\text{P}{/$$} and sum type of {$$}\text{Q}{/$$} and {$$}\text{R}{/$$}, and returns a sum type of product {$$}\text{P}{/$$} and {$$}\text{Q}{/$$}, and product {$$}\text{P}{/$$} and {$$}\text{R}{/$$}. Here's the function that accomplishes that:
 
 ```
-f (x, left y) = left (x, y)
+f (x, left y)  = left (x, y)
 f (x, left y') = right (x, y')
 ```
 

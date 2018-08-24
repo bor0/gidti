@@ -65,7 +65,7 @@ We can represent the formal description of this system as follows:
 1. `MI` is the starting string, i.e. axiom
 1. The rules of inference are defined in the table above
 
-Q> ### Can we get from `MI` to `MU` with this system?
+Q> Can we get from `MI` to `MU` with this system?
 Q>
 Q> In order to answer this, we will use an invariant[^ch1n3] with mathematical induction to prove our claim.
 Q>
