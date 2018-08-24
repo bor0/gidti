@@ -13,7 +13,7 @@ Functions can be roughly categorized in two parts: **pure** and **impure**.
 1. Pure functions are functions that will produce the same result every time they are called
 1. Impure functions are functions that might return different result on a function call
 
-An example of a pure function is {$$}f(x) = x + 1{/$$}. An example of an impure function is {$$}f(x) = \text{launch x rockets}{/$$}. Since this function causes side-effects, sometimes the launch of the rockets may not be successful (e.g. the case where we have no more rockets to launch).
+An example of a pure function is {$$}f(x) = x + 1{/$$}. An example of an impure function is {$$}f(x) = \text{launch} \ x \ \text{rockets}{/$$}. Since this function causes side-effects, sometimes the launch of the rockets may not be successful (e.g. the case where we have no more rockets to launch).
 
 Computer programs are not usable if there is no interaction with the user. One problem arises with languages such as Idris (where expressions are mathematical and have no side effects) is that IO contains side effects. For this reason, such interactions will be encapsulated in a data structure that looks something like:
 
@@ -78,7 +78,7 @@ main = do
 
 Note how we use the `let x = y` syntax with pure functions, where in contrast we use the `x <- y` with impure functions.
 
-The `++` operator is a built-in one used to concatenate strings and lists. A `String` can be viewed as a list of `Char`. In fact, Idris has functions called `pack` and `unpack` that allow for conversion between these two data types:
+The `++` operator is a built-in one used to concatenate lists. A `String` can be viewed as a list of `Char`. In fact, Idris has functions called `pack` and `unpack` that allow for conversion between these two data types:
 
 ```
 Idris> unpack "Hello"
@@ -100,7 +100,7 @@ codegenEmpty :: CodeGenerator
 codegenEmpty ci = putStrLn "Not implemented"
 ```
 
-The package `IRTS` (which is a collection of modules) is a Idris built-in and it stands for Idris Run-Time System. It is a data structure where we need to implement Idris commands and give definitions for how they map to the target language. For example, a `putStr` may map to `printf` in C.
+The package `IRTS` (which is a collection of modules) is a Idris built-in and it stands for Idris Run-Time System. It is a data structure where we need to implement Idris commands and give definitions for how they map to the target language. For example, a `putStr` can map to `printf` in C.
 
 ## Compilation
 

@@ -2,7 +2,7 @@
 
 Metamath is a programming language that can express theorems accompanied by a proof checker. The interesting thing about this language is its simplicity. We start by defining a formal system (variables, symbols, axioms and rules of inference) and proceed with building new theorems based on the formal system.
 
-As we've seen, proofs in mathematics (and Idris to some degree) are usually done at a very high level. Even though the foundations are formal systems, it is very difficult to do proofs at a low level. However, we will show that there are such programming languages like Metamath, that work at the lowest level, that is formal systems.
+As we've seen, proofs in mathematics (and Idris to some degree) are usually done at a very high level. Even though the foundations are formal systems, it is very difficult to do proofs at a low level. However, we will show that there are such programming languages like Metamath that work at the lowest level, that is formal systems.
 
 The most basic concept in Metamath is the substitution method. Metamath uses an RPN stack[^apan1] to build hypotheses and then rewrites using the rules of inference in order to reach a conclusion. Metamath has a very simple syntax. A token is a Metamath token if it starts with `$` and is a user-generated token otherwise. The following is a list of Metamath's tokens:
 
