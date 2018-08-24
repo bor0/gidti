@@ -10,20 +10,20 @@ For example, with {$$}1 : \text{Nat}, 2 : \text{Nat}{/$$} we can say that 1 and 
 
 I> ### Definition 2
 I>
-I> In type theory, a type constructor is a function that builds new types from old ones. This function accepts types and as a result it returns a new type.
+I> In type theory, a type constructor is a function that builds new types from old ones. This function accepts types as parameters and as a result it returns a new type.
 
 Idris supports algebraic data types. These data types are a kind of complex types, that is, types constructed by combining other types. Two classes of algebraic types are **product types** and **sum types**.
 
 I> ### Definition 3
 I>
-I> Algebraic data types are types where we can additionally specify the form for each of the elements. They are called "algebraic" in the sense that the data types are constructed using algebraic operations. The algebra here is sum and product:
+I> Algebraic data types are types where we can additionally specify the form for each of the elements. They are called "algebraic" in the sense that the types are constructed using algebraic operations. The algebra here is sum and product:
 I>
 I> 1. Sum (union) is alternation. It is denoted as {$$}\text{A | B}{/$$} and it means that the value is either of type A or B, but not both
 I> 1. Product is combination. It is denoted as {$$}\text{A B}{/$$} and it means that the value is a pair where the first element is of type A, and the second element is of type B
 
-As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}\text{Real}{/$$} for real numbers. Now, for the sum (union) we can construct a new type {$$}\text{Nat | Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat | Real}{/$$}, {$$}3.14 : \text{Nat | Real}{/$$}, etc. For the product type, we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 1.5 : \text{Nat Real}{/$$}, {$$}2 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
+As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}\text{Real}{/$$} for real numbers. Using the sum (union) we can construct a new type {$$}\text{Nat | Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat | Real}{/$$}, {$$}3.14 : \text{Nat | Real}{/$$}, etc. Using the product type, we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 1.5 : \text{Nat Real}{/$$}, {$$}2 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
 
-Finally, Idris supports dependent types[^ch3n2]. These kind of types are so powerful, they can encode most properties of programs, and with their help Idris can prove invariants at compile-time. This is what makes Idris a so-called proof assistant[^ch3n3]. As we will see in Section 4.2, types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software.
+Finally, Idris supports dependent types[^ch3n2]. These kind of types are so powerful, they can encode most properties of programs and with their help Idris can prove invariants at compile-time. As we will see in Section 4.2 types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software[^ch3n3]. 
 
 Q> ### Why are types useful?
 Q>
@@ -31,7 +31,7 @@ Q> Russell's paradox (per the mathematician Bertrand Russell) states the followi
 Q>
 Q> Some set theories are affected by Russell's paradox. As a response to this, between 1902 and 1908, Bertrand Russell himself proposed different type theories an attempt to resolve the issue. By joining types to values, we avoid the paradox because in this theory every set is defined as having elements from a distinct type, for example, {$$}\text{Type 1}{/$$}. Elements from {$$}\text{Type 1}{/$$} can be included in a different set, say, elements of {$$}\text{Type 2}{/$$}, and so forth. Thus, the paradox is no longer an issue since the set of elements of {$$}\text{Type 1}{/$$} cannot be contained in their own set, since the types do not match. In a way, we're adding hierarchy to sets in order to resolve the issue of "self-referential" sets. This is also the case with Idris, where we have that {$$}\text{Type : Type 1 : Type 2}{/$$}, etc.
 Q>
-Q> Thus, for Russell's paradox specifically, if we set the type of a person to be {$$}\text{P}{/$$}, then the list of people would be of type {$$}\text{List P}{/$$}. However, there is no way to express {$$}\{ \text{P} \lvert \text{P} \in \text{P} \}{/$$}, since {$$}\text{List P}{/$$} only contains elements of type {$$}\text{P}{/$$}, and not {$$}\text{List P}{/$$}.
+Q> Thus, for Russell's paradox specifically, if we set the type of a person to be {$$}\text{P}{/$$}, then the list of people would be of type {$$}\text{List P}{/$$}. However, there is no way to express {$$}\{ \text{P} \}{/$$} such that {$$}\text{P} \in \text{P}{/$$}, since {$$}\text{List P}{/$$} only contains elements of type {$$}\text{P}{/$$}, and not {$$}\text{List P}{/$$}.
 
 ## 3.1. Lambda calculus
 
@@ -39,7 +39,7 @@ Lambda calculus is a formal system for expressing computation[^ch3n4]. The gramm
 
 I> ### Definition 4
 I>
-I> Per Wikipedia, the set of symbols for this system is defined as:
+I> Per Wikipedia, the set of symbols for the lambda calculus is defined as:
 I>
 I> 1. There are variables {$$}v_1, v_2, \ldots{/$$}
 I> 1. There are only two abstract symbols: {$$}.{/$$} and {$$}\lambda{/$$}
@@ -51,7 +51,7 @@ I> 1. If {$$}x{/$$} is a variable, then {$$}x \in \Lambda{/$$}
 I> 1. If {$$}x{/$$} is a variable and {$$}M \in \Lambda{/$$}, then {$$}(\lambda x.M) \in \Lambda{/$$} (rule of abstraction)
 I> 1. If {$$}M, N \in \Lambda{/$$}, then {$$}(M \ N) \in \Lambda{/$$} (rule of application)
 
-Some well-formed expressions are {$$}\lambda f \ x . f \ x{/$$} and {$$}\lambda f \ x . f \ (f \ x){/$$}. In fact, we can encode numbers this way. The first example can be thought of as the number one, and the second as the number two. In other words, the number 1 is defined roughly as {$$}f(x){/$$}, and 2 as {$$}f(f(x)){/$$}. Note that {$$}f{/$$} and {$$}x{/$$} do not have special definitions, they are abstract objects. This encoding is known as the Church encoding. Operations on numbers (plus, minus, etc) can also be defined in a similar way. 
+Some well-formed expressions are {$$}\lambda f \ x . f \ x{/$$} and {$$}\lambda f \ x . f \ (f \ x){/$$}. In fact, we can encode numbers this way. The first expression can be thought of as the number one, and the second as the number two. In other words, the number 1 is defined roughly as {$$}f(x){/$$}, and 2 as {$$}f(f(x)){/$$}. Note that {$$}f{/$$} and {$$}x{/$$} do not have special definitions, they are abstract objects. This encoding is known as the Church encoding. Operations on numbers (plus, minus, etc) can also be defined in a similar way. 
 
 X> ### Exercise 1
 X>
@@ -61,13 +61,13 @@ X> Convince yourself that the expression {$$}\lambda f \ x . f \ x{/$$} is a wel
 
 I> ### Definition 5
 I>
-I> There are two types of variables in the Lambda calculus: free and bound. Bound variables are those who appear within the {$$}\lambda{/$$} abstraction. Analogously, free variables are those who do not appear in the {$$}\lambda{/$$} abstraction.
+I> There are two types of variables in the lambda calculus: free and bound. Bound variables are those who appear within the {$$}\lambda{/$$} abstraction. Analogously, free variables are those who do not appear in the {$$}\lambda{/$$} abstraction.
 
 For example, in the expression {$$}\lambda y . x \ y{/$$} we have that {$$}y{/$$} is a bound variable, and {$$}x{/$$} is a free one.
 
 I> ### Definition 6
 I>
-I> The rules of terms reduction allow us to compute (simplify) lambda expressions. There are three types of reduction:
+I> The rules of terms reduction (inference rules) allow us to compute (simplify) lambda expressions. There are three types of reduction:
 I>
 I> 1. {$$}\alpha{/$$} - (alpha) reduction: Renaming bound variables
 I> 1. {$$}\beta{/$$} - (beta) reduction: Applying arguments to functions
@@ -88,11 +88,11 @@ X> Evaluate {$$}SUCC \ 2{/$$} to find out the definition of number 3.
 
 X> ### Exercise 3
 X>
-X> Come up with your own functions that operates on the Church numerals. It can be as simple as returning the same number, or a constant one.
+X> Come up with your own functions that operate on the Church numerals. It can be as simple as returning the same number, or a constant one.
 
 ## 3.2. Lambda calculus with types
 
-I> ### Definition 5
+I> ### Definition 7
 I>
 I> Simply typed lambda calculus is a type theory which adds types to lambda calculus. It joins the system with a unique type constructor {$$}\to{/$$} which constructs types for functions. The formal definition and the set of lambda expressions is similar to that of lambda calculus, with the addition of types.
 I>
@@ -110,7 +110,7 @@ I> 1. If {$$}M, N \in \Lambda{/$$}, then {$$}(M \ N) \in \Lambda{/$$} (rule of a
 I> 1. If {$$}x{/$$} is a variable, {$$}T{/$$} is a type, and {$$}M \in \Lambda{/$$}, then {$$}(\lambda x:T.M) \in \Lambda{/$$}
 I> 1. If {$$}x{/$$} is a variable and {$$}T{/$$} is a type, then {$$}x:T \in \Lambda{/$$}
 I>
-I> There is a single type constructors:
+I> There is a single type constructor:
 I>
 I> 1. For some type {$$}A{/$$}, the type constructor {$$}T{/$$} is defined as {$$}\text{A | T} \to \text{T}{/$$}
 
@@ -132,7 +132,7 @@ X> Come up with a definition of the typed number 3.
 
 X> ### Exercise 5
 X>
-X> Apply the typed {$$}SUCC{/$$} to 1 and confirm that the result is 2. Make sure you confirm that the types also match in the process of evaluation.
+X> Apply the typed 1 to {$$}SUCC{/$$} and confirm that the result is 2. Make sure you confirm that the types also match in the process of evaluation.
 
 X> ### Exercise 6
 X>
@@ -140,28 +140,34 @@ X> In Exercise 3 you were asked to come up with a function. Try to figure out th
 
 ## 3.3. Dependent types
 
-I> ### Definition 6
+I> ### Definition 8
 I>
 I> Dependent types are types whose definition depends on some value.
 
 A list of numbers is a type ({$$}\text{List}{/$$}, for example). However, a list of numbers where the second element of the list is larger than the first element of the list is a dependent type.
 
-I> ### Definition 7
+I> ### Definition 9
 I> ###
 I> A dependent product type is a collection of types {$$}B : \text{A} \to U{/$$} where for each element {$$}a : \text{A}{/$$}, there's an assigned type {$$}B(a) : U{/$$}, where {$$}U{/$$} is a universe of types[^ch3n5]. We say that {$$}B(a){/$$} varies with {$$}a{/$$}. It is denoted as {$$}\Pi(x : \text{A}), B(x){/$$}.
 
 This definition might seem a bit scary and tricky to grasp, but it really is simple, and it is best to see it in action through the following example:
 
 1. Our universe of types contains all possible types. For example, {$$}\text{Type}{/$$}, {$$}\text{Nat}{/$$}, etc, so {$$}U = \{ \text{Type}, \text{Nat}, \text{List n}, \ldots \}{/$$}
-1. Our collection of interest of types is {$$}\text{List n}{/$$}, which represents a list of {$$}n{/$$} elements. That is, {$$}A = \{ \text{List n} \}{/$$}
+1. Our collection of interest of types is {$$}\text{List n}{/$$}, which represents a list of {$$}\text{n}{/$$} elements. That is, {$$}A = \{ \text{List n} \}{/$$}
 
-The definition states that, in the universe {$$}U{/$$}, there exists a function {$$}B(n) = \text{List n}{/$$}. {$$}B{/$$} is the collection of functions which given a number {$$}n{/$$}, will return a list of {$$}n{/$$} numbers. So, we have the following list as an example: {$$}[1] : B(1){/$$}, that is {$$}[1] : \text{List 1}{/$$}. Another example list is {$$}[1, 2] : \text{List 2}{/$$}, and so on. In general, we have a function that takes an {$$}n{/$$} and produces a {$$}\text{List n}{/$$}, that is, {$$}f : \text{n} \to \text{List n}{/$$}, where the possible types for it are {$$}f : 1 \to \text{List 1}{/$$}, {$$}f : 2 \to \text{List 2}{/$$}, etc. We've just constructed our first dependent type!
+The definition states that in the universe {$$}U{/$$}, there exists a function {$$}B(\text{n}) = \text{List n}{/$$}. {$$}B{/$$} is the collection of functions which given a number {$$}n{/$$}, will return a list of {$$}\text{n}{/$$} numbers. For example, we have the following lists:
 
-I> ### Definition 8
+1. List of 1 element: {$$}[1] : B(1){/$$}, that is {$$}[1] : \text{List 1}{/$$}
+1. List of 2 elements: {$$}[1, 2] : \text{List 2}{/$$}
+1. List of n elements: {$$}[1, 2, \ldots, n] : \text{List n}{/$$}
+
+In general, we have a function that takes an {$$}\text{n}{/$$} and produces a {$$}\text{List n}{/$$}, that is, {$$}f : \text{n} \to \text{List n}{/$$}, where the possible types for it are {$$}f : 1 \to \text{List 1}{/$$}, {$$}f : 2 \to \text{List 2}{/$$}, etc. We've just constructed our first dependent type!
+
+I> ### Definition 10
 I>
 I> A dependent sum type can be used to represent indexed pairs, where the type of the second element depends on the type of the first element. That is, if we have {$$}a : \text{A}{/$$} and {$$}b : \text{B(a)}{/$$}, then this makes a sum type. We denote it as {$$}\Sigma(x : \text{A}), B(x){/$$}.
 
-For example, if we set {$$}A = \text{Nat}{/$$}, and {$$}B(a) = \text{List a}{/$$}, i.e. {$$}\Sigma(x : \text{Nat}), \text{List x}{/$$}, we can construct the following pairs: {$$}(1, [1]), (2, [1, 2]), (3, [1, 2, 3]){/$$}, etc.
+For example, if we set {$$}A = \text{Nat}{/$$}, and {$$}B(\text{a}) = \text{List a}{/$$}, then we form the dependent sum type {$$}\Sigma(x : \text{Nat}), \text{List x}{/$$}. For example, we can construct the following pairs: {$$}(1, [1]), (2, [1, 2]), (3, [1, 2, 3]){/$$}, etc.
 
 X> ### Exercise 7
 X>
@@ -175,7 +181,7 @@ X> Think of a way to construct a different sum dependent type and express it usi
 
 The core "construct" in Idris are types. As we've seen, foundations are based on type theory. As we've also seen, in classic mathematical logic we have sets and propositions, according to set theory.
 
-The intuitionistic theory of types (or constructive type theory) offers an alternative foundation to mathematics. This theory was introduced by Martin-L&#246;f, a Swedish mathematician in 1972. It is based on the isomorphism (or "equality") that propositions are types. We will cover this in details in 5.2, after introducing Idris' syntax.
+The intuitionistic theory of types (or constructive type theory) offers an alternative foundation to mathematics. This theory was introduced by Martin-L&#246;f, a Swedish mathematician in 1972. It is based on the isomorphism (or "equality") that propositions are types. We will cover this in details in 4.2, after introducing Idris' syntax.
 
 Proving a theorem in this system consists of constructing[^ch3n6] (or providing evidence for) a particular object. If we want to prove something about a type {$$}\text{A}{/$$} and we know that {$$}a : \text{A}{/$$}, then {$$}a{/$$} is one proof for {$$}\text{A}{/$$}. Note how we say one proof, because there can be many other elements of type {$$}\text{A}{/$$}.
 
@@ -185,21 +191,14 @@ One thing worth noting is that in Idris there are "two" types of truths: {$$}\te
 
 This system is useful since with the use of computer algorithms we can find a constructive proof for some object (assuming it exists). As a consequence, this is why it can be considered as a way to make a programming language act like a proof-assistant.
 
-I> ### Definition 9
+I> ### Definition 11
 I>
-I> A context is defined as a list of variables {$$}x_1 : \text{A}_1, x_2 : \text{A}_2, x_3 : \text{A}_3, \ldots{/$$}
-
-I> ### Definition 10
+I> The set of grammar rules {$$}\Lambda{/$$} for well-formed expressions is defined as:
 I>
-I> A formal definition of Intuitionistic theory is that it consists of objects and types.
-I>
-I> The grammar of well-formed formulas in this system are:
-I>
-I> 1. {$$}\Gamma \vdash s : \text{Type}{/$$} means that {$$}s{/$$} is a well-formed type in context {$$}\Gamma{/$$}
-I> 1. {$$}\Gamma \vdash t : \text{s}{/$$} means that {$$}t{/$$} is a well-formed expression of type {$$}\text{s}{/$$} in context {$$}\Gamma{/$$}
-I> 1. {$$}\Gamma \vdash \text{s} = \text{t}{/$$} means that s and t are the same type in context {$$}\Gamma{/$$}
-I> 1. {$$}\Gamma \vdash t = u : \text{s}{/$$} means that t and u are equal expressions of type s in context {$$}\Gamma{/$$}
-I> 1. {$$}\vdash \Gamma{/$$} means that {$$}\Gamma{/$$} is a well-formed context of types
+I> 1. {$$}s : \text{Type} \in \Lambda{/$$} means that {$$}s{/$$} is a well-formed type
+I> 1. {$$}t : \text{s} \in \Lambda{/$$} means that {$$}t{/$$} is a well-formed expression of type {$$}\text{s}{/$$}
+I> 1. {$$}\text{s} = \text{t} \in \Lambda{/$$} means that {$$}\text{s}{/$$} and {$$}\text{t}{/$$} are the same type
+I> 1. {$$}t = u : \text{s} \in \Lambda{/$$} means that {$$}t{/$$} and {$$}u{/$$} are equal expressions of type {$$}s{/$$}
 I>
 I> The type constructors are:
 I>
@@ -226,15 +225,15 @@ X> Combine the use of rules along with the connectives described above and try t
 
 ### 3.4.1. Intuitionistic logic
 
-I> ### Definition 10
+I> ### Definition 12
 I>
 I> A constructive proof proves the existence of a mathematical object by creating or constructing the object itself. This is contrary to non-constructive proofs which prove existence of objects without giving a concrete example.
 
-I> ### Definition 11
+I> ### Definition 13
 I>
 I> Intuitionistic logic, also known as constructive logic, is a type of logic which is different than the classical logic in terms that it "works" with the notion of constructive proof.
 
-I> ### Definition 12
+I> ### Definition 14
 I>
 I> The BHK (Brouwer-Heyting-Kolmogorov) interpretation is a mapping of intuitionistic logic to classical mathematical logic, namely:
 I>
@@ -290,7 +289,7 @@ The system in the upper-right angle {$$}\lambda P \omega{/$$} represents Calculu
 
 [^ch3n2]: Dependent types are the reason why Idris can formally prove mathematical statements, compared to other programming languages. While useful, since we can check whether an expression fulfills a given condition at compile-time, dependent types add complexity to a type system. In order to calculate type "equality" of dependent types, computations are necessary. If we allow any values for dependent types, then solving an equality of a type may involve deciding whether two programs produce the same result. Thus, the check may become undecidable.
 
-[^ch3n3]: In general, Idris combines a lot of functionalities from mainstream languages (Java, C, C++) and some functionalities from proof assistants, which further blurs the line between these two kinds of software.
+[^ch3n3]: This is what makes Idris a so-called proof assistant. In general, Idris combines a lot of functionalities from mainstream languages (Java, C, C++) and some functionalities from proof assistants, which further blurs the line between these two kinds of software.
 
 [^ch3n4]: A Turing machine can express any algorithm. Any formal system that can simulate a Turing machine is called Turing complete. Since a Turing machine can express any algorithm, so does any Turing complete system. This property is used to show equivalence of formal systems in terms of the algorithms they can express. (Untyped) Lambda calculus is Turing complete.
 
