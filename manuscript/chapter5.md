@@ -1,6 +1,6 @@
 # 5. Proving in Idris
 
-In this chapter we will provide several examples to demonstrate the power of Idris. We will do mathematical proofs. There are a lot of built-ins in Idris that will help us achieve our goals. So in each section we will introduce the relevant definitions.
+In this chapter we will provide several examples to demonstrate the power of Idris. We will do mathematical proofs. There are a lot of Idris built-ins that will help us achieve our goals. So in each section we will introduce the relevant definitions.
 
 I> ### Definition 1
 I>

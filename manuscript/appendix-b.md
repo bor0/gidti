@@ -100,7 +100,7 @@ codegenEmpty :: CodeGenerator
 codegenEmpty ci = putStrLn "Not implemented"
 ```
 
-The package `IRTS` (which is a collection of modules) is built-in in Idris and it stands for Idris Run-Time System. It is a data structure where we need to implement Idris commands and give definitions for how they map to the target language. For example, a `putStr` may map to `printf` in C.
+The package `IRTS` (which is a collection of modules) is a Idris built-in and it stands for Idris Run-Time System. It is a data structure where we need to implement Idris commands and give definitions for how they map to the target language. For example, a `putStr` may map to `printf` in C.
 
 ## Compilation
 
