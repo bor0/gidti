@@ -57,7 +57,7 @@ This definition of implication might be a bit counter-intuitive the way we use i
 | {$$}\bot{/$$}       | {$$}\top{/$$}       | {$$}\top{/$$}    |
 | {$$}\bot{/$$}       | {$$}\bot{/$$}       | {$$}\top{/$$}    |
 
-As stated in Definition 1, propositions can also be defined (or combined) in terms of other propositions. For example, we can choose {$$}a{/$$} to be `I like milk` and {$$}b{/$$} to be `I like sugar`. So {$$}a \land b{/$$} means that I like both milk and sugar. Now, if we let {$$}c{/$$} be `I am cool` then with {$$}a \land b \to c{/$$} we say: `If I like milk and sugar, then I am cool`. Note how we took a proposition {$$}a \land b{/$$} and modified it with another connective to form a new proposition.
+As stated in Definition 1, propositions can also be defined (or combined) in terms of other propositions. For example, we can choose {$$}a{/$$} to be `I like milk` and {$$}b{/$$} to be `I like sugar`. So {$$}a \land b{/$$} means that `I like both milk and sugar`. Now, if we let {$$}c{/$$} be `I am cool` then with {$$}a \land b \to c{/$$} we say: `If I like milk and sugar, then I am cool`. Note how we took a proposition {$$}a \land b{/$$} and modified it with another connective to form a new proposition.
 
 X> ### Exercise 1
 X>
@@ -68,7 +68,7 @@ X> 1. The "or" connective
 X> 1. Negation connective
 X> 1. Implication connective
 X>
-X> Try to come up with a sensible statement in English for each of the proposition derived.
+X> Try to come up with a sensible statement in English for each derived proposition.
 
 ### 2.1.2. First-order logic
 
@@ -132,7 +132,7 @@ I> ### Definition 8
 I>
 I> Set membership states that a given object is belonging to a set. It is denoted using the {$$}\in{/$$} operator.
 
-For example, {$$}apple \in \{ apple, banana \}{/$$} says that `apple` is in that set.
+For example, {$$}apple \in \{ apple, banana \}{/$$} says that {$$}apple{/$$} is in that set.
 
 I> ### Definition 9
 I>
@@ -144,7 +144,7 @@ One valid tuple is {$$}(1 pm, 2 pm, 3 pm){/$$} which represents 3 hours of a day
 
 I> ### Definition 10
 I>
-I> An n-ary relation is just a set of {$$}n{/$$}-tuples with different values.
+I> An {$$}n{/$$}-ary relation is just a set of {$$}n{/$$}-tuples with different values.
 
 For example, the "is bigger than" relation represents a 2-tuple (pair), for the following set: {$$}\{ (cat, mouse), (mouse, cheese), (cat, cheese) \}{/$$}.
 
@@ -170,16 +170,17 @@ One simple way to think of functions is in form of tables. For a function {$$}f(
 
 | {$$}\textbf{x}{/$$} | {$$}f(x){/$$} |
 |-------------------- | ------------- |
-| a                   | 1             |
-| b                   | 2             |
+| 1                   | 2             |
+| 2                   | 3             |
+| ...                 | ...           |
 
 X> ### Exercise 3
 X>
-X> Think of a set of objects and try to express that some object belongs to that set.
+X> Think of a set of objects and express that some object belongs to that set.
 
 X> ### Exercise 4
 X>
-X> Think of a set of objects whose order matters and try to express it in terms of an ordered collection.
+X> Think of a set of objects whose order matters and express it in terms of an ordered collection.
 
 X> ### Exercise 5
 X>
@@ -239,7 +240,7 @@ X> With the given axioms of Peano, prove that {$$}1 = S(0){/$$} and {$$}2 = S(S(
 
 X> ### Exercise 11
 X>
-X> Come up with several axioms and inference rules and try to do a proof similar to the example above.
+X> Come up with several axioms and inference rules and do a proof similar to the example above.
 
 ### 2.3.1. Proofs by truth tables
 
@@ -253,10 +254,10 @@ For example, to prove the statement {$$}A \land B \to B{/$$}, we can approach as
 
 | {$$}\textbf{A}{/$$} | {$$}\textbf{B}{/$$} | {$$}A \land B{/$$} | {$$}A \land B \to B{/$$} |
 | ------------------- | ------------------- | ------------------ | ------------------------ |
-| {$$}\bot{/$$}       | {$$}\bot{/$$}       | {$$}\bot{/$$}      | {$$}\top{/$$}            |
-| {$$}\bot{/$$}       | {$$}\top{/$$}       | {$$}\bot{/$$}      | {$$}\top{/$$}            |
-| {$$}\top{/$$}       | {$$}\bot{/$$}       | {$$}\bot{/$$}      | {$$}\top{/$$}            |
 | {$$}\top{/$$}       | {$$}\top{/$$}       | {$$}\top{/$$}      | {$$}\top{/$$}            |
+| {$$}\top{/$$}       | {$$}\bot{/$$}       | {$$}\bot{/$$}      | {$$}\top{/$$}            |
+| {$$}\bot{/$$}       | {$$}\top{/$$}       | {$$}\bot{/$$}      | {$$}\top{/$$}            |
+| {$$}\bot{/$$}       | {$$}\bot{/$$}       | {$$}\bot{/$$}      | {$$}\top{/$$}            |
 
 I> ### Definition 17
 I>
@@ -295,7 +296,7 @@ For example, given {$$}A \lor B{/$$}, {$$}B \to C{/$$}, {$$}\lnot C{/$$}, prove 
 
 X> ### Exercise 13
 X>
-X> Prove {$$}((A \lor B) \land \lnot B) \to A{/$$} using three-column proof technique.
+X> Prove {$$}((A \lor B) \land \lnot B) \to A{/$$} using the three-column proof technique.
 
 ### 2.3.3. Formal proofs
 
@@ -329,7 +330,7 @@ In order to **use** a given of form:
 
 | Given form | Technique |
 | --- | --- |
-| {$$}P \to Q{/$$} | If {$$}P{/$$} is also given, then conclude that Q (by modus ponens) |
+| {$$}P \to Q{/$$} | If {$$}P{/$$} is also given, then conclude that {$$}Q{/$$} (by modus ponens) |
 | {$$}\lnot P{/$$} | If {$$}P{/$$} can be proven true, then conclude a contradiction |
 | {$$}P_1 \land P_2 \land \ldots \land P_n{/$$} | Treat each one of {$$}P_1, P_2, \ldots, P_n{/$$} as a given |
 | {$$}P_1 \lor P_2 \lor \ldots \lor P_n{/$$} | Use proof by cases, where in each case you assume one of {$$}P_1, P_2, \ldots, P_n{/$$} |
@@ -361,7 +362,7 @@ X> 1. Modus ponens: {$$}((p \to q) \land p) \to q{/$$}
 
 X> ### Exercise 16
 X>
-X> Prove each one of the proofs above using both truth tables and three-column proofs techniques. Since it is impossible to represent quantifiers with truth tables, skip doing 3 and 4.
+X> Prove proofs 1 and 2 above using both truth tables and three-column proofs techniques.
 
 X> ### Exercise 17
 X>
@@ -371,7 +372,7 @@ X> Try to come up with a few propositions for each goal/given form, combine them
 
 I> ### Definition 19
 I>
-I> Recursive functions are those functions that refer to themselves. We have the following properties for such functions:
+I> Recursive functions are functions that refer to themselves. We have the following properties for such functions:
 I>
 I> 1. A simple base case (or cases) - a terminating case that returns a value without using recursion
 I> 1. A set of rules that reduce the other cases towards the base case
@@ -394,7 +395,7 @@ I>
 I> 1. Zero is a left identity for addition, that is {$$}n = 0 + n{/$$}
 I> 1. {$$}S(m) + n = S(m + n){/$$}, where {$$}S{/$$} is the successor function, that is {$$}S(0) = 1, S(1) = 2{/$$}, etc.
 
-For example, in order to prove that {$$}\forall n, n + 0 = n{/$$} in the system of Peano's axioms, we can proceed by induction (this is an axiom). For the base case, we have that {$$}0 + 0 = 0{/$$}, which is true (by definition of adding numbers, for {$$}n = 0{/$$}). For the inductive step, we first assume that {$$}n + 0 = n{/$$} is true, and prove that {$$}S(n) + 0 = S(n){/$$}. By definition of addition, we have {$$}S(n) + 0 = S(n + 0){/$$}. Now if we use the inductive hypothesis we have {$$}S(n + 0) = S(n){/$$}, which is what we needed to show. With this example, we can see how induction and natural numbers are closely related to each other. Note how we proved {$$}n + 0 = n{/$$}, given {$$}n = 0 + n{/$$}. That is, we proved that addition with 0 is commutative.
+For example, in order to prove that {$$}\forall n, n + 0 = n{/$$} in the system of Peano's axioms, we can proceed by induction (which is an axiom in this system). For the base case, we have that {$$}0 + 0 = 0{/$$}, which is true (by definition of adding numbers, for {$$}n = 0{/$$}). For the inductive step, we first assume that {$$}n + 0 = n{/$$} is true, and prove that {$$}S(n) + 0 = S(n){/$$}. By definition of addition, we have {$$}S(n) + 0 = S(n + 0){/$$}. Now if we use the inductive hypothesis we have {$$}S(n + 0) = S(n){/$$}, which is what we needed to show. With this example, we can see how induction and natural numbers are closely related to each other. Note how we proved {$$}n + 0 = n{/$$}, given {$$}n = 0 + n{/$$}. That is, we proved that addition with 0 is commutative.
 
 I> ### Definition 22
 I>
@@ -412,7 +413,7 @@ X> Hint: Use {$$}n = 2{/$$} as the base case.
 
 [^ch2n1]: Since unrestricted quantification leads to inconsistency, higher-order logic is an attempt to avoid this. We will look into Russell's paradox later as an example.
 
-[^ch2n2]: It is worth noting that in set theory, {$$}P{/$$} would be a subset of a relation, i.e. {$$}P \subseteq A \times \{ T, F \}{/$$}, where {$$}A{/$$} is a set of some inputs, for example `Salad` and `Rock` in the example. When working with other systems we need to be careful, as this is not the case with first-order logic. In the case of first-order logic, we have {$$}P(Salad) = \top{/$$}, {$$}P(Rock) = \bot{/$$}, etc as atomic statements, not mathematical functions (i.e. they cannot be broken down into smaller statements). This is what makes first-order logic independent of set theory.
+[^ch2n2]: It is worth noting that in set theory, {$$}P{/$$} would be a subset of a relation, i.e. {$$}P \subseteq A \times \{ T, F \}{/$$}, where {$$}A{/$$} is a set of some inputs, for example `Salad` and `Rock`. When working with other systems we need to be careful, as this is not the case with first-order logic. In the case of first-order logic, we have {$$}P(Salad) = \top{/$$}, {$$}P(Rock) = \bot{/$$}, etc as atomic statements, not mathematical functions (i.e. they cannot be broken down into smaller statements). This is what makes first-order logic independent of set theory.
 
 [^ch2n3]: In other words, a function is a subset of all combinations of ordered pairs whose first element is an element of {$$}A{/$$} and second element is an element of {$$}B{/$$}.
 

@@ -21,7 +21,7 @@ I>
 I> 1. Sum (union) is alternation. It is denoted as {$$}\text{A | B}{/$$} and it means that the value is either of type A or B, but not both
 I> 1. Product is combination. It is denoted as {$$}\text{A B}{/$$} and it means that the value is a pair where the first element is of type A, and the second element is of type B
 
-As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}\text{Real}{/$$} for real numbers. Using the sum (union) we can construct a new type {$$}\text{Nat | Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat | Real}{/$$}, {$$}3.14 : \text{Nat | Real}{/$$}, etc. Using the product type, we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 1.5 : \text{Nat Real}{/$$}, {$$}2 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
+As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}\text{Real}{/$$} for real numbers. Using sum (union) we can construct a new type {$$}\text{Nat | Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat | Real}{/$$}, {$$}3.14 : \text{Nat | Real}{/$$}, etc. Using product we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 \ 1.5 : \text{Nat Real}{/$$}, {$$}2 \ 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
 
 Finally, Idris supports dependent types[^ch3n2]. These kind of types are so powerful, they can encode most properties of programs and with their help Idris can prove invariants at compile-time. As we will see in Section 4.2 types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software[^ch3n3]. 
 
@@ -29,7 +29,7 @@ Q> Why are types useful?
 Q>
 Q> Russell's paradox (per the mathematician Bertrand Russell) states the following: In a village in which there is only one barber, there is a rule according to which the barber shaves everyone who don't shave themselves, and no-one else. Now, who shaves the barber? In order to attempt to solve the paradox, we can assume that the barber shaves himself. Then, he's one of those who shave themselves, but the barber shaves only those who do not shave themselves, which is a contradiction. Alternatively, if we assume that the barber does not shave himself, then he is in the group of people whom which the barber shaves, which again is a contradiction.
 Q>
-Q> Some set theories are affected by Russell's paradox. As a response to this, between 1902 and 1908, Bertrand Russell himself proposed different type theories an attempt to resolve the issue. By joining types to values, we avoid the paradox because in this theory every set is defined as having elements from a distinct type, for example, {$$}\text{Type 1}{/$$}. Elements from {$$}\text{Type 1}{/$$} can be included in a different set, say, elements of {$$}\text{Type 2}{/$$}, and so forth. Thus, the paradox is no longer an issue since the set of elements of {$$}\text{Type 1}{/$$} cannot be contained in their own set, since the types do not match. In a way, we're adding hierarchy to sets in order to resolve the issue of "self-referential" sets. This is also the case with Idris, where we have that {$$}\text{Type : Type 1 : Type 2}{/$$}, etc.
+Q> Some set theories are affected by Russell's paradox. As a response to this, between 1902 and 1908, Bertrand Russell himself proposed different type theories as an attempt to resolve the issue. By joining types to values, we avoid the paradox because in this theory every set is defined as having elements from a distinct type, for example, {$$}\text{Type 1}{/$$}. Elements from {$$}\text{Type 1}{/$$} can be included in a different set, say, elements of {$$}\text{Type 2}{/$$}, and so forth. Thus, the paradox is no longer an issue since the set of elements of {$$}\text{Type 1}{/$$} cannot be contained in their own set, since the types do not match. In a way, we're adding hierarchy to sets in order to resolve the issue of "self-referential" sets. This is also the case with Idris, where we have that {$$}\text{Type : Type 1 : Type 2}{/$$}, etc.
 Q>
 Q> Thus, for Russell's paradox specifically, if we set the type of a person to be {$$}\text{P}{/$$}, then the list of people would be of type {$$}\text{List P}{/$$}. However, there is no way to express {$$}\{ \text{P} \}{/$$} such that {$$}\text{P} \in \text{P}{/$$}, since {$$}\text{List P}{/$$} only contains elements of type {$$}\text{P}{/$$}, and not {$$}\text{List P}{/$$}.
 
@@ -107,8 +107,8 @@ I>
 I> 1. If {$$}x{/$$} is a variable, then {$$}x \in \Lambda{/$$}
 I> 1. If {$$}x{/$$} is a variable and {$$}M \in \Lambda{/$$}, then {$$}(\lambda x.M) \in \Lambda{/$$} (rule of abstraction)
 I> 1. If {$$}M, N \in \Lambda{/$$}, then {$$}(M \ N) \in \Lambda{/$$} (rule of application)
-I> 1. If {$$}x{/$$} is a variable, {$$}T{/$$} is a type, and {$$}M \in \Lambda{/$$}, then {$$}(\lambda x:T.M) \in \Lambda{/$$}
-I> 1. If {$$}x{/$$} is a variable and {$$}T{/$$} is a type, then {$$}x:T \in \Lambda{/$$}
+I> 1. If {$$}x{/$$} is a variable, {$$}\text{T}{/$$} is a type, and {$$}M \in \Lambda{/$$}, then {$$}(\lambda x: \text{T} .M) \in \Lambda{/$$}
+I> 1. If {$$}x{/$$} is a variable and {$$}\text{T}{/$$} is a type, then {$$}x: \text{T} \in \Lambda{/$$}
 I>
 I> There is a single type constructor:
 I>
@@ -136,7 +136,7 @@ X> Apply the typed 1 to {$$}SUCC{/$$} and confirm that the result is 2. Make sur
 
 X> ### Exercise 6
 X>
-X> In Exercise 3 you were asked to come up with a function. Try to figure out the types of this function or, if not applicable, come up with a new function and then figure out its types using the reasoning above.
+X> In Exercise 3 you were asked to come up with a function. Try to figure out the type of this function or, if not applicable, come up with a new function and then figure out its type using the reasoning above.
 
 ## 3.3. Dependent types
 
@@ -155,7 +155,7 @@ This definition might seem a bit scary and tricky to grasp, but it really is sim
 1. Our universe of types contains all possible types. For example, {$$}\text{Type}{/$$}, {$$}\text{Nat}{/$$}, etc, so {$$}U = \{ \text{Type}, \text{Nat}, \text{List n}, \ldots \}{/$$}
 1. Our collection of interest of types is {$$}\text{List n}{/$$}, which represents a list of {$$}\text{n}{/$$} elements. That is, {$$}A = \{ \text{List n} \}{/$$}
 
-The definition states that in the universe {$$}U{/$$}, there exists a function {$$}B(\text{n}) = \text{List n}{/$$}. {$$}B{/$$} is the collection of functions which given a number {$$}n{/$$}, will return a list of {$$}\text{n}{/$$} numbers. For example, we have the following lists:
+The definition states that in the universe {$$}U{/$$}, there exists a function {$$}B(\text{n}) = \text{List n}{/$$}. {$$}B{/$$} is the collection of functions which given a number {$$}n{/$$}, will return a list of {$$}n{/$$} numbers. For example, we have the following lists:
 
 1. List of 1 element: {$$}[1] : B(1){/$$}, that is {$$}[1] : \text{List 1}{/$$}
 1. List of 2 elements: {$$}[1, 2] : \text{List 2}{/$$}
@@ -165,17 +165,17 @@ In general, we have a function that takes an {$$}\text{n}{/$$} and produces a {$
 
 I> ### Definition 10
 I>
-I> A dependent sum type can be used to represent indexed pairs, where the type of the second element depends on the type of the first element. That is, if we have {$$}a : \text{A}{/$$} and {$$}b : \text{B(a)}{/$$}, then this makes a sum type. We denote it as {$$}\Sigma(x : \text{A}), B(x){/$$}.
+I> A dependent sum type can be used to represent indexed pairs, where the type of the second element depends on the type of the first element. That is, if we have {$$}a : \text{A}{/$$} and {$$}b : B( \text{a} ){/$$}, then this makes a sum type. We denote it as {$$}\Sigma(x : \text{A}), B(x){/$$}.
 
 For example, if we set {$$}A = \text{Nat}{/$$}, and {$$}B(\text{a}) = \text{List a}{/$$}, then we form the dependent sum type {$$}\Sigma(x : \text{Nat}), \text{List x}{/$$}. For example, we can construct the following pairs: {$$}(1, [1]), (2, [1, 2]), (3, [1, 2, 3]){/$$}, etc.
 
 X> ### Exercise 7
 X>
-X> Think of a way to construct a different product dependent type and express it by using the reasoning above.
+X> Think of a way to construct a different dependent product type and express it by using the reasoning above.
 
 X> ### Exercise 8
 X>
-X> Think of a way to construct a different sum dependent type and express it using the reasoning above.
+X> Think of a way to construct a different dependent sum type and express it using the reasoning above.
 
 ## 3.4. Intuitionistic theory of types
 
@@ -185,7 +185,7 @@ The intuitionistic theory of types (or constructive type theory) offers an alter
 
 Proving a theorem in this system consists of constructing[^ch3n6] (or providing evidence for) a particular object. If we want to prove something about a type {$$}\text{A}{/$$} and we know that {$$}a : \text{A}{/$$}, then {$$}a{/$$} is one proof for {$$}\text{A}{/$$}. Note how we say one proof, because there can be many other elements of type {$$}\text{A}{/$$}.
 
-Propositions can also be defined through types. For example. in order to prove that {$$}4 = 4{/$$}, we need to find an object {$$}x{/$$} of type {$$}\text{4 = 4}{/$$}, that is {$$}x : \text{4 = 4}{/$$}. One such object is {$$}refl{/$$} (which can be thought of as an axiom), which stands for reflexivity, which states that {$$}x = x{/$$} for all {$$}x{/$$}.
+Propositions can also be defined through types. For example in order to prove that {$$}4 = 4{/$$}, we need to find an object {$$}x{/$$} of type {$$}\text{4 = 4}{/$$}, that is {$$}x : \text{4 = 4}{/$$}. One such object is {$$}refl{/$$} (which can be thought of as an axiom), which stands for reflexivity, which states that {$$}x = x{/$$} for all {$$}x{/$$}.
 
 One thing worth noting is that in Idris there are "two" types of truths: {$$}\text{Bool}{/$$} and {$$}\text{Type}{/$$}. Even though there is some similarity (in terms of proofs), in Idris they are fundamentally different. The type {$$}\text{Bool}{/$$} can have a value of {$$}True{/$$} or {$$}False{/$$}, while the type {$$}\text{Type}{/$$} is either provable or not provable[^ch3n7].
 
@@ -204,26 +204,26 @@ I> The type constructors are:
 I>
 I> 1. {$$}\Pi{/$$} types and {$$}\Sigma{/$$} types, as we've discussed them earlier
 I> 1. Finite types, for example the nullary (empty) type 0 or {$$}\bot{/$$}, the unary type 1 or {$$}\top{/$$}, and the boolean type 2
-I> 1. The equality type, where for given {$$}a, b : \text{A}{/$$}, the expression {$$}a = b{/$$} represents proof of equality. There is a canonical element {$$}a = a{/$$}, that is, an "axiom" for the reflexivity proof: {$$}refl : \Pi \text{(a : A) a = a}{/$$}
+I> 1. The equality type, where for given {$$}a, b : \text{A}{/$$}, the expression {$$}a = b{/$$} represents proof of equality. There is a canonical element {$$}a = a{/$$}, that is, an "axiom" for the reflexivity proof: {$$}refl : \Pi (a : \text{A} ) \ a = a{/$$}
 I> 1. Inductive (or recursive) types. In this way we can implement product and sum types which encode conjunction and disjunction respectively
 I>
 I> The inference rules are:
 I>
-I> 1. The rule of type equality which states that if an object is of a type {$$}\text{A}{/$$}, and there is another type {$$}\text{B}{/$$} equal to {$$}\text{A}{/$$}, then that object is of type {$$}\text{B}{/$$}: {$$}(\Gamma \vdash a : \text{A}, \Gamma \vdash \text{A} = \text{B}) \vdash (\Gamma \vdash a : \text{B}){/$$}
+I> 1. The rule of type equality which states that if an object is of a type {$$}\text{A}{/$$}, and there is another type {$$}\text{B}{/$$} equal to {$$}\text{A}{/$$}, then that object is of type {$$}\text{B}{/$$}: {$$}(a : \text{A}, \text{A} = \text{B}) \to (a : \text{B}){/$$}
 I>
 I> The remaining inference rules are specific to the type formers, for example introduction and elimination. We will show an example using these rules in 5.2.
 
 As an example, for well-formed expressions rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well-formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}\text{Nat} : \text{Type}{/$$} per rule 1.
 
-A valid type is per rule 4 of type constructors is the natural numbers {$$}\text{Nat = Z | S Nat}{/$$}. Some valid values are {$$}\text{Z : Nat, S Z : Nat}{/$$}, etc.
+A valid type is per rule 4 of type constructors is the definition of natural numbers {$$}\text{Nat = Z | S Nat}{/$$}. Some valid values are {$$}\text{Z : Nat, S Z : Nat}{/$$}, etc.
 
 X> ### Exercise 9
 X>
-X> We've used rule 1 and rule 2 in the example above. Try to come up with different ways to use each one of the rules described above.
+X> We've used rule 1 and rule 2 in the example earlier. Try to come up with different ways to use each one of the rules described.
 
 X> ### Exercise 10
 X>
-X> Combine the use of rules along with the connectives described above and try to come up with a recursive type and then construct some new objects from it.
+X> Combine the use of rules along with the connectives described earlier and try to come up with a recursive type and then construct some new objects from it.
 
 ### 3.4.1. Intuitionistic logic
 
@@ -233,18 +233,18 @@ I> A constructive proof proves the existence of a mathematical object by creatin
 
 I> ### Definition 13
 I>
-I> Intuitionistic logic, also known as constructive logic, is a type of logic which is different than the classical logic in terms that it "works" with the notion of constructive proof.
+I> Intuitionistic logic, also known as constructive logic, is a type of logic which is different than classical logic in that it "works" with the notion of constructive proof.
 
 I> ### Definition 14
 I>
 I> The BHK (Brouwer-Heyting-Kolmogorov) interpretation is a mapping of intuitionistic logic to classical mathematical logic, namely:
 I>
-I> 1. A proof of {$$}P \land Q{/$$} is a product type {$$}\text{A B}{/$$}, where {$$}a{/$$} is a proof of {$$}\text{P}{/$$} and {$$}b{/$$} is a proof of {$$}\text{Q}{/$$}
+I> 1. A proof of {$$}P \land Q{/$$} is a product type {$$}\text{A B}{/$$}, where {$$}a{/$$} is a proof of (or, object of type) {$$}\text{P}{/$$} and {$$}b{/$$} is a proof of {$$}\text{Q}{/$$}
 I> 1. A proof of {$$}P \lor Q{/$$} is a product type {$$}\text{A B}{/$$}, where {$$}a{/$$} is 0 and {$$}b{/$$} is a proof of {$$}\text{P}{/$$}, or {$$}a{/$$} is 1 and {$$}b{/$$} is a proof of {$$}\text{Q}{/$$}
 I> 1. A proof of {$$}P \to Q{/$$} is a function {$$}f{/$$} that converts a proof of {$$}\text{P}{/$$} to a proof of {$$}\text{Q}{/$$}
 I> 1. A proof of {$$}\exists x \in S : f(x){/$$} is a pair {$$}\text{A B}{/$$} where {$$}a{/$$} is an element of {$$}\text{S}{/$$}, and {$$}b{/$$} is a proof of {$$}f(x){/$$} (dependent sum types)
 I> 1. A proof of {$$}\forall x \in S : f(x){/$$} is a function {$$}f{/$$} that converts an element {$$}a{/$$} from {$$}\text{S}{/$$} to a proof of {$$}f(x){/$$} (dependent product types)
-I> 1. A proof of {$$}\lnot P{/$$} is defined as {$$}P \to \bot{/$$}, that is, the proof is a function {$$}f{/$$} that converts a proof of {$$}\text{P}{/$$} to proof of {$$}\bot{/$$}
+I> 1. A proof of {$$}\lnot P{/$$} is defined as {$$}P \to \bot{/$$}, that is, the proof is a function {$$}f{/$$} that converts a proof of {$$}\text{P}{/$$} to a proof of {$$}\bot{/$$}
 I> 1. There is no proof of {$$}\bot{/$$}
 
 For example, to prove distributivity of {$$}\land{/$$} with respect to {$$}\lor{/$$}, that is, {$$}P \land (Q \lor R) = (P \land Q) \lor (P \land R){/$$}, we need to construct a proof for the function of type {$$}f : \text{P (Q | R)} \to \text{P Q | P R}{/$$}. That is, a function that takes a product type of {$$}\text{P}{/$$} and sum type of {$$}\text{Q}{/$$} and {$$}\text{R}{/$$}, and returns a sum type of product {$$}\text{P}{/$$} and {$$}\text{Q}{/$$}, and product {$$}\text{P}{/$$} and {$$}\text{R}{/$$}. Here's the function that accomplishes that:

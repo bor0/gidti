@@ -24,7 +24,7 @@ In mathematics, everything has a precise definition. Same is the case with Idris
 
 Q> If Idris proves software correctness, what proves the correctness of Idris?
 Q>
-Q> Trusted Computing Base (TCB) can be thought of as the "axioms" of Idris, that is, we choose to trust Idris and the way it rewrites, inserts a new given to the goal, etc.
+Q> Trusted Computing Base (TCB) can be thought of as the "axioms" of Idris, that is, we choose to trust Idris and the way it rewrites, inserts a new given, etc.
 
 The most challenging part is to come up with the precise properties (specifications) that we should prove in order to claim correctness for our software.
 

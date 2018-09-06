@@ -222,7 +222,7 @@ We can define the file `test.c` as follows:
 #include "test.h"
 
 int succ(int i) {
-	return i+1;
+    return i+1;
 }
 ```
 

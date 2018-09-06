@@ -63,13 +63,13 @@ We can represent the formal description of this system as follows:
     1. Set of symbols is {$$}\{ M, I, U \}{/$$}
     1. A string is well-formed if the first letter is `M` and there are no other `M` letters. Examples: `M`, `MIUIU`, `MUUUIII`
 1. `MI` is the starting string, i.e. axiom
-1. The rules of inference are defined in the table above
+1. The rules of inference are defined in the table earlier
 
 Q> Can we get from `MI` to `MU` with this system?
 Q>
 Q> In order to answer this, we will use an invariant[^ch1n3] with mathematical induction to prove our claim.
 Q>
-Q> Note that, in order to be able to apply rule 3, we need to have the number of subsequent I's to be divisible by 3. So let's have our invariant say that "There is no sequence of `I`'s in the string that with length divisible by 3":
+Q> Note that, in order to be able to apply rule 3, we need to have the number of subsequent `I`'s to be divisible by 3. So let's have our invariant say that "There is no sequence of `I`'s in the string that with length divisible by 3":
 Q>
 Q> 1. For the starting axiom, we have one `I`. Invariant OK.
 Q> 1. Applying rule 2 will be doubling the number of `I`'s, so we can have: `I`, `II`, `IIII`, `IIIIIII` (in particular, {$$}2^n{/$$} `I`'s). Invariant OK.

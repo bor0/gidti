@@ -85,7 +85,7 @@ The type check was successful. Per the Curry-Howard isomorphism, this means that
 
 X> ### Exercise 3
 X>
-X> Remove one or more pattern match definitions of `next_day` and observe the error that Idris will produce. Afterwards, alter the function, so that it is not total anymore, and observe the error.
+X> Remove one or more pattern match definitions of `next_day` and observe the error that Idris will produce. Afterwards, alter the function so that it is not total anymore, and observe the error.
 
 X> ### Exercise 4
 X>
@@ -101,7 +101,7 @@ is_it_monday Mon = True
 is_it_monday _   = False
 ```
 
-For the sake of example, we will prove that for any given day, if it's Monday then `is_it_monday` will return `True` and `False` otherwise. It's obvious from the definition of `is_it_monday`, but proving that is a whole different story. The type definition that we need to prove is:
+For the sake of example, we will prove that for any given day, if it's Monday then `is_it_monday` will return `True`. It's obvious from the definition of `is_it_monday`, but proving that is a whole different story. The type definition that we need to prove is:
 
 ```
 our_second_proof : (day : Weekday) -> day = Mon ->
@@ -160,7 +160,7 @@ X> Implement the function `is_it_sunday` that returns `True` if the given day is
 
 X> ### Exercise 6
 X>
-X> In addition to Exercise 5, Prove the following formula in Idris: {$$}\forall x \in \text{Weekdays}, x = \text{Sun} \to IsItSunday(x){/$$}.
+X> In addition to Exercise 5, prove the following formula in Idris: {$$}\forall x \in \text{Weekdays}, x = \text{Sun} \to IsItSunday(x){/$$}.
 
 ### 5.1.3. Third proof (impossible)
 
@@ -212,7 +212,7 @@ X> Hint: The type is `1 = 2 -> Void`
 
 ## 5.2. Natural numbers
 
-As we've seen, natural numbers is a very powerful concept. In this section we will prove facts about them and also do some induction. Recall that a natural number is defined either as zero or as the successor of a natural number. So, `0, S 0, S (S 0), ...` are the first natural numbers. We will start with the following definitions for natural numbers:
+In this section we will prove facts about natural numbers and also do some induction. Recall that a natural number is defined either as zero or as the successor of a natural number. So, `0, S 0, S (S 0), ...` are the first natural numbers. We will start with the following definitions for natural numbers:
 
 ```
 data MyNat = Zero | Succ MyNat
@@ -276,7 +276,7 @@ Q> By the definition of `MyNat` we are sure that there exists a type constructor
 
 I> ### Definition 5
 I>
-I> The `let` keyword that we introduced earlier allows us to add a new given to the list.
+I> The `let` keyword that we introduced earlier allows us to add a new given to the list of hypotheses.
 
 We can slightly rewrite our code:
 
@@ -318,7 +318,7 @@ If we try to run the code above, Idris will produce an error saying that there i
 
 Q> It seems that we have just about all the definitions we need, but we're missing a piece. How do we re-use our definitions?
 Q>
-Q> To prove that {$$}a + 0 = a{/$$}, we can use mathematical induction starting with the definitions we already have as the base case and building on top of that until {$$}a + 0 = a{/$$}. That is, we need to prove that {$$}0 + 0 = 0 \to (a - a) + 0 = a - a \to ... \to (a - 1) + 0 = a - 1 \to a + 0 = a{/$$}.
+Q> To prove that {$$}a + 0 = a{/$$}, we can use mathematical induction starting with the definitions we already have as the base case and build on top of that until {$$}a + 0 = a{/$$}. That is, we need to prove that {$$}0 + 0 = 0 \to (a - a) + 0 = a - a \to ... \to (a - 1) + 0 = a - 1 \to a + 0 = a{/$$}.
 
 From here, we rewrite our function to contain a base case and an inductive step:
 
@@ -698,7 +698,7 @@ A tree structure is a way to represent hierarchical data. We will work with bina
 data Tree = Leaf | Node Nat Tree Tree
 ```
 
-Which states that a tree is defined as one of:
+This definition states that a tree is defined as one of:
 
 1. `Leaf`, which has no values
 1. `Node`, which holds a number and points to two other trees (which can be either `Node`s or `Leaf`s)

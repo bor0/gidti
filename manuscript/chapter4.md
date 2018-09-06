@@ -1,8 +1,8 @@
 # 4. Programming in Idris
 
-In this chapter, we will introduce Idris' syntax, by defining functions and types.
+In this chapter we will introduce Idris' syntax, by defining functions and types.
 
-Depending at what level of abstraction we are working on, types and proofs can give us a kind of security based on some truths we take for granted (axioms). In fact, this is how we develop code on a daily basis, as software engineers. We have a list of axioms, for example a `foreach` loop in a programming language, and starting from it we build abstractions. However, this is not always easy to achieve. For example, consider a scenario where we have a button that is supposed to download a PDF document. In order to prove that it works as expected, we must first pick the abstraction level we will be working on, and then proceed by defining software requirements (what is a PDF, what is a download). So, we first have to define our **specifications**, and then we can proceed with proving their correctness.
+Depending on what level of abstraction we are working, types and proofs can give us a kind of security based on some truths we take for granted (axioms). In fact, this is how we develop code on a daily basis, as software engineers. We have a list of axioms, for example a `foreach` loop in a programming language, and starting from it we build abstractions. However, this is not always easy to achieve. For example, consider a scenario where we have a button that is supposed to download a PDF document. In order to prove that it works as expected, we must first pick the abstraction level we will be working on, and then proceed by defining software requirements (what is a PDF, what is a download). So, we first have to define our **specifications**, and then we can proceed with proving correctness.
 
 Idris, even though a research language, can still have its own uses. It is a Turing complete language, which means that it has the same expressive power as other programming languages, for example Java, or C++.
 
@@ -76,7 +76,7 @@ Note how the type changes depending on what values we pass to the constructor, d
 
 ```
 data A : Type -> Type -> Type where
-	A_inst : a -> b -> A a b
+    A_inst : a -> b -> A a b
 ```
 
 Which is equivalent to the following definition, where we define an empty data structure along with an axiom for the type constructor:
@@ -95,7 +95,7 @@ Idris> :t A_inst
 A_inst : a -> b -> A a b
 ```
 
-That is, we show the type definition for both the newly-defined type and its type constructor. Note how we created a product type here. Idris has a built-in notion of pairs, which is a data type that can be defined in terms of products. For example, `(1, 2)` is one pair. We can also define tuples with `(1, "Hi", True)`, which is equivalent to `(1, ("Hi", True))`, i.e. a pair where the first element is a number, and the second element is a pair.
+That is, we show the type definitions for both the newly-defined type and its type constructor. Note how we created a product type here. Idris has a built-in notion of pairs, which is a data type that can be defined in terms of products. For example, `(1, 2)` is one pair. We can also define tuples with `(1, "Hi", True)`, which is equivalent to `(1, ("Hi", True))`, i.e. a pair where the first element is a number, and the second element is a pair.
 
 Analogously, if we want to create a sum type, we could do the following:
 
@@ -107,8 +107,8 @@ Which is equivalent to:
 
 ```
 data B : Type -> Type -> Type where
-	B_inst_left : a -> B a b
-	B_inst_right : b -> B a b
+    B_inst_left : a -> B a b
+    B_inst_right : b -> B a b
 ```
 
 As a result of that, we get:
@@ -129,7 +129,7 @@ f : B a b -> a
 f (B_inst_left a) = a
 ```
 
-Note how we used the data type at the function type level, and the type constructor in the function definition to pattern match against it.
+Note how we used the data type at the function type level, and the type constructor in the function definition to pattern match against.
 
 Natural numbers are defined as `data Nat = Z | S Nat`, where we either have a zero or a successor of a natural number. Note how this type is not polymorphic (it doesn't accept any variables after the type name). Natural numbers are built-in as a type in Idris.
 
@@ -341,7 +341,7 @@ add' End ys         = ys
 add' (Cons x xs) ys = Cons x (add' xs ys)
 ```
 
-The first line of the code says that `add'` is a function that accepts two polymorphic lists (`MyList Nat`, `MyList Char`, etc), and produces the same list as a result. The second line of the code pattern matches against the first list and when it's empty we just return the second list. The third line of the code also pattern matches against the first list, but this time it covers the `Cons` case. So, whenever there is an `Cons` in the first list, as a result we return this element `Cons x`, appended recursively to `add' xs ys`, where `xs` is the remainder of the first list and `ys` is the second list. Example usage:
+The first line of the code says that `add'` is a function that accepts two polymorphic lists (`MyList Nat`, `MyList Char`, etc), and produces the same list as a result. The second line of the code pattern matches against the first list and when it's empty we just return the second list. The third line of the code also pattern matches against the first list, but this time it covers the `Cons` case. So, whenever there is a `Cons` in the first list, as a result we return this element `Cons x`, appended recursively to `add' xs ys`, where `xs` is the remainder of the first list and `ys` is the second list. Example usage:
 
 ```
 Idris> add' (Cons 1 (Cons 2 (Cons 3 End))) (Cons 4 End)
@@ -420,7 +420,7 @@ I> A higher-order function is a function that takes one or more functions as par
 
 There are three built-in higher-order functions that are generally useful: `map`, `filter`, `fold` (left and right). Here's the description of each:
 
-1. `map` is a function that takes as input a function with a single parameter and a list and returns a list where all members of the list have this function applied to
+1. `map` is a function that takes as input a function with a single parameter and a list and returns a list where all members of the list have this function applied to them
 1. `filter` is a function that takes as input a function (predicate) with a single parameter (that returns a `Bool`) and a list and only returns those members in the list whose predicate evaluates to `True`
 1. `fold` is a function that takes as input a combining function that accepts two parameters (current value and accumulator), an initial value and a list and returns a value combined with this function. There are two types of folds, a left and a right one, which combines from the left and from the right respectively
 
@@ -445,7 +445,7 @@ mymap _ []      = []
 mymap f (x::xs) = (f x) :: (mymap f xs)
 ```
 
-Note that `::` is used by the built-in `List` type, and is equivalent to `Cons` we've used earlier. However, since `::` is an infix operator, it has to go between the two arguments. In addition, the built-in `List` type is polymorphic.
+Note that `::` is used by the built-in `List` type, and is equivalent to `Cons` we've used earlier. However, since `::` is an infix operator, it has to go between the two arguments. The value `[]` represents the empty list and is equivalent to `End`. In addition, the built-in `List` type is polymorphic.
 
 X> ### Exercise 14
 X>
@@ -499,9 +499,9 @@ we will get the following error:
 
 ```
 Type mismatch between
-	MyVect 0 (Type of Empty)
+    MyVect 0 (Type of Empty)
 and
-	MyVect 1 (Expected type)
+    MyVect 1 (Expected type)
 ```
 
 Which is a way of Idris telling us that our types do not match and that it cannot verify the "proof" provided.
@@ -510,7 +510,7 @@ In this example we implemented a dependent type that puts the length of the list
 
 X> ### Exercise 17
 X>
-X> Come up with a function `isSingleton` that accepts a `Bool` and returns a `Type`. This function should return a type of `Nat` in the `True` case, and `MyVectt Nat` otherwise. Further, implement a function `mkSingle` that accepts a `Bool`, and returns `isSingleton True` or `isSingleton False`, and as a computed value will either return `0` or `Empty`.
+X> Come up with a function `isSingleton` that accepts a `Bool` and returns a `Type`. This function should return a type of `Nat` in the `True` case, and `MyVect Nat` otherwise. Further, implement a function `mkSingle` that accepts a `Bool`, and returns `isSingleton True` or `isSingleton False`, and as a computed value will either return `0` or `Empty`.
 X>
 X> Hint: The data definitions are `isSingleton : Bool -> Type` and `mkSingle : (x : Bool) -> isSingleton x` respectively.
 
