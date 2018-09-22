@@ -69,7 +69,9 @@ Q> Can we get from `MI` to `MU` with this system?
 Q>
 Q> In order to answer this, we will use an invariant[^ch1n3] with mathematical induction to prove our claim.
 Q>
-Q> Note that `MI` has one `I`, and `MU` has no `I`s. One way to show that we can't turn `MI` into `MU` is to show that no sequence of steps can turn a string with one `I` into a string with no `I`s. We'll do something just a little more sophisticated than that: we'll show that starting from a string where the number of `I`s _is not_ divisible by 3, no sequence of rules can produce a string where the number of `I`s _is_ divisible by 3. Suppose we have a string with {$$}n{/$$} `I`s. Note what happens to the number of `I`s after applying each inference rule:
+Q> Note that `MI` has one `I`, and `MU` has no `I`s. One way to show that we can't turn `MI` into `MU` is to show that no sequence of steps can turn a string with one `I` into a string with no `I`s. We'll do something just a little more sophisticated than that: we'll show that starting from a string where the number of `I`s _is not_ divisible by 3, no sequence of rules can produce a string where the number of `I`s _is_ divisible by 3. That will imply that `MU` can't be derived from `MI` because 1 is not divisible by 3, but 0 is.
+Q>
+Q> Suppose we have a string with {$$}n{/$$} `I`s. Let's see what happens to the number of `I`s after applying each inference rule:
 Q>
 Q> 1. Rules 1 and 4 do not change the number of `I`s.
 Q> 1. Rule 2 produces a string with {$$}2n{/$$} `I`s, and if {$$}n{/$$} is not divisible by 3, then neither is {$$}2n{/$$}.
