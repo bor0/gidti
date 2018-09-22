@@ -12,7 +12,7 @@ I>     1. A _grammar_, which is a set of rules that tells us which formulas are 
 I> 1. A set of **axioms**, that is, formulas we accept as "valid" without justification
 I> 1. A set of **inference rules** that tell us how we can derive new valid formulas from old ones
 
-Inside a given formal system the grammar determines which formulas are _syntactically_ sensible, while the inference rules govern which formulas are _semantically_ sensible. The difference between these two is important. For example, thinking of the English language as a (very complicated!) formal system, the sentence `Colorless green ideas sleep furiously` is syntactically valid (since different parts of speech are used in the right places), but is semantically nonsense.
+Inside a given formal system the grammar determines which formulas are _syntactically_ sensible, while the inference rules govern which formulas are _semantically_ sensible. The difference between these two is important. For example, thinking of the English language as a (very complicated!) formal system, the sentence "Colorless green ideas sleep furiously" is syntactically valid (since different parts of speech are used in the right places), but is semantically nonsense.
 
 After a formal system is defined, other formal systems can extend it. For example, set theory is based on first-order logic, which is based on propositional logic which represents a formal system. We'll discuss this theory briefly in the next chapter.
 

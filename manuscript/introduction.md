@@ -10,7 +10,7 @@ Idris allows us to express mathematical statements. By mechanically examining th
 
 To fully understand how proofs in Idris work we will start with the foundations by defining: formal systems, classic mathematical logic, lambda calculus, intuitionistic logic, and type theory (which is a more "up-to-date" version of classical mathematical logic).
 
-[^intron1]: J.N. Buxton and B. Randell, eds, Software Engineering Techniques, April 1970, p. 16. Report on a conference sponsored by the NATO Science Committee, Rome, Italy, 27–31 October 1969
+[^intron1]: J.N. Buxton and B. Randell, eds, Software Engineering Techniques, April 1970, p. 16. Report on a conference sponsored by the NATO Science Committee, Rome, Italy, 27-31 October 1969
 
 [^intron2]: The core concept of functional programming languages is a mathematical function.
 
