@@ -1,14 +1,18 @@
 # 1. Formal systems
 
+Before we can construct proofs of correctness for software we need to understand what a proof is and what it means for a proof to be valid. This is the role of _formal systems_. The purpose of formal systems is to let us reason about reasoning -- to manipulate logical proofs in terms of their _form_, rather than their _content_. This level of abstraction makes formal systems powerful tools.
+
 I> ### Definition 1
 I>
-I> According to Wikipedia, a **formal system** is a system of abstract thought based on the model of mathematics. A formal system consists of:
+I> A **formal system** is a model of abstract reasoning. A formal system consists of:
 I>
 I> 1. A **formal language** that contains:
-I>     1. A finite set of symbols, which when combined are used for constructing new formulas (finite strings of symbols)
-I>     1. A grammar, which is a rule that tells us how we can construct formulas based on the symbols (well-formed formulas)
-I> 1. A set of **axioms**, that is, a starting set that we take for granted without having any proofs for
-I> 1. A set of **inference rules** that tell us how we can transform formulas
+I>     1. A finite set of _symbols_, which can be combined into finite strings called _formulas_
+I>     1. A _grammar_, which is a set of rules that tells us which formulas are "well-formed"
+I> 1. A set of **axioms**, that is, formulas we accept as "valid" without justification
+I> 1. A set of **inference rules** that tell us how we can derive new valid formulas from old ones
+
+Inside a given formal system the grammar determines which formulas are _syntactically_ sensible, while the inference rules govern which formulas are _semantically_ sensible. The difference between these two is important. For example, thinking of the English language as a (very complicated!) formal system, the sentence "Colorless green ideas sleep furiously." is syntactically valid -- different parts of speech are used in the right places -- but is semantically nonsense.
 
 After a formal system is defined, other formal systems can extend it. For example, set theory is based on first-order logic, which is based on propositional logic which represents a formal system. We'll discuss this theory briefly in the next chapter.
 
