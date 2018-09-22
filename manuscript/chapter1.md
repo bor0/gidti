@@ -79,7 +79,7 @@ Q> 1. Rule 3 produces a string with {$$}n-3{/$$} `I`s, and if {$$}n{/$$} is not 
 
 So we've shown that with the starting axiom `MI` it is not possible to get to `MU`, because no sequence of steps can turn a string with one `I` into a string with no `I`s. But if we look carefully, we've used a different formal system to reason about `MU` (i.e. divisibility by 3, which is not part of the MU system). This is because the puzzle cannot be solved in its own system. Otherwise, an algorithm would keep trying different inference rules of `MU` indefinitely (not knowing that `MU` is impossible).
 
-Every formal system has this limitation. As we've seen, G&#246;del's theorem shows that there's no formal system that can contain all possible truths, because it cannot prove some truths about its own structure.
+Every useful formal system has this limitation. As we've seen, G&#246;del's theorem shows that there's no formal system that can contain all possible truths, because it cannot prove some truths about its own structure.
 
 So, having experience with different formal systems and combining them as needed can be useful.
 
