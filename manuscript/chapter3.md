@@ -140,11 +140,13 @@ X> In Exercise 3 you were asked to come up with a function. Try to figure out th
 
 ## 3.3. Dependent types
 
+In the simply typed lambda calculus, _values_ and _types_ are fundamentally different kinds of things that are related only by the "has type" predicate, {$$}:{/$$}. Values are allowed to depend on values - these are lambda abstractions. And types are allowed to depend on types - these are arrow types. But types are not allowed to depend on values. A _dependent typing_ system lifts this restriction.
+
 I> ### Definition 8
 I>
-I> Dependent types are types whose definition depends on some value.
+I> Dependent types are types that depend on values.
 
-A list of numbers is a type ({$$}\text{List}{/$$}, for example). However, a list of numbers where the second element of the list is larger than the first element of the list is a dependent type.
+A list of numbers is a type ({$$}\text{List}\ \text{Nat}{/$$}, for example). However, a list of numbers whose length is bounded by some constant, or whose entries are increasing, is a dependent type.
 
 I> ### Definition 9
 I>
