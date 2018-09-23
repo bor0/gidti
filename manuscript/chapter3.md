@@ -278,11 +278,11 @@ X> Try to use some of the proofs in the earlier chapters as a motivation and wor
 
 [^ch3n1]: Unlike in set theory, where they are defined in terms of relations.
 
-[^ch3n2]: Dependent types are the reason why Idris can formally prove mathematical statements, compared to other programming languages. While useful, since we can check whether an expression fulfills a given condition at compile-time, dependent types add complexity to a type system. In order to calculate type "equality" of dependent types, computations are necessary. If we allow any values for dependent types, then solving an equality of a type may involve deciding whether two programs produce the same result. Thus, the check may become undecidable.
+[^ch3n2]: Dependent types allow proofs of statements involving first-order predicates, compared to simple types which corresponds to propositional logic. While useful (since we can check whether an expression fulfills a given condition at compile-time), dependent types add complexity to a type system. In order to calculate type "equality" of dependent types, computations are necessary. If we allow any values for dependent types, then solving an equality of a type may involve deciding whether two programs produce the same result. Thus, the check may become undecidable.
 
 [^ch3n3]: This is what makes Idris a so-called proof assistant. In general, Idris combines a lot of functionalities from mainstream languages (Java, C, C++) and some functionalities from proof assistants, which further blurs the line between these two kinds of software.
 
-[^ch3n4]: A Turing machine can express any algorithm. Any formal system that can simulate a Turing machine is called Turing complete. Since a Turing machine can express any algorithm, so does any Turing complete system. This property is used to show equivalence of formal systems in terms of the algorithms they can express. (Untyped) Lambda calculus is Turing complete.
+[^ch3n4]: A _Turing machine_ is a very simple abstract machine designed to capture our intuitive understanding of _computation_ in the most general sense. Any formal system that can simulate a Turing machine, and thus also perform arbitrary computations, is called _Turing complete_. (Untyped) Lambda calculus is Turing complete.
 
 [^ch3n5]: Collections in general are considered to be subcollections of some large universal collection, also called the universe. Depending on the context, the definition of this universe will vary.
 
