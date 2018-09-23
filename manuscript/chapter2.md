@@ -434,7 +434,7 @@ X> Hint: Use {$$}n = 2{/$$} as the base case.
 
 [^ch2n2]: This means that there is a decidability algorithm - an algorithm that will always return a correct value (e.g. true or false), instead of looping infinitely or producing a wrong answer.
 
-[^ch2n3]: It is worth noting that in set theory, {$$}P{/$$} would be a subset of a relation, i.e. {$$}P \subseteq A \times \{ T, F \}{/$$}, where {$$}A{/$$} is a set of some inputs, for example `Salad` and `Rock`. When working with other systems we need to be careful, as this is not the case with first-order logic. In the case of first-order logic, we have {$$}P(Salad) = \top{/$$}, {$$}P(Rock) = \bot{/$$}, etc as atomic statements, not mathematical functions (i.e. they cannot be broken down into smaller statements). This is what makes first-order logic independent of set theory.
+[^ch2n3]: It is worth noting that in set theory, {$$}P{/$$} would be a subset of a relation, i.e. {$$}P \subseteq A \times \{ T, F \}{/$$}, where {$$}A{/$$} is a set of some inputs, for example `Salad` and `Rock`. When working with other systems we need to be careful, as this is not the case with first-order logic. In the case of first-order logic, we have {$$}P(Salad) = \top{/$$}, {$$}P(Rock) = \bot{/$$}, etc as atomic statements, not mathematical functions (i.e. they cannot be broken down into smaller statements). This is what makes first-order logic independent of set theory. In addition, functions have a nice characterization that is dual to the concepts of "one-to-one" (total) and "onto" (well-defined).
 
 [^ch2n4]: In other words, a function is a subset of all combinations of ordered pairs whose first element is an element of {$$}A{/$$} and second element is an element of {$$}B{/$$}.
 
