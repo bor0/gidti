@@ -219,11 +219,11 @@ X> Write down the corresponding input and output sets for the function you imple
 
 ## 2.3. Substitution and mathematical proofs
 
-Substitution lies at the heart of mathematics[^ch2n5]. 
+Substitution lies at the heart of mathematics[^ch2n5].
 
 I> ### Definition 14
 I>
-I> Substitution consists of systematically replacing occurrences of some symbol with a given value. It can be applied in different contexts involving formal objects containing symbols. 
+I> Substitution consists of systematically replacing occurrences of some symbol with a given value. It can be applied in different contexts involving formal objects containing symbols.
 
 For example, let's assume that we have the following:
 

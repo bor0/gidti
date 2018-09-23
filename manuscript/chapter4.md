@@ -638,11 +638,11 @@ Idris> :doc Nat
 Data type Prelude.Nat.Nat : Type
     Natural numbers: unbounded, unsigned integers which can be pattern
     matched.
-    
+
 Constructors:
     Z : Nat
         Zero
-        
+
     S : Nat -> Nat
         Successor
 ```
