@@ -99,7 +99,7 @@ X> Think of a real-world predicate and express its truthiness using the {$$}\for
 
 In first order logic, predicates act like functions that take an input value and produce a proposition. A predicate can't be true or false until a specific value is substituted for the variables, and the quantifiers {$$}\forall{/$$} and {$$}\exists{/$$} "close" over a predicate to give a statement which can be either true or false.
 
-Likewise, we can define a "metapredicate" that acts like a function on predicates. For example, let {$$}\Gamma(P){/$$} be the statement `there exists a person x such that P(x) is true`. Note that it doesn't make sense to ask if {$$}\Gamma(P){/$$} is true or false until we plug in a specific _predicate_ {$$}P{/$$}. But we can quantify over {$$}P{/$$}, and construct a statement like {$$}\forall P . \Gamma(P){/$$}. In English, this statement translates to "For any given property {$$}P{/$$}, there exists a person satisfying that property".
+Likewise, we can define a "metapredicate" that acts like a function on predicates. For example, let {$$}\Gamma(P){/$$} be the statement `there exists a person x such that P(x) is true`. Note that it doesn't make sense to ask if {$$}\Gamma(P){/$$} is true or false until we plug in a specific _predicate_ {$$}P{/$$}. But we can quantify over {$$}P{/$$}, and construct a statement like {$$}\forall P . \Gamma(P){/$$}. In English, this statement translates to `For any given property P, there exists a person satisfying that property`.
 
 Metapredicates like {$$}\Gamma{/$$} are called _second-order_, because they range over first order predicates. And there's no reason to stop there; we could define third-order predicates that range over second-order predicates, and fourth-order predicates that range over third-order predicates, and so on.
 
@@ -155,13 +155,13 @@ I> An {$$}n{/$$}-tuple is an **ordered collection** of {$$}n{/$$} objects. As wi
 
 For example, we can use the set {$$}\{ \{ 1, \{ a_1 \} \}, \{ 2, \{ a_2 \} \}, \ldots, \{ n, \{ a_n \} \} \}{/$$} to represent the ordered collection {$$}(a_1, a_2, ..., a_n){/$$}. This will now allow us to extract the {$$}k{/$$}-th element of the tuple, by picking {$$}x{/$$} such that {$$}\{ k, \{ x \} \} \in A{/$$}. Having done that, now we have that {$$}(a, b) = (c, d) \equiv a = c \land b = d{/$$}, that is, two tuples are equal iff their first and second elements respectively are equal. This is what makes them ordered.
 
-One valid tuple is {$$}(1 pm, 2 pm, 3 pm){/$$} which represents 3 hours of a day sequentially.
+One valid tuple is {$$}(\text{1 pm}, \text{2 pm}, \text{3 pm}){/$$} which represents 3 hours of a day sequentially.
 
 I> ### Definition 10
 I>
 I> An {$$}n{/$$}-ary relation is just a set of {$$}n{/$$}-tuples.
 
-For example, the "is bigger than" relation represents a 2-tuple (pair), for the following set: {$$}\{ (cat, mouse), (mouse, cheese), (cat, cheese) \}{/$$}.
+For example, the `is bigger than` relation represents a 2-tuple (pair), for the following set: {$$}\{ (\text{cat}, \text{mouse}), (\text{mouse}, \text{cheese}), (\text{cat}, \text{cheese}) \}{/$$}.
 
 I> ### Definition 11
 I>
