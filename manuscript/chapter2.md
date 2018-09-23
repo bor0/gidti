@@ -25,7 +25,7 @@ The "and" connective means that both {$$}a{/$$} and {$$}b{/$$} have to be true i
 
 The "or" connective means that either of {$$}a{/$$} or {$$}b{/$$} has to be true in order for {$$}a \lor b{/$$} to be true. It will also be true if both {$$}a{/$$} and {$$}b{/$$} are true. This is known as inclusive or. For example, the statement `I like milk or sugar` is true as a whole if at least one of `I like milk` or `I like sugar` is true.
 
-This definition of "or" might be a bit counter-intuitive the way we use it in day to day speaking. When we say `I like milk or sugar` we normally mean one of them but not both. This is known as exclusive or, however, for the purposes of this book we will be using inclusive or.
+This definition of "or" might be a bit counter-intuitive to the way we use it in day to day speaking. When we say `I like milk or sugar` we normally mean one of them but not both. This is known as exclusive or, however, for the purposes of this book we will be using inclusive or.
 
 | {$$}\textbf{a}{/$$} | {$$}\textbf{b}{/$$} | {$$}a \lor b{/$$} |
 | ------------------- | ------------------- | ----------------- |
@@ -41,14 +41,18 @@ The negation connective simply swaps the truthness of a proposition. The easiest
 | {$$}\top{/$$}       | {$$}\bot{/$$}    |
 | {$$}\bot{/$$}       | {$$}\top{/$$}    |
 
-The implication connective allows us to express conditional statements. It means that {$$}a \to b{/$$} is false iff {$$}a{/$$} is true, and {$$}b{/$$} is false. For example, if we choose {$$}a{/$$} to be `It rains` and {$$}b{/$$} to be `The ground is wet` then there are four possibilities:
+The implication connective allows us to express conditional statements, and it's interpretation is subtle. We say that {$$}a \to b{/$$} is true if anytime {$$}a{/$$} is true, it is necessarily also the case that {$$}b{/$$} is true. Another way to think about implication is in terms of _promises_; {$$}a \to b{/$$} represents a promise that if {$$}a{/$$} happens, then {$$}b{/$$} also happens. In this interpretation the truth value of {$$}a \to b{/$$} is whether or not the promise is kept, and we say that a promise is kept unless it has been broken.
 
-1. If it rains, then the ground is wet. This is obviously true.
-1. If it rains, then the ground is not wet. This is a false statement, i.e. the false case.
-1. If it doesn't rain, then the ground is wet. This one is a bit tricky to grasp. The reason why we define it to be true is that we don't really know much about the wetness of the ground, other than the fact that it did not rain. Maybe it was already wet prior to the rain, or someone poured water on the ground.
-1. If it doesn't rain, then the ground is not wet. This is obviously true.
+For example, if we choose {$$}a{/$$} to be `Today is your birthday` and {$$}b{/$$} to be `I brought you a cake`, then {$$}a \to b{/$$} represents the promise `If today is your birthday, then I brought you a cake.` Then there are four different ways that today can play out:
 
-This definition of implication might be a bit counter-intuitive the way we use it in day to day speaking. When we say `If it rains, then the ground is wet` we usually mean both that `If the ground is wet, then it rains` and `If it rains, then the ground is wet`. This is known as biconditional and is denoted as {$$}a \leftrightarrow b{/$$}, or simply {$$}a \ \text{iff} \ b{/$$}.
+1. Today is your birthday, and I brought you a cake. The promise is kept, so the implication is true.
+1. Today is your birthday, but I did not bring you a cake. The promise is not kept, so the implication is false.
+1. Today is not your birthday, and I brought you a cake. Is the promise kept? Better question - has the promise been broken? The condition the promise is based on - that today is your birthday - is not satisfied, so we say that the promise is not broken. The implication is true.
+1. Today is not your birthday, and I did not bring you a cake. Again, the condition of the promise is not satisfied, so the promise is not broken. The implication is true.
+
+In the last two cases, where the condition of the promise is not satisfied, we sometimes say that the implication is _vacuously true_.
+
+This definition of implication might be a bit counter-intuitive to the way we use it in day to day speaking. When we say `If it rains, then the ground is wet` we usually mean both that `If the ground is wet, then it rains` and `If it rains, then the ground is wet`. This is known as biconditional and is denoted as {$$}a \leftrightarrow b{/$$}, or simply {$$}a \ \text{iff} \ b{/$$}.
 
 | {$$}\textbf{a}{/$$} | {$$}\textbf{b}{/$$} | {$$}a \to b{/$$} |
 | ------------------- | ------------------- | ---------------- |
