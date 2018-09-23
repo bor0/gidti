@@ -226,7 +226,7 @@ We know that in general, {$$}1 = 3{/$$} does not make any sense. But, in the con
 
 I> ### Definition 15
 I>
-I> A mathematical argument is consisted of a list of propositions. Mathematical arguments are used in order to demonstrate that a claim is true or false.
+I> A mathematical argument consists of a list of propositions. Mathematical arguments are used in order to demonstrate that a claim is true or false.
 
 I> ### Definition 16
 I>
