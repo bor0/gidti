@@ -109,7 +109,7 @@ I> The higher-order logical system [second-order logic, third-order-logic, ..., 
 
 For example, the second-order logic quantifies over sets. Third-order logic quantifies over sets of sets, and so on.
 
-Moving up the hierarchy of logical systems brings power, at a price. Propositional (zeroth-order) logic is completely decidable; there is an algorithm that can determine whether any given statement is a theorem or not. Predicate (first-order) logic is no longer decidable, and by G&#246;del's incompleteness theorem we have to choose between completeness and consistency, but at least there is still an algorithm that can determine whether a proof is valid or not. For second-order and higher logics we lose even this - we have to choose between completeness, consistency, and a proof detection algorithm.
+Moving up the hierarchy of logical systems brings power, at a price. Propositional (zeroth-order) logic is completely decidable[^ch2n2]. Predicate (first-order) logic is no longer decidable, and by G&#246;del's incompleteness theorem we have to choose between completeness and consistency, but at least there is still an algorithm that can determine whether a proof is valid or not. For second-order and higher logics we lose even this - we have to choose between completeness, consistency, and a proof detection algorithm.
 
 The good news is that in practice, second-order predicates are used in a very limited capacity, and third- and higher order predicates are never needed. One important example of a second-order predicate appears in the Peano axioms of the natural numbers.
 
@@ -177,7 +177,7 @@ For example if {$$}A = \{ a, b \}{/$$} and {$$}B = \{ 1, 2, 3 \}{/$$} then the c
 
 I> ### Definition 13
 I>
-I> **Functions** are defined in terms of relations[^ch2n2]. A binary (2-tuple) set {$$}F{/$$} represents a mapping[^ch2n3] from some set {$$}A{/$$} to some set {$$}B{/$$}, where {$$}F{/$$} is a subset of the Cartesian product of {$$}A{/$$} and {$$}B{/$$}. That is, a function {$$}f{/$$} from {$$}A{/$$} to {$$}B{/$$} is denoted {$$}f : A \to B{/$$} and is a subset of {$$}F{/$$}, i.e. {$$}f \subseteq F{/$$}. There is one more constraint that functions have, namely, that they cannot produce 2 or more different values for a single input.
+I> **Functions** are defined in terms of relations[^ch2n3]. A binary (2-tuple) set {$$}F{/$$} represents a mapping[^ch2n4] from some set {$$}A{/$$} to some set {$$}B{/$$}, where {$$}F{/$$} is a subset of the Cartesian product of {$$}A{/$$} and {$$}B{/$$}. That is, a function {$$}f{/$$} from {$$}A{/$$} to {$$}B{/$$} is denoted {$$}f : A \to B{/$$} and is a subset of {$$}F{/$$}, i.e. {$$}f \subseteq F{/$$}. There is one more constraint that functions have, namely, that they cannot produce 2 or more different values for a single input.
 
 For example, the function {$$}f(x) = x + 1{/$$} is a function that, given a number, returns it increased by one. So {$$}f(1) = 2{/$$}, {$$}f(2) = 3{/$$}, etc. Another way to represent this function is using the 2-tuple set: {$$}f = \{ (1, 2), (2, 3), (3, 4), \ldots \}{/$$}.
 
@@ -219,7 +219,7 @@ X> Write down the corresponding input and output sets for the function you imple
 
 ## 2.3. Substitution and mathematical proofs
 
-Substitution lies at the heart of mathematics[^ch2n4]. 
+Substitution lies at the heart of mathematics[^ch2n5]. 
 
 I> ### Definition 14
 I>
@@ -247,7 +247,7 @@ I> ### Definition 16
 I>
 I> A proof is defined as an inferential **argument** for a list of given mathematical propositions. To prove a mathematical fact, we need to show that the conclusion (goal that we want to prove) logically follows from the hypothesis (list of given propositions).
 
-For example, to prove that a goal {$$}G{/$$} follows from a set of given propositions {$$}\{ g_1, g_2, \ldots, g_n \}{/$$}, we need to show {$$}(g_1 \land g_2 \land \ldots \land g_n) \to G{/$$}. Note the relation between the implication connective[^ch2n5] (conditional statement) and proofs.
+For example, to prove that a goal {$$}G{/$$} follows from a set of given propositions {$$}\{ g_1, g_2, \ldots, g_n \}{/$$}, we need to show {$$}(g_1 \land g_2 \land \ldots \land g_n) \to G{/$$}. Note the relation between the implication connective[^ch2n6] (conditional statement) and proofs.
 
 X> ### Exercise 10
 X>
@@ -311,7 +311,7 @@ For example, given {$$}A \lor B{/$$}, {$$}B \to C{/$$}, {$$}\lnot C{/$$}, prove 
 
 Q> Proofs with truth tables look a lot easier than column proofs. You just plug in truth values and simplify, where column proofs require planning ahead. Why would we bother with column proofs?
 Q>
-Q> Proofs with truth tables only work for propositional (zeroth order) theorems - the table method is essentially the decidability algorithm[^ch2n6] for zeroth order logic. That's why they are easy (if verbose) and always work, and why column proofs become necessary once we're using quantifiers.
+Q> Proofs with truth tables only work for propositional (zeroth order) theorems - the table method is essentially the decidability algorithm for zeroth order logic. That's why they are easy (if verbose) and always work, and why column proofs become necessary once we're using quantifiers.
 
 X> ### Exercise 13
 X>
@@ -432,14 +432,14 @@ X> Hint: Use {$$}n = 2{/$$} as the base case.
 
 [^ch2n1]: Since unrestricted quantification leads to inconsistency, higher-order logic is an attempt to avoid this. We will look into Russell's paradox later as an example.
 
-[^ch2n2]: It is worth noting that in set theory, {$$}P{/$$} would be a subset of a relation, i.e. {$$}P \subseteq A \times \{ T, F \}{/$$}, where {$$}A{/$$} is a set of some inputs, for example `Salad` and `Rock`. When working with other systems we need to be careful, as this is not the case with first-order logic. In the case of first-order logic, we have {$$}P(Salad) = \top{/$$}, {$$}P(Rock) = \bot{/$$}, etc as atomic statements, not mathematical functions (i.e. they cannot be broken down into smaller statements). This is what makes first-order logic independent of set theory.
+[^ch2n2]: This means that there is a decidability algorithm - an algorithm that will always return a correct value (e.g. true or false), instead of looping infinitely or producing a wrong answer.
 
-[^ch2n3]: In other words, a function is a subset of all combinations of ordered pairs whose first element is an element of {$$}A{/$$} and second element is an element of {$$}B{/$$}.
+[^ch2n3]: It is worth noting that in set theory, {$$}P{/$$} would be a subset of a relation, i.e. {$$}P \subseteq A \times \{ T, F \}{/$$}, where {$$}A{/$$} is a set of some inputs, for example `Salad` and `Rock`. When working with other systems we need to be careful, as this is not the case with first-order logic. In the case of first-order logic, we have {$$}P(Salad) = \top{/$$}, {$$}P(Rock) = \bot{/$$}, etc as atomic statements, not mathematical functions (i.e. they cannot be broken down into smaller statements). This is what makes first-order logic independent of set theory.
 
-[^ch2n4]: A similar statement can be made about programming, but we will cover an interesting case in Appendix B related to **pure** and **impure** functions.
+[^ch2n4]: In other words, a function is a subset of all combinations of ordered pairs whose first element is an element of {$$}A{/$$} and second element is an element of {$$}B{/$$}.
 
-[^ch2n5]: The turnstile symbol is similar to implication. It is denoted as {$$}\Gamma \vdash A{/$$}, where {$$}\Gamma{/$$} is a set of statements and {$$}A{/$$} is a conclusion. It is {$$}\top{/$$} iff it is impossible for all statements in {$$}\Gamma{/$$} to be {$$}\top{/$$}, and {$$}A{/$$} to be {$$}\bot{/$$}. In Appendix A we'll cover an interesting difference between implication and this symbol.
+[^ch2n5]: A similar statement can be made about programming, but we will cover an interesting case in Appendix B related to **pure** and **impure** functions.
 
-[^ch2n6]: The decidability algorithm is an algorithm that will always return a correct value (e.g. true or false), instead of looping infinitely or producing a wrong answer.
+[^ch2n6]: The turnstile symbol is similar to implication. It is denoted as {$$}\Gamma \vdash A{/$$}, where {$$}\Gamma{/$$} is a set of statements and {$$}A{/$$} is a conclusion. It is {$$}\top{/$$} iff it is impossible for all statements in {$$}\Gamma{/$$} to be {$$}\top{/$$}, and {$$}A{/$$} to be {$$}\bot{/$$}. In Appendix A we'll cover an interesting difference between implication and this symbol.
 
 [^ch2n7]: The notation {$$}\exists!{/$$} stands for unique existential quantifier. It means that **only one** object fulfills the predicate, as opposed to {$$}\exists{/$$}, which states that **at least one** object fulfills the predicate.
