@@ -126,13 +126,13 @@ I> ### Definition 7
 I>
 I> A set is an **unordered** collection of objects. The objects can be anything.
 
-Finite sets can be denoted by _roster notation_; we write out a list of objects in the set, separated by commas, and enclose them using curly braces. For example, one set of fruits is {$$}\{ apple, banana \}{/$$}. Since it is an unordered collection we have that {$$}\{ apple, banana \} = \{ banana, apple \}{/$$}.
+Finite sets can be denoted by _roster notation_; we write out a list of objects in the set, separated by commas, and enclose them using curly braces. For example, one set of fruits is {$$}\{ \text{apple}, \text{banana} \}{/$$}. Since it is an unordered collection we have that {$$}\{ \text{apple}, \text{banana} \} = \{ \text{banana}, \text{apple} \}{/$$}.
 
 I> ### Definition 8
 I>
 I> Set membership states that a given object is belonging to a set. It is denoted using the {$$}\in{/$$} operator.
 
-For example, {$$}apple \in \{ apple, banana \}{/$$} says that {$$}apple{/$$} is in that set.
+For example, {$$}\text{apple} \in \{ \text{apple}, \text{banana} \}{/$$} says that {$$}\text{apple}{/$$} is in that set.
 
 Roster notation is inconvenient for large sets, and not possible for infinite sets. Another way to define a set is with _set-builder notation_. With this notation we specify a set by giving a predicate that all of its members satisfy. A typical set in set-builder notation has the form {$$}\{x \mid P(x)\},{/$$} where {$$}P{/$$} is a predicate. If {$$}a{/$$} is a specific object, then {$$}a \in \{ x \mid P(x) \}{/$$} precisely when {$$}P(a){/$$} is true.
 
@@ -158,7 +158,7 @@ For example, the expressions {$$}\{ 1, 2 \} \subseteq \{ 1, 2, 3 \}{/$$} and {$$
 
 I> ### Definition 12
 I>
-I> A Cartesian product is defined as the set {$$}\{ (a, b) \mid a in A\ \mathrm{and}\ b \in B \}{/$$}. It is denoted as {$$}A \times B{/$$}.
+I> A Cartesian product is defined as the set {$$}\{ (a, b) \mid a in A\ \land b \in B \}{/$$}. It is denoted as {$$}A \times B{/$$}.
 
 For example if {$$}A = \{ a, b \}{/$$} and {$$}B = \{ 1, 2, 3 \}{/$$} then the combinations are: {$$}A \times B = \{ (a, 1), (a, 2), (a, 3), (b, 1), (b, 2), (b, 3) \}{/$$}.
 
