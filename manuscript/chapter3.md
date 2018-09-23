@@ -231,7 +231,7 @@ I> The remaining inference rules are specific to the type formers, for example i
 
 As an example, for well-formed expressions rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well-formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}\text{Nat} : \text{Type}{/$$} per rule 1.
 
-A valid type is per rule 4 of type constructors is the definition of natural numbers {$$}\text{Nat = Z | S Nat}{/$$}. Some valid values are {$$}\text{Z : Nat, S Z : Nat}{/$$}, etc.
+A valid type as per the fourth rule of type constructors is the definition of natural numbers {$$}\text{Nat = Z | S Nat}{/$$}. Some valid values are {$$}\text{Z : Nat, S Z : Nat}{/$$}, etc.
 
 X> ### Exercise 9
 X>
@@ -286,6 +286,6 @@ X> Try to use some of the proofs in the earlier chapters as a motivation and wor
 
 [^ch3n5]: Collections in general are considered to be subcollections of some large universal collection, also called the universe. Depending on the context, the definition of this universe will vary.
 
-[^ch3n6]: As a consequence that we need to provide an object as an evidence in order to prove something, the law of excluded middle {$$}P \lor \lnot P{/$$} is not defined in this logic, whereas in classic mathematical logic this is given as an axiom. For some propositions, for example, {$$}P{/$$} is an odd number or not, there are proofs that we can provide. However, for some propositions this is impossible, for example, {$$}P{/$$} is a program that halts or not. So, unlike classic mathematical logic, in this logic the law of excluded middle does not exist due to the undecidability problem.
+[^ch3n6]: As a consequence that we need to construct an object as evidence in order to prove something, the law of excluded middle {$$}P \lor \lnot P{/$$} is not valid in this logic, whereas in classic mathematical logic this is taken as an axiom. For some propositions, for example, {$$}P{/$$} is an odd number or not, there are proofs that we can provide. However, for some propositions this is impossible, for example, {$$}P{/$$} is a program that halts or not. So, unlike classic mathematical logic, in this logic the law of excluded middle does not exist due to the undecidability problem.
 
 [^ch3n7]: It is provable in case we can construct an object of such type, and not provable otherwise.
