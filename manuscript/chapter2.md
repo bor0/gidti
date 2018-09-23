@@ -158,7 +158,7 @@ For example, the expressions {$$}\{ 1, 2 \} \subseteq \{ 1, 2, 3 \}{/$$} and {$$
 
 I> ### Definition 12
 I>
-I> A Cartesian product is defined as the set {$$}\{ (a, b) \mid a in A\ \land b \in B \}{/$$}. It is denoted as {$$}A \times B{/$$}.
+I> A Cartesian product is defined as the set {$$}\{ (a, b) \mid a \in A \land b \in B \}{/$$}. It is denoted as {$$}A \times B{/$$}.
 
 For example if {$$}A = \{ a, b \}{/$$} and {$$}B = \{ 1, 2, 3 \}{/$$} then the combinations are: {$$}A \times B = \{ (a, 1), (a, 2), (a, 3), (b, 1), (b, 2), (b, 3) \}{/$$}.
 
