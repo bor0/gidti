@@ -124,9 +124,9 @@ Like in programming, building abstractions in mathematics is of equal importance
 
 I> ### Definition 7
 I>
-I> A set is an **unordered** collection of objects. The objects can be anything. It is usually denoted by comma separating the list of objects and enclosing them using curly braces.
+I> A set is an **unordered** collection of objects. The objects can be anything.
 
-For example, one set of fruits is {$$}\{ apple, banana \}{/$$}. Since it is an unordered collection we have that {$$}\{ apple, banana \} = \{ banana, apple \}{/$$}.
+Finite sets can be denoted by _roster notation_; we write out a list of objects in the set, separated by commas, and enclose them using curly braces. For example, one set of fruits is {$$}\{ apple, banana \}{/$$}. Since it is an unordered collection we have that {$$}\{ apple, banana \} = \{ banana, apple \}{/$$}.
 
 I> ### Definition 8
 I>
@@ -134,9 +134,11 @@ I> Set membership states that a given object is belonging to a set. It is denote
 
 For example, {$$}apple \in \{ apple, banana \}{/$$} says that {$$}apple{/$$} is in that set.
 
+Roster notation is inconvenient for large sets, and not possible for infinite sets. Another way to define a set is with _set-builder notation_. With this notation we specify a set by giving a predicate that all of its members satisfy. A typical set in set-builder notation has the form {$$}\{x \mid P(x)\},{/$$} where {$$}P{/$$} is a predicate. If {$$}a{/$$} is a specific object, then {$$}a \in \{ x \mid P(x) \}{/$$} precisely when {$$}P(a){/$$} is true.
+
 I> ### Definition 9
 I>
-I> An {$$}n{/$$}-tuple is an **ordered collection** of {$$}n{/$$} objects. As with sets, the objects can be anything. It is usually denoted by comma separating the list of objects and enclosing them using parenthesis.
+I> An {$$}n{/$$}-tuple is an **ordered collection** of {$$}n{/$$} objects. As with sets, the objects can be anything. Tuples are usually denoted by comma separating the list of objects and enclosing them using parentheses.
 
 For example, we can use the set {$$}\{ \{ 1, \{ a_1 \} \}, \{ 2, \{ a_2 \} \}, \ldots, \{ n, \{ a_n \} \} \}{/$$} to represent the ordered collection {$$}(a_1, a_2, ..., a_n){/$$}. This will now allow us to extract the {$$}k{/$$}-th element of the tuple, by picking {$$}x{/$$} such that {$$}\{ k, \{ x \} \} \in A{/$$}. Having done that, now we have that {$$}(a, b) = (c, d) \equiv a = c \land b = d{/$$}, that is, two tuples are equal iff their first and second elements respectively are equal. This is what makes them ordered.
 
@@ -144,7 +146,7 @@ One valid tuple is {$$}(1 pm, 2 pm, 3 pm){/$$} which represents 3 hours of a day
 
 I> ### Definition 10
 I>
-I> An {$$}n{/$$}-ary relation is just a set of {$$}n{/$$}-tuples with different values.
+I> An {$$}n{/$$}-ary relation is just a set of {$$}n{/$$}-tuples.
 
 For example, the "is bigger than" relation represents a 2-tuple (pair), for the following set: {$$}\{ (cat, mouse), (mouse, cheese), (cat, cheese) \}{/$$}.
 
@@ -156,7 +158,7 @@ For example, the expressions {$$}\{ 1, 2 \} \subseteq \{ 1, 2, 3 \}{/$$} and {$$
 
 I> ### Definition 12
 I>
-I> A Cartesian product is defined as the set {$$}\{ (a, b) \}{/$$} such that for all {$$}a{/$$} and {$$}b{/$$}, we have that {$$}a \in A \land b \in B{/$$}. It is denoted as {$$}A \times B{/$$}.
+I> A Cartesian product is defined as the set {$$}\{ (a, b) \mid a in A\ \mathrm{and}\ b \in B \}{/$$}. It is denoted as {$$}A \times B{/$$}.
 
 For example if {$$}A = \{ a, b \}{/$$} and {$$}B = \{ 1, 2, 3 \}{/$$} then the combinations are: {$$}A \times B = \{ (a, 1), (a, 2), (a, 3), (b, 1), (b, 2), (b, 3) \}{/$$}.
 
