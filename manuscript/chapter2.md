@@ -296,6 +296,10 @@ For example, given {$$}A \lor B{/$$}, {$$}B \to C{/$$}, {$$}\lnot C{/$$}, prove 
 | 6   | {$$}(A \lor B) \land \lnot B{/$$} | 1 and 5   |
 | 7   | {$$}A{/$$}                        | 6, where {$$}p \land \lnot p{/$$} is a contradiction, i.e. invalid argument |
 
+Q> Proofs with truth tables look a lot easier than column proofs. You just plug in truth values and simplify, where column proofs require planning ahead. Why would we bother with column proofs?
+Q>
+Q> Proofs with truth tables only work for propositional (zeroth order) theorems - the table method is essentially the decidability algorithm[^ch2n6] for zeroth order logic. That's why they are easy (if verbose) and always work, and why column proofs become necessary once we're using quantifiers.
+
 X> ### Exercise 13
 X>
 X> Prove {$$}((A \lor B) \land \lnot B) \to A{/$$} using the three-column proof technique.
@@ -325,7 +329,7 @@ In order to **prove** a goal of form:
 | {$$}P \leftrightarrow Q{/$$} | Prove both {$$}P \to Q{/$$} and {$$}Q \to P{/$$} |
 | {$$}\forall x, P(x){/$$} | Assume that {$$}x{/$$} is an arbitrary object and prove that {$$}P(x){/$$} |
 | {$$}\exists x, P(x){/$$} | Find an {$$}x{/$$} such that {$$}P(x){/$$} is true |
-| {$$}\exists! x, P(x){/$$}[^ch2n6] | Prove {$$}\exists x, P(x){/$$} (existence) and |
+| {$$}\exists! x, P(x){/$$}[^ch2n7] | Prove {$$}\exists x, P(x){/$$} (existence) and |
 | | {$$}\forall x \forall y, (P(x) \land P(y) \to x = y){/$$} (uniqueness) separately |
 
 In order to **use** a given of form:
@@ -423,4 +427,6 @@ X> Hint: Use {$$}n = 2{/$$} as the base case.
 
 [^ch2n5]: The turnstile symbol is similar to implication. It is denoted as {$$}\Gamma \vdash A{/$$}, where {$$}\Gamma{/$$} is a set of statements and {$$}A{/$$} is a conclusion. It is {$$}\top{/$$} iff it is impossible for all statements in {$$}\Gamma{/$$} to be {$$}\top{/$$}, and {$$}A{/$$} to be {$$}\bot{/$$}. In Appendix A we'll cover an interesting difference between implication and this symbol.
 
-[^ch2n6]: The notation {$$}\exists!{/$$} stands for unique existential quantifier. It means that **only one** object fulfills the predicate, as opposed to {$$}\exists{/$$}, which states that **at least one** object fulfills the predicate.
+[^ch2n6]: The decidability algorithm is an algorithm that will always return a correct value (e.g. true or false), instead of looping infinitely or producing a wrong answer.
+
+[^ch2n7]: The notation {$$}\exists!{/$$} stands for unique existential quantifier. It means that **only one** object fulfills the predicate, as opposed to {$$}\exists{/$$}, which states that **at least one** object fulfills the predicate.
