@@ -418,7 +418,7 @@ Idris provides a function called `divNat` that divides two numbers. Checking the
 ```
 Idris> :doc divNat
 Prelude.Nat.divNat : Nat -> Nat -> Nat
-    
+
     The function is not total as there are missing cases
 ```
 

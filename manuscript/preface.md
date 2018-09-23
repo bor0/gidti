@@ -1,8 +1,8 @@
 # Preface
 
-This book aims to be accessible to novices, that have no prior experience beyond high school mathematics. Thus, this book is written in a way to be self-contained. No programming experience is assumed, however having some kind of programming experience with the functional programming paradigm could make things easier to grasp in the beginning. After you finish reading the book I recommend that you check the "Further reading" chapter in case you are interested in diving deeper into some of the topics discussed.
+This book aims to be accessible to novices that have no prior experience beyond high school mathematics. Thus, this book is designed to be self-contained. No programming experience is assumed, however having some kind of programming experience with the functional programming paradigm could make things easier to grasp in the beginning. After you finish reading the book I recommend that you check the "Further reading" chapter in case you are interested in diving deeper into some of the topics discussed.
 
-I was always curious to understand how things work. As a result, I became very interested in mathematics while I was at high school. One of the reasons for writing this book is that I could not find a book that explained how things work, so I had to do a lot of research on the internet through white-papers, forums, example codes in order to come up with a complete picture on what dependent types are and what they are good for.
+I was always curious to understand how things work. As a result, I became very interested in mathematics while I was at high school. One of the reasons for writing this book is that I could not find a book that explained how things work, so I had to do a lot of research on the internet through white-papers, forums, and example code in order to come up with a complete picture of what dependent types are and what they are good for.
 
 I will consider this book successful if it provides you with some additional knowledge. I tried to write this book so that the definitions and examples provided in it show how different pieces of the puzzle are connected to each other.
 

@@ -25,7 +25,7 @@ The "and" connective means that both {$$}a{/$$} and {$$}b{/$$} have to be true i
 
 The "or" connective means that either of {$$}a{/$$} or {$$}b{/$$} has to be true in order for {$$}a \lor b{/$$} to be true. It will also be true if both {$$}a{/$$} and {$$}b{/$$} are true. This is known as inclusive or. For example, the statement `I like milk or sugar` is true as a whole if at least one of `I like milk` or `I like sugar` is true.
 
-This definition of "or" might be a bit counter-intuitive the way we use it in day to day speaking. When we say `I like milk or sugar` we normally mean one of them but not both. This is known as exclusive or, however, for the purposes of this book we will be using inclusive or.
+This definition of "or" might be a bit counter-intuitive to the way we use it in day to day speaking. When we say `I like milk or sugar` we normally mean one of them but not both. This is known as exclusive or, however, for the purposes of this book we will be using inclusive or.
 
 | {$$}\textbf{a}{/$$} | {$$}\textbf{b}{/$$} | {$$}a \lor b{/$$} |
 | ------------------- | ------------------- | ----------------- |
@@ -41,14 +41,18 @@ The negation connective simply swaps the truthness of a proposition. The easiest
 | {$$}\top{/$$}       | {$$}\bot{/$$}    |
 | {$$}\bot{/$$}       | {$$}\top{/$$}    |
 
-The implication connective allows us to express conditional statements. It means that {$$}a \to b{/$$} is false iff {$$}a{/$$} is true, and {$$}b{/$$} is false. For example, if we choose {$$}a{/$$} to be `It rains` and {$$}b{/$$} to be `The ground is wet` then there are four possibilities:
+The implication connective allows us to express conditional statements, and it's interpretation is subtle. We say that {$$}a \to b{/$$} is true if anytime {$$}a{/$$} is true, it is necessarily also the case that {$$}b{/$$} is true. Another way to think about implication is in terms of _promises_; {$$}a \to b{/$$} represents a promise that if {$$}a{/$$} happens, then {$$}b{/$$} also happens. In this interpretation the truth value of {$$}a \to b{/$$} is whether or not the promise is kept, and we say that a promise is kept unless it has been broken.
 
-1. If it rains, then the ground is wet. This is obviously true.
-1. If it rains, then the ground is not wet. This is a false statement, i.e. the false case.
-1. If it doesn't rain, then the ground is wet. This one is a bit tricky to grasp. The reason why we define it to be true is that we don't really know much about the wetness of the ground, other than the fact that it did not rain. Maybe it was already wet prior to the rain, or someone poured water on the ground.
-1. If it doesn't rain, then the ground is not wet. This is obviously true.
+For example, if we choose `a = Today is your birthday` and `b = I brought you a cake`, then {$$}a \to b{/$$} represents the promise `If today is your birthday, then I brought you a cake`. Then there are four different ways that today can play out:
 
-This definition of implication might be a bit counter-intuitive the way we use it in day to day speaking. When we say `If it rains, then the ground is wet` we usually mean both that `If the ground is wet, then it rains` and `If it rains, then the ground is wet`. This is known as biconditional and is denoted as {$$}a \leftrightarrow b{/$$}, or simply {$$}a \ \text{iff} \ b{/$$}.
+1. Today is your birthday, and I brought you a cake. The promise is kept, so the implication is true.
+1. Today is your birthday, but I did not bring you a cake. The promise is not kept, so the implication is false.
+1. Today is not your birthday, and I brought you a cake. Is the promise kept? Better question - has the promise been broken? The condition the promise is based on - that today is your birthday - is not satisfied, so we say that the promise is not broken. The implication is true.
+1. Today is not your birthday, and I did not bring you a cake. Again, the condition of the promise is not satisfied, so the promise is not broken. The implication is true.
+
+In the last two cases, where the condition of the promise is not satisfied, we sometimes say that the implication is _vacuously true_.
+
+This definition of implication might be a bit counter-intuitive to the way we use it in day to day speaking. When we say `If it rains, then the ground is wet` we usually mean both that `If the ground is wet, then it rains` and `If it rains, then the ground is wet`. This is known as biconditional and is denoted as {$$}a \leftrightarrow b{/$$}, or simply {$$}a \ \text{iff} \ b{/$$}.
 
 | {$$}\textbf{a}{/$$} | {$$}\textbf{b}{/$$} | {$$}a \to b{/$$} |
 | ------------------- | ------------------- | ---------------- |
@@ -93,11 +97,21 @@ X> Think of a real-world predicate and express its truthiness using the {$$}\for
 
 ### 2.1.3. Higher-order logic
 
+In first order logic, predicates act like functions that take an input value and produce a proposition. A predicate can't be true or false until a specific value is substituted for the variables, and the quantifiers {$$}\forall{/$$} and {$$}\exists{/$$} "close" over a predicate to give a statement which can be either true or false.
+
+Likewise, we can define a "metapredicate" that acts like a function on predicates. For example, let {$$}\Gamma(P){/$$} be the statement `there exists a person x such that P(x) is true`. Note that it doesn't make sense to ask if {$$}\Gamma(P){/$$} is true or false until we plug in a specific _predicate_ {$$}P{/$$}. But we can quantify over {$$}P{/$$}, and construct a statement like {$$}\forall P . \Gamma(P){/$$}. In English, this statement translates to `For any given property P, there exists a person satisfying that property`.
+
+Metapredicates like {$$}\Gamma{/$$} are called _second-order_, because they range over first order predicates. And there's no reason to stop there; we could define third-order predicates that range over second-order predicates, and fourth-order predicates that range over third-order predicates, and so on.
+
 I> ### Definition 3
 I>
-I> The higher-order logical system [second-order logic, third-order-logic, ..., higher-order (nth-order) logic] extends the quantifiers that range over individuals[^ch2n1].
+I> The higher-order logical system [second-order logic, third-order-logic, ..., higher-order (nth-order) logic] extends the quantifiers that range over individuals[^ch2n1] to range over predicates.
 
 For example, the second-order logic quantifies over sets. Third-order logic quantifies over sets of sets, and so on.
+
+Moving up the hierarchy of logical systems brings power, at a price. Propositional (zeroth-order) logic is completely decidable[^ch2n2]. Predicate (first-order) logic is no longer decidable, and by G&#246;del's incompleteness theorem we have to choose between completeness and consistency, but at least there is still an algorithm that can determine whether a proof is valid or not. For second-order and higher logics we lose even this - we have to choose between completeness, consistency, and a proof detection algorithm.
+
+The good news is that in practice, second-order predicates are used in a very limited capacity, and third- and higher order predicates are never needed. One important example of a second-order predicate appears in the Peano axioms of the natural numbers.
 
 I> ### Definition 4
 I>
@@ -109,10 +123,9 @@ I> 1. For every number {$$}x{/$$}, we have that {$$}x = x{/$$}, namely that equa
 
 I> ### Definition 5
 I>
-I> The ninth axiom in Peano's axioms is the induction axiom. It states the following: if {$$}P{/$$} is a predicate where {$$}P(0){/$$} is true, and for every {$$}P(n){/$$} we can prove that {$$}P(n+1){/$$}, then {$$}P(n){/$$} is true for all natural numbers.
+I> The ninth axiom in Peano's axioms is the induction axiom. It states the following: if {$$}P{/$$} is a predicate where {$$}P(0){/$$} is true, and for every natural number {$$}n{/$$} if {$$}P(n){/$$} is true then we can prove that {$$}P(n+1){/$$}, then {$$}P(n){/$$} is true for all natural numbers.
 
-Peano's axioms are expressed using a combination of first-order and second-order logic. This concept consists of a set of axioms for the natural numbers, and all of them are statements in first-order logic. An exception of this is the induction axiom, which is in second-order since it quantifies over predicates. The base axioms can be augmented with arithmetical operations of addition, multiplication and the order relation, which can also be
-defined using first-order axioms.
+Peano's axioms are expressed using a combination of first-order and second-order logic. This concept consists of a set of axioms for the natural numbers, and all of them are statements in first-order logic. An exception of this is the induction axiom, which is in second-order since it quantifies over predicates. The base axioms can be augmented with arithmetical operations of addition, multiplication and the order relation, which can also be defined using first-order axioms.
 
 ## 2.2. Set theory abstractions
 
@@ -124,29 +137,31 @@ Like in programming, building abstractions in mathematics is of equal importance
 
 I> ### Definition 7
 I>
-I> A set is an **unordered** collection of objects. The objects can be anything. It is usually denoted by comma separating the list of objects and enclosing them using curly braces.
+I> A set is an **unordered** collection of objects. The objects can be anything.
 
-For example, one set of fruits is {$$}\{ apple, banana \}{/$$}. Since it is an unordered collection we have that {$$}\{ apple, banana \} = \{ banana, apple \}{/$$}.
+Finite sets can be denoted by _roster notation_; we write out a list of objects in the set, separated by commas, and enclose them using curly braces. For example, one set of fruits is {$$}\{ \text{apple}, \text{banana} \}{/$$}. Since it is an unordered collection we have that {$$}\{ \text{apple}, \text{banana} \} = \{ \text{banana}, \text{apple} \}{/$$}.
 
 I> ### Definition 8
 I>
 I> Set membership states that a given object is belonging to a set. It is denoted using the {$$}\in{/$$} operator.
 
-For example, {$$}apple \in \{ apple, banana \}{/$$} says that {$$}apple{/$$} is in that set.
+For example, {$$}\text{apple} \in \{ \text{apple}, \text{banana} \}{/$$} says that {$$}\text{apple}{/$$} is in that set.
+
+Roster notation is inconvenient for large sets, and not possible for infinite sets. Another way to define a set is with _set-builder notation_. With this notation we specify a set by giving a predicate that all of its members satisfy. A typical set in set-builder notation has the form {$$}\{x \mid P(x)\},{/$$} where {$$}P{/$$} is a predicate. If {$$}a{/$$} is a specific object, then {$$}a \in \{ x \mid P(x) \}{/$$} precisely when {$$}P(a){/$$} is true.
 
 I> ### Definition 9
 I>
-I> An {$$}n{/$$}-tuple is an **ordered collection** of {$$}n{/$$} objects. As with sets, the objects can be anything. It is usually denoted by comma separating the list of objects and enclosing them using parenthesis.
+I> An {$$}n{/$$}-tuple is an **ordered collection** of {$$}n{/$$} objects. As with sets, the objects can be anything. Tuples are usually denoted by comma separating the list of objects and enclosing them using parentheses.
 
 For example, we can use the set {$$}\{ \{ 1, \{ a_1 \} \}, \{ 2, \{ a_2 \} \}, \ldots, \{ n, \{ a_n \} \} \}{/$$} to represent the ordered collection {$$}(a_1, a_2, ..., a_n){/$$}. This will now allow us to extract the {$$}k{/$$}-th element of the tuple, by picking {$$}x{/$$} such that {$$}\{ k, \{ x \} \} \in A{/$$}. Having done that, now we have that {$$}(a, b) = (c, d) \equiv a = c \land b = d{/$$}, that is, two tuples are equal iff their first and second elements respectively are equal. This is what makes them ordered.
 
-One valid tuple is {$$}(1 pm, 2 pm, 3 pm){/$$} which represents 3 hours of a day sequentially.
+One valid tuple is {$$}(\text{1 pm}, \text{2 pm}, \text{3 pm}){/$$} which represents 3 hours of a day sequentially.
 
 I> ### Definition 10
 I>
-I> An {$$}n{/$$}-ary relation is just a set of {$$}n{/$$}-tuples with different values.
+I> An {$$}n{/$$}-ary relation is just a set of {$$}n{/$$}-tuples.
 
-For example, the "is bigger than" relation represents a 2-tuple (pair), for the following set: {$$}\{ (cat, mouse), (mouse, cheese), (cat, cheese) \}{/$$}.
+For example, the `is bigger than` relation represents a 2-tuple (pair), for the following set: {$$}\{ (\text{cat}, \text{mouse}), (\text{mouse}, \text{cheese}), (\text{cat}, \text{cheese}) \}{/$$}.
 
 I> ### Definition 11
 I>
@@ -156,13 +171,13 @@ For example, the expressions {$$}\{ 1, 2 \} \subseteq \{ 1, 2, 3 \}{/$$} and {$$
 
 I> ### Definition 12
 I>
-I> A Cartesian product is defined as the set {$$}\{ (a, b) \}{/$$} such that for all {$$}a{/$$} and {$$}b{/$$}, we have that {$$}a \in A \land b \in B{/$$}. It is denoted as {$$}A \times B{/$$}.
+I> A Cartesian product is defined as the set {$$}\{ (a, b) \mid a \in A \land b \in B \}{/$$}. It is denoted as {$$}A \times B{/$$}.
 
 For example if {$$}A = \{ a, b \}{/$$} and {$$}B = \{ 1, 2, 3 \}{/$$} then the combinations are: {$$}A \times B = \{ (a, 1), (a, 2), (a, 3), (b, 1), (b, 2), (b, 3) \}{/$$}.
 
 I> ### Definition 13
 I>
-I> **Functions** are defined in terms of relations[^ch2n2]. A binary (2-tuple) set {$$}F{/$$} represents a mapping[^ch2n3] from some set {$$}A{/$$} to some set {$$}B{/$$}, where {$$}F{/$$} is a subset of the Cartesian product of {$$}A{/$$} and {$$}B{/$$}. That is, a function {$$}f{/$$} from {$$}A{/$$} to {$$}B{/$$} is denoted {$$}f : A \to B{/$$} and is a subset of {$$}F{/$$}, i.e. {$$}f \subseteq F{/$$}. There is one more constraint that functions have, namely, that they cannot produce 2 or more different values for a single input.
+I> **Functions** are defined in terms of relations[^ch2n3]. A binary (2-tuple) set {$$}F{/$$} represents a mapping[^ch2n4] from some set {$$}A{/$$} to some set {$$}B{/$$}, where {$$}F{/$$} is a subset of the Cartesian product of {$$}A{/$$} and {$$}B{/$$}. That is, a function {$$}f{/$$} from {$$}A{/$$} to {$$}B{/$$} is denoted {$$}f : A \to B{/$$} and is a subset of {$$}F{/$$}, i.e. {$$}f \subseteq F{/$$}. There is one more constraint that functions have, namely, that they cannot produce 2 or more different values for a single input.
 
 For example, the function {$$}f(x) = x + 1{/$$} is a function that, given a number, returns it increased by one. So {$$}f(1) = 2{/$$}, {$$}f(2) = 3{/$$}, etc. Another way to represent this function is using the 2-tuple set: {$$}f = \{ (1, 2), (2, 3), (3, 4), \ldots \}{/$$}.
 
@@ -204,11 +219,11 @@ X> Write down the corresponding input and output sets for the function you imple
 
 ## 2.3. Substitution and mathematical proofs
 
-Substitution lies at the heart of mathematics[^ch2n4]. 
+Substitution lies at the heart of mathematics[^ch2n5].
 
 I> ### Definition 14
 I>
-I> Substitution consists of systematically replacing occurrences of some symbol with a given value. It can be applied in different contexts involving formal objects containing symbols. 
+I> Substitution consists of systematically replacing occurrences of some symbol with a given value. It can be applied in different contexts involving formal objects containing symbols.
 
 For example, let's assume that we have the following:
 
@@ -226,13 +241,13 @@ We know that in general, {$$}1 = 3{/$$} does not make any sense. But, in the con
 
 I> ### Definition 15
 I>
-I> A mathematical argument is consisted of a list of propositions. Mathematical arguments are used in order to demonstrate that a claim is true or false.
+I> A mathematical argument consists of a list of propositions. Mathematical arguments are used in order to demonstrate that a claim is true or false.
 
 I> ### Definition 16
 I>
 I> A proof is defined as an inferential **argument** for a list of given mathematical propositions. To prove a mathematical fact, we need to show that the conclusion (goal that we want to prove) logically follows from the hypothesis (list of given propositions).
 
-For example, to prove that a goal {$$}G{/$$} follows from a set of given propositions {$$}\{ g_1, g_2, \ldots, g_n \}{/$$}, we need to show {$$}(g_1 \land g_2 \land \ldots \land g_n) \to G{/$$}. Note the relation between the implication connective[^ch2n5] (conditional statement) and proofs.
+For example, to prove that a goal {$$}G{/$$} follows from a set of given propositions {$$}\{ g_1, g_2, \ldots, g_n \}{/$$}, we need to show {$$}(g_1 \land g_2 \land \ldots \land g_n) \to G{/$$}. Note the relation between the implication connective[^ch2n6] (conditional statement) and proofs.
 
 X> ### Exercise 10
 X>
@@ -294,6 +309,10 @@ For example, given {$$}A \lor B{/$$}, {$$}B \to C{/$$}, {$$}\lnot C{/$$}, prove 
 | 6   | {$$}(A \lor B) \land \lnot B{/$$} | 1 and 5   |
 | 7   | {$$}A{/$$}                        | 6, where {$$}p \land \lnot p{/$$} is a contradiction, i.e. invalid argument |
 
+Q> Proofs with truth tables look a lot easier than column proofs. You just plug in truth values and simplify, where column proofs require planning ahead. Why would we bother with column proofs?
+Q>
+Q> Proofs with truth tables only work for propositional (zeroth order) theorems - the table method is essentially the decidability algorithm for zeroth order logic. That's why they are easy (if verbose) and always work, and why column proofs become necessary once we're using quantifiers.
+
 X> ### Exercise 13
 X>
 X> Prove {$$}((A \lor B) \land \lnot B) \to A{/$$} using the three-column proof technique.
@@ -323,7 +342,7 @@ In order to **prove** a goal of form:
 | {$$}P \leftrightarrow Q{/$$} | Prove both {$$}P \to Q{/$$} and {$$}Q \to P{/$$} |
 | {$$}\forall x, P(x){/$$} | Assume that {$$}x{/$$} is an arbitrary object and prove that {$$}P(x){/$$} |
 | {$$}\exists x, P(x){/$$} | Find an {$$}x{/$$} such that {$$}P(x){/$$} is true |
-| {$$}\exists! x, P(x){/$$}[^ch2n6] | Prove {$$}\exists x, P(x){/$$} (existence) and |
+| {$$}\exists! x, P(x){/$$}[^ch2n7] | Prove {$$}\exists x, P(x){/$$} (existence) and |
 | | {$$}\forall x \forall y, (P(x) \land P(y) \to x = y){/$$} (uniqueness) separately |
 
 In order to **use** a given of form:
@@ -413,12 +432,14 @@ X> Hint: Use {$$}n = 2{/$$} as the base case.
 
 [^ch2n1]: Since unrestricted quantification leads to inconsistency, higher-order logic is an attempt to avoid this. We will look into Russell's paradox later as an example.
 
-[^ch2n2]: It is worth noting that in set theory, {$$}P{/$$} would be a subset of a relation, i.e. {$$}P \subseteq A \times \{ T, F \}{/$$}, where {$$}A{/$$} is a set of some inputs, for example `Salad` and `Rock`. When working with other systems we need to be careful, as this is not the case with first-order logic. In the case of first-order logic, we have {$$}P(Salad) = \top{/$$}, {$$}P(Rock) = \bot{/$$}, etc as atomic statements, not mathematical functions (i.e. they cannot be broken down into smaller statements). This is what makes first-order logic independent of set theory.
+[^ch2n2]: This means that there is a decidability algorithm - an algorithm that will always return a correct value (e.g. true or false), instead of looping infinitely or producing a wrong answer.
 
-[^ch2n3]: In other words, a function is a subset of all combinations of ordered pairs whose first element is an element of {$$}A{/$$} and second element is an element of {$$}B{/$$}.
+[^ch2n3]: It is worth noting that in set theory, {$$}P{/$$} would be a subset of a relation, i.e. {$$}P \subseteq A \times \{ T, F \}{/$$}, where {$$}A{/$$} is a set of some inputs, for example `Salad` and `Rock`. When working with other systems we need to be careful, as this is not the case with first-order logic. In the case of first-order logic, we have {$$}P(Salad) = \top{/$$}, {$$}P(Rock) = \bot{/$$}, etc as atomic statements, not mathematical functions (i.e. they cannot be broken down into smaller statements). This is what makes first-order logic independent of set theory. In addition, functions have a nice characterization that is dual to the concepts of "one-to-one" (total) and "onto" (well-defined).
 
-[^ch2n4]: A similar statement can be made about programming, but we will cover an interesting case in Appendix B related to **pure** and **impure** functions.
+[^ch2n4]: In other words, a function is a subset of all combinations of ordered pairs whose first element is an element of {$$}A{/$$} and second element is an element of {$$}B{/$$}.
 
-[^ch2n5]: The turnstile symbol is similar to implication. It is denoted as {$$}\Gamma \vdash A{/$$}, where {$$}\Gamma{/$$} is a set of statements and {$$}A{/$$} is a conclusion. It is {$$}\top{/$$} iff it is impossible for all statements in {$$}\Gamma{/$$} to be {$$}\top{/$$}, and {$$}A{/$$} to be {$$}\bot{/$$}. In Appendix A we'll cover an interesting difference between implication and this symbol.
+[^ch2n5]: A similar statement can be made about programming, but we will cover an interesting case in Appendix B related to **pure** and **impure** functions.
 
-[^ch2n6]: The notation {$$}\exists!{/$$} stands for unique existential quantifier. It means that **only one** object fulfills the predicate, as opposed to {$$}\exists{/$$}, which states that **at least one** object fulfills the predicate.
+[^ch2n6]: The turnstile symbol is similar to implication. It is denoted as {$$}\Gamma \vdash A{/$$}, where {$$}\Gamma{/$$} is a set of statements and {$$}A{/$$} is a conclusion. It is {$$}\top{/$$} iff it is impossible for all statements in {$$}\Gamma{/$$} to be {$$}\top{/$$}, and {$$}A{/$$} to be {$$}\bot{/$$}. In Appendix A we'll cover an interesting difference between implication and this symbol.
+
+[^ch2n7]: The notation {$$}\exists!{/$$} stands for unique existential quantifier. It means that **only one** object fulfills the predicate, as opposed to {$$}\exists{/$$}, which states that **at least one** object fulfills the predicate.
