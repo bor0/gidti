@@ -23,7 +23,7 @@ I> 1. Product is combination. It is denoted as {$$}\text{A B}{/$$} and it means 
 
 As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}\text{Real}{/$$} for real numbers. Using sum (union) we can construct a new type {$$}\text{Nat | Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat | Real}{/$$}, {$$}3.14 : \text{Nat | Real}{/$$}, etc. Using product we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 \ 1.5 : \text{Nat Real}{/$$}, {$$}2 \ 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
 
-Finally, Idris supports dependent types[^ch3n2]. These kind of types are so powerful, they can encode most properties of programs and with their help Idris can prove invariants at compile-time. As we will see in Section 4.2 types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software[^ch3n3]. 
+Finally, Idris supports dependent types[^ch3n2]. These kind of types are so powerful, they can encode most properties of programs and with their help Idris can prove invariants at compile-time. As we will see in Section 4.2 types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software[^ch3n3].
 
 Q> Why are types useful?
 Q>
@@ -51,7 +51,7 @@ I> 1. If {$$}x{/$$} is a variable, then {$$}x \in \Lambda{/$$}
 I> 1. If {$$}x{/$$} is a variable and {$$}M \in \Lambda{/$$}, then {$$}(\lambda x.M) \in \Lambda{/$$} (rule of abstraction)
 I> 1. If {$$}M, N \in \Lambda{/$$}, then {$$}(M \ N) \in \Lambda{/$$} (rule of application)
 
-Some well-formed expressions are {$$}\lambda f \ x . f \ x{/$$} and {$$}\lambda f \ x . f \ (f \ x){/$$}. In fact, we can encode numbers this way. The first expression can be thought of as the number one, and the second as the number two. In other words, the number 1 is defined roughly as {$$}f(x){/$$}, and 2 as {$$}f(f(x)){/$$}. Note that {$$}f{/$$} and {$$}x{/$$} do not have special definitions, they are abstract objects. This encoding is known as the Church encoding. Operations on numbers (plus, minus, etc) can also be defined in a similar way. 
+Some well-formed expressions are {$$}\lambda f \ x . f \ x{/$$} and {$$}\lambda f \ x . f \ (f \ x){/$$}. In fact, we can encode numbers this way. The first expression can be thought of as the number one, and the second as the number two. In other words, the number 1 is defined roughly as {$$}f(x){/$$}, and 2 as {$$}f(f(x)){/$$}. Note that {$$}f{/$$} and {$$}x{/$$} do not have special definitions, they are abstract objects. This encoding is known as the Church encoding. Operations on numbers (plus, minus, etc) can also be defined in a similar way.
 
 X> ### Exercise 1
 X>
@@ -63,17 +63,17 @@ Every variable in a lambda expression can be characterized as either _free_ or _
 
 I> ### Definition 5
 I>
-I> A variable in a lambda expression is called _free_ unless it appears inside at least one lambda expression where it is equal to the argument, and in this case we say the variable is _bound_ at the innermost such lambda.
+I> A variable in a lambda expression is called _free_ if it does not it appear inside at least one lambda body where it is found in the abstraction. Alternatively, if it does appear inside at least one body, then the variable is _bound_ at the innermost such lambda abstraction.
 
 This definition of "bound" corresponds roughly to the concept of _scope_ in many programming languages. Lambda expressions introduce a new scope in which their argument variables are bound.
 
-For example, in the expression {$$}\lambda y . x \ y{/$$} we have that {$$}y{/$$} is a bound variable, and {$$}x{/$$} is a free one. Variable binding in lambda calculus is subtle, but important, so let's see some trickier examples.
+For example, in the expression {$$}\lambda y.x \ y{/$$} we have that {$$}y{/$$} is a bound variable, and {$$}x{/$$} is a free one. Variable binding in lambda calculus is subtle, but important, so let's see some trickier examples.
 
-1. In {$$}x(\lambda x. x){/$$}, the leftmost {$$}x{/$$} is free, while the rightmost {$$}x{/$$} is bound by the lambda.
-1. In {$$}(\lambda x. x)(\lambda x. x){/$$}, both occurrences of {$$}x{/$$} are bound; the first at the left lambda, and the second at the right lambda.
-1. In {$$}\lambda x. (\lambda x. x){/$$} the sole occurrence of {$$}x{/$$} is certainly bound. Now there are two potential "binding sites" - the inner lambda and the outer lambda. Given a choice like this we always say the variable is bound at the innermost lambda.
+1. In {$$}x(\lambda x.x){/$$}, the leftmost {$$}x{/$$} is free, while the rightmost {$$}x{/$$} is bound by the lambda.
+1. In {$$}(\lambda x.x)(\lambda x.x){/$$}, both occurrences of {$$}x{/$$} are bound; the first at the left lambda, and the second at the right lambda.
+1. In {$$}\lambda x.(\lambda x.x){/$$} the sole occurrence of {$$}x{/$$} is certainly bound. Now there are two potential "binding sites" - the inner lambda and the outer lambda. Given a choice like this we always say the variable is bound at the innermost lambda.
 
-The distinction between free and bound variables becomes important when we ask whether two different lambda expressions are "equal". For instance, consider the two expressions {$$}\lambda x. x{/$$} and {$$}\lambda y. y{/$$}. Syntactically these are not the same; they use different characters for the variable. But semantically they are identical, because in lambda calculus variables bound by a lambda are "dummy" variables whose exact names are not important. When two lambda expressions differ only by a consistent renaming of the bound variables like this we say they are _alpha equivalent_.
+The distinction between free and bound variables becomes important when we ask whether two different lambda expressions are "equal". For instance, consider the two expressions {$$}\lambda x.x{/$$} and {$$}\lambda y.y{/$$}. Syntactically these are not the same; they use different characters for the variable. But semantically they are identical, because in lambda calculus variables bound by a lambda are "dummy" variables whose exact names are not important. When two lambda expressions differ only by a consistent renaming of the bound variables like this we say they are _alpha equivalent_.
 
 There are two other useful notions of semantic equivalence for lambda expressions: beta and eta equivalence.
 
