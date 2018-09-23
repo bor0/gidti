@@ -57,13 +57,25 @@ X> ### Exercise 1
 X>
 X> Convince yourself that the expression {$$}\lambda f \ x . f \ x{/$$} is a well-formed expression by writing down each one of the grammar rules used.
 
-### 3.1.1. Terms reduction
+### 3.1.1. Term reduction
+
+Every variable in a lambda expression can be characterized as either _free_ or _bound_ in that expression.
 
 I> ### Definition 5
 I>
-I> There are two types of variables in the lambda calculus: free and bound. Bound variables are those who appear within the {$$}\lambda{/$$} abstraction. Analogously, free variables are those who do not appear in the {$$}\lambda{/$$} abstraction.
+I> A variable in a lambda expression is called _free_ unless it appears inside at least one lambda expression where it is equal to the argument, and in this case we say the variable is _bound_ at the innermost such lambda.
 
-For example, in the expression {$$}\lambda y . x \ y{/$$} we have that {$$}y{/$$} is a bound variable, and {$$}x{/$$} is a free one.
+This definition of "bound" corresponds roughly to the concept of _scope_ in many programming languages. Lambda expressions introduce a new scope in which their argument variables are bound.
+
+For example, in the expression {$$}\lambda y . x \ y{/$$} we have that {$$}y{/$$} is a bound variable, and {$$}x{/$$} is a free one. Variable binding in lambda calculus is subtle, but important, so let's see some trickier examples.
+
+1. In {$$}x(\lambda x. x){/$$}, the leftmost {$$}x{/$$} is free, while the rightmost {$$}x{/$$} is bound by the lambda.
+1. In {$$}(\lambda x. x)(\lambda x. x){/$$}, both occurrences of {$$}x{/$$} are bound; the first at the left lambda, and the second at the right lambda.
+1. In {$$}\lambda x. (\lambda x. x){/$$} the sole occurrence of {$$}x{/$$} is certainly bound. Now there are two potential "binding sites" - the inner lambda and the outer lambda. Given a choice like this we always say the variable is bound at the innermost lambda.
+
+The distinction between free and bound variables becomes important when we ask whether two different lambda expressions are "equal". For instance, consider the two expressions {$$}\lambda x. x{/$$} and {$$}\lambda y. y{/$$}. Syntactically these are not the same; they use different characters for the variable. But semantically they are identical, because in lambda calculus variables bound by a lambda are "dummy" variables whose exact names are not important. When two lambda expressions differ only by a consistent renaming of the bound variables like this we say they are _alpha equivalent_.
+
+There are two other useful notions of semantic equivalence for lambda expressions: beta and eta equivalence.
 
 I> ### Definition 6
 I>
