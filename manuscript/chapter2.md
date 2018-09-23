@@ -93,11 +93,21 @@ X> Think of a real-world predicate and express its truthiness using the {$$}\for
 
 ### 2.1.3. Higher-order logic
 
+In first order logic, predicates act like functions that take an input value and produce a proposition. A predicate can't be true or false until a specific value is substituted for the variables, and the quantifiers {$$}\forall{/$$} and {$$}\exists{/$$} "close" over a predicate to give a statement which can be either true or false.
+
+Likewise, we can define a "metapredicate" that acts like a function on predicates. For example, let {$$}\Gamma(P){/$$} be the statement `there exists a person {$$}x{/$$} such that {$$}P(x){/$$} is true`. Note that it doesn't make sense to ask if {$$}\Gamma(P){/$$} is true or false until we plug in a specific _predicate_ {$$}P{/$$}. But we can quantify over {$$}P{/$$}, and construct a statement like {$$}\forall P . \Gamma(P){/$$}. In English, this statement translates to "For any given property {$$}P{/$$}, there exists a person satisfying that property".
+
+Metapredicates like {$$}\Gamma{/$$} are called _second-order_, because they range over first order predicates. And there's no reason to stop there; we could define third-order predicates that range over second-order predicates, and fourth-order predicates that range over third-order predicates, and so on.
+
 I> ### Definition 3
 I>
-I> The higher-order logical system [second-order logic, third-order-logic, ..., higher-order (nth-order) logic] extends the quantifiers that range over individuals[^ch2n1].
+I> The higher-order logical system [second-order logic, third-order-logic, ..., higher-order (nth-order) logic] extends the quantifiers that range over individuals[^ch2n1] to range over predicates.
 
 For example, the second-order logic quantifies over sets. Third-order logic quantifies over sets of sets, and so on.
+
+Moving up the hierarchy of logical systems brings power, at a price. Propositional (zeroth-order) logic is completely decidable; there is an algorithm that can determine whether any given statement is a theorem or not. Predicate (first-order) logic is no longer decidable, and by G&#246;del's incompleteness theorem we have to choose between completeness and consistency, but at least there is still an algorithm that can determine whether a proof is valid or not. For second-order and higher logics we lose even this - we have to choose between completeness, consistency, and a proof detection algorithm.
+
+The good news is that in practice, second-order predicates are used in a very limited capacity, and third- and higher order predicates are never needed. One important example of a second-order predicate appears in the Peano axioms of the natural numbers.
 
 I> ### Definition 4
 I>
@@ -109,10 +119,9 @@ I> 1. For every number {$$}x{/$$}, we have that {$$}x = x{/$$}, namely that equa
 
 I> ### Definition 5
 I>
-I> The ninth axiom in Peano's axioms is the induction axiom. It states the following: if {$$}P{/$$} is a predicate where {$$}P(0){/$$} is true, and for every {$$}P(n){/$$} we can prove that {$$}P(n+1){/$$}, then {$$}P(n){/$$} is true for all natural numbers.
+I> The ninth axiom in Peano's axioms is the induction axiom. It states the following: if {$$}P{/$$} is a predicate where {$$}P(0){/$$} is true, and for every natural number {$$}n{/$$} if {$$}P(n){/$$} is true then we can prove that {$$}P(n+1){/$$}, then {$$}P(n){/$$} is true for all natural numbers.
 
-Peano's axioms are expressed using a combination of first-order and second-order logic. This concept consists of a set of axioms for the natural numbers, and all of them are statements in first-order logic. An exception of this is the induction axiom, which is in second-order since it quantifies over predicates. The base axioms can be augmented with arithmetical operations of addition, multiplication and the order relation, which can also be
-defined using first-order axioms.
+Peano's axioms are expressed using a combination of first-order and second-order logic. This concept consists of a set of axioms for the natural numbers, and all of them are statements in first-order logic. An exception of this is the induction axiom, which is in second-order since it quantifies over predicates. The base axioms can be augmented with arithmetical operations of addition, multiplication and the order relation, which can also be defined using first-order axioms.
 
 ## 2.2. Set theory abstractions
 
