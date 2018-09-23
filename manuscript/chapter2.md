@@ -43,7 +43,7 @@ The negation connective simply swaps the truthness of a proposition. The easiest
 
 The implication connective allows us to express conditional statements, and it's interpretation is subtle. We say that {$$}a \to b{/$$} is true if anytime {$$}a{/$$} is true, it is necessarily also the case that {$$}b{/$$} is true. Another way to think about implication is in terms of _promises_; {$$}a \to b{/$$} represents a promise that if {$$}a{/$$} happens, then {$$}b{/$$} also happens. In this interpretation the truth value of {$$}a \to b{/$$} is whether or not the promise is kept, and we say that a promise is kept unless it has been broken.
 
-For example, if we choose {$$}a{/$$} to be `Today is your birthday` and {$$}b{/$$} to be `I brought you a cake`, then {$$}a \to b{/$$} represents the promise `If today is your birthday, then I brought you a cake.` Then there are four different ways that today can play out:
+For example, if we choose `a = Today is your birthday` and `b = I brought you a cake`, then {$$}a \to b{/$$} represents the promise `If today is your birthday, then I brought you a cake`. Then there are four different ways that today can play out:
 
 1. Today is your birthday, and I brought you a cake. The promise is kept, so the implication is true.
 1. Today is your birthday, but I did not bring you a cake. The promise is not kept, so the implication is false.
