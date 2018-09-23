@@ -39,7 +39,7 @@ Lambda calculus is a formal system for expressing computation[^ch3n4]. The gramm
 
 I> ### Definition 4
 I>
-I> Per Wikipedia, the set of symbols for the lambda calculus is defined as:
+I> The set of symbols for the lambda calculus is defined as:
 I>
 I> 1. There are variables {$$}v_1, v_2, \ldots{/$$}
 I> 1. There are only two abstract symbols: {$$}.{/$$} and {$$}\lambda{/$$}
@@ -51,7 +51,7 @@ I> 1. If {$$}x{/$$} is a variable, then {$$}x \in \Lambda{/$$}
 I> 1. If {$$}x{/$$} is a variable and {$$}M \in \Lambda{/$$}, then {$$}(\lambda x.M) \in \Lambda{/$$} (rule of abstraction)
 I> 1. If {$$}M, N \in \Lambda{/$$}, then {$$}(M \ N) \in \Lambda{/$$} (rule of application)
 
-Some well-formed expressions are {$$}\lambda f \ x . f \ x{/$$} and {$$}\lambda f \ x . f \ (f \ x){/$$}. In fact, we can encode numbers this way. The first expression can be thought of as the number one, and the second as the number two. In other words, the number 1 is defined roughly as {$$}f(x){/$$}, and 2 as {$$}f(f(x)){/$$}. Note that {$$}f{/$$} and {$$}x{/$$} do not have special definitions, they are abstract objects. This encoding is known as the Church encoding. Operations on numbers (plus, minus, etc) can also be defined in a similar way. 
+Some examples of well-formed expressions are {$$}\lambda f \ x . f \ x{/$$} and {$$}\lambda f \ x . f \ (f \ x){/$$}. In fact, we can encode numbers this way. The first expression can be thought of as the number one, and the second as the number two. In other words, the number 1 is defined roughly as {$$}f(x){/$$}, and 2 as {$$}f(f(x)){/$$}. Note that {$$}f{/$$} and {$$}x{/$$} do not have special definitions, they are abstract objects. This encoding is known as the Church encoding. Operations on numbers (plus, minus, etc) and other data such as Booleans and lists can also be encoded in a similar way.
 
 X> ### Exercise 1
 X>
