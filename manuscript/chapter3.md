@@ -87,16 +87,16 @@ I> 1. {$$}\eta{/$$} - (eta) reduction: Two functions are "equal" iff they return
 
 For example, for the expression {$$}(\lambda x . f \ x) \ y{/$$}, we can use alpha reduction to get to {$$}(\lambda z . f \ z) \ y{/$$}, by changing {$$}x{/$$} to {$$}z{/$$}. Using beta reduction, the expression can further be reduced to just {$$}f \ y{/$$}, since we "consumed" the {$$}z{/$$} by removing it from the abstraction and wherever it occurred in the body we just replaced it with what was applied to it, that is {$$}y{/$$}. Finally, with eta reduction, we can rewrite {$$}(\lambda x . f \ x){/$$} to just {$$}f{/$$}, since they are equivalent.
 
-Given these rules, we can define the successor function as {$$}SUCC = \lambda n\ f\ x\ . f\ (n\ f\ x){/$$}. So, now we can try to apply 1 to {$$}SUCC{/$$}:
+Given these rules, we can define the successor function as {$$}\text{SUCC} = \lambda n\ f\ x\ . f\ (n\ f\ x){/$$}. So, now we can try to apply 1 to {$$}\text{SUCC}{/$$}:
 
-1. Evaluating {$$}SUCC \ 1 ={/$$}
-1. Substitute the very own definitions of {$$}SUCC{/$$} and 1: {$$}(\lambda n \ f \ x . f \ (n \ f \ x)) \ (\lambda f \ x . f \ x) ={/$$}
-1. Apply 1 to {$$}SUCC{/$$} i.e. "consume" {$$}n{/$$} by beta reduction: {$$}\lambda f \ x . f \ ((\lambda f \ x . f \ x) \ f \ x) ={/$$}
+1. Evaluating {$$}\text{SUCC} \ 1 ={/$$}
+1. Substitute the very own definitions of {$$}\text{SUCC}{/$$} and 1: {$$}(\lambda n \ f \ x . f \ (n \ f \ x)) \ (\lambda f \ x . f \ x) ={/$$}
+1. Apply 1 to {$$}\text{SUCC}{/$$} i.e. "consume" {$$}n{/$$} by beta reduction: {$$}\lambda f \ x . f \ ((\lambda f \ x . f \ x) \ f \ x) ={/$$}
 1. Finally, apply {$$}f{/$$} and {$$}x{/$$} to a function that accepts {$$}f{/$$} and {$$}x{/$$} (which is just the body of the abstraction): {$$}\lambda f \ x . f \ (f \ x) = 2{/$$}
 
 X> ### Exercise 2
 X>
-X> Evaluate {$$}SUCC \ 2{/$$} to find out the definition of number 3.
+X> Evaluate {$$}\text{SUCC} \ 2{/$$} to find out the definition of number 3.
 
 X> ### Exercise 3
 X>
@@ -138,7 +138,7 @@ Given the definition of 1, its type must have the form {$$}(\text{a} \to \text{b
 1. Number 1 becomes {$$}\lambda [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f \ x : \text{Nat}{/$$}
 1. Number 2 becomes {$$}\lambda [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f \ (f \ x) : \text{Nat}{/$$}
 
-The (typed) successor function is: {$$}SUCC = \lambda [n:\text{Nat}]\ [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f\ (n\ f\ x) : \text{Nat} \to \text{Nat}{/$$}
+The (typed) successor function is: {$$}\text{SUCC} = \lambda [n:\text{Nat}]\ [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f\ (n\ f\ x) : \text{Nat} \to \text{Nat}{/$$}
 
 Simply typed lambda calculus sits in a sweet spot on the spectrum of type systems. It is powerful enough to do useful work, but also simple enough to have strong properties. Simple types have limitations when compared to full dependent types, discussed in the next section, but their great tradeoff is the existence of a full _inference algorithm_. The strategy we used above to determine the type of a lambda expression from the bottom up is the core of the widely used Hindley-Damas-Milner algorithm for type inference, which can automatically _infer_ the simple type of a lambda expression without requiring any explicit type annotations from the programmer.
 
@@ -148,7 +148,7 @@ X> Come up with a definition of the typed number 3.
 
 X> ### Exercise 5
 X>
-X> Apply the typed 1 to {$$}SUCC{/$$} and confirm that the result is 2. Make sure you confirm that the types also match in the process of evaluation.
+X> Apply the typed 1 to {$$}\text{SUCC}{/$$} and confirm that the result is 2. Make sure you confirm that the types also match in the process of evaluation.
 
 X> ### Exercise 6
 X>
