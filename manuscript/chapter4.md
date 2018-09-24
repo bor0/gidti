@@ -508,6 +508,8 @@ Which is a way of Idris telling us that our types do not match and that it canno
 
 In this example we implemented a dependent type that puts the length of the list at the type level. In other programming languages that do not support dependent types, this is usually checked at the code level (run-time) and compile-time checks are not able to verify this.
 
+One example where such a guarantee might be useful is in preventing buffer overflows. We could encode the dimension of an array at the type level, and statically guarantee that array reads and writes only happen in bounds.
+
 X> ### Exercise 17
 X>
 X> Come up with a function `isSingleton` that accepts a `Bool` and returns a `Type`. This function should return a type of `Nat` in the `True` case, and `MyVect Nat` otherwise. Further, implement a function `mkSingle` that accepts a `Bool`, and returns `isSingleton True` or `isSingleton False`, and as a computed value will either return `0` or `Empty`.
