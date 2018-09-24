@@ -272,7 +272,7 @@ We see how this exhibits a recursive behaviour since the recursive cases were re
 
 A recursive function can generate an **iterative** or a **recursive** process:
 
-1. An iterative process is a process where the return value at any point in computation is captured completely by its parameters.
+1. An iterative process[^ch4n4] (tail recursion) is a process where the return value at any point in computation is captured completely by its parameters.
 1. A recursive one, in contrast, is one where the return value is not captured at any point in computation by the parameters, and so it relies on postponed evaluations.
 
 In the example above, `even` generates a recursive process since it needs to go down to the base case, and then build its way back up to do the calculations that were postponed. Alternatively, we can rewrite `even` so that it captures the return value by introducing another variable, as such:
@@ -580,7 +580,7 @@ I> ### Definition 5
 I>
 I> _Lazy_ evaluation means that function parameters are evaluated only when their values are needed. Conversely, _strict_ evaluation means that all function parameters are evaluated at call time.
 
-Idris evaluates parameters in a strict fashion[^ch4n4]. For example, let's take a look at the following function:
+Idris evaluates parameters in a strict fashion[^ch4n5]. For example, let's take a look at the following function:
 
 ```
 ifThenElse : Bool -> a -> a -> a
@@ -719,4 +719,6 @@ X> Hint: Check the documentation of `the` with `:doc the`, and use it with the t
 
 [^ch4n3]: Although product and sum types are very general, due to polymorphism, we can say something very specific about the structure of their values. For instance, suppose we've defined a type like so: `data C a b c = C_left a | C_right (b,c)`. Now a value of type `C` can only come into existence in one of two ways: as a value of the form `C_left x` for a value `x : a`, or as a value of the form `C_right (y,z)` for values `y : b` and `z : c`.
 
-[^ch4n4]: In contrast, the default behaviour in Haskell is lazy evaluation.
+[^ch4n4]: The key idea is not that a tail recursive function _is_ an iterative loop, but that a smart enough compiler can _pretend_ that it is and evaluate it using constant function stack space.
+
+[^ch4n5]: In contrast, the default behaviour in Haskell is lazy evaluation.
