@@ -376,7 +376,7 @@ I> ### Definition 3
 I>
 I> A total function is a function that terminates (or returns a value) for all possible inputs.
 
-Analogously to the definition above, a partial function is one that does not have a definition for at least one input. If a function is total, its type can be understood as a precise description of what that function does. Idris differentiates total from partial functions. As an example, if we assume that we have a function that returns a `String`, then:
+Analogously to the definition above, a partial function is one that does not have a definition for at least one input. If a function is total, its type can be understood as a precise description of what that function can do. Idris differentiates total from partial functions. As an example, if we assume that we have a function that returns a `String`, then:
 
 1. If it's total, it will return a `String` in finite time
 1. If it's partial, then unless it crashes or enters in an infinite loop, it will return a `String`
@@ -461,10 +461,10 @@ X> ### Exercise 16
 X>
 X> Given `foldl (\x, y => [y] ++ x) [] [1, 2, 3]` and `foldr (\x, y => y ++ [x]) [] [1, 2, 3]`:
 X>
-X> 1. Evaluate both of them in Idris to see the values produced
-X> 2. Try to understand the differences between the 2 expressions
-X> 3. Remove the square brackets `[` and `]` in the lambda body to see what errors Idris produces
-X> 4. Evaluate them on paper to figure out why they produce the given results
+X> 1. Evaluate both of them in Idris to see the values produced.
+X> 2. Try to understand the differences between the two expressions.
+X> 3. Remove the square brackets `[` and `]` in the lambda body to see what errors Idris produces.
+X> 4. Evaluate them on paper to figure out why they produce the given results.
 
 ### 4.1.8. Dependent types
 
