@@ -193,6 +193,12 @@ Idris> f
 1 : Integer
 ```
 
+Q> What's the difference between `let` and `:let`?
+Q>
+Q> `let` is an extension to the usual lambda calculus syntax. The expression `let x = y in e` is equivalent to `(\x . e) y`. It is useful since it makes it easy to shorten a lambda expression by factoring out common subexpressions.
+Q>
+Q> `:let` is different in that it is just used to bind new names at the top level of an interactive Idris session.
+
 Lambda (anonymous) functions are defined with the syntax `\a, b, ..., n => ...`. For example:
 
 ```
