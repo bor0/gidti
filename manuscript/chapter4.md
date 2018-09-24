@@ -314,6 +314,8 @@ X> Hint: The type is `fact_iter : Nat -> Nat -> Nat` and you should pattern matc
 
 ### 4.1.5. Recursive data types
 
+We can think of type constructors as functions at the type level. Taking the concept of recursion to this context yields _recursive types_.
+
 I> ### Definition 2
 I>
 I> A recursive data type is a data type where in some of its constructors there is a reference to the same data type.
@@ -333,7 +335,9 @@ Idris> :t Cons 'a' (Cons 'b' End)
 Cons 'a' (Cons 'b' End) : MyList Char
 ```
 
-Note how Idris automatically infers the polymorphic type to `MyList Integer` and `MyList Char`. Here is one way of implementing the concatenation function, which given two lists, should produce a list with the elements appended:
+Note how Idris automatically infers the polymorphic type to `MyList Integer` and `MyList Char`. In particular, these lists are _homogeneous_; all the items in a `MyList a` must have type `a`.
+
+Here is one way of implementing the concatenation function, which given two lists, should produce a list with the elements appended:
 
 ```
 add' : MyList a -> MyList a -> MyList a
