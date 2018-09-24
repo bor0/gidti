@@ -63,7 +63,7 @@ Every variable in a lambda expression can be characterized as either _free_ or _
 
 I> ### Definition 5
 I>
-I> A variable in a lambda expression is called _free_ if it does not it appear inside at least one lambda body where it is found in the abstraction. Alternatively, if it does appear inside at least one body, then the variable is _bound_ at the innermost such lambda abstraction.
+I> A variable in a lambda expression is called _free_ if it does not it appear inside at least one lambda body where it is found in the abstraction. Alternatively, if it does appear inside at least one lambda body, then the variable is _bound_ at the innermost such lambda abstraction.
 
 This definition of "bound" corresponds roughly to the concept of _scope_ in many programming languages. Lambda expressions introduce a new scope in which their argument variables are bound.
 
@@ -280,7 +280,7 @@ X> Try to use some of the proofs in the earlier chapters as a motivation and wor
 
 [^ch3n1]: Unlike in set theory, where they are defined in terms of relations.
 
-[^ch3n2]: Dependent types allow proofs of statements involving first-order predicates, compared to simple types which corresponds to propositional logic. While useful (since we can check whether an expression fulfills a given condition at compile-time), dependent types add complexity to a type system. In order to calculate type "equality" of dependent types, computations are necessary. If we allow any values for dependent types, then solving an equality of a type may involve deciding whether two programs produce the same result. Thus, the check may become undecidable.
+[^ch3n2]: Dependent types allow proofs of statements involving first-order predicates, compared to simple types which correspond to propositional logic. While useful (since we can check whether an expression fulfills a given condition at compile-time), dependent types add complexity to a type system. In order to calculate type "equality" of dependent types, computations are necessary. If we allow any values for dependent types, then solving an equality of a type may involve deciding whether two programs produce the same result. Thus, the check may become undecidable.
 
 [^ch3n3]: This is what makes Idris a so-called proof assistant. In general, Idris combines a lot of functionalities from mainstream languages (Java, C, C++) and some functionalities from proof assistants, which further blurs the line between these two kinds of software.
 
