@@ -122,13 +122,7 @@ Idris> :t B_inst_right
 B_inst_right : b -> B a b
 ```
 
-Although product and sum types are very general, due to polymorphism, we can say something very specific about the structure of their values. For instance, suppose we've defined a type `C` like so:
-
-```
-data C a b c = C_left a | C_right (b,c)
-```
-
-Now a value of type `C` can only come into existence in one of two ways: as a value of the form `C_left x` for a value `x : a`, or as a value of the form `C_right (y,z)` for values `y : b` and `z : c`. This enables a powerful method for defining functions called _pattern matching_. As an example, to extract `a` from `B a b`, we can use the following function:
+For extracting values from data types such as `B a b`, we can use pattern matching[^ch4n3]. As an example, to extract `a` from `B a b`, we can use the following function:
 
 ```
 f : B a b -> a
@@ -578,7 +572,7 @@ I> ### Definition 5
 I>
 I> Lazy evaluation means that parameters are evaluated only when necessary. Conversely, strict evaluation means that all parameters are evaluated on a function call.
 
-Idris evaluates parameters in a strict fashion[^ch4n3]. For example, let's take a look at the following function:
+Idris evaluates parameters in a strict fashion[^ch4n4]. For example, let's take a look at the following function:
 
 ```
 ifThenElse : Bool -> a -> a -> a
@@ -715,4 +709,6 @@ X> Hint: Check the documentation of `the` with `:doc the`, and use it with the t
 
 [^ch4n2]: A polymorphic type can accept additional types as arguments, which are either defined by the programmer or primitive ones.
 
-[^ch4n3]: In contrast, the default behaviour in Haskell is lazy evaluation.
+[^ch4n3]: Although product and sum types are very general, due to polymorphism, we can say something very specific about the structure of their values. For instance, suppose we've defined a type like so: `data C a b c = C_left a | C_right (b,c)`. Now a value of type `C` can only come into existence in one of two ways: as a value of the form `C_left x` for a value `x : a`, or as a value of the form `C_right (y,z)` for values `y : b` and `z : c`.
+
+[^ch4n4]: In contrast, the default behaviour in Haskell is lazy evaluation.
