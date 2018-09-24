@@ -2,7 +2,7 @@
 
 In this chapter we will introduce Idris' syntax, by defining functions and types.
 
-Depending on what level of abstraction we are working, types and proofs can give us a kind of security based on some truths we take for granted (axioms). In fact, this is how we develop code on a daily basis, as software engineers. We have a list of axioms, for example a `foreach` loop in a programming language, and starting from it we build abstractions. However, this is not always easy to achieve. For example, consider a scenario where we have a button that is supposed to download a PDF document. In order to prove that it works as expected, we must first pick the abstraction level we will be working on, and then proceed by defining software requirements (what is a PDF, what is a download). So, we first have to define our **specifications**, and then we can proceed with proving correctness.
+Depending on what level of abstraction we are working with, types and proofs can give us a kind of security based on some truths we take for granted (axioms). In fact, this is how we develop code on a daily basis, as software engineers. We have a list of axioms, for example a `foreach` loop in a programming language, and starting from it we build abstractions. However, this is not always easy to achieve. For example, consider a scenario where we have a button that is supposed to download a PDF document. In order to prove that it works as expected, we must first pick the abstraction level we will be working on, and then proceed by defining software requirements (what is a PDF, what is a download). So, we first have to define our **specifications**, and then we can proceed with proving correctness.
 
 Idris, even though a research language, can still have its own uses. It is a Turing complete language, which means that it has the same expressive power as other programming languages, for example Java, or C++.
 
@@ -16,21 +16,21 @@ You can copy any of the example codes to some file, say, `test.idr` and launch I
 
 ### 4.1.1. Defining functions
 
-Functions are defined as follows:
+Let's begin by defining a simple function.
 
 ```
 add_1 : Nat -> Nat
 add_1 x = x + 1
 ```
 
-With the code above we're defining a function {$$}f(x) = x + 1{/$$}, where {$$}x{/$$} is natural number and {$$}f(x){/$$} (the result) is also a natural number[^ch4n1]. The first line `add_1 : Nat -> Nat` specifies the type of our function, that is, it is a function that takes a natural number and returns a natural number. The second line `add_1 x = x + 1` is the definition of the function, which states that if `add_1` is called with a number `x`, the result would be `x + 1`. As can be seen by the example, every function has to be provided a type definition. We can interact as follows once in REPL mode:
+With the code above we're defining a function {$$}f(x) = x + 1{/$$}, where {$$}x{/$$} is natural number and {$$}f(x){/$$} (the result) is also a natural number[^ch4n1]. The first line `add_1 : Nat -> Nat` is called a _type signature_, and specifies the type of our function; in this case a function that takes a natural number and returns a natural number. The second line `add_1 x = x + 1` is the definition of the function, which states that if `add_1` is called with a number `x`, the result would be `x + 1`. As can be seen by the example, every function has to be provided a type definition. We can interact as follows once in REPL mode:
 
 ```
 Idris> add_1 5
 6 : Nat
 ```
 
-Idris responds to us that as a result we get 6, which is of type `Nat`. Constants are defined similarly:
+Idris responds to us that as a result we get 6, which is of type `Nat`. Constants are defined similarly; we can think of them as functions with no arguments.
 
 ```
 number_1 : Nat
@@ -57,13 +57,13 @@ X> Write a function `five_if_zero` which accepts a natural number, and returns 5
 
 ### 4.1.2. Defining and inferring types
 
-In Idris, types are first-class citizens. This means that types can be computed and passed to other functions. We define new types by using the keyword `data`. All types begin with an uppercase letter, while lowercase letters are reserved for polymorphic types[^ch4n2]. There are a couple of ways to define types. One example is by using the so-called `Haskell98` syntax:
+In Idris, types are first-class citizens. This means that types can be computed and passed to other functions. We define new types by using the keyword `data`. All concrete types (like `Nat`) and type constructors (like `List`) begin with an uppercase letter, while lowercase letters are reserved for polymorphic types[^ch4n2]. There are a couple of ways to define types. One example is by using the so-called `Haskell98` syntax:
 
 ```
 data A a b = A_inst a b
 ```
 
-This will create a polymorphic type that accepts two arguments (types), `a` and `b`. Valid constructed types are `A Nat Bool`, `A Nat Nat`, etc. The `A_inst` part is actually the type constructor (a function) that instantiates an object of such type:
+This will create a polymorphic type that accepts two type arguments, `a` and `b`. Valid constructed types are `A Nat Bool`, `A Nat Nat`, etc. The `A_inst` part is actually the type constructor (a function) that instantiates an object of such type:
 
 ```
 Idris> A_inst True True
@@ -111,7 +111,7 @@ data B : Type -> Type -> Type where
     B_inst_right : b -> B a b
 ```
 
-As a result of that, we get:
+With either of these definitions in scope, we get:
 
 ```
 Idris> :t B
@@ -122,7 +122,13 @@ Idris> :t B_inst_right
 B_inst_right : b -> B a b
 ```
 
-For extracting values from data types such as `B a b`, we can use pattern matching. As an example, to extract `a` from `B a b`, we can use the following function:
+Although product and sum types are very general, due to polymorphism, we can say something very specific about the structure of their values. For instance, suppose we've defined a type `C` like so:
+
+```
+data C a b c = C_left a | C_right (b,c)
+```
+
+Now a value of type `C` can only come into existence in one of two ways: as a value of the form `C_left x` for a value `x : a`, or as a value of the form `C_right (y,z)` for values `y : b` and `z : c`. This enables a powerful method for defining functions called _pattern matching_. As an example, to extract `a` from `B a b`, we can use the following function:
 
 ```
 f : B a b -> a
@@ -140,7 +146,7 @@ Idris> 1 == 1
 True : Bool
 ```
 
-Idris has several built-in primitive types, including: `Bool`, `String` (list of characters), `Integer`, `Char`, `List`, etc. The only type constructors for the type `Bool` are `True` and `False`. The difference between a `Nat` and an `Integer` is that `Integer` can also contain negative values. Here are some examples of interacting with these types:
+Idris has several built-in primitive types, including: `Bool`, `Char`, `List`, `String` (list of characters), `Integer`, etc. The only type constructors for the type `Bool` are `True` and `False`. The difference between a `Nat` and an `Integer` is that `Integer` can also contain negative values. Here are some examples of interacting with these types:
 
 ```
 Idris> "Test"
