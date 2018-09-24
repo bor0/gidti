@@ -109,7 +109,7 @@ I> The higher-order logical system [second-order logic, third-order-logic, ..., 
 
 For example, the second-order logic quantifies over sets. Third-order logic quantifies over sets of sets, and so on.
 
-Moving up the hierarchy of logical systems brings power, at a price. Propositional (zeroth-order) logic is completely decidable[^ch2n2]. Predicate (first-order) logic is no longer decidable, and by G&#246;del's incompleteness theorem we have to choose between completeness and consistency, but at least there is still an algorithm that can determine whether a proof is valid or not. For second-order and higher logics we lose even this - we have to choose between completeness, consistency, and a proof detection algorithm.
+Moving up the hierarchy of logical systems brings power, at a price. Propositional (zeroth-order) logic is completely decidable[^ch2n2]. Predicate (first-order) logic is no longer decidable, and by G&#246;del's incompleteness theorem we have to choose between completeness and consistency, but at least there is still an algorithm that can determine whether a proof is valid or not. For second-order and higher logic we lose even this - we have to choose between completeness, consistency, and a proof detection algorithm.
 
 The good news is that in practice, second-order predicates are used in a very limited capacity, and third- and higher order predicates are never needed. One important example of a second-order predicate appears in the Peano axioms of the natural numbers.
 
