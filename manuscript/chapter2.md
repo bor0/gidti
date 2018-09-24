@@ -45,10 +45,10 @@ The implication connective allows us to express conditional statements, and it's
 
 For example, if we choose `a = Today is your birthday` and `b = I brought you a cake`, then {$$}a \to b{/$$} represents the promise `If today is your birthday, then I brought you a cake`. Then there are four different ways that today can play out:
 
-1. Today is your birthday, and I brought you a cake. The promise is kept, so the implication is true.
-1. Today is your birthday, but I did not bring you a cake. The promise is not kept, so the implication is false.
-1. Today is not your birthday, and I brought you a cake. Is the promise kept? Better question - has the promise been broken? The condition the promise is based on - that today is your birthday - is not satisfied, so we say that the promise is not broken. The implication is true.
-1. Today is not your birthday, and I did not bring you a cake. Again, the condition of the promise is not satisfied, so the promise is not broken. The implication is true.
+1. Today is your birthday, and I brought you a cake. The promise is kept, so the implication is true
+1. Today is your birthday, but I did not bring you a cake. The promise is not kept, so the implication is false
+1. Today is not your birthday, and I brought you a cake. Is the promise kept? Better question - has the promise been broken? The condition the promise is based on - that today is your birthday - is not satisfied, so we say that the promise is not broken. The implication is true
+1. Today is not your birthday, and I did not bring you a cake. Again, the condition of the promise is not satisfied, so the promise is not broken. The implication is true
 
 In the last two cases, where the condition of the promise is not satisfied, we sometimes say that the implication is _vacuously true_.
 

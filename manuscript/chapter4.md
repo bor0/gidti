@@ -278,8 +278,8 @@ We see how this exhibits a recursive behaviour since the recursive cases were re
 
 A recursive function can generate an **iterative** or a **recursive** process:
 
-1. An iterative process[^ch4n4] (tail recursion) is a process where the return value at any point in computation is captured completely by its parameters.
-1. A recursive one, in contrast, is one where the return value is not captured at any point in computation by the parameters, and so it relies on postponed evaluations.
+1. An iterative process[^ch4n4] (tail recursion) is a process where the return value at any point in computation is captured completely by its parameters
+1. A recursive one, in contrast, is one where the return value is not captured at any point in computation by the parameters, and so it relies on postponed evaluations
 
 In the example above, `even` generates a recursive process since it needs to go down to the base case, and then build its way back up to do the calculations that were postponed. Alternatively, we can rewrite `even` so that it captures the return value by introducing another variable, as such:
 
