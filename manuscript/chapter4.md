@@ -570,9 +570,11 @@ X> ```
 
 ### 4.1.10. Strict evaluation
 
+When simplifying a lambda calculus expression to produce a value, there are two dominant _evaluation strategies_: called _lazy_ and _strict_. Most languages based on lambda calculus (including Idris, Haskell, ML, and Scheme) choose one of these strategies to use by default, with built-in support for the other.
+
 I> ### Definition 5
 I>
-I> Lazy evaluation means that parameters are evaluated only when necessary. Conversely, strict evaluation means that all parameters are evaluated on a function call.
+I> _Lazy_ evaluation means that function parameters are evaluated only when their values are needed. Conversely, _strict_ evaluation means that all function parameters are evaluated at call time.
 
 Idris evaluates parameters in a strict fashion[^ch4n3]. For example, let's take a look at the following function:
 
