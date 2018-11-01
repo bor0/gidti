@@ -155,6 +155,22 @@ Idris> [1, 2, 3]
 [1, 2, 3] : List Integer
 ```
 
+By using the `:doc` command, we can get detailed information about a data type:
+
+```
+Idris> :doc Nat
+Data type Prelude.Nat.Nat : Type
+    Natural numbers: unbounded, unsigned integers which can be pattern
+    matched.
+
+Constructors:
+    Z : Nat
+        Zero
+
+    S : Nat -> Nat
+        Successor
+```
+
 In order to make Idris infer the necessary type of the function that needs to be built, we can take advantage of holes. A hole is any variable that starts with a question mark. For example, if we have the following definition:
 
 ```
@@ -643,47 +659,7 @@ even_members' (Cons x l') with (even x)
 
 In this function we defined two new pattern matches after the line that uses the `with` keyword. Since we don't have `x` and `l'` in this new pattern matching context, we have to rewrite them on the left side of the pipe, and on the right side of the pipe we pattern match against the value of `even x`, and then branch the recursion (computation).
 
-### 4.1.12. Documentation and searching
-
-By using the `:doc` command, we can get detailed information about a data type:
-
-```
-Idris> :doc Nat
-Data type Prelude.Nat.Nat : Type
-    Natural numbers: unbounded, unsigned integers which can be pattern
-    matched.
-
-Constructors:
-    Z : Nat
-        Zero
-
-    S : Nat -> Nat
-        Successor
-```
-
-We can use the command `:search` to get a list of functions that have the corresponding type. For example:
-
-```
-Idris> :search (Nat -> Nat)
-...
-
-= Prelude.Nat.S : Nat -> Nat
-Successor
-
-= Prelude.Nat.fact : Nat -> Nat
-Factorial function
-...
-```
-
-X> ### Exercise 19
-X>
-X> Check the documentation of `Bool` and `List`.
-
-X> ### Exercise 20
-X>
-X> Find out a few binary operators for `Nat` by searching `Nat -> Nat -> Nat`, and then try to use some of them.
-
-### 4.1.13. Interfaces and implementations
+### 4.1.12. Interfaces and implementations
 
 Interfaces are defined using the `interface` keyword and they allow us to add constraints to types that implement them[^ch4n6]. As an example, we'll take a look at the `Eq` interface:
 
@@ -725,7 +701,7 @@ Idris> Fooinst 3 "orange" /= Fooinst 6 "apple"
 True : Bool
 ```
 
-X> ### Exercise 21
+X> ### Exercise 19
 X>
 X> Implement your own data type `Person` that accepts a person's name and age, and implement an interface for comparing `Person`s.
 X>
@@ -765,7 +741,7 @@ As we've discussed, we can use product types to encode pairs. Now we can note th
 1. Left-elimination, which is a pattern match of `And_intro a _` is equivalent to the first element of the product type
 1. Right-elimination, which is a pattern match of `And_intro _ b` is equivalent to the second element of the product type
 
-X> ### Exercise 22
+X> ### Exercise 20
 X>
 X> Given `data Or a b = Or_introl a | Or_intror b`, show that {$$}a \to (a \lor b){/$$} and {$$}b \to (a \lor b){/$$}.
 X>
