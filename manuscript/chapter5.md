@@ -709,9 +709,9 @@ interface Porder (a : Type) (Order : a -> a -> Type) | Order where
     total proofA : Order n m -> Order m n -> n = m -- antisymmetry
 ```
 
-The interface `Porder` accepts a `Type` and a relation `Order`, which is a binary function. Since the interface has more than two parameters, we specify that `Order` is a determining parameter, that is, the parameter used to resolve the instance.
+The interface `Porder` accepts a `Type` and a relation `Order`, which is a binary function. Since the interface has more than two parameters, we specify that `Order` is a determining parameter, i.e. the parameter used to resolve the instance.
 
-Now that we have our abstract interface, we can build a concrete implementation for it:
+Now that we have our abstract interface we can build a concrete implementation for it:
 
 ```
 implementation Porder Nat LTE where
@@ -739,7 +739,7 @@ X> Convince yourself using pen and paper that {$$}\leq{/$$} on natural numbers m
 
 X> ### Exercise 21
 X>
-X> Understand the proofs for reflexivity, transitivity and antisymmetry by trying to deduce them yourself using holes.
+X> Understand the proofs for reflexivity, transitivity, and antisymmetry by trying to deduce them yourself using holes.
 
 ## 5.3. Trees
 

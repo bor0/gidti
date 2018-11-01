@@ -693,13 +693,13 @@ interface Eq a where
     (/=) : a -> a -> Bool
         -- Minimal complete definition:
         --      (==) or (/=)
-    x /= y     =  not (x == y)
-    x == y     =  not (x /= y)
+    x /= y = not (x == y)
+    x == y = not (x /= y)
 ```
 
 Note how we can specify comments in the code by using two dashes. Comments are ignored by the Idris compiler and are only useful to the reader of the code.
 
-The definition says that for a type to implement the `Eq` interface, there must be an implementation of the functions `==` and `/=` for that specific type. Additionally the interface also contains a definition for the functions themselves, but this is optional. Since the definition of `==` depends on `/=` (and vice-versa), it will be sufficient to only override one of them in the implementation, and the other one will be automatically generated.
+The definition says that for a type to implement the `Eq` interface, there must be an implementation of the functions `==` and `/=` for that specific type. Additionally the interface also contains definitions for the functions, but this is optional. Since the definition of `==` depends on `/=` (and vice-versa), it will be sufficient to provide only one of them in the implementation, and the other one will be automatically generated.
 
 As an example, let's assume that we have a data type:
 
@@ -712,10 +712,11 @@ To implement `Eq` for `Foo`, we can use the following code:
 
 ```
 implementation Eq Foo where
-    (Fooinst x1 str1) == (Fooinst x2 str2) = (x1 == x2) && (str1 == str2)
+    (Fooinst x1 str1) ==
+        (Fooinst x2 str2) = (x1 == x2) && (str1 == str2)
 ```
 
-We use `==` for `Nat` and `String`, since this is already defined in Idris itself. With this, we can easily use `==` and `/=` on the types:
+We use `==` for `Nat` and `String`, since this is already defined in Idris itself. With this, we can easily use `==` and `/=` on `Fooinst`:
 
 ```
 Idris> Fooinst 3 "orange" == Fooinst 6 "apple"
