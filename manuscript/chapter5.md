@@ -754,9 +754,9 @@ This definition states that a tree is defined as one of:
 1. `Leaf`, which has no values
 1. `Node`, which holds a number and points to two other trees (which can be either `Node`s or `Leaf`s)
 
-For example, to represent the following tree, we can use the expression `Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf)`:
+For example, we can use the expression `Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf)` to represent the following tree:
 
-```
+```text
   2
  / \
 1   3
