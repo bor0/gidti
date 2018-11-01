@@ -739,7 +739,7 @@ X> Convince yourself using pen and paper that {$$}\leq{/$$} on natural numbers m
 
 X> ### Exercise 21
 X>
-X> Understand the proofs for reflexivity, transitivity and antisymmetry by using holes by trying to deduce them yourself.
+X> Understand the proofs for reflexivity, transitivity and antisymmetry by trying to deduce them yourself using holes.
 
 ## 5.3. Trees
 
