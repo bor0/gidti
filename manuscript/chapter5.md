@@ -690,6 +690,57 @@ X> ### Exercise 19
 X>
 X> Rewrite `has_odd` to use `with` in the recursive case, and then repeat the proof above.
 
+### 5.2.8 Partial orders
+
+I> ### Definition 7
+I>
+I> A binary relation {$$}R{/$$} on some set {$$}S{$$} is a partial order if the following properties are satisfied:
+I>
+I> 1. {$$}\forall a \in S, a R a{/$$}, i.e. reflexivity
+I> 1. {$$}\forall a \in S, b, c, a R b \land b R c \to a R c{/$$}, i.e. transitivity
+I> 1. {$$}\forall a \in S, b, a R b \land b R a \to a = b{/$$}, i.e. antisymmetry
+
+Let's abstract this in Idris as an `interface`:
+
+```
+interface Porder (a : Type) (Order : a -> a -> Type) | Order where
+    total proofR : Order n n -- reflexivity
+    total proofT : Order n m -> Order m p -> Order n p -- transitivity
+    total proofA : Order n m -> Order m n -> n = m -- antisymmetry
+```
+
+The interface `Porder` accepts a `Type` and a relation `Order`, which is a binary function. Since the interface has more than two parameters, we specify that `Order` is a determining parameter, that is, the parameter used to resolve the instance.
+
+Now that we have our abstract interface, we can build a concrete implementation for it:
+
+```
+implementation Porder Nat LTE where
+    proofR {n = Z}   =
+        LTEZero
+    proofR {n = S _} =
+        LTESucc proofR
+
+    proofT LTEZero           _                 =
+        LTEZero
+    proofT (LTESucc n_lte_m) (LTESucc m_lte_p) =
+        LTESucc (proofT n_lte_m m_lte_p)
+
+    proofA LTEZero           LTEZero           =
+        Refl
+    proofA (LTESucc n_lte_m) (LTESucc m_lte_n) =
+        let IH = proofA n_lte_m m_lte_n in rewrite IH in Refl
+```
+
+We've proved that `Nat`s make a `Porder`. Interfaces allow us to group one or more functions, and an implementation of a specific type is guaranteed to implement all such functions.
+
+X> ### Exercise 20
+X>
+X> Convince yourself using pen and paper that {$$}<{/$$} on natural numbers makes a partial relation, i.e. it satisfies all properties of Definition 7.
+
+X> ### Exercise 21
+X>
+X> Understand the proofs for reflexivity, transitivity and antisymmetry by using holes and try to deduce them yourself.
+
 ## 5.3. Trees
 
 A tree structure is a way to represent hierarchical data. We will work with binary trees in this section, which are trees that contain exactly two sub-trees (nodes). We can define this tree structure using the following implementation:
@@ -713,13 +764,13 @@ For example, to represent the following tree, we can use the expression `Node 2 
 
 Edges can be thought of as the number of "links" from a node to its children. Node 2 in the tree above has two edges: {$$}(2, 1){/$$} and {$$}(2, 3){/$$}.
 
-X> ### Exercise 20
+X> ### Exercise 22
 X>
 X> Come up with a few trees by using the type constructors above.
 
 ### 5.3.1. Depth
 
-I> ### Definition 7
+I> ### Definition 8
 I>
 I> The depth of a tree is defined as the number of edges from the node to the root.
 
@@ -813,7 +864,7 @@ Idris> map_tree (\x => x + 1) (Node 2 (Node 1 Leaf Leaf)
 Node 3 (Node 2 Leaf Leaf) (Node 4 Leaf Leaf) : Tree
 ```
 
-I> ### Definition 8
+I> ### Definition 9
 I>
 I> The size of a tree is defined as the sum of the levels of all nodes.
 

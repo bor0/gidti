@@ -683,6 +683,57 @@ X> ### Exercise 20
 X>
 X> Find out a few binary operators for `Nat` by searching `Nat -> Nat -> Nat`, and then try to use some of them.
 
+### 4.1.13. Interfaces and implementations
+
+Interfaces are defined using the `interface` keyword and they allow us to add constraints to types that implement them[^ch4n6]. As an example, we'll take a look at the `Eq` interface:
+
+```
+interface Eq a where
+    (==) : a -> a -> Bool
+    (/=) : a -> a -> Bool
+        -- Minimal complete definition:
+        --      (==) or (/=)
+    x /= y     =  not (x == y)
+    x == y     =  not (x /= y)
+```
+
+Note how we can specify comments in the code by using two dashes. Comments are ignored by the Idris compiler and are only useful to the reader of the code.
+
+The definition says that for a type to implement the `Eq` interface, there must be an implementation of the functions `==` and `/=` for that specific type. Additionally the interface also contains a definition for the functions themselves, but this is optional. Since the definition of `==` depends on `/=` (and vice-versa), it will be sufficient to only override one of them in the implementation, and the other one will be automatically generated.
+
+As an example, let's assume that we have a data type:
+
+```
+data Foo : Type where
+    Fooinst : Nat -> String -> Foo
+```
+
+To implement `Eq` for `Foo`, we can use the following code:
+
+```
+implementation Eq Foo where
+    (Fooinst x1 str1) == (Fooinst x2 str2) = (x1 == x2) && (str1 == str2)
+```
+
+We use `==` for `Nat` and `String`, since this is already defined in Idris itself. With this, we can easily use `==` and `/=` on the types:
+
+```
+Idris> Fooinst 3 "orange" == Fooinst 6 "apple"
+False : Bool
+Idris> Fooinst 3 "orange" /= Fooinst 6 "apple"
+True : Bool
+```
+
+X> ### Exercise 21
+X>
+X> Implement your own data type `Person` that accepts a person's name and age, and implement an interface for comparing `Person`s.
+X>
+X> Hint: One valid data type is:
+X>
+X> ```
+X> data Person = Personinst String Int
+X> ```
+
 ## 4.2. Curry-Howard isomorphism
 
 The Curry-Howard isomorphism (also known as Curry-Howard correspondence) is the direct relation between computer programs and mathematical proofs. It is named after the mathematician Haskell Curry and logician William Howard. In other words, a mathematical proof is represented by a computer program and the formula that we're proving is the type of that program. As an example, we can take a look at the function swap that is defined as follows:
@@ -713,7 +764,7 @@ As we've discussed, we can use product types to encode pairs. Now we can note th
 1. Left-elimination, which is a pattern match of `And_intro a _` is equivalent to the first element of the product type
 1. Right-elimination, which is a pattern match of `And_intro _ b` is equivalent to the second element of the product type
 
-X> ### Exercise 21
+X> ### Exercise 22
 X>
 X> Given `data Or a b = Or_introl a | Or_intror b`, show that {$$}a \to (a \lor b){/$$} and {$$}b \to (a \lor b){/$$}.
 X>
@@ -728,3 +779,5 @@ X> Hint: Check the documentation of `the` with `:doc the`, and use it with the t
 [^ch4n4]: The key idea is not that a tail recursive function _is_ an iterative loop, but that a smart enough compiler can _pretend_ that it is and evaluate it using constant function stack space.
 
 [^ch4n5]: In contrast, the default behaviour in Haskell is lazy evaluation.
+
+[^ch4n6]: They are equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.
