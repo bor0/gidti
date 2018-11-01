@@ -694,11 +694,11 @@ X> Rewrite `has_odd` to use `with` in the recursive case, and then repeat the pr
 
 I> ### Definition 7
 I>
-I> A binary relation {$$}R{/$$} on some set {$$}S{$$} is a partial order if the following properties are satisfied:
+I> A binary relation {$$}R{/$$} on some set {$$}S{/$$} is a partial order if the following properties are satisfied:
 I>
 I> 1. {$$}\forall a \in S, a R a{/$$}, i.e. reflexivity
-I> 1. {$$}\forall a \in S, b, c, a R b \land b R c \to a R c{/$$}, i.e. transitivity
-I> 1. {$$}\forall a \in S, b, a R b \land b R a \to a = b{/$$}, i.e. antisymmetry
+I> 1. {$$}\forall a, b, c \in S, a R b \land b R c \to a R c{/$$}, i.e. transitivity
+I> 1. {$$}\forall a, b \in S, a R b \land b R a \to a = b{/$$}, i.e. antisymmetry
 
 Let's abstract this in Idris as an `interface`:
 
@@ -731,15 +731,15 @@ implementation Porder Nat LTE where
         let IH = proofA n_lte_m m_lte_n in rewrite IH in Refl
 ```
 
-We've proved that `Nat`s make a `Porder`. Interfaces allow us to group one or more functions, and an implementation of a specific type is guaranteed to implement all such functions.
+We proved that `Nat`s make a `Porder`. Interfaces allow us to group one or more functions, and an implementation of a specific type is guaranteed to implement all such functions.
 
 X> ### Exercise 20
 X>
-X> Convince yourself using pen and paper that {$$}<{/$$} on natural numbers makes a partial relation, i.e. it satisfies all properties of Definition 7.
+X> Convince yourself using pen and paper that {$$}<{/$$} on natural numbers makes a partial order, i.e. it satisfies all properties of Definition 7.
 
 X> ### Exercise 21
 X>
-X> Understand the proofs for reflexivity, transitivity and antisymmetry by using holes and try to deduce them yourself.
+X> Understand the proofs for reflexivity, transitivity and antisymmetry by using holes by trying to deduce them yourself.
 
 ## 5.3. Trees
 
