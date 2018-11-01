@@ -690,7 +690,7 @@ X> ### Exercise 19
 X>
 X> Rewrite `has_odd` to use `with` in the recursive case, and then repeat the proof above.
 
-### 5.2.8 Partial orders
+### 5.2.8. Partial orders
 
 I> ### Definition 7
 I>
@@ -731,11 +731,11 @@ implementation Porder Nat LTE where
         let IH = proofA n_lte_m m_lte_n in rewrite IH in Refl
 ```
 
-We proved that `Nat`s make a `Porder`. Interfaces allow us to group one or more functions, and an implementation of a specific type is guaranteed to implement all such functions.
+We proved that the binary operation "less than or equal to" for `Nat`s make a `Porder`. Interfaces allow us to group one or more functions, and an implementation of a specific type is guaranteed to implement all such functions.
 
 X> ### Exercise 20
 X>
-X> Convince yourself using pen and paper that {$$}<{/$$} on natural numbers makes a partial order, i.e. it satisfies all properties of Definition 7.
+X> Convince yourself using pen and paper that {$$}\leq{/$$} on natural numbers makes a partial order, i.e. it satisfies all properties of Definition 7.
 
 X> ### Exercise 21
 X>
