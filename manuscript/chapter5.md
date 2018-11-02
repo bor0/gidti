@@ -966,13 +966,4 @@ proof_1 (Node v tr1 tr2) f = let IH_1 = proof_1 tr1 f in
                              ?conclusion
 ```
 
-At this point, we will have:
-
-```
-conclusion : S (plus (size_tree (map_tree f tr1))
-                 (size_tree (map_tree f tr2))) =
-             S (plus (size_tree (map_tree f tr1))
-                 (size_tree (map_tree f tr2)))
-```
-
-We can just use `Refl` instead of `conclusion` to finish the proof.
+At this point if we check the type of `conclusion` we will note that we can just use `Refl` to finish the proof.
