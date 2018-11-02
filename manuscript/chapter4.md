@@ -432,7 +432,7 @@ Idris> test2 1
 "Hello" : String
 ```
 
-We can note that the evaluation of `test 1` does not produce a computed value as a result. Note that at compile-time, Idris will **evaluate the types only for total functions**, in order to keep type checking decidable.
+We can note that the evaluation of `test 1` does not produce a computed value as a result. Note that at compile-time, Idris will **evaluate the types only for total functions**.
 
 X> ### Exercise 13
 X>
@@ -740,6 +740,8 @@ As we've discussed, we can use product types to encode pairs. Now we can note th
 1. `And_intro x y` is equivalent to constructing a product type `(x, y)`
 1. Left-elimination, which is a pattern match of `And_intro a _` is equivalent to the first element of the product type
 1. Right-elimination, which is a pattern match of `And_intro _ b` is equivalent to the second element of the product type
+
+As long as Idris' type checker terminates, we can be certain that the program provides a mathematical proof of its type. This is why Idris' type checker only evaluates total functions, to keep the type checking decidable.
 
 X> ### Exercise 20
 X>
