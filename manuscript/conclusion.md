@@ -7,16 +7,7 @@ f : Nat -> Nat
 f _ = 6
 ```
 
-Q> But, what natural number will it return?
-Q>
-Q> There are many constructors (proofs) for `Nat`. For example, we also have:
-Q>
-Q> ```
-Q> f : Nat -> Nat
-Q> f _ = 7
-Q> ```
-Q>
-Q> Depending on whether we need 6 or 7 in practice has to be additionally checked. But we're certain that it's a natural number (by the type).
+Note that there are many constructors (proofs) for `Nat`. For example, we also have that `f _ = 7`. Depending on whether we need 6 or 7 in practice has to be additionally checked. But we're certain that it's a natural number (by the type).
 
 Most programming languages that have a type system have the same expressive power as that of propositional logic (no quantifiers). Dependent types are powerful, because they allow us to express quantifiers, which increases the power of expressiveness. As a result, we can write any kind of mathematical proofs.
 
