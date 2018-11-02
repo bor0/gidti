@@ -94,6 +94,12 @@ Given these rules, we can define the successor function as {$$}\text{SUCC} = \la
 1. Apply 1 to {$$}\text{SUCC}{/$$} i.e. "consume" {$$}n{/$$} by beta reduction: {$$}\lambda f \ x . f \ ((\lambda f \ x . f \ x) \ f \ x) ={/$$}
 1. Finally, apply {$$}f{/$$} and {$$}x{/$$} to a function that accepts {$$}f{/$$} and {$$}x{/$$} (which is just the body of the abstraction): {$$}\lambda f \ x . f \ (f \ x) = 2{/$$}
 
+I> ### Definition 7
+I>
+I> A fixed-point combinator is any function that satisfies the equation {$$}\text{fix} \ f = f \ (\text{fix} \ f){/$$}.
+
+One example of such a combinator is the {$$}\text{Y}{/$$} combinator which is defined as {$$}\lambda f . (\lambda x . f\ (x\ x))\ (\lambda x . f\ (x\ x)){/$$}. This definition satisfies {$$}\text{Y} \ f = f \ (\text{Y} \ f){/$$}. This combinator allows for recursion in lambda calculus. Since it is impossible to refer to the function within its body, recursion can only be achieved by applying parameters to a function which is what this combinator does.
+
 X> ### Exercise 2
 X>
 X> Evaluate {$$}\text{SUCC} \ 2{/$$} to find out the definition of number 3.
@@ -106,7 +112,7 @@ X> Come up with your own functions that operate on the Church numerals. It can b
 
 So far we've been discussing the _untyped_ lambda calculus, but it is possible to augment the rules of lambda calculus so that variables are _typed_. This makes it possible to add an additional statically checked layer of semantics to a lambda expression so we can ensure that values are used in a consistent and meaningful way. There are several ways to add types to lambda calculus, and our goal is to approach the full _dependent_ type system of Idris. As a stepping stone, we first consider _simple_ types.
 
-I> ### Definition 7
+I> ### Definition 8
 I>
 I> Simply typed lambda calculus is a type theory which adds types to lambda calculus. It joins the system with a unique type constructor {$$}\to{/$$} which constructs types for functions. The formal definition and the set of lambda expressions is similar to that of lambda calculus, with the addition of types.
 I>
@@ -140,6 +146,8 @@ Given the definition of 1, its type must have the form {$$}(\text{a} \to \text{b
 
 The (typed) successor function is: {$$}\text{SUCC} = \lambda [n:\text{Nat}]\ [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f\ (n\ f\ x) : \text{Nat} \to \text{Nat}{/$$}
 
+Fixed-point combinators do not exist in the simply typed lambda calculus[^ch3n5]. To see why, consider the function {$$}\text{fix} = \lambda [f:\text{a} \to \text{a}] : \text{a}{/$$}. We can apply {$$}\text{fix}{/$$} to some element {$$}x : \text{a} \to \text{a}{/$$}. Thus, {$$}\text{fix} \ x : \text{a}{$$}, but {$$}x = \text{fix} \ x{/$$} is a type error because the infinite type {$$}\text{a} \to \text{a} = \text{a}{/$$} cannot be matched.
+
 Simply typed lambda calculus sits in a sweet spot on the spectrum of type systems. It is powerful enough to do useful work, but also simple enough to have strong properties. Simple types have limitations when compared to full dependent types, discussed in the next section, but their great trade-off is the existence of a full _inference algorithm_. The strategy we used above to determine the type of a lambda expression from the bottom up is the core of the widely used Hindley-Damas-Milner algorithm for type inference, which can automatically _infer_ the simple type of a lambda expression without requiring any explicit type annotations from the programmer.
 
 X> ### Exercise 4
@@ -158,15 +166,15 @@ X> In Exercise 3 you were asked to come up with a function. Try to figure out th
 
 In the simply typed lambda calculus, _values_ and _types_ are fundamentally different kinds of things that are related only by the "has type" predicate, {$$}:{/$$}. Values are allowed to depend on values - these are lambda abstractions. And types are allowed to depend on types - these are arrow types. But types are not allowed to depend on values. A _dependent typing_ system lifts this restriction.
 
-I> ### Definition 8
+I> ### Definition 9
 I>
 I> Dependent types are types that depend on values.
 
 A list of numbers is a type ({$$}\text{List}\ \text{Nat}{/$$}, for example). However, a list of numbers whose length is bounded by some constant, or whose entries are increasing, is a dependent type.
 
-I> ### Definition 9
+I> ### Definition 10
 I>
-I> A dependent product type is a collection of types {$$}B : \text{A} \to U{/$$} where for each element {$$}a : \text{A}{/$$}, there's an assigned type {$$}B(a) : U{/$$}, where {$$}U{/$$} is a universe of types[^ch3n5]. We say that {$$}B(a){/$$} varies with {$$}a{/$$}. It is denoted as {$$}\Pi(x : \text{A}), B(x){/$$}.
+I> A dependent product type is a collection of types {$$}B : \text{A} \to U{/$$} where for each element {$$}a : \text{A}{/$$}, there's an assigned type {$$}B(a) : U{/$$}, where {$$}U{/$$} is a universe of types[^ch3n6]. We say that {$$}B(a){/$$} varies with {$$}a{/$$}. It is denoted as {$$}\Pi(x : \text{A}), B(x){/$$}.
 
 This definition might seem a bit scary and tricky to grasp, but it really is simple, and it is best to see it in action through the following example:
 
@@ -181,7 +189,7 @@ The definition states that in the universe {$$}U{/$$}, there exists a function {
 
 In general, we have a function that takes an {$$}\text{n}{/$$} and produces a {$$}\text{List n}{/$$}, that is, {$$}f : \text{n} \to \text{List n}{/$$}, where the possible types for it are {$$}f : 1 \to \text{List 1}{/$$}, {$$}f : 2 \to \text{List 2}{/$$}, etc. We've just constructed our first dependent type!
 
-I> ### Definition 10
+I> ### Definition 11
 I>
 I> A dependent sum type can be used to represent indexed pairs, where the type of the second element depends on the type of the first element. That is, if we have {$$}a : \text{A}{/$$} and {$$}b : B(\text{a}){/$$}, then this makes a sum type. We denote it as {$$}\Sigma(x : \text{A}), B(x){/$$}.
 
@@ -201,15 +209,15 @@ The core "construct" in Idris are types. As we've seen, foundations are based on
 
 The intuitionistic theory of types (or constructive type theory) offers an alternative foundation to mathematics. This theory was introduced by Martin-L&#246;f, a Swedish mathematician in 1972. It is based on the isomorphism (or "equality") that propositions are types. We will cover this in details in Section 4.2, after introducing Idris' syntax.
 
-Proving a theorem in this system consists of constructing[^ch3n6] (or providing evidence for) a particular object. If we want to prove something about a type {$$}\text{A}{/$$} and we know that {$$}a : \text{A}{/$$}, then {$$}a{/$$} is one proof for {$$}\text{A}{/$$}. Note how we say one proof, because there can be many other elements of type {$$}\text{A}{/$$}.
+Proving a theorem in this system consists of constructing[^ch3n7] (or providing evidence for) a particular object. If we want to prove something about a type {$$}\text{A}{/$$} and we know that {$$}a : \text{A}{/$$}, then {$$}a{/$$} is one proof for {$$}\text{A}{/$$}. Note how we say one proof, because there can be many other elements of type {$$}\text{A}{/$$}.
 
 Propositions can also be defined through types. For example in order to prove that {$$}4 = 4{/$$}, we need to find an object {$$}x{/$$} of type {$$}\text{4 = 4}{/$$}, that is {$$}x : \text{4 = 4}{/$$}. One such object is {$$}refl{/$$} (which can be thought of as an axiom), which stands for reflexivity, which states that {$$}x = x{/$$} for all {$$}x{/$$}.
 
-One thing worth noting is that in Idris there are "two" types of truths: {$$}\text{Bool}{/$$} and {$$}\text{Type}{/$$}. Even though there is some similarity (in terms of proofs), in Idris they are fundamentally different. The type {$$}\text{Bool}{/$$} can have a value of {$$}True{/$$} or {$$}False{/$$}, while the type {$$}\text{Type}{/$$} is either provable or not provable[^ch3n7].
+One thing worth noting is that in Idris there are "two" types of truths: {$$}\text{Bool}{/$$} and {$$}\text{Type}{/$$}. Even though there is some similarity (in terms of proofs), in Idris they are fundamentally different. The type {$$}\text{Bool}{/$$} can have a value of {$$}True{/$$} or {$$}False{/$$}, while the type {$$}\text{Type}{/$$} is either provable or not provable[^ch3n8].
 
 This system is useful since with the use of computer algorithms we can find a constructive proof for some object (assuming it exists). As a consequence, this is why it can be considered as a way to make a programming language act like a proof-assistant.
 
-I> ### Definition 11
+I> ### Definition 12
 I>
 I> The set of grammar rules {$$}\Lambda{/$$} for well-formed expressions is defined as:
 I>
@@ -245,15 +253,15 @@ X> Combine the use of rules along with the connectives described earlier and try
 
 ### 3.4.1. Intuitionistic logic
 
-I> ### Definition 12
+I> ### Definition 13
 I>
 I> A constructive proof proves the existence of a mathematical object by creating or constructing the object itself. This is contrary to non-constructive proofs which prove existence of objects without giving a concrete example.
 
-I> ### Definition 13
+I> ### Definition 14
 I>
 I> Intuitionistic logic, also known as constructive logic, is a type of logic which is different than classical logic in that it "works" with the notion of constructive proof.
 
-I> ### Definition 14
+I> ### Definition 15
 I>
 I> The BHK (Brouwer-Heyting-Kolmogorov) interpretation is a mapping of intuitionistic logic to classical mathematical logic, namely:
 I>
@@ -284,10 +292,12 @@ X> Try to use some of the proofs in the earlier chapters as a motivation and wor
 
 [^ch3n3]: This is what makes Idris a so-called proof assistant. In general, Idris combines a lot of functionalities from mainstream languages (Java, C, C++) and some functionalities from proof assistants, which further blurs the line between these two kinds of software.
 
-[^ch3n4]: A _Turing machine_ is a very simple abstract machine designed to capture our intuitive understanding of _computation_ in the most general sense. Any formal system that can simulate a Turing machine, and thus also perform arbitrary computations, is called _Turing complete_. (Untyped) Lambda calculus is Turing complete.
+[^ch3n4]: A _Turing machine_ is a very simple abstract machine designed to capture our intuitive understanding of _computation_ in the most general sense. Any formal system that can simulate a Turing machine, and thus also perform arbitrary computations, is called _Turing complete_.
 
-[^ch3n5]: Collections in general are considered to be subcollections of some large universal collection, also called the universe. Depending on the context, the definition of this universe will vary.
+[^ch3n5]: For this reason the typed lambda calculus is not Turing complete, while the untyped lambda calculus is. Fixed-point combinators provide flexibility, but that has its drawbacks. They can be non-terminating - loop indefinitely without producing an answer. While non-termination has its uses for software (e.g. a program keeps running until we choose to close it), termination is important for mathematical proofs as we will see in Section 4.2.
 
-[^ch3n6]: As a consequence that we need to construct an object as evidence in order to prove something, the law of excluded middle {$$}P \lor \lnot P{/$$} is not valid in this logic, whereas in classic mathematical logic this is taken as an axiom. For some propositions, for example, {$$}P{/$$} is an odd number or not, there are proofs that we can provide. However, for some propositions this is impossible, for example, {$$}P{/$$} is a program that halts or not. So, unlike classic mathematical logic, in this logic the law of excluded middle does not exist due to the undecidability problem.
+[^ch3n6]: Collections in general are considered to be subcollections of some large universal collection, also called the universe. Depending on the context, the definition of this universe will vary.
 
-[^ch3n7]: It is provable in case we can construct an object of such type, and not provable otherwise.
+[^ch3n7]: As a consequence that we need to construct an object as evidence in order to prove something, the law of excluded middle {$$}P \lor \lnot P{/$$} is not valid in this logic, whereas in classic mathematical logic this is taken as an axiom. For some propositions, for example, {$$}P{/$$} is an odd number or not, there are proofs that we can provide. However, for some propositions this is impossible, for example, {$$}P{/$$} is a program that halts or not. So, unlike classic mathematical logic, in this logic the law of excluded middle does not exist due to the undecidability problem.
+
+[^ch3n8]: It is provable in case we can construct an object of such type, and not provable otherwise.
