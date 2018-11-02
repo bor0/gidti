@@ -25,6 +25,17 @@ X> ### Exercise 2
 X>
 X> Evaluate `the Nat 3` and `the Integer 3` and note the differences. Afterwards, try to implement `the'` that will act just like `the` and test the previous evaluations again.
 
+X> ### Exercise 3
+X>
+X> Given `data Or a b = Or_introl a | Or_intror b`, show that {$$}a \to (a \lor b){/$$} and {$$}b \to (a \lor b){/$$}.
+X>
+X> Hint:
+X>
+X> ```
+X> proof_1 : a -> Or a b
+X> proof_1 a = Or_introl ?prf
+X> ```
+
 ## 5.1. Weekdays
 
 In this section we will introduce a way to represent weekdays and then do some proofs with them. We start with the following data structure:
@@ -83,11 +94,11 @@ Type checking ./first_proof.idr
 
 The type check was successful. Per the Curry-Howard isomorphism, this means that we've successfully proven that `next_day Mon = Tue`. So, after Monday comes Tuesday!
 
-X> ### Exercise 3
+X> ### Exercise 4
 X>
 X> Remove one or more pattern match definitions of `next_day` and observe the error that Idris will produce. Afterwards, alter the function so that it is not total anymore, and observe the error.
 
-X> ### Exercise 4
+X> ### Exercise 5
 X>
 X> Implement `prev_day` and prove that Sunday is before Monday.
 
@@ -154,13 +165,13 @@ prf : True = True
 
 Changing `prf` to `Refl` completes the proof. We just proved that {$$}\forall x \in \text{Weekdays}, x = \text{Mon} \to IsItMonday(x){/$$}. We assumed {$$}x = \text{Mon}{/$$} is true (by pattern matching against `day_eq_Mon` in our definition), and then used rewriting to alter `x`.
 
-X> ### Exercise 5
+X> ### Exercise 6
 X>
 X> Implement the function `is_it_sunday` that returns `True` if the given day is Sunday, and `False` otherwise.
 
-X> ### Exercise 6
+X> ### Exercise 7
 X>
-X> In addition to Exercise 5, prove the following formula in Idris: {$$}\forall x \in \text{Weekdays}, x = \text{Sun} \to IsItSunday(x){/$$}.
+X> In addition to Exercise 6, prove the following formula in Idris: {$$}\forall x \in \text{Weekdays}, x = \text{Sun} \to IsItSunday(x){/$$}.
 
 ### 5.1.3. Third proof (impossible)
 
@@ -200,11 +211,11 @@ our_third_proof Refl impossible
 
 With this syntax, we're telling Idris that the reflexivity of `False = True` is impossible and thus the proof is complete.
 
-X> ### Exercise 7
+X> ### Exercise 8
 X>
 X> Check the documentation of `Void` and try to implement `Void'` yourself. Rewrite the proof above to use `Void'` instead of `Void`.
 
-X> ### Exercise 8
+X> ### Exercise 9
 X>
 X> Prove that `1 = 2` is a contradiction.
 X>
@@ -224,7 +235,7 @@ mynat_plus (Succ k) m = Succ (mynat_plus k m)
 
 Note how the definition of `MyNat` is recursive compared to `Weekday`. A consequence of that is that we may need to use induction for some proofs.
 
-X> ### Exercise 9
+X> ### Exercise 10
 X>
 X> Compare the addition definition to Definition 21 in Chapter 2.
 
@@ -250,7 +261,7 @@ our_second_proof x = MkDPair x x
 
 We just proved that {$$}\exists x \in \text{MyNat}, Succ(x){/$$}.
 
-X> ### Exercise 10
+X> ### Exercise 11
 X>
 X> Check the documentation of `DPair` and `MkDPair` and try to construct some dependent pairs.
 
@@ -295,13 +306,13 @@ prf : MyNat
 
 Changing `prf` to `the_number` concludes the proof.
 
-X> ### Exercise 11
+X> ### Exercise 12
 X>
 X> Simplify `our_second_proof` without the use of `let`.
 X>
 X> Hint: Providing a valid type constructor that satisfies (inhabits) the type is a constructive proof.
 
-X> ### Exercise 12
+X> ### Exercise 13
 X>
 X> Construct a proof similar to `our_second_proof` without defining a function for it and by using the function `the`.
 
@@ -371,7 +382,7 @@ our_third_proof (Succ k) = let ind_hypothesis = our_third_proof k in
 
 This concludes the proof.
 
-X> ### Exercise 13
+X> ### Exercise 14
 X>
 X> Observe the similarity between this proof and the proof in Section 2.3.5.
 
@@ -403,11 +414,11 @@ Idris> LTESucc {left = Z} {right = S Z}
 LTESucc : LTE 0 1 -> LTE 1 2
 ```
 
-X> ### Exercise 14
+X> ### Exercise 15
 X>
 X> Check the documentation of `GTE`, and then evaluate `GTE 2 2`. Observe what Idris returns and think how `GTE` can be implemented in terms of `LTE`.
 
-X> ### Exercise 15
+X> ### Exercise 16
 X>
 X> We used the built-in type `LTE` which is defined for `Nat`. Try to come up with a `LTE` definition for `MyNat`.
 
@@ -474,11 +485,11 @@ Idris> divNatNZ 4 0 (SIsNotZ {x = ???})
 
 We cannot construct a proof for the third case and so it will never be able to divide by zero, which is not allowed anyway.
 
-X> ### Exercise 16
+X> ### Exercise 17
 X>
 X> Implement `SuccIsNotZ` for `MyNat` that works similarly to `SIsNotZ`.
 
-X> ### Exercise 17
+X> ### Exercise 18
 X>
 X> Implement `divMyNatNZ` for `MyNat` that works similarly to `divNatNZ`.
 
@@ -591,7 +602,7 @@ our_proof (S k) (S j) a_lt_b = rewrite
                                Refl
 ```
 
-X> ### Exercise 18
+X> ### Exercise 19
 X>
 X> Use `fromLteSucc` with implicits to construct some proofs.
 
@@ -686,7 +697,7 @@ Q> How did mathematical induction work in this case?
 Q>
 Q> Mathematical induction is defined in terms of natural numbers, but in this case we used induction to prove a fact about a list. This works because we used a more general induction called structural induction. According to Wikipedia, structural induction is used to prove that some proposition {$$}P(x){/$$} holds for all {$$}x{/$$} of some sort of recursively defined structure, such as formulas, lists, or trees. For example, for lists we used `End` as the base case, and `Cons` as the inductive step. Thus, mathematical induction is a special case of structural induction for the `Nat` type.
 
-X> ### Exercise 19
+X> ### Exercise 20
 X>
 X> Rewrite `has_odd` to use `with` in the recursive case, and then repeat the proof above.
 
@@ -733,13 +744,9 @@ implementation Porder Nat LTE where
 
 We proved that the binary operation "less than or equal to" for `Nat`s make a `Porder`. Interfaces allow us to group one or more functions, and an implementation of a specific type is guaranteed to implement all such functions.
 
-X> ### Exercise 20
-X>
-X> Convince yourself using pen and paper that {$$}\leq{/$$} on natural numbers makes a partial order, i.e. it satisfies all properties of Definition 7.
-
 X> ### Exercise 21
 X>
-X> Understand the proofs for reflexivity, transitivity, and antisymmetry by trying to deduce them yourself using holes.
+X> Convince yourself using pen and paper that {$$}\leq{/$$} on natural numbers makes a partial order, i.e. it satisfies all properties of Definition 7. Afterwards, try to understand the proofs for reflexivity, transitivity, and antisymmetry by trying to deduce them yourself using holes.
 
 ## 5.3. Trees
 
