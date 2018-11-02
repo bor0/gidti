@@ -432,7 +432,7 @@ Idris> test2 1
 "Hello" : String
 ```
 
-We can note that the evaluation of `test 1` does not produce a computed value as a result. Note that at compile-time, Idris will **evaluate the types only for total functions**.
+We can note that the evaluation of `test 1` does not produce a computed value as a result. Note that at compile-time, Idris will **evaluate the types only for total functions**, in order to keep type checking decidable.
 
 X> ### Exercise 13
 X>
