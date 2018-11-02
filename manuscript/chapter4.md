@@ -402,7 +402,7 @@ I> ### Definition 3
 I>
 I> A total function is a function that terminates (or returns a value) for all possible inputs.
 
-Analogously to the definition above, a partial function is one that does not have a definition for at least one input. If a function is total, its type can be understood as a precise description of what that function can do. Idris differentiates total from partial functions. As an example, if we assume that we have a function that returns a `String`, then:
+Analogously to the definition above, a partial function is one that does not have a definition for at least one input. If a function is total, its type can be understood as a precise description of what that function can do. Idris differentiates total from partial functions, but allows defining both[^ch4n5]. As an example, if we assume that we have a function that returns a `String`, then:
 
 1. If it's total, it will return a `String` in finite time
 1. If it's partial, then unless it crashes or enters in an infinite loop, it will return a `String`
@@ -602,7 +602,7 @@ I> ### Definition 5
 I>
 I> _Lazy_ evaluation means that function parameters are evaluated only when their values are needed. Conversely, _strict_ evaluation means that all function parameters are evaluated at call time.
 
-Idris evaluates parameters in a strict fashion[^ch4n5]. For example, let's take a look at the following function:
+Idris evaluates parameters in a strict fashion[^ch4n6]. For example, let's take a look at the following function:
 
 ```
 ifThenElse : Bool -> a -> a -> a
@@ -661,7 +661,7 @@ In this function we defined two new pattern matches after the line that uses the
 
 ### 4.1.12. Interfaces and implementations
 
-Interfaces are defined using the `interface` keyword and they allow us to add constraints to types that implement them[^ch4n6]. As an example, we'll take a look at the `Eq` interface:
+Interfaces are defined using the `interface` keyword and they allow us to add constraints to types that implement them[^ch4n7]. As an example, we'll take a look at the `Eq` interface:
 
 ```
 interface Eq a where
@@ -757,6 +757,8 @@ X> Hint: Check the documentation of `the` with `:doc the`, and use it with the t
 
 [^ch4n4]: The key idea is not that a tail recursive function _is_ an iterative loop, but that a smart enough compiler can _pretend_ that it is and evaluate it using constant function stack space.
 
-[^ch4n5]: In contrast, the default behaviour in Haskell is lazy evaluation.
+[^ch4n5]: Partial (non-terminating) functions are what makes Idris Turing complete.
 
-[^ch4n6]: They are equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.
+[^ch4n6]: In contrast, the default behaviour in Haskell is lazy evaluation.
+
+[^ch4n7]: They are equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.
