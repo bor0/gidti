@@ -25,7 +25,7 @@ Besides these tokens, there are several rules:
 
 In the following example we'll define a formal system and demonstrate the use of the rule modus ponens in order to get to a new theorem, based on our initial axioms.
 
-```
+```text
 $( Declaration of constants $)
 $c -> ( ) wff |- I J $.
 
@@ -53,7 +53,7 @@ We created constants (strings) `->`, `wff`, etc. that we will use in our system.
 
 Having defined our formal system, we can proceed with the proof:
 
-```
+```text
 $( For given I and I -> J, we prove that we can conclude J. Note: We use block scoping here since we don't want the hypothesis proof_I and proof_I_imp_J to be visible outside of the block $)
 ${
     $( Given I and I -> J $)

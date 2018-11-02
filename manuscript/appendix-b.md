@@ -54,7 +54,7 @@ main = do
 
 In the REPL, we can say `:x main` to execute the IO function. Alternatively, if we save that code to `test.idr`, we can use the command `idris test.idr -o test` in order to output an executable file that we can use on our system. Interacting with it:
 
-```
+```shell
 boro@bor0:~$ idris test.idr -o test
 boro@bor0:~$ ./test
 What's your name? Boro
@@ -168,7 +168,7 @@ Idris>
 
 Idris stopped the process execution. Going one step further, after we compile:
 
-```
+```shell
 boro@bor0:~/idris-test$ idris --codegen node test.idr -o test.js
 boro@bor0:~/idris-test$ node test.js
 Following greet, enter any number of chars
@@ -178,16 +178,7 @@ What is your name? Hello
                                                                                                     ^
 
 TypeError: Cannot read property '$1' of undefined
-    at Main__greet (/Users/boro/idris-test/test.js:177:101)
-    at Main__main (/Users/boro/idris-test/test.js:187:12)
-    at $_0_runMain (/Users/boro/idris-test/test.js:231:25)
-    at Object.<anonymous> (/Users/boro/idris-test/test.js:235:1)
-    at Object.<anonymous> (/Users/boro/idris-test/test.js:236:3)
-    at Module._compile (module.js:660:30)
-    at Object.Module._extensions..js (module.js:671:10)
-    at Module.load (module.js:573:32)
-    at tryModuleLoad (module.js:513:12)
-    at Function.Module._load (module.js:505:3)
+...
 boro@bor0:~/idris-test$ node test.js
 Following greet, enter any number of chars
 What is your name? Hi
@@ -196,7 +187,7 @@ Hello Hi
 
 We get a run-time error from JavaScript. If we do the same with the C back-end:
 
-```
+```shell
 boro@bor0:~/Desktop/idris-test$ idris --codegen C test.idr -o test
 boro@bor0:~/Desktop/idris-test$ ./test
 Following greet, enter any number of chars
@@ -218,7 +209,7 @@ In this example we'll introduce the FFI system, which stands for  Foreign Functi
 
 We can define the file `test.c` as follows:
 
-```
+```c
 #include "test.h"
 
 int succ(int i) {
@@ -228,7 +219,7 @@ int succ(int i) {
 
 Together with `test.h`:
 
-```
+```c
 int succ(int);
 ```
 
