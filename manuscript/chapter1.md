@@ -80,17 +80,7 @@ Note that, in order to be able to apply rule 3, we need to have the number of su
 
 So we've shown that with the starting axiom `MI` it is not possible to get to `MU`, because no sequence of steps can turn a string with one `I` into a string with no `I`s. But if we look carefully, we've used a different formal system to reason about `MU` (i.e. divisibility by 3, which is not part of the MU system). This is because the puzzle cannot be solved in its own system. Otherwise, an algorithm would keep trying different inference rules of `MU` indefinitely (not knowing that `MU` is impossible).
 
-Every useful formal system has this limitation. As we've seen, G&#246;del's theorem shows that there's no formal system that can contain all possible truths, because it cannot prove some truths about its own structure.
-
-So, having experience with different formal systems and combining them as needed can be useful.
-
-X> ### Exercise 1
-X>
-X> Modify the transformation rules of the MU puzzle that will allow the transition from `MI` to `MU`.
-
-X> ### Exercise 2
-X>
-X> Try to think of a real-world scenario and model it using a formal system, and then try to apply a few of the transformation rules in order to demonstrate how we can get from point A to point B.
+Every useful formal system has this limitation. As we've seen, G&#246;del's theorem shows that there's no formal system that can contain all possible truths, because it cannot prove some truths about its own structure. Thus, having experience with different formal systems and combining them as needed can be useful.
 
 [^ch1n1]: The word iff is an abbreviation for "If and only if" and means that two statements are logically equivalent.
 
