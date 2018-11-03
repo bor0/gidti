@@ -98,7 +98,7 @@ I> ### Definition 7
 I>
 I> A fixed-point combinator is any function that satisfies the equation {$$}\text{fix} \ f = f \ (\text{fix} \ f){/$$}.
 
-One example of such a combinator is the {$$}\text{Y}{/$$} combinator which is defined as {$$}\lambda f . (\lambda x . f\ (x\ x))\ (\lambda x . f\ (x\ x)){/$$}. This definition satisfies {$$}\text{Y} \ f = f \ (\text{Y} \ f){/$$}. This combinator allows for recursion in lambda calculus. Since it is impossible to refer to the function within its body, recursion can only be achieved by applying parameters to a function which is what this combinator does.
+One example of such a combinator is {$$}\text{Y} = \lambda f . (\lambda x . f\ (x\ x))\ (\lambda x . f\ (x\ x)){/$$}. This definition satisfies {$$}\text{Y} \ f = f \ (\text{Y} \ f){/$$}. This combinator allows for recursion in lambda calculus. Since it is impossible to refer to the function within its body, recursion can only be achieved by applying parameters to a function which is what this combinator does.
 
 X> ### Exercise 2
 X>
