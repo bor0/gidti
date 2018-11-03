@@ -237,7 +237,7 @@ Note how the definition of `MyNat` is recursive compared to `Weekday`. A consequ
 
 X> ### Exercise 10
 X>
-X> Compare the addition definition to Definition 21 in Chapter 2.
+X> Compare the addition definition to Definition 21 in chapter 2.
 
 ### 5.2.1. First proof (auto-inference and existence)
 
@@ -384,7 +384,7 @@ This concludes the proof.
 
 X> ### Exercise 14
 X>
-X> Observe the similarity between this proof and the proof in Section 2.3.5.
+X> Observe the similarity between this proof and the proof in section 2.3.5.
 
 ### 5.2.4. Ordering
 

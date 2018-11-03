@@ -23,7 +23,7 @@ I> 1. Product is combination. It is denoted as {$$}\text{A B}{/$$} and it means 
 
 As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}\text{Real}{/$$} for real numbers. Using sum (union) we can construct a new type {$$}\text{Nat | Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat | Real}{/$$}, {$$}3.14 : \text{Nat | Real}{/$$}, etc. Using product we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 \ 1.5 : \text{Nat Real}{/$$}, {$$}2 \ 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
 
-Finally, Idris supports dependent types[^ch3n2]. These kind of types are so powerful, they can encode most properties of programs and with their help Idris can prove invariants at compile-time. As we will see in Section 4.2 types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software[^ch3n3].
+Finally, Idris supports dependent types[^ch3n2]. These kind of types are so powerful, they can encode most properties of programs and with their help Idris can prove invariants at compile-time. As we will see in section 4.2 types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software[^ch3n3].
 
 Q> Why are types useful?
 Q>
@@ -207,7 +207,7 @@ X> Think of a way to construct a different dependent sum type and express it usi
 
 The core "construct" in Idris are types. As we've seen, foundations are based on type theory. As we've also seen, in classic mathematical logic we have sets and propositions, according to set theory.
 
-The intuitionistic theory of types (or constructive type theory) offers an alternative foundation to mathematics. This theory was introduced by Martin-L&#246;f, a Swedish mathematician in 1972. It is based on the isomorphism (or "equality") that propositions are types. We will cover this in details in Section 4.2, after introducing Idris' syntax.
+The intuitionistic theory of types (or constructive type theory) offers an alternative foundation to mathematics. This theory was introduced by Martin-L&#246;f, a Swedish mathematician in 1972. It is based on the isomorphism (or "equality") that propositions are types.
 
 Proving a theorem in this system consists of constructing[^ch3n7] (or providing evidence for) a particular object. If we want to prove something about a type {$$}\text{A}{/$$} and we know that {$$}a : \text{A}{/$$}, then {$$}a{/$$} is one proof for {$$}\text{A}{/$$}. Note how we say one proof, because there can be many other elements of type {$$}\text{A}{/$$}.
 
@@ -294,7 +294,7 @@ X> Try to use some of the proofs in the earlier chapters as a motivation and wor
 
 [^ch3n4]: A _Turing machine_ is a very simple abstract machine designed to capture our intuitive understanding of _computation_ in the most general sense. Any formal system that can simulate a Turing machine, and thus also perform arbitrary computations, is called _Turing complete_.
 
-[^ch3n5]: For this reason the typed lambda calculus is not Turing complete, while the untyped lambda calculus is. Fixed-point combinators provide flexibility, but that has its drawbacks. They can be non-terminating - loop indefinitely without producing an answer. While non-termination has its uses for software (e.g. a program keeps running until we choose to close it), termination is important for mathematical proofs as we will see in Section 4.2.
+[^ch3n5]: For this reason the typed lambda calculus is not Turing complete, while the untyped lambda calculus is. Fixed-point combinators provide flexibility, but that has its drawbacks. They can be non-terminating - loop indefinitely without producing an answer. While non-termination has its uses for software (e.g. a program keeps running until we choose to close it), termination is important for mathematical proofs as we will see in section 4.2.
 
 [^ch3n6]: Collections in general are considered to be subcollections of some large universal collection, also called the universe. Depending on the context, the definition of this universe will vary.
 

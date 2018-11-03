@@ -254,7 +254,7 @@ X> Write a lambda function that returns `True` if the parameter passed to it is 
 
 ### 4.1.4. Recursive functions
 
-By Definition 19 of Chapter 2, recursive functions are those functions that refer to themselves. One example is the function `even : Nat -> Bool`, a function that checks if a natural number is even or not. It can be defined as follows:
+By Definition 19 of chapter 2, recursive functions are those functions that refer to themselves. One example is the function `even : Nat -> Bool`, a function that checks if a natural number is even or not. It can be defined as follows:
 
 ```
 even : Nat -> Bool
@@ -494,7 +494,7 @@ X> 4. Evaluate them on paper to figure out why they produce the given results.
 
 ### 4.1.8. Dependent types
 
-We will implement the `List n` data type that we discussed in Section 3.3, which should limit the length of a list at the type level. Idris already has a built-in list like this called `Vect`, so to not conflict we'll name it `MyVect`. We can implement it as follows:
+We will implement the `List n` data type that we discussed in section 3.3, which should limit the length of a list at the type level. Idris already has a built-in list like this called `Vect`, so to not conflict we'll name it `MyVect`. We can implement it as follows:
 
 ```
 data MyVect : (n : Nat) -> Type where
