@@ -256,7 +256,7 @@ To prove the existence of a successor, i.e. `Succ x`, per intuitionistic logic w
 
 ```
 total our_second_proof : MyNat -> DPair MyNat (\_ => MyNat)
-our_second_proof x = MkDPair x x
+our_second_proof x = MkDPair x (Succ x)
 ```
 
 We just proved that {$$}\exists x \in \text{MyNat}, Succ(x){/$$}.
