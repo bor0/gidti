@@ -502,10 +502,12 @@ data MyVect : (n : Nat) -> Type where
     Cons  : (x : Nat) -> (xs : MyVect len) -> MyVect (S len)
 ```
 
-We created a new type called `MyVect` which accepts a natural number and returns a `Type`, that is joined with two type constructors:
+We created a new type called `MyVect` which accepts a natural number `n` and returns a `Type`, that is joined with two type constructors:
 
 1. `Empty` - which is just the empty list
-1. `Cons : (x : Nat) -> (xs : MyVect len) -> MyVect (S len)` - which, given a natural number and a list of length `len`, will return a list of length `S len`, that is, `len + 1`
+1. `Cons : (x : Nat) -> (xs : MyVect len) -> MyVect (S len)` - which, given a natural number `x` and a list `xs` of length `len`, will return a list of length `S len`, that is, `len + 1`.
+
+Note how we additionally specified names to the parameters. This can be useful if we want to reference those parameters elsewhere in the type definition.
 
 If we now use the following code snippet, it will pass the compile-time checks:
 
