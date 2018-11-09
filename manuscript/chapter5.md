@@ -748,7 +748,7 @@ X> ### Exercise 21
 X>
 X> Convince yourself using pen and paper that {$$}\leq{/$$} on natural numbers makes a partial order, i.e. it satisfies all properties of Definition 7. Afterwards, try to understand the proofs for reflexivity, transitivity, and antisymmetry by trying to deduce them yourself using holes.
 
-## 5.3. Computation as a Type
+## 5.3. Computations as types
 
 As we stated earlier, types are first-class citizens in Idris. In this example we will see how we can convert a function that does some computation to its corresponding type definition.
 
@@ -761,7 +761,7 @@ allSame (Cons x Empty)       = True
 allSame (Cons x (Cons y xs)) = x == y && allSame xs
 ```
 
-Idris will return `True` in case all elements are equal to each other, and `False` otherwise. Let's now think how we can represent this function in terms of types. We want to have a type `AllSame` which has three constructors:
+Idris will return `True` in case all elements are equal to each other, and `False` otherwise. Let's now think how we can represent this function in terms of types. We want to have a type `AllSame` that has three constructors:
 
 1. `AllSameZero` which is a proof for `AllSame` in case of an empty list
 1. `AllSameOne` which is a proof for `AllSame` in case of a single-element list
@@ -788,14 +788,16 @@ AllSameZero : AllSame Empty
 Idris> AllSameOne 1
 AllSameOne 1 : AllSame (Cons 1 Empty)
 Idris> AllSameMany 1 1 Empty Refl (AllSameOne 1)
-AllSameMany 1 1 Empty Refl (AllSameOne 1) : AllSame (Cons 1 (Cons 1 Empty))
+AllSameMany 1 1 Empty Refl (AllSameOne 1) : AllSame (Cons 1
+    (Cons 1 Empty))
 ```
 
 The third example is a proof that the list `[1, 1]` has same elements. However, if we try to use the constructor with different elements:
 
 ```
 Idris> AllSameMany 1 2 Empty
-AllSameMany 1 2 Empty : (True = False) -> AllSame (Cons 2 Empty) -> AllSame (Cons 1 (Cons 2 Empty))
+AllSameMany 1 2 Empty : (True = False) -> AllSame (Cons 2 Empty) ->
+    AllSame (Cons 1 (Cons 2 Empty))
 ```
 
 We see that Idris requires us to provide a proof that `True = False`, which is impossible. So for some lists the type `AllSame` cannot be constructed, but for some it can. If we now want to make a function that given a list, it maybe produces a type `AllSame`, we need to consider the `Maybe` data type first which has the following definition:
@@ -818,13 +820,13 @@ We can now proceed to write our function:
 ```
 mkAllSame : (xs : MyVect n) -> Maybe (AllSame xs)
 mkAllSame Empty                = Just AllSameZero
-mkAllSame (Cons x Empty)       = Just $ AllSameOne x
+mkAllSame (Cons x Empty)       = Just (AllSameOne x)
 mkAllSame (Cons x (Cons y xs)) with (x == y) proof x_eq_y
     mkAllSame (Cons x (Cons y xs)) | False =
         Nothing
     mkAllSame (Cons x (Cons y xs)) | True  =
         case (mkAllSame (Cons y xs)) of
-            Just y_eq_xs => Just $ AllSameMany x y xs x_eq_y y_eq_xs
+            Just y_eq_xs => Just (AllSameMany x y xs x_eq_y y_eq_xs)
             Nothing      => Nothing
 ```
 
@@ -834,12 +836,13 @@ Interacting with it:
 Idris> mkAllSame (Cons 1 Empty)
 Just (AllSameOne 1) : Maybe (AllSame (Cons 1 Empty))
 Idris> mkAllSame (Cons 1 (Cons 1 Empty))
-Just (AllSameMany 1 1 Empty Refl (AllSameOne 1)) : Maybe (AllSame (Cons 1 (Cons 1 Empty)))
+Just (AllSameMany 1 1 Empty Refl (AllSameOne 1)) : Maybe (AllSame
+    (Cons 1 (Cons 1 Empty)))
 Idris> mkAllSame (Cons 1 (Cons 2 Empty))
 Nothing : Maybe (AllSame (Cons 1 (Cons 2 Empty)))
 ```
 
-Finally, we can rewrite our original `allSame` as follows:
+For lists that contain same elements it will use the `Just` constructor, and `Nothing` otherwise. Finally, we can rewrite our original `allSame` as follows:
 
 ```
 allSame' : MyVect n -> Bool
