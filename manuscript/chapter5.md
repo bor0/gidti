@@ -748,7 +748,107 @@ X> ### Exercise 21
 X>
 X> Convince yourself using pen and paper that {$$}\leq{/$$} on natural numbers makes a partial order, i.e. it satisfies all properties of Definition 7. Afterwards, try to understand the proofs for reflexivity, transitivity, and antisymmetry by trying to deduce them yourself using holes.
 
-## 5.3. Trees
+## 5.3. Computation as a Type
+
+As we stated earlier, types are first-class citizens in Idris. In this example we will see how we can convert a function that does some computation to its corresponding type definition.
+
+Re-using the same definition of `MyVect`, we can write a function to test if all elements are same in a given list:
+
+```
+allSame : (xs : MyVect n) -> Bool
+allSame Empty                = True
+allSame (Cons x Empty)       = True
+allSame (Cons x (Cons y xs)) = x == y && allSame xs
+```
+
+Idris will return `True` in case all elements are equal to each other, and `False` otherwise. Let's now think how we can represent this function in terms of types. We want to have a type `AllSame` which has three constructors:
+
+1. `AllSameZero` which is a proof for `AllSame` in case of an empty list
+1. `AllSameOne` which is a proof for `AllSame` in case of a single-element list
+1. `AllSameMany` which is a proof for `AllSame` in case of a list with multiple elements
+
+This is how the data type could look like:
+
+```
+data AllSame : MyVect n -> Type where
+    AllSameZero : AllSame Empty
+    AllSameOne  : (x : Nat) -> AllSame (Cons x Empty)
+    AllSameMany : (x : Nat) -> (y : Nat) -> (ys : MyVect _) ->
+        True = (x == y) -> AllSame (Cons y ys) ->
+        AllSame (Cons x (Cons y ys))
+```
+
+The constructors `AllSameZero` and `AllSameOne` are easy. However, the recursive constructor `AllSameMany` is a bit trickier. It accepts two natural numbers `x` and `y`, a list `ys`, a proof that `x` and `y` are same, and a proof that `y` concatenated to `ys` is a same-element list. Given this, it will produce a proof that `x` concatenated to `y` concatenated to `ys` is also a same-element list. This type definition captures exactly the definition of a list that would contain all same elements.
+
+Interacting with the constructors:
+
+```
+Idris> AllSameZero
+AllSameZero : AllSame Empty
+Idris> AllSameOne 1
+AllSameOne 1 : AllSame (Cons 1 Empty)
+Idris> AllSameMany 1 1 Empty Refl (AllSameOne 1)
+AllSameMany 1 1 Empty Refl (AllSameOne 1) : AllSame (Cons 1 (Cons 1 Empty))
+```
+
+The third example is a proof that the list `[1, 1]` has same elements. However, if we try to use the constructor with different elements:
+
+```
+Idris> AllSameMany 1 2 Empty
+AllSameMany 1 2 Empty : (True = False) -> AllSame (Cons 2 Empty) -> AllSame (Cons 1 (Cons 2 Empty))
+```
+
+We see that Idris requires us to provide a proof that `True = False`, which is impossible. So for some lists the type `AllSame` cannot be constructed, but for some it can. If we now want to make a function that given a list, it maybe produces a type `AllSame`, we need to consider the `Maybe` data type first which has the following definition:
+
+```
+data Maybe a = Just a | Nothing
+```
+
+Interacting with it:
+
+```
+Idris> the (Maybe Nat) (Just 3)
+Just 3 : Maybe Nat
+Idris> the (Maybe Nat) Nothing
+Nothing : Maybe Nat
+```
+
+We can now proceed to write our function:
+
+```
+mkAllSame : (xs : MyVect n) -> Maybe (AllSame xs)
+mkAllSame Empty                = Just AllSameZero
+mkAllSame (Cons x Empty)       = Just $ AllSameOne x
+mkAllSame (Cons x (Cons y xs)) with (x == y) proof x_eq_y
+    mkAllSame (Cons x (Cons y xs)) | False =
+        Nothing
+    mkAllSame (Cons x (Cons y xs)) | True  =
+        case (mkAllSame (Cons y xs)) of
+            Just y_eq_xs => Just $ AllSameMany x y xs x_eq_y y_eq_xs
+            Nothing      => Nothing
+```
+
+Interacting with it:
+
+```
+Idris> mkAllSame (Cons 1 Empty)
+Just (AllSameOne 1) : Maybe (AllSame (Cons 1 Empty))
+Idris> mkAllSame (Cons 1 (Cons 1 Empty))
+Just (AllSameMany 1 1 Empty Refl (AllSameOne 1)) : Maybe (AllSame (Cons 1 (Cons 1 Empty)))
+Idris> mkAllSame (Cons 1 (Cons 2 Empty))
+Nothing : Maybe (AllSame (Cons 1 (Cons 2 Empty)))
+```
+
+Finally, we can rewrite our original `allSame` as follows:
+
+```
+allSame' : MyVect n -> Bool
+allSame' xs = case (mkAllSame xs) of
+    Nothing => False
+    Just _  => True
+```
+
+## 5.4. Trees
 
 A tree structure is a way to represent hierarchical data. We will work with binary trees in this section, which are trees that contain exactly two sub-trees (nodes). We can define this tree structure using the following implementation:
 
@@ -775,7 +875,7 @@ X> ### Exercise 22
 X>
 X> Come up with a few trees by using the type constructors above.
 
-### 5.3.1. Depth
+### 5.4.1. Depth
 
 I> ### Definition 8
 I>
@@ -849,7 +949,7 @@ depth_tree_gt_0 (Node v tr1 tr2) =
 
 Thus, we have proven that the depth of any tree is greater or equal to zero.
 
-### 5.3.2. Map and size
+### 5.4.2. Map and size
 
 We saw how we can use `map` with lists. It would be neat if we had a way to map trees as well. The following definition will allow us to do exactly that:
 
@@ -894,7 +994,7 @@ Idris> size_tree (Node 1 (Node 2 Leaf Leaf) Leaf)
 2 : Nat
 ```
 
-### 5.3.3. Length of mapped trees
+### 5.4.3. Length of mapped trees
 
 We want to prove that for a given tree and _any_ function `f`, the size of that tree will be the same as the size of that tree mapped with the function `f`:
 
