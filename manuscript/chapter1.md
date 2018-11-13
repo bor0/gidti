@@ -66,7 +66,7 @@ We can represent the formal description of this system as follows:
     1. Set of symbols is {$$}\{ M, I, U \}{/$$}
     1. A string is well-formed if the first letter is `M` and there are no other `M` letters. Examples: `M`, `MIUIU`, `MUUUIII`
 1. `MI` is the starting string, i.e. axiom
-1. The rules of inference are defined in the table earlier
+1. The rules of inference are defined in Definition 4
 
 Q> Can we get from `MI` to `MU` with this system?
 Q>
