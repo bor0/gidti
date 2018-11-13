@@ -95,7 +95,7 @@ Idris> :t A_inst
 A_inst : a -> b -> A a b
 ```
 
-That is, we show the type definitions for both the newly-defined type and its type constructor. Note how we created a product type here. Idris has a built-in notion of pairs, which is a data type that can be defined in terms of products. For example, `(1, 2)` is one pair. We can also define tuples with `(1, "Hi", True)`, which is equivalent to `(1, ("Hi", True))`, i.e. a pair where the first element is a number, and the second element is a pair.
+That is, we show the type definitions for both the newly-defined type and its type constructor. Note how we created a product type here. Idris has a built-in[^ch4n3] notion of pairs, which is a data type that can be defined in terms of products. For example, `(1, 2)` is one pair. We can also define tuples with `(1, "Hi", True)`, which is equivalent to `(1, ("Hi", True))`, i.e. a pair where the first element is a number, and the second element is a pair.
 
 Analogously, if we want to create a sum type, we could do the following:
 
@@ -122,7 +122,7 @@ Idris> :t B_inst_right
 B_inst_right : b -> B a b
 ```
 
-For extracting values from data types such as `B a b`, we can use pattern matching[^ch4n3]. As an example, to extract `a` from `B a b`, we can use the following function:
+For extracting values from data types such as `B a b`, we can use pattern matching[^ch4n4]. As an example, to extract `a` from `B a b`, we can use the following function:
 
 ```
 f : B a b -> a
@@ -182,11 +182,11 @@ We can now ask Idris to tell us the type of `hole1`, that is, with `:t hole1` we
 
 X> ### Exercise 3
 X>
-X> Define your own custom type. One example is `data Person = PersonInst String Nat`, where `String` represents name and `Nat` represents age. Use the constructor to generate some objects of that type. Afterwards, use `:t` to check the type of the type constructor and the objects.
+X> Define your own custom type. One example is `data Person = PersonInst String Nat`, where `String` represents name and `Nat` represents age. Use the constructor to generate some objects of that type. Afterwards, use `:t` to check the type of the type constructor and the objects it can construct.
 
 X> ### Exercise 4
 X>
-X> Invent a function that works with your custom type (for example, it extracts some value) by pattern matching against its type constructor(s).
+X> Come up with a function that works with your custom type (for example, it extracts some value) by pattern matching against its type constructor(s).
 
 X> ### Exercise 5
 X>
@@ -294,7 +294,7 @@ We see how this exhibits a recursive behaviour since the recursive cases were re
 
 A recursive function can generate an **iterative** or a **recursive** process:
 
-1. An iterative process[^ch4n4] (tail recursion) is a process where the return value at any point in computation is captured completely by its parameters
+1. An iterative process[^ch4n5] (tail recursion) is a process where the return value at any point in computation is captured completely by its parameters
 1. A recursive one, in contrast, is one where the return value is not captured at any point in computation by the parameters, and so it relies on postponed evaluations
 
 In the example above, `even` generates a recursive process since it needs to go down to the base case, and then build its way back up to do the calculations that were postponed. Alternatively, we can rewrite `even` so that it captures the return value by introducing another variable, as such:
@@ -402,7 +402,7 @@ I> ### Definition 3
 I>
 I> A total function is a function that terminates (or returns a value) for all possible inputs.
 
-Analogously to the definition above, a partial function is one that does not have a definition for at least one input. If a function is total, its type can be understood as a precise description of what that function can do. Idris differentiates total from partial functions, but allows defining both[^ch4n5]. As an example, if we assume that we have a function that returns a `String`, then:
+Analogously to the definition above, a partial function is one that does not have a definition for at least one input. If a function is total, its type can be understood as a precise description of what that function can do. Idris differentiates total from partial functions, but allows defining both[^ch4n6]. As an example, if we assume that we have a function that returns a `String`, then:
 
 1. If it's total, it will return a `String` in finite time
 1. If it's partial, then unless it crashes or enters in an infinite loop, it will return a `String`
@@ -463,7 +463,7 @@ Idris> foldr (\x, y => x + y) 0 [1, 2, 3]
 6 : Integer
 ```
 
-We can actually implement the map function ourselves:
+We can actually implement the `map` function ourselves:
 
 ```
 mymap : (a -> a) -> List a -> List a
@@ -604,7 +604,7 @@ I> ### Definition 5
 I>
 I> _Lazy_ evaluation means that function parameters are evaluated only when their values are needed. Conversely, _strict_ evaluation means that all function parameters are evaluated at call time.
 
-Idris evaluates parameters in a strict fashion[^ch4n6]. For example, let's take a look at the following function:
+Idris evaluates parameters in a strict fashion[^ch4n7]. For example, let's take a look at the following function:
 
 ```
 ifThenElse : Bool -> a -> a -> a
@@ -663,7 +663,7 @@ In this function we defined two new pattern matches after the line that uses the
 
 ### 4.1.12. Interfaces and implementations
 
-Interfaces are defined using the `interface` keyword and they allow us to add constraints to types that implement them[^ch4n7]. As an example, we'll take a look at the `Eq` interface:
+Interfaces are defined using the `interface` keyword and they allow us to add constraints to types that implement them[^ch4n8]. As an example, we'll take a look at the `Eq` interface:
 
 ```
 interface Eq a where
@@ -702,6 +702,8 @@ False : Bool
 Idris> Fooinst 3 "orange" /= Fooinst 6 "apple"
 True : Bool
 ```
+
+`Nat`s implement the built-in `Num` interface, which is what allows us to use 0 and Z interchangeably.
 
 X> ### Exercise 19
 X>
@@ -749,12 +751,14 @@ As long as Idris' type checker terminates, we can be certain that the program pr
 
 [^ch4n2]: A polymorphic type can accept additional types as arguments, which are either defined by the programmer or primitive ones.
 
-[^ch4n3]: Although product and sum types are very general, due to polymorphism, we can say something very specific about the structure of their values. For instance, suppose we've defined a type like so: `data C a b c = C_left a | C_right (b,c)`. Now a value of type `C` can only come into existence in one of two ways: as a value of the form `C_left x` for a value `x : a`, or as a value of the form `C_right (y,z)` for values `y : b` and `z : c`.
+[^ch4n3]: By built-in we usually mean it's part of Idris' library. We can always implement it ourselves if we need to.
 
-[^ch4n4]: The key idea is not that a tail recursive function _is_ an iterative loop, but that a smart enough compiler can _pretend_ that it is and evaluate it using constant function stack space.
+[^ch4n4]: Although product and sum types are very general, due to polymorphism, we can say something very specific about the structure of their values. For instance, suppose we've defined a type like so: `data C a b c = C_left a | C_right (b,c)`. Now a value of type `C` can only come into existence in one of two ways: as a value of the form `C_left x` for a value `x : a`, or as a value of the form `C_right (y,z)` for values `y : b` and `z : c`.
 
-[^ch4n5]: Partial (non-terminating) functions are what makes Idris Turing complete.
+[^ch4n5]: The key idea is not that a tail recursive function _is_ an iterative loop, but that a smart enough compiler can _pretend_ that it is and evaluate it using constant function stack space.
 
-[^ch4n6]: In contrast, the default behaviour in Haskell is lazy evaluation.
+[^ch4n6]: Partial (non-terminating) functions are what makes Idris Turing complete.
 
-[^ch4n7]: They are equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.
+[^ch4n7]: In contrast, the default behaviour in Haskell is lazy evaluation.
+
+[^ch4n8]: They are equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.
