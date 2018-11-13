@@ -38,7 +38,7 @@ X> ```
 
 X> ### Exercise 4
 X>
-X> In section 4.2 we implemented `And`. How does it compare with the built-in `Pair`?
+X> In section 4.2 we implemented `And`. How does it compare to the built-in `Pair`?
 
 ## 5.1. Weekdays
 
