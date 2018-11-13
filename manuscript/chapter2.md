@@ -84,12 +84,14 @@ One example of a predicate is `P(x) = x is organic`, with {$$}P(Salad) = \top{/$
 
 In the following example the universal quantifier says that the predicate will hold for **all** possible choices of {$$}x{/$$}: {$$}\forall x, P(x){/$$}. Alternatively, the existential quantifier says that the predicate will hold for **at least one** choice of {$$}x{/$$}: {$$}\exists x, P(x){/$$}.
 
-Another example of combining a predicate with the universal quantifier is `P(x) = x is a mammal`, then {$$}\forall x, P(x){/$$} is true, for all {$$}x{/$$} ranging over the set of humans.
+Another example of combining a predicate with the universal quantifier is `P(x) = x is a mammal`, then {$$}\forall x, P(x){/$$} is true, for all {$$}x{/$$} ranging over the set of humans. We can choose `P(x) = x understands Dependent Types` with {$$}\exists x, P(x){/$$} to say that there is at least one person that understands Dependent Types.
 
 The negation of the quantifiers is defined as follows:
 
 1. Negation of universal quantifier: {$$}\lnot (\forall x, P(x)) \leftrightarrow \exists x, \lnot P(x){/$$}
 1. Negation of existential quantifier: {$$}\lnot (\exists x, P(x)) \leftrightarrow \forall x, \lnot P(x){/$$}
+
+As an example, for `P(x) = x understands Dependent Types` the negation of {$$}\exists x, P(x){/$$} is {$$}\forall x, \lnot P(x){/$$}. That is, the negation of `there is at least one person that understands Dependent Types` is `for all persons x, x does not understand Dependent Types`, or simply put `nobody understands Dependent Types`.
 
 X> ### Exercise 2
 X>
@@ -99,7 +101,7 @@ X> Think of a real-world predicate and express its truthiness using the {$$}\for
 
 In first order logic, predicates act like functions that take an input value and produce a proposition. A predicate can't be true or false until a specific value is substituted for the variables, and the quantifiers {$$}\forall{/$$} and {$$}\exists{/$$} "close" over a predicate to give a statement which can be either true or false.
 
-Likewise, we can define a "metapredicate" that acts like a function on predicates. For example, let {$$}\Gamma(P){/$$} be the statement `there exists a person x such that P(x) is true`. Note that it doesn't make sense to ask if {$$}\Gamma(P){/$$} is true or false until we plug in a specific _predicate_ {$$}P{/$$}. But we can quantify over {$$}P{/$$}, and construct a statement like {$$}\forall P . \Gamma(P){/$$}. In English, this statement translates to `For any given property P, there exists a person satisfying that property`.
+Likewise, we can define a "metapredicate" that acts like a function on predicates. For example, let {$$}\Gamma(P){/$$} be the statement `there exists a person x such that P(x) is true`. Note that it doesn't make sense to ask if {$$}\Gamma(P){/$$} is true or false until we plug in a specific _predicate_ {$$}P{/$$}. But we can quantify over {$$}P{/$$}, and construct a statement like {$$}\forall P, \Gamma(P){/$$}. In English, this statement translates to `For any given property P, there exists a person satisfying that property`.
 
 Metapredicates like {$$}\Gamma{/$$} are called _second-order_, because they range over first order predicates. And there's no reason to stop there; we could define third-order predicates that range over second-order predicates, and fourth-order predicates that range over third-order predicates, and so on.
 
