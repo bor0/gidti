@@ -746,7 +746,7 @@ We proved that the binary operation "less than or equal to" for `Nat`s make a `P
 
 X> ### Exercise 21
 X>
-X> Convince yourself using pen and paper that {$$}\leq{/$$} on natural numbers makes a partial order, i.e. it satisfies all properties of Definition 7. Afterwards, try to understand the proofs for reflexivity, transitivity, and antisymmetry by trying to deduce them yourself using holes.
+X> Convince yourself using pen and paper that {$$}\leq{/$$} on natural numbers makes a partial order, i.e. it satisfies all properties of Definition 7. Afterwards, try to understand the proofs for reflexivity, transitivity, and antisymmetry by deducing them yourself in Idris using holes.
 
 ## 5.3. Computations as types
 
