@@ -18,8 +18,8 @@ I> ### Definition 3
 I>
 I> Algebraic data types are types where we can additionally specify the form for each of the elements. They are called "algebraic" in the sense that the types are constructed using algebraic operations. The algebra here is sum and product:
 I>
-I> 1. Sum (union) is alternation. It is denoted as {$$}\text{A | B}{/$$} and it means that the value is either of type A or B
-I> 1. Product is combination. It is denoted as {$$}\text{A B}{/$$} and it means that the value is a pair where the first element is of type A, and the second element is of type B
+I> 1. Sum (union) is alternation. It is denoted as {$$}\text{A | B}{/$$} and it means that a constructed value is either of type A or B
+I> 1. Product is combination. It is denoted as {$$}\text{A B}{/$$} and it means that a constructed value is a pair where the first element is of type A, and the second element is of type B
 
 As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}\text{Real}{/$$} for real numbers. Using sum (union) we can construct a new type {$$}\text{Nat | Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat | Real}{/$$}, {$$}3.14 : \text{Nat | Real}{/$$}, etc. Using product we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 \ 1.5 : \text{Nat Real}{/$$}, {$$}2 \ 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
 
@@ -144,7 +144,7 @@ Given the definition of 1, its type must have the form {$$}(\text{a} \to \text{b
 1. Number 1 becomes {$$}\lambda [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f \ x : \text{Nat}{/$$}
 1. Number 2 becomes {$$}\lambda [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f \ (f \ x) : \text{Nat}{/$$}
 
-The (typed) successor function is: {$$}\text{SUCC} = \lambda [n:\text{Nat}]\ [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f\ (n\ f\ x) : \text{Nat} \to \text{Nat}{/$$}
+The (typed) successor function is: {$$}\text{SUCC} = \lambda [n:\text{Nat}]\ [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f\ (n\ f\ x) : \text{Nat} \to \text{Nat}{/$$}.
 
 Fixed-point combinators do not exist in the simply typed lambda calculus[^ch3n5]. To see why, consider the function {$$}\text{fix} = \lambda [f:\text{a} \to \text{a}] : \text{a}{/$$}. We can apply {$$}\text{fix}{/$$} to some element {$$}x : \text{a} \to \text{a}{/$$}. Thus, {$$}\text{fix} \ x : \text{a}{/$$}, but {$$}x = \text{fix} \ x{/$$} is a type error because the infinite type {$$}\text{a} \to \text{a} = \text{a}{/$$} cannot be matched.
 
