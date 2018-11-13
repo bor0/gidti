@@ -72,13 +72,13 @@ Q> Can we get from `MI` to `MU` with this system?
 Q>
 Q> In order to answer this, we will use an invariant[^ch1n3] with mathematical induction to prove our claim.
 
-Note that, in order to be able to apply rule 3, we need to have the number of subsequent `I`'s to be divisible by 3. So let's have our invariant say that "There is no sequence of `I`'s in the string that with length divisible by 3":
+Note that, in order to be able to apply rule 3, we need to have the number of subsequent `I`'s to be divisible by 3. Let's have our invariant say that "There is no sequence of `I`'s in the string that with length divisible by 3":
 
 1. For the starting axiom, we have one `I`. Invariant OK.
 1. Applying rule 2 will be doubling the number of `I`'s, so we can have: `I`, `II`, `IIII`, `IIIIIII` (in particular, {$$}2^n{/$$} `I`'s). Invariant OK.
 1. Applying rule 3 will be reducing the number of `I`'s by 3. But note that {$$}2^n - 3{/$$} is still not divisible by 3[^ch1n4]. Invariant OK.
 
-So we've shown that with the starting axiom `MI` it is not possible to get to `MU`, because no sequence of steps can turn a string with one `I` into a string with no `I`s. But if we look carefully, we've used a different formal system to reason about `MU` (i.e. divisibility by 3, which is not part of the MU system). This is because the puzzle cannot be solved in its own system. Otherwise, an algorithm would keep trying different inference rules of `MU` indefinitely (not knowing that `MU` is impossible).
+We've shown that with the starting axiom `MI` it is not possible to get to `MU`, because no sequence of steps can turn a string with one `I` into a string with no `I`s. But if we look carefully, we've used a different formal system to reason about `MU` (i.e. divisibility by 3, which is not part of the MU system). This is because the puzzle cannot be solved in its own system. Otherwise, an algorithm would keep trying different inference rules of `MU` indefinitely (not knowing that `MU` is impossible).
 
 Every useful formal system has this limitation. As we've seen, G&#246;del's theorem shows that there's no formal system that can contain all possible truths, because it cannot prove some truths about its own structure. Thus, having experience with different formal systems and combining them as needed can be useful.
 

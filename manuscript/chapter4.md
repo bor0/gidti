@@ -407,7 +407,7 @@ Analogously to the definition above, a partial function is one that does not hav
 1. If it's total, it will return a `String` in finite time
 1. If it's partial, then unless it crashes or enters in an infinite loop, it will return a `String`
 
-In Idris, to define total functions we just put the keyword `total` in front of the function definition. So, for example, for the following program we define two functions `test` and `test2`, a partial and a total one respectively:
+In Idris, to define total functions we just put the keyword `total` in front of the function definition. For example, for the following program we define two functions `test` and `test2`, a partial and a total one respectively:
 
 ```
 test : Nat -> String
@@ -640,7 +640,7 @@ even_members (Cons x l') = if (even x)
                            else even_members l'
 ```
 
-The function above is a recursive one, and depending on the value of `even x` it will branch the recursion. Since pattern matching works against type constructors, and `even x` is a function call, we can't easily pattern match against it. So we used `even x` in the function body to do the check. Idris provides another additional keyword `with` that allows us to pattern match a value of some expression. The keyword `with` has the following syntax:
+The function above is a recursive one, and depending on the value of `even x` it will branch the recursion. Since pattern matching works against type constructors, and `even x` is a function call, we can't easily pattern match against it. We used `even x` in the function body to do the check. Idris provides another additional keyword `with` that allows us to pattern match a value of some expression. The keyword `with` has the following syntax:
 
 ```
 function (pattern_match_1) with (expression)

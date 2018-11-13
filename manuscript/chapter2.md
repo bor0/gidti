@@ -133,7 +133,7 @@ I> ### Definition 6
 I>
 I> Set theory is a type of a formal system, which is the most common **foundation of mathematics**. It is a branch of mathematical logic that works with **sets**, which are collections of objects.
 
-Like in programming, building abstractions in mathematics is of equal importance. However, the best way to understand something is to get to the bottom of it. We'll start by working from the lowest level to the top. So we will start with the most basic object (the unordered collection) and work our way up to defining functions. Functions are an important core concept of Idris, however, as we will see in the theory that Idris relies on, functions are used as a primitive notion (an axiom) instead of being built on top of something else.
+Like in programming, building abstractions in mathematics is of equal importance. However, the best way to understand something is to get to the bottom of it. We'll start by working from the lowest level to the top. We will start with the most basic object (the unordered collection) and work our way up to defining functions. Functions are an important core concept of Idris, however, as we will see in the theory that Idris relies on, functions are used as a primitive notion (an axiom) instead of being built on top of something else.
 
 I> ### Definition 7
 I>
@@ -179,7 +179,7 @@ I> ### Definition 13
 I>
 I> **Functions** are defined in terms of relations[^ch2n3]. A binary (2-tuple) set {$$}F{/$$} represents a mapping[^ch2n4] from some set {$$}A{/$$} to some set {$$}B{/$$}, where {$$}F{/$$} is a subset of the Cartesian product of {$$}A{/$$} and {$$}B{/$$}. That is, a function {$$}f{/$$} from {$$}A{/$$} to {$$}B{/$$} is denoted {$$}f : A \to B{/$$} and is a subset of {$$}F{/$$}, i.e. {$$}f \subseteq F{/$$}. There is one more constraint that functions have, namely, that they cannot produce 2 or more different values for a single input.
 
-For example, the function {$$}f(x) = x + 1{/$$} is a function that, given a number, returns it increased by one. So {$$}f(1) = 2{/$$}, {$$}f(2) = 3{/$$}, etc. Another way to represent this function is using the 2-tuple set: {$$}f = \{ (1, 2), (2, 3), (3, 4), \ldots \}{/$$}.
+For example, the function {$$}f(x) = x + 1{/$$} is a function that, given a number, returns it increased by one. We have that {$$}f(1) = 2{/$$}, {$$}f(2) = 3{/$$}, etc. Another way to represent this function is using the 2-tuple set: {$$}f = \{ (1, 2), (2, 3), (3, 4), \ldots \}{/$$}.
 
 One simple way to think of functions is in form of tables. For a function {$$}f(x){/$$} accepting a single parameter {$$}x{/$$}, we have a two-column table where the first column is the input, and the second column is the output. For a function {$$}f(x, y){/$$} accepting two parameters {$$}x{/$$} and {$$}y{/$$} we have a three-column table where the first and second columns represent the input, and the third column is the output. Thus, to display the function discussed above in a form of table, it would look like this:
 

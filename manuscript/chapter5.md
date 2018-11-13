@@ -404,7 +404,7 @@ Idris> :t LTEZero
 LTEZero : LTE 0 right
 ```
 
-So, `LTEZero` does not accept any arguments, but we can pass `right` at the type level. With the use of implicits, we can construct a very simple proof to show that {$$}0 \leq 1{/$$}:
+`LTEZero` does not accept any arguments, but we can pass `right` at the type level. With the use of implicits, we can construct a very simple proof to show that {$$}0 \leq 1{/$$}:
 
 ```
 Idris> LTEZero {right = S Z}
@@ -643,7 +643,7 @@ even_members_list_only_even (Cons n l') with (even n) proof even_n
       ?b
 ```
 
-Note how we specified `proof even_n` right after the expression in the `with` match. The `proof` keyword followed by a variable brings us the proof of the expression to the list of premises. So, the expression `with (even n) proof even_n` will pattern match on the results of `even n`, and will also bring the proof `even n` in the premises. If we now check the first hole:
+Note how we specified `proof even_n` right after the expression in the `with` match. The `proof` keyword followed by a variable brings us the proof of the expression to the list of premises. The expression `with (even n) proof even_n` will pattern match on the results of `even n`, and will also bring the proof `even n` in the premises. If we now check the first hole:
 
 ```
   n : Nat
