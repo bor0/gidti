@@ -620,7 +620,7 @@ has_odd End         = False
 has_odd (Cons x l') = if (even x) then False else has_odd l'
 ```
 
-Now, to prove that a list of even numbers contains no odd numbers, we can use the following type definition:
+To prove that a list of even numbers contains no odd numbers, we can use the following type definition:
 
 ```
 even_members_list_only_even : (l : MyList Nat) ->

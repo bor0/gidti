@@ -61,7 +61,7 @@ This definition of implication might be a bit counter-intuitive to the way we us
 | {$$}\bot{/$$}       | {$$}\top{/$$}       | {$$}\top{/$$}    |
 | {$$}\bot{/$$}       | {$$}\bot{/$$}       | {$$}\top{/$$}    |
 
-As stated in Definition 1, propositions can also be defined (or combined) in terms of other propositions. For example, we can choose {$$}a{/$$} to be `I like milk` and {$$}b{/$$} to be `I like sugar`. So {$$}a \land b{/$$} means that `I like both milk and sugar`. Now, if we let {$$}c{/$$} be `I am cool` then with {$$}a \land b \to c{/$$} we say: `If I like milk and sugar, then I am cool`. Note how we took a proposition {$$}a \land b{/$$} and modified it with another connective to form a new proposition.
+As stated in Definition 1, propositions can also be defined (or combined) in terms of other propositions. For example, we can choose {$$}a{/$$} to be `I like milk` and {$$}b{/$$} to be `I like sugar`. So {$$}a \land b{/$$} means that `I like both milk and sugar`. If we let {$$}c{/$$} be `I am cool` then with {$$}a \land b \to c{/$$} we say: `If I like milk and sugar, then I am cool`. Note how we took a proposition {$$}a \land b{/$$} and modified it with another connective to form a new proposition.
 
 X> ### Exercise 1
 X>
@@ -416,7 +416,7 @@ I>
 I> 1. Zero is a left identity for addition, that is {$$}n = 0 + n{/$$}
 I> 1. {$$}S(m) + n = S(m + n){/$$}, where {$$}S{/$$} is the successor function, that is {$$}S(0) = 1, S(1) = 2{/$$}, etc.
 
-For example, in order to prove that {$$}\forall n, n + 0 = n{/$$} in the system of Peano's axioms, we can proceed by induction (which is an axiom in this system). For the base case, we have that {$$}0 + 0 = 0{/$$}, which is true (by definition of adding numbers, for {$$}n = 0{/$$}). For the inductive step, we first assume that {$$}n + 0 = n{/$$} is true, and prove that {$$}S(n) + 0 = S(n){/$$}. By definition of addition, we have {$$}S(n) + 0 = S(n + 0){/$$}. Now if we use the inductive hypothesis we have {$$}S(n + 0) = S(n){/$$}, which is what we needed to show. With this example, we can see how induction and natural numbers are closely related to each other. Note how we proved {$$}n + 0 = n{/$$}, given {$$}n = 0 + n{/$$}. That is, we proved that addition with 0 is commutative.
+For example, in order to prove that {$$}\forall n, n + 0 = n{/$$} in the system of Peano's axioms, we can proceed by induction (which is an axiom in this system). For the base case, we have that {$$}0 + 0 = 0{/$$}, which is true (by definition of adding numbers, for {$$}n = 0{/$$}). For the inductive step, we first assume that {$$}n + 0 = n{/$$} is true, and prove that {$$}S(n) + 0 = S(n){/$$}. By definition of addition, we have {$$}S(n) + 0 = S(n + 0){/$$}. If we use the inductive hypothesis we have {$$}S(n + 0) = S(n){/$$}, which is what we needed to show. With this example, we can see how induction and natural numbers are closely related to each other. Note how we proved {$$}n + 0 = n{/$$}, given {$$}n = 0 + n{/$$}. That is, we proved that addition with 0 is commutative.
 
 I> ### Definition 22
 I>

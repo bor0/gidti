@@ -739,7 +739,7 @@ and_comm : And a b -> And b a
 and_comm (And_intro a b) = And_intro b a
 ```
 
-As we've discussed, we can use product types to encode pairs. Now we can note the following similarities with our earlier definition of `swap`:
+As we've discussed, we can use product types to encode pairs. We can note the following similarities with our earlier definition of `swap`:
 
 1. `And_intro x y` is equivalent to constructing a product type `(x, y)`
 1. Left-elimination, which is a pattern match of `And_intro a _` is equivalent to the first element of the product type
@@ -753,7 +753,7 @@ As long as Idris' type checker terminates, we can be certain that the program pr
 
 [^ch4n3]: By built-in we usually mean it's part of Idris' library. We can always implement it ourselves if we need to.
 
-[^ch4n4]: Although product and sum types are very general, due to polymorphism, we can say something very specific about the structure of their values. For instance, suppose we've defined a type like so: `data C a b c = C_left a | C_right (b,c)`. Now a value of type `C` can only come into existence in one of two ways: as a value of the form `C_left x` for a value `x : a`, or as a value of the form `C_right (y,z)` for values `y : b` and `z : c`.
+[^ch4n4]: Although product and sum types are very general, due to polymorphism, we can say something very specific about the structure of their values. For instance, suppose we've defined a type like so: `data C a b c = C_left a | C_right (b,c)`. A value of type `C` can only come into existence in one of two ways: as a value of the form `C_left x` for a value `x : a`, or as a value of the form `C_right (y,z)` for values `y : b` and `z : c`.
 
 [^ch4n5]: The key idea is not that a tail recursive function _is_ an iterative loop, but that a smart enough compiler can _pretend_ that it is and evaluate it using constant function stack space.
 
