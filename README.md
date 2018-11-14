@@ -9,4 +9,6 @@ Feel free to make contributions to it by either filing an issue or a pull reques
 
 This book is open source. However, if you enjoy the content, please support me (the author) by purchasing it.
 
+The book is dedicated to my wife Dijana, and our kids.
+
 Copyright 2018, Boro Sitnikovski. All rights reserved.
