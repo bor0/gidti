@@ -268,8 +268,8 @@ I>
 I> 1. A proof of {$$}P \land Q{/$$} is a product type {$$}\text{A B}{/$$}, where {$$}a{/$$} is a proof of (or, object of type) {$$}\text{P}{/$$} and {$$}b{/$$} is a proof of {$$}\text{Q}{/$$}
 I> 1. A proof of {$$}P \lor Q{/$$} is a product type {$$}\text{A B}{/$$}, where {$$}a{/$$} is 0 and {$$}b{/$$} is a proof of {$$}\text{P}{/$$}, or {$$}a{/$$} is 1 and {$$}b{/$$} is a proof of {$$}\text{Q}{/$$}
 I> 1. A proof of {$$}P \to Q{/$$} is a function {$$}f{/$$} that converts a proof of {$$}\text{P}{/$$} to a proof of {$$}\text{Q}{/$$}
-I> 1. A proof of {$$}\exists x \in S : f(x){/$$} is a pair {$$}\text{A B}{/$$} where {$$}a{/$$} is an element of {$$}\text{S}{/$$}, and {$$}b{/$$} is a proof of {$$}f(x){/$$} (dependent sum types)
-I> 1. A proof of {$$}\forall x \in S : f(x){/$$} is a function {$$}f{/$$} that converts an element {$$}a{/$$} from {$$}\text{S}{/$$} to a proof of {$$}f(x){/$$} (dependent product types)
+I> 1. A proof of {$$}\exists x \in S : f(x){/$$} is a pair {$$}\text{A B}{/$$} where {$$}a{/$$} is an element of {$$}\text{S}{/$$}, and {$$}b{/$$} is a proof of {$$}f(a){/$$} (dependent sum types)
+I> 1. A proof of {$$}\forall x \in S : f(x){/$$} is a function {$$}f{/$$} that converts an element {$$}a{/$$} from {$$}\text{S}{/$$} to a proof of {$$}f(a){/$$} (dependent product types)
 I> 1. A proof of {$$}\lnot P{/$$} is defined as {$$}P \to \bot{/$$}, that is, the proof is a function {$$}f{/$$} that converts a proof of {$$}\text{P}{/$$} to a proof of {$$}\bot{/$$}
 I> 1. There is no proof of {$$}\bot{/$$}
 
