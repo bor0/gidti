@@ -237,7 +237,7 @@ I> The inference rules are:
 I>
 I> 1. The rule of type equality which states that if an object is of a type {$$}\text{A}{/$$}, and there is another type {$$}\text{B}{/$$} equal to {$$}\text{A}{/$$}, then that object is of type {$$}\text{B}{/$$}: {$$}(a : \text{A}, \text{A} = \text{B}) \to (a : \text{B}){/$$}
 I>
-I> The remaining inference rules are specific to the type formers, for example introduction and elimination. We will show an example using these rules in 5.2.
+I> The remaining inference rules are specific to the type formers, for example introduction and elimination. We will show an example using these rules in section 4.2.
 
 As an example, for well-formed expressions rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well-formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}\text{Nat} : \text{Type}{/$$} per rule 1.
 
