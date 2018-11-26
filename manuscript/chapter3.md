@@ -146,9 +146,9 @@ Given the definition of 1, its type must have the form {$$}(\text{a} \to \text{b
 
 The (typed) successor function is: {$$}\text{SUCC} = \lambda [n:\text{Nat}]\ [f:(\text{a} \to \text{a})] \ [x : \text{a}] . f\ (n\ f\ x) : \text{Nat} \to \text{Nat}{/$$}.
 
-Fixed-point combinators do not exist in the simply typed lambda calculus[^ch3n5]. To see why, consider the function {$$}\text{fix} = \lambda [f:\text{a} \to \text{a}] : \text{a}{/$$}. We can apply {$$}\text{fix}{/$$} to some element {$$}x : \text{a} \to \text{a}{/$$}. Thus, {$$}\text{fix} \ x : \text{a}{/$$}, but {$$}x = \text{fix} \ x{/$$} is a type error because the infinite type {$$}\text{a} \to \text{a} = \text{a}{/$$} cannot be matched.
-
 Simply typed lambda calculus sits in a sweet spot on the spectrum of type systems. It is powerful enough to do useful work, but also simple enough to have strong properties. Simple types have limitations when compared to full dependent types, discussed in the next section, but their great trade-off is the existence of a full _inference algorithm_. The strategy we used above to determine the type of a lambda expression from the bottom up is the core of the widely used Hindley-Damas-Milner algorithm for type inference, which can automatically _infer_ the simple type of a lambda expression without requiring any explicit type annotations from the programmer.
+
+Fixed-point combinators do not exist in the simply typed lambda calculus[^ch3n5]. To see why, consider the function {$$}\text{fix} = \lambda [f:\text{a} \to \text{a}] : \text{a}{/$$}. We can apply {$$}\text{fix}{/$$} to some element {$$}x : \text{a} \to \text{a}{/$$}. Thus, {$$}\text{fix} \ x : \text{a}{/$$}, but {$$}x = \text{fix} \ x{/$$} is a type error because the infinite type {$$}\text{a} \to \text{a} = \text{a}{/$$} cannot be matched.
 
 X> ### Exercise 4
 X>
@@ -231,7 +231,7 @@ I>
 I> 1. {$$}\Pi{/$$} types and {$$}\Sigma{/$$} types, as we've discussed them earlier
 I> 1. Finite types, for example the nullary (empty) type 0 or {$$}\bot{/$$}, the unary type 1 or {$$}\top{/$$}, and the boolean type 2
 I> 1. The equality type, where for given {$$}a, b : \text{A}{/$$}, the expression {$$}a = b{/$$} represents proof of equality. There is a canonical element {$$}a = a{/$$}, that is, an "axiom" for the reflexivity proof: {$$}refl : \Pi (a : \text{A}) \ a = a{/$$}
-I> 1. Inductive (or recursive) types. In this way we can implement product and sum types which encode conjunction and disjunction respectively
+I> 1. Inductive (or recursive) types. In this way we can implement recursion, and product and sum types which encode conjunction and disjunction respectively
 I>
 I> The inference rules are:
 I>
