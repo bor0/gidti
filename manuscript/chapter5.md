@@ -11,7 +11,7 @@ I> data (=) : a -> b -> Type where
 I>     Refl : x = x
 I> ```
 I>
-I> We can use the type constructor `Refl` to prove equalities.
+I> We can use the value constructor `Refl` to prove equalities.
 
 I> ### Definition 2
 I>
@@ -48,7 +48,7 @@ In this section we will introduce a way to represent weekdays and then do some p
 data Weekday = Mon | Tue | Wed | Thu | Fri | Sat | Sun
 ```
 
-The `Weekday` type has 7 constructors, one for each weekday. The data type and its type constructors do not accept any parameters.
+The `Weekday` type has 7 value constructors, one for each weekday. The data type and its constructors do not accept any parameters.
 
 ### 5.1.1. First proof (auto-inference)
 
@@ -181,7 +181,7 @@ X> Prove the following formula in Idris: {$$}\forall x \in \text{Weekdays}, x = 
 
 In this section we will prove that `is_it_monday Tue = True` is a contradiction.
 
-Per intuitionistic logic, in order to prove that {$$}P{/$$} is a contradiction, we need to prove {$$}P \to \bot{/$$}. Idris provides an empty data type `Void`. This data type has no type constructors (proofs) for it.
+Per intuitionistic logic, in order to prove that {$$}P{/$$} is a contradiction, we need to prove {$$}P \to \bot{/$$}. Idris provides an empty data type `Void`. This data type has no value constructors (proofs) for it.
 
 To prove that `is_it_monday Tue = True` is a contradiction, we will do the following:
 
@@ -198,13 +198,13 @@ Checking the type of the hole:
 prf : Void
 ```
 
-Q> How do we prove `prf`, given that there are no type constructors for `Void`?
+Q> How do we prove `prf`, given that there are no value constructors for `Void`?
 Q>
 Q> Seems that at this point we are stuck. We need to find a way to tell Idris that this proof is impossible.
 
 I> ### Definition 4
 I>
-I> The `impossible` keyword can be used to prove statements that are not true. With this keyword, we say that a proof for a data type cannot be constructed since there does not exist a type constructor for that particular type.
+I> The `impossible` keyword can be used to prove statements that are not true. With this keyword, we say that a proof for a data type cannot be constructed since there does not exist a value constructor for that particular type.
 
 We will slightly rewrite the function:
 
@@ -287,7 +287,7 @@ Idris> :t prf
 prf : MyNat
 ```
 
-Q> By the definition of `MyNat` we are sure that there exists a type constructor of `MyNat`, but how do we tell Idris?
+Q> By the definition of `MyNat` we are sure that there exists a value constructor of `MyNat`, but how do we tell Idris?
 
 I> ### Definition 5
 I>
@@ -314,7 +314,7 @@ X> ### Exercise 13
 X>
 X> Simplify `our_second_proof` without the use of `let`.
 X>
-X> Hint: Providing a valid type constructor that satisfies (inhabits) the type is a constructive proof.
+X> Hint: Providing a valid value constructor that satisfies (inhabits) the type is a constructive proof.
 
 X> ### Exercise 14
 X>
@@ -529,7 +529,7 @@ This compiles and we have to figure out the hole. If we check its type, we get:
 prf : maximum a b = b
 ```
 
-This looks a bit complicated, so we can further simplify by breaking the proof into several cases by adding pattern matching for all combinations of the parameters' type constructors:
+This looks a bit complicated, so we can further simplify by breaking the proof into several cases by adding pattern matching for all combinations of the parameters' value constructors:
 
 ```
 our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
@@ -880,7 +880,7 @@ Edges can be thought of as the number of "links" from a node to its children. No
 
 X> ### Exercise 23
 X>
-X> Come up with a few trees by using the type constructors above.
+X> Come up with a few trees by using the value constructors above.
 
 ### 5.4.1. Depth
 

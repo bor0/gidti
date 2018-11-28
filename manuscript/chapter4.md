@@ -63,7 +63,7 @@ In Idris, types are first-class citizens. This means that types can be computed 
 data A a b = A_inst a b
 ```
 
-This will create a polymorphic type that accepts two type arguments, `a` and `b`. Valid constructed types are `A Nat Bool`, `A Nat Nat`, etc. The `A_inst` part is actually the type constructor (a function) that instantiates an object of such type:
+This will create a polymorphic type that accepts two type arguments, `a` and `b`. Valid constructed types are `A Nat Bool`, `A Nat Nat`, etc. `A` is a type constructor (function that returns a type) and `A_inst` is a value constructor (function that returns a value of type `A a b`).
 
 ```
 Idris> A_inst True True
@@ -79,7 +79,7 @@ data A : Type -> Type -> Type where
     A_inst : a -> b -> A a b
 ```
 
-Which is equivalent to the following definition, where we define an empty data structure along with an axiom for the type constructor:
+Which is equivalent to the following definition, where we define an empty data structure along with an axiom for the value constructor:
 
 ```
 data A : Type -> Type -> Type
@@ -95,7 +95,7 @@ Idris> :t A_inst
 A_inst : a -> b -> A a b
 ```
 
-That is, we show the type definitions for both the newly-defined type and its type constructor. Note how we created a product type here. Idris has a built-in[^ch4n3] notion of pairs, which is a data type that can be defined in terms of products. For example, `(1, 2)` is one pair. We can also define tuples with `(1, "Hi", True)`, which is equivalent to `(1, ("Hi", True))`, i.e. a pair where the first element is a number, and the second element is a pair.
+That is, we show the type definitions for both the newly-defined type and its value constructor. Note how we created a product type here. Idris has a built-in[^ch4n3] notion of pairs, which is a data type that can be defined in terms of products. For example, `(1, 2)` is one pair. We can also define tuples with `(1, "Hi", True)`, which is equivalent to `(1, ("Hi", True))`, i.e. a pair where the first element is a number, and the second element is a pair.
 
 Analogously, if we want to create a sum type, we could do the following:
 
@@ -129,7 +129,7 @@ f : B a b -> a
 f (B_inst_left a) = a
 ```
 
-Note how we used the data type at the function type level, and the type constructor in the function definition to pattern match against.
+Note how we used the data type at the function type level, and the value constructor in the function definition to pattern match against.
 
 Natural numbers are defined as `data Nat = Z | S Nat`, where we either have a zero or a successor of a natural number. Note how this type is not polymorphic (it doesn't accept any variables after the type name). Natural numbers are built-in as a type in Idris.
 
@@ -140,7 +140,7 @@ Idris> 1 == 1
 True : Bool
 ```
 
-Idris has several built-in primitive types, including: `Bool`, `Char`, `List`, `String` (list of characters), `Integer`, etc. The only type constructors for the type `Bool` are `True` and `False`. The difference between a `Nat` and an `Integer` is that `Integer` can also contain negative values. Here are some examples of interacting with these types:
+Idris has several built-in primitive types, including: `Bool`, `Char`, `List`, `String` (list of characters), `Integer`, etc. The only value constructors for the type `Bool` are `True` and `False`. The difference between a `Nat` and an `Integer` is that `Integer` can also contain negative values. Here are some examples of interacting with these types:
 
 ```
 Idris> "Test"
@@ -182,11 +182,11 @@ We can now ask Idris to tell us the type of `hole1`, that is, with `:t hole1` we
 
 X> ### Exercise 3
 X>
-X> Define your own custom type. One example is `data Person = PersonInst String Nat`, where `String` represents name and `Nat` represents age. Use the constructor to generate some objects of that type. Afterwards, use `:t` to check the type of the type constructor and the objects it can construct.
+X> Define your own custom type. One example is `data Person = PersonInst String Nat`, where `String` represents name and `Nat` represents age. Use the constructor to generate some objects of that type. Afterwards, use `:t` to check the types of the type and value constructors.
 
 X> ### Exercise 4
 X>
-X> Come up with a function that works with your custom type (for example, it extracts some value) by pattern matching against its type constructor(s).
+X> Come up with a function that works with your custom type (for example, it extracts some value) by pattern matching against its value constructor(s).
 
 X> ### Exercise 5
 X>
@@ -326,7 +326,7 @@ X> {$$}fact(n) = \left\{ \begin{array}{ll} 1\text{, if } n = 0 \\	n * fact(n - 1
 X>
 X> Unfold the evaluation of {$$}fact(5){/$$} on paper, and then implement it in Idris and confirm that Idris also computes the same value.
 X>
-X> Hint: The type is `fact : Nat -> Nat` and you should pattern match against `Z` (`Nat` type constructor for 0) and `(S n)` (successor).
+X> Hint: The type is `fact : Nat -> Nat` and you should pattern match against `Z` (`Nat` value constructor for 0) and `(S n)` (successor).
 
 X> ### Exercise 8
 X>
@@ -502,7 +502,7 @@ data MyVect : (n : Nat) -> Type where
     Cons  : (x : Nat) -> (xs : MyVect len) -> MyVect (S len)
 ```
 
-We created a new type called `MyVect` which accepts a natural number `n` and returns a `Type`, that is joined with two type constructors:
+We created a new type called `MyVect` which accepts a natural number `n` and returns a `Type`, that is joined with two value constructors:
 
 1. `Empty` - which is just the empty list
 1. `Cons : (x : Nat) -> (xs : MyVect len) -> MyVect (S len)` - which, given a natural number `x` and a list `xs` of length `len`, will return a list of length `S len`, that is, `len + 1`.
@@ -630,7 +630,7 @@ ifThenElse False t e = e
 
 ### 4.1.11. Pattern matching expressions
 
-We've seen how pattern matching is a powerful concept, in that it allows us to pattern match against type constructors. For example we can write a filtering function that given a list of naturals produces a list of even naturals, by re-using the earlier definition of `even`:
+We've seen how pattern matching is a powerful concept, in that it allows us to pattern match against value constructors. For example we can write a filtering function that given a list of naturals produces a list of even naturals, by re-using the earlier definition of `even`:
 
 ```
 total even_members : MyList Nat -> MyList Nat
@@ -640,7 +640,7 @@ even_members (Cons x l') = if (even x)
                            else even_members l'
 ```
 
-The function above is a recursive one, and depending on the value of `even x` it will branch the recursion. Since pattern matching works against type constructors, and `even x` is a function call, we can't easily pattern match against it. We used `even x` in the function body to do the check. Idris provides another additional keyword `with` that allows us to pattern match a value of some expression. The keyword `with` has the following syntax:
+The function above is a recursive one, and depending on the value of `even x` it will branch the recursion. Since pattern matching works against value constructors, and `even x` is a function call, we can't easily pattern match against it. We used `even x` in the function body to do the check. Idris provides another additional keyword `with` that allows us to pattern match a value of some expression. The keyword `with` has the following syntax:
 
 ```
 function (pattern_match_1) with (expression)

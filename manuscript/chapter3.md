@@ -280,7 +280,7 @@ f (x, left y)  = left (x, y)
 f (x, left y') = right (x, y')
 ```
 
-This notation (which is pretty similar to how we would write it in Idris) uses `(x, y)` to denote product type, that is, extract values from a product-type pair, and `left` and `right` to denote type constructors for sum type in order to extract values from a sum-type pair. In the second part of this book we will introduce Idris and its syntax.
+This notation (which is pretty similar to how we would write it in Idris) uses `(x, y)` to denote product type, that is, extract values from a product-type pair, and `left` and `right` to denote value constructors for sum type in order to extract values from a sum-type pair. In the second part of this book we will introduce Idris and its syntax.
 
 X> ### Exercise 11
 X>
