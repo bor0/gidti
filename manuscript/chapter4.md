@@ -540,7 +540,7 @@ One example where such a guarantee might be useful is in preventing buffer overf
 
 X> ### Exercise 17
 X>
-X> Come up with a function `isSingleton` that accepts a `Bool` and returns a `Type`. This function should return a type of `Nat` in the `True` case, and `MyVect Nat` otherwise. Further, implement a function `mkSingle` that accepts a `Bool`, and returns `isSingleton True` or `isSingleton False`, and as a computed value will either return `0` or `Empty`.
+X> Come up with a function `isSingleton` that accepts a `Bool` and returns a `Type`. This function should return an object of type `Nat` in the `True` case, and `MyVect Nat` otherwise. Further, implement a function `mkSingle` that accepts a `Bool`, and returns `isSingleton True` or `isSingleton False`, and as a computed value will either return `0` or `Empty`.
 X>
 X> Hint: The data definitions are `isSingleton : Bool -> Type` and `mkSingle : (x : Bool) -> isSingleton x` respectively.
 
