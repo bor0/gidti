@@ -231,7 +231,7 @@ I>
 I> 1. {$$}\Pi{/$$} types and {$$}\Sigma{/$$} types, as we've discussed them earlier
 I> 1. Finite types, for example the nullary (empty) type 0 or {$$}\bot{/$$}, the unary type 1 or {$$}\top{/$$}, and the boolean type 2
 I> 1. The equality type, where for given {$$}a, b : \text{A}{/$$}, the expression {$$}a = b{/$$} represents proof of equality. There is a canonical element {$$}a = a{/$$}, that is, an "axiom" for the reflexivity proof: {$$}refl : \Pi (a : \text{A}) \ a = a{/$$}
-I> 1. Inductive (or recursive) types. In this way we can implement recursion, and product and sum types which encode conjunction and disjunction respectively
+I> 1. Inductive (or recursive) types. This way we can implement a special form of recursion - one that always terminates, and we will see the importance of this with total functions. Additionally we can implement product and sum types, which encode conjunction and disjunction respectively
 I>
 I> The inference rules are:
 I>
