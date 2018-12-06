@@ -617,7 +617,7 @@ We will prove that a list of even numbers contains no odd numbers. We will re-us
 ```
 total has_odd : MyList Nat -> Bool
 has_odd End         = False
-has_odd (Cons x l') = if (even x) then False else has_odd l'
+has_odd (Cons x l') = if (even x) then has_odd l' else True
 ```
 
 To prove that a list of even numbers contains no odd numbers, we can use the following type definition:
@@ -640,7 +640,7 @@ even_members_list_only_even (Cons n l') with (even n) proof even_n
   even_members_list_only_even (Cons n l') | False =
       let IH = even_members_list_only_even l' in ?a
   even_members_list_only_even (Cons n l') | True  =
-      ?b
+      let IH = even_members_list_only_even l' in ?b
 ```
 
 Note how we specified `proof even_n` right after the expression in the `with` match. The `proof` keyword followed by a variable brings us the proof of the expression to the list of premises. The expression `with (even n) proof even_n` will pattern match on the results of `even n`, and will also bring the proof `even n` in the premises. If we now check the first hole:
@@ -660,9 +660,10 @@ That should be simple, we can just use `IH` to solve the goal. For the second ho
   n : Nat
   l' : MyList Nat
   even_n : True = even n
+  IH : has_odd (even_members l') = False
 --------------------------------------
-b : ifThenElse (even n) (Delay False) (Delay (has_odd
-    (even_members l'))) = False
+b : ifThenElse (even n) (Delay (has_odd (even_members l')))
+    (Delay True) = False
 ```
 
 Seems that `if...then...else` uses a lazy structure, but nevertheless uses `(even n)` to branch the computation.
@@ -677,12 +678,13 @@ We can try to rewrite `sym even_n` to the goal, and it now becomes:
   n : Nat
   l' : MyList Nat
   even_n : True = even n
+  IH : has_odd (even_members l') = False
   _rewrite_rule : even n = True
 --------------------------------------
-b : False = False
+b : has_odd (even_members l') = False
 ```
 
-Thus, the complete proof:
+Similarly to before we will use `IH` to solve the goal. Thus, the complete proof:
 
 ```
 even_members_list_only_even : (l : MyList Nat) ->
@@ -690,11 +692,10 @@ even_members_list_only_even : (l : MyList Nat) ->
 even_members_list_only_even End = Refl
 even_members_list_only_even (Cons n l') with (even n) proof even_n
   even_members_list_only_even (Cons n l') | False =
-      let IH = even_members_list_only_even l' in
-      IH
+      let IH = even_members_list_only_even l' in IH
   even_members_list_only_even (Cons n l') | True  =
-      rewrite sym even_n in
-      Refl
+      let IH = even_members_list_only_even l' in
+      rewrite sym even_n in IH
 ```
 
 Q> How did mathematical induction work in this case?
