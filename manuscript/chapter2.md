@@ -442,6 +442,6 @@ X> Hint: Use {$$}n = 2{/$$} as the base case.
 
 [^ch2n5]: A similar statement can be made about programming, but we will cover an interesting case in Appendix B related to **pure** and **impure** functions.
 
-[^ch2n6]: The turnstile symbol is similar to implication. It is denoted as {$$}\Gamma \vdash A{/$$}, where {$$}\Gamma{/$$} is a set of statements and {$$}A{/$$} is a conclusion. It is {$$}\top{/$$} iff it is impossible for all statements in {$$}\Gamma{/$$} to be {$$}\top{/$$}, and {$$}A{/$$} to be {$$}\bot{/$$}. In Appendix A we'll cover an interesting difference between implication and this symbol.
+[^ch2n6]: The turnstile symbol is similar to implication. It is denoted as {$$}\Gamma \vdash A{/$$}, where {$$}\Gamma{/$$} is a set of statements and {$$}A{/$$} is a conclusion. It is {$$}\top{/$$} iff it is impossible for all statements in {$$}\Gamma{/$$} to be {$$}\top{/$$}, and {$$}A{/$$} to be {$$}\bot{/$$}. The reason why we have both implication and entailment is that the former is a well-formed formula (that is, the expression belongs to the object language), while the latter is not a well-formed formula, rather an expression in the meta language and works upon proofs (instead of objects).
 
 [^ch2n7]: The notation {$$}\exists!{/$$} stands for unique existential quantifier. It means that **only one** object fulfills the predicate, as opposed to {$$}\exists{/$$}, which states that **at least one** object fulfills the predicate.

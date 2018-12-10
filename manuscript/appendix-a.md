@@ -73,6 +73,6 @@ $}
 
 With the code above, we state that `proof_I` and `proof_I_imp_J` are given. Further, with `proof_J` we want to show that we can conclude `J`. To start the proof, we put `I` and `J` on the stack by using the commands `wI` and `wJ`. Now that our stack contains `[ 'wff I', 'wff J' ]`, we can use `proof_I` to use the first parameter from the stack to conclude `|- I`. Since `proof_I_imp_J` accepts two parameters, it will use the first two parameters from the stack, i.e. `wff I` and `wff J` to conclude `|- I -> J`. Finally, with `mp` we use `|- I` and `|- I -> J` from the stack to conclude that `|- J`.
 
-Note how we separated `wff` from `|-`. Otherwise, if we just used `|-` then all of the formulas would be true, which does not make sense. Furthermore, the reason that we have implication `->` and entailment `|-` is that the former is a well-formed formula (that is, the expression belongs to the object language), while the latter is not a well-formed formula, rather an expression in the meta language and works upon proofs (instead of objects). This distinction allows us to represent the relation between hypothesis and conclusions in the object language.
+Note how we separated `wff` from `|-`. Otherwise, if we just used `|-` then all of the formulas would be true, which does not make sense.
 
 [^apan1]: Reverse Polish Notation is a mathematical notation where functions follow their arguments. For example, to represent {$$}1 + 2{/$$}, we would write {$$}1 \ 2 \ +{/$$}.
