@@ -402,7 +402,7 @@ I> ### Definition 3
 I>
 I> A total function is a function that terminates (or returns a value) for all possible inputs.
 
-Analogously to the definition above, a partial function is one that does not have a definition for at least one input. If a function is total, its type can be understood as a precise description of what that function can do. Idris differentiates total from partial functions, but allows defining both[^ch4n6]. As an example, if we assume that we have a function that returns a `String`, then:
+A partial function is the opposite of a total function. If a function is total, its type can be understood as a precise description of what that function can do. Idris differentiates total from partial functions, but allows defining both[^ch4n6]. As an example, if we assume that we have a function that returns a `String`, then:
 
 1. If it's total, it will return a `String` in finite time
 1. If it's partial, then unless it crashes or enters in an infinite loop, it will return a `String`
