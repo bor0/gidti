@@ -251,11 +251,6 @@ MkFFI C_Types String String : FFI
 This can be useful if there's a need to use a library that's already written in another programming language. Alternatively, with IRTS we can export Idris functions to C and call them from a C code. We can define `test.idr` as follows:
 
 ```
-import Data.List
-
-addLists : List Int -> List Int -> List Int
-addLists xs ys = xs ++ ys
-
 nil : List Int
 nil = []
 
@@ -263,41 +258,21 @@ cons : Int -> List Int -> List Int
 cons x xs = x :: xs
 
 show' : List Int -> IO String
-show' xs = do putStrLn "Ready to show..."
-              pure (show xs)
+show' xs = do { putStrLn "Ready to show..." ; pure (show xs) }
 
 testList : FFI_Export FFI_C "testHdr.h" []
-testList = Data (List Int) "ListInt" $
-           Data (List Nat) "ListNat" $
-           Fun addLists "addLists" $
-           Fun nil "nil" $
-           Fun cons "cons" $
-           Data Nat "Nat" $
-           Fun Strings.length "lengthS" $
-           Fun show' "showList" $
-           End
+testList = Data (List Int) "ListInt" $ Fun nil "nil" $ Fun cons "cons" $ Fun show' "showList" $ End
 ```
 
-We can now generate a C object by running:
-
-```shell
-boro@bor0:~$ idris test.idr --interface -o test.o
-```
-
-This will generate two files: `test.o` (the object file) and `testHdr.h` (the header file). Now we can input the following code in some file, e.g. `test_idris.c`:
+Running `idris test.idr --interface -o test.o` will generate two files: `test.o` (the object file) and `testHdr.h` (the header file). Now we can input the following code in some file, e.g. `test_idris.c`:
 
 ```c
 #include "testHdr.h"
 
 int main() {
     VM* vm = idris_vm();
-
     ListInt x = cons(vm, 10, cons(vm, 20, nil(vm)));
-    ListInt y = cons(vm, 30, cons(vm, 40, nil(vm)));
-    ListInt z = addLists(vm, x, y);
-
-    printf("%s\n", showList(vm, z));
-
+    printf("%s\n", showList(vm, x));
     close_vm(vm);
 }
 ```
@@ -308,7 +283,7 @@ We will now compile and test everything together:
 boro@bor0:~$ ${CC:=cc} test_idris.c test.o `${IDRIS:-idris} $@ --include` `${IDRIS:-idris} $@ --link` -o test
 boro@bor0:~$ ./test
 Ready to show...
-[10, 20, 30, 40]
+[10, 20]
 ```
 
 With this approach we can write verified code in Idris and export its functionality to another programming language.
