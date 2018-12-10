@@ -1,5 +1,4 @@
-preface.md
-acknowledgements.md
+preface-and-acknowledgements.md
 introduction.md
 part1.md
 chapter1.md
