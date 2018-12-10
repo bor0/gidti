@@ -1,6 +1,6 @@
 # Appendix B: IO, Codegen targets, compilation, and FFI
 
-This section is mostly relevant to programmers that have experience with some of the programming languages: C, JavaScript, C#, PHP, Python. Feel free to skip it, as it will only demonstrate how Idris can interact with the outside world (IO) and these programming languages.
+This section is mostly relevant to programmers that have experience with programming languages such as C, Haskell, JavaScript. It will demonstrate how Idris can interact with the outside world (IO) and these programming languages.
 
 In the following examples we will see how we can compile Idris code. A given program in Idris can be compiled to a binary executable or a back-end for some other programming language. If we decide to compile to a binary executable, then the C back-end will be used by default.
 
@@ -21,7 +21,7 @@ Computer programs are not usable if there is no interaction with the user. One p
 data IO a -- IO operation that returns a value of type a
 ```
 
-The concrete definition for `IO` is built within Idris itself, that is why we will leave it at the data abstraction as defined above. But what `IO` does is it describes all operations that need to be executed. The resulting operations are executed externally by the Idris Run-Time System (or `IRTS`). The most basic IO program is the following one:
+The concrete definition for `IO` is built within Idris itself, that is why we will leave it at the data abstraction as defined above. Essentially `IO` describes all operations that need to be executed. The resulting operations are executed externally by the Idris Run-Time System (or `IRTS`). The most basic IO program is:
 
 ```
 main : IO ()
@@ -52,7 +52,7 @@ main = do
     putStrLn name
 ```
 
-In the REPL, we can say `:x main` to execute the IO function. Alternatively, if we save that code to `test.idr`, we can use the command `idris test.idr -o test` in order to output an executable file that we can use on our system. Interacting with it:
+In the REPL, we can say `:x main` to execute the IO function. Alternatively, if we save the code to `test.idr`, we can use the command `idris test.idr -o test` in order to output an executable file that we can use on our system. Interacting with it:
 
 ```shell
 boro@bor0:~$ idris test.idr -o test
@@ -62,7 +62,7 @@ Nice to meet you, Boro
 boro@bor0:~$
 ```
 
-Let's slightly rewrite our code by abstracting out the concatenation into a separate function:
+Let's slightly rewrite our code by abstracting out the concatenation function:
 
 ```
 concat_string : String -> String -> String
@@ -89,7 +89,7 @@ Idris> pack ['H', 'e', 'l', 'l', 'o']
 
 ## Codegen
 
-The keywords `module` and `import` allow us to specify a name of the current executing code context and load other modules by referring to their names respectively. We can implement our own back-end for a given programming language, for which we need to create a so-called Codegen (`CG`) program in Idris. An empty `CG` program would look like this:
+The keywords `module` and `import` allow us to specify a name of the current executing code context and load other modules by referring to their names respectively. We can implement our own back-end for a given programming language, for which we need to create a so-called Codegen (`CG`) program. An empty `CG` program would look like this:
 
 ```
 module IRTS.CodegenEmpty(codegenEmpty) where
@@ -100,21 +100,21 @@ codegenEmpty :: CodeGenerator
 codegenEmpty ci = putStrLn "Not implemented"
 ```
 
-The package `IRTS` (which is a collection of modules) is a Idris built-in and it stands for Idris Run-Time System. It is a data structure where we need to implement Idris commands and give definitions for how they map to the target language. For example, a `putStr` can map to `printf` in C.
+Since Idris is written in Haskell, the package `IRTS` (Idris Run-Time System) is a Haskell collection of modules. It contains data structures where we need to implement Idris commands and give definitions for how they map to the target language. For example, a `putStr` could map to `printf` in C.
 
 ## Compilation
 
-In the following examples we will show how Idris generates a binary executable and JavaScript code, as well as the difference between total and partial functions and how Idris handles both cases. We will define a dependent type `Vect`, which will allow us to work with lists and additionally have the length of the list at the type level:
+We will show how Idris can generate a binary executable and JavaScript code, as well as the difference between total and partial functions and how Idris handles both cases. We define a dependent type `Vect`, which will allow us to work with lists and additionally have the length of the list at the type level:
 
 ```
 data Vect : Nat -> Type -> Type where
-   VNil  : Vect Z a
-   VCons : a -> Vect k a -> Vect (S k) a
+    VNil  : Vect Z a
+    VCons : a -> Vect k a -> Vect (S k) a
 ```
 
 In the code above we define `Vect` as a data structure with two constructors: empty (`VNil`) or element construction (`VCons`). An empty vector is of type `Vect 0 a`, which can be `Vect 0 Int`, `Vect 0 Char`, etc. One example of a vector is `VCons 1 VNil : Vect 1 Integer`, where a list with a single element is represented and we note how the type contains the information about the length of the list. Another example is: `VCons 1.0 (VCons 2.0 (VCons 3.0 VNil)) : Vect 3 Double`.
 
-In the following example we will see how total and partial functions can both pass at compile-time, but the latter can cause a run-time error.
+We will see how total and partial functions can both pass the compile-time checks, but the latter can cause a run-time error.
 
 ```
 --total
@@ -140,7 +140,7 @@ main = do
     greet
 ```
 
-We've defined functions `list_to_vect` and `vect_to_list` that convert between dependently typed vector and a list. Further, we have another function that calls these two functions together. Note how we commented the total keyword and the second pattern match for the purposes of this example. Now, if we check values for this partial function:
+We've defined functions `list_to_vect` and `vect_to_list` that convert between dependently typed vectors and lists. Further, we have another function that calls these two functions together. Note how we commented the total keyword and the second pattern match for the purposes of this example. Now, if we check values for this partial function:
 
 ```
 Idris> list_to_vect []
@@ -169,17 +169,17 @@ Idris>
 Idris stopped the process execution. Going one step further, after we compile:
 
 ```shell
-boro@bor0:~/idris-test$ idris --codegen node test.idr -o test.js
-boro@bor0:~/idris-test$ node test.js
+boro@bor0:~$ idris --codegen node test.idr -o test.js
+boro@bor0:~$ node test.js
 Following greet, enter any number of chars
 What is your name? Hello
-/Users/boro/idris-test/test.js:177
+/Users/boro/test.js:177
     $cg$7 = new $HC_2_1$Prelude__List___58__58_($cg$2.$1, new $HC_2_1$Prelude__List___58__58_($cg$9.$1, $HC_0_0$Prelude__List__Nil));
                                                                                                     ^
 
 TypeError: Cannot read property '$1' of undefined
 ...
-boro@bor0:~/idris-test$ node test.js
+boro@bor0:~$ node test.js
 Following greet, enter any number of chars
 What is your name? Hi
 Hello Hi
@@ -188,12 +188,12 @@ Hello Hi
 We get a run-time error from JavaScript. If we do the same with the C back-end:
 
 ```shell
-boro@bor0:~/Desktop/idris-test$ idris --codegen C test.idr -o test
-boro@bor0:~/Desktop/idris-test$ ./test
+boro@bor0:~$ idris --codegen C test.idr -o test
+boro@bor0:~$ ./test
 Following greet, enter any number of chars
 What is your name? Hello
 Segmentation fault: 11
-boro@bor0:~/Desktop/idris-test$ ./test
+boro@bor0:~$ ./test
 Following greet, enter any number of chars
 What is your name? Hi
 Hello Hi
@@ -205,7 +205,7 @@ By defining the function `list_to_vect` to be total, we specify that every input
 
 ## Foreign Function Interface
 
-In this example we'll introduce the FFI system, which stands for  Foreign Function Interface. It is a system that allows us to call functions written in other programming languages.
+In this example we'll introduce the FFI system, which stands for Foreign Function Interface. It allows us to call functions written in other programming languages.
 
 We can define the file `test.c` as follows:
 
@@ -236,7 +236,7 @@ succ x = foreign FFI_C "succ" (Int -> IO Int) x
 
 main : IO ()
 main = do x <- succ 1
-       putStrLn ("succ 1 =" ++ show x)
+    putStrLn ("succ 1 =" ++ show x)
 ```
 
 With the code above we used the built-in function `foreign` together with the built-in constant `FFI_C` which are defined in Idris as follows:
@@ -248,4 +248,67 @@ Idris> FFI_C
 MkFFI C_Types String String : FFI
 ```
 
-This can be useful if there's a need to use a library that's already written in another programming language.
+This can be useful if there's a need to use a library that's already written in another programming language. Alternatively, with IRTS we can export Idris functions to C and call them from a C code. We can define `test.idr` as follows:
+
+```
+import Data.List
+
+addLists : List Int -> List Int -> List Int
+addLists xs ys = xs ++ ys
+
+nil : List Int
+nil = []
+
+cons : Int -> List Int -> List Int
+cons x xs = x :: xs
+
+show' : List Int -> IO String
+show' xs = do putStrLn "Ready to show..."
+              pure (show xs)
+
+testList : FFI_Export FFI_C "testHdr.h" []
+testList = Data (List Int) "ListInt" $
+           Data (List Nat) "ListNat" $
+           Fun addLists "addLists" $
+           Fun nil "nil" $
+           Fun cons "cons" $
+           Data Nat "Nat" $
+           Fun Strings.length "lengthS" $
+           Fun show' "showList" $
+           End
+```
+
+We can now generate a C object by running:
+
+```shell
+boro@bor0:~$ idris test.idr --interface -o test.o
+```
+
+This will generate two files: `test.o` (the object file) and `testHdr.h` (the header file). Now we can input the following code in some file, e.g. `test_idris.c`:
+
+```c
+#include "testHdr.h"
+
+int main() {
+    VM* vm = idris_vm();
+
+    ListInt x = cons(vm, 10, cons(vm, 20, nil(vm)));
+    ListInt y = cons(vm, 30, cons(vm, 40, nil(vm)));
+    ListInt z = addLists(vm, x, y);
+
+    printf("%s\n", showList(vm, z));
+
+    close_vm(vm);
+}
+```
+
+We will now compile and test everything together:
+
+```shell
+boro@bor0:~$ ${CC:=cc} test_idris.c test.o `${IDRIS:-idris} $@ --include` `${IDRIS:-idris} $@ --link` -o test
+boro@bor0:~$ ./test
+Ready to show...
+[10, 20, 30, 40]
+```
+
+With this approach we can write verified code in Idris and export its functionality to another programming language.
