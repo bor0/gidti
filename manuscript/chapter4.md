@@ -63,7 +63,7 @@ In Idris, types are first-class citizens. This means that types can be computed 
 data A a b = A_inst a b
 ```
 
-This will create a polymorphic type that accepts two type arguments, `a` and `b`. Valid constructed types are `A Nat Bool`, `A Nat Nat`, etc. `A` is a type constructor (function that returns a type) and `A_inst` is a value constructor (function that returns a value of type `A a b`).
+This will create a polymorphic type that accepts two type arguments, `a` and `b`. Valid constructed types are `A Nat Bool`, `A Nat Nat`, etc. `A` is a type constructor (function that returns a type) and `A_inst`[^ch4n3] is a value constructor (function that returns a value of type `A a b`).
 
 ```
 Idris> A_inst True True
@@ -95,7 +95,7 @@ Idris> :t A_inst
 A_inst : a -> b -> A a b
 ```
 
-That is, we show the type definitions for both the newly-defined type and its value constructor. Note how we created a product type here. Idris has a built-in[^ch4n3] notion of pairs, which is a data type that can be defined in terms of products. For example, `(1, 2)` is one pair. We can also define tuples with `(1, "Hi", True)`, which is equivalent to `(1, ("Hi", True))`, i.e. a pair where the first element is a number, and the second element is a pair.
+That is, we show the type definitions for both the newly-defined type and its value constructor. Note how we created a product type here. Idris has a built-in[^ch4n4] notion of pairs, which is a data type that can be defined in terms of products. For example, `(1, 2)` is one pair. We can also define tuples with `(1, "Hi", True)`, which is equivalent to `(1, ("Hi", True))`, i.e. a pair where the first element is a number, and the second element is a pair. Note that the types `(a, b)` (uncurried) and `a -> b` (curried) represent the same thing.
 
 Analogously, if we want to create a sum type, we could do the following:
 
@@ -122,7 +122,7 @@ Idris> :t B_inst_right
 B_inst_right : b -> B a b
 ```
 
-For extracting values from data types such as `B a b`, we can use pattern matching[^ch4n4]. As an example, to extract `a` from `B a b`, we can use the following function:
+For extracting values from data types such as `B a b`, we can use pattern matching[^ch4n5]. As an example, to extract `a` from `B a b`, we can use the following function:
 
 ```
 f : B a b -> a
@@ -294,7 +294,7 @@ We see how this exhibits a recursive behaviour since the recursive cases were re
 
 A recursive function can generate an **iterative** or a **recursive** process:
 
-1. An iterative process[^ch4n5] (tail recursion) is a process where the return value at any point in computation is captured completely by its parameters
+1. An iterative process[^ch4n6] (tail recursion) is a process where the return value at any point in computation is captured completely by its parameters
 1. A recursive one, in contrast, is one where the return value is not captured at any point in computation by the parameters, and so it relies on postponed evaluations
 
 In the example above, `even` generates a recursive process since it needs to go down to the base case, and then build its way back up to do the calculations that were postponed. Alternatively, we can rewrite `even` so that it captures the return value by introducing another variable, as such:
@@ -402,7 +402,7 @@ I> ### Definition 3
 I>
 I> A total function is a function that terminates (or returns a value) for all possible inputs.
 
-A partial function is the opposite of a total function. If a function is total, its type can be understood as a precise description of what that function can do. Idris differentiates total from partial functions, but allows defining both[^ch4n6]. As an example, if we assume that we have a function that returns a `String`, then:
+A partial function is the opposite of a total function. If a function is total, its type can be understood as a precise description of what that function can do. Idris differentiates total from partial functions, but allows defining both[^ch4n7]. As an example, if we assume that we have a function that returns a `String`, then:
 
 1. If it's total, it will return a `String` in finite time
 1. If it's partial, then unless it crashes or enters in an infinite loop, it will return a `String`
@@ -550,14 +550,14 @@ Implicit parameters (arguments) allow us to bring values from the type level to 
 
 ```
 lengthMyVect : MyVect n -> Nat
-lengthMyVect { n = k } list = k
+lengthMyVect {n = k} list = k
 ```
 
 In this case, we defined a function `lengthMyVect` that takes a `MyVect` and returns a natural number. The value `n` in the definition of the function will be the same as the value of `n` at the type level. They are called implicit parameters because the caller of this function needn't pass these parameters. In the function definition we define implicit parameters with curly braces and we also need to specify the list parameter which is of type `MyVect n` to pattern match against it. But, note how we don't refer to the list parameter in the computation part of this function and instead we can use an underscore (which represents an unused parameter) to get to:
 
 ```
 lengthMyVect : MyVect n -> Nat
-lengthMyVect { n = k } _ = k
+lengthMyVect {n = k} _ = k
 ```
 
 We can also have implicit parameters at the type level. As a matter of fact, an equivalent type definition of that function is:
@@ -604,7 +604,7 @@ I> ### Definition 5
 I>
 I> _Lazy_ evaluation means that function parameters are evaluated only when their values are needed. Conversely, _strict_ evaluation means that all function parameters are evaluated at call time.
 
-Idris evaluates parameters in a strict fashion[^ch4n7]. For example, let's take a look at the following function:
+Idris evaluates parameters in a strict fashion[^ch4n8]. For example, let's take a look at the following function:
 
 ```
 ifThenElse : Bool -> a -> a -> a
@@ -663,7 +663,7 @@ In this function we defined two new pattern matches after the line that uses the
 
 ### 4.1.12. Interfaces and implementations
 
-Interfaces are defined using the `interface` keyword and they allow us to add constraints to types that implement them[^ch4n8]. As an example, we'll take a look at the `Eq` interface:
+Interfaces are defined using the `interface` keyword and they allow us to add constraints to types that implement them[^ch4n9]. As an example, we'll take a look at the `Eq` interface:
 
 ```
 interface Eq a where
@@ -717,7 +717,7 @@ X> ```
 
 ## 4.2. Curry-Howard isomorphism
 
-The Curry-Howard isomorphism (also known as Curry-Howard correspondence) is the direct relation between computer programs and mathematical proofs. It is named after the mathematician Haskell Curry and logician William Howard. In other words, a mathematical proof is represented by a computer program and the formula that we're proving is the type of that program. As an example, we can take a look at the function swap that is defined as follows:
+The Curry-Howard isomorphism (also known as Curry-Howard correspondence) is the direct relation between computer programs and mathematical proofs. It is named after the mathematician Haskell Curry and logician William Howard. In other words, a mathematical proof is represented by a computer program and the formula that we're proving is the type of that program. As an example, we can take a look at the function `swap` that is defined as follows:
 
 ```
 swap : (a, b) -> (b, a)
@@ -751,14 +751,16 @@ As long as Idris' type checker terminates, we can be certain that the program pr
 
 [^ch4n2]: A polymorphic type can accept additional types as arguments, which are either defined by the programmer or primitive ones.
 
-[^ch4n3]: By built-in we usually mean it's part of Idris' library. We can always implement it ourselves if we need to.
+[^ch4n3]: The value and type constructors must be named differently since types and values are at the same level in Idris.
 
-[^ch4n4]: Although product and sum types are very general, due to polymorphism, we can say something very specific about the structure of their values. For instance, suppose we've defined a type like so: `data C a b c = C_left a | C_right (b,c)`. A value of type `C` can only come into existence in one of two ways: as a value of the form `C_left x` for a value `x : a`, or as a value of the form `C_right (y,z)` for values `y : b` and `z : c`.
+[^ch4n4]: By built-in we usually mean it's part of Idris' library. We can always implement it ourselves if we need to.
 
-[^ch4n5]: The key idea is not that a tail recursive function _is_ an iterative loop, but that a smart enough compiler can _pretend_ that it is and evaluate it using constant function stack space.
+[^ch4n5]: Although product and sum types are very general, due to polymorphism, we can say something very specific about the structure of their values. For instance, suppose we've defined a type like so: `data C a b c = C_left a | C_right (b,c)`. A value of type `C` can only come into existence in one of two ways: as a value of the form `C_left x` for a value `x : a`, or as a value of the form `C_right (y,z)` for values `y : b` and `z : c`.
 
-[^ch4n6]: Partial (non-terminating) functions are what makes Idris Turing complete.
+[^ch4n6]: The key idea is not that a tail recursive function _is_ an iterative loop, but that a smart enough compiler can _pretend_ that it is and evaluate it using constant function stack space.
 
-[^ch4n7]: In contrast, the default behaviour in Haskell is lazy evaluation.
+[^ch4n7]: Partial (non-terminating) functions are what makes Idris Turing complete.
 
-[^ch4n8]: They are equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.
+[^ch4n8]: In contrast, the default behaviour in Haskell is lazy evaluation.
+
+[^ch4n9]: They are equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.
