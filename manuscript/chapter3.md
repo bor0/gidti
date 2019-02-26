@@ -20,8 +20,12 @@ I> Algebraic data types are types where we can additionally specify the form for
 I>
 I> 1. Sum (union) is alternation. It is denoted as {$$}\text{A | B}{/$$} and it means that a constructed value is either of type A or B
 I> 1. Product is combination. It is denoted as {$$}\text{A B}{/$$} and it means that a constructed value is a pair where the first element is of type A, and the second element is of type B
+I>
+I> To understand the algebra they capture, we denote with {$$}|\text{A}|{/$$} the number of possible values of type {$$}\text{A}{/$$}. When we create an algebraic sum we have {$$}|\text{A | B}| = |\text{A}| + |\text{B}|{/$$}. Similarly, for algebraic product we have {$$}|\text{A B}| = |\text{A}| * |\text{B}|{/$$}.
 
 As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for natural numbers, and {$$}\text{Real}{/$$} for real numbers. Using sum (union) we can construct a new type {$$}\text{Nat | Real}{/$$}. Valid values of this type are {$$}1 : \text{Nat | Real}{/$$}, {$$}3.14 : \text{Nat | Real}{/$$}, etc. Using product we can construct a new type {$$}\text{Nat Real}{/$$}. Valid values of this type are {$$}1 \ 1.5 : \text{Nat Real}{/$$}, {$$}2 \ 3.14 : \text{Nat Real}{/$$}, etc. With this, sums and products can be combined and thus more complex data structures can be defined.
+
+The type {$$}\text{Bool}{/$$} has two possible values: {$$}True{/$$} and {$$}False{/$$}. Thus, {$$}|\text{Bool}| = 2{/$$}. The type {$$}\text{Unit}{/$$} (equivalent to {$$}(){/$$}) has one possible value: {$$}Unit{/$$}. We can now form a sum type {$$}\text{Bool | Unit}{/$$} which has length 3 with values {$$}True, False, Unit{/$$}. Additionally, the product type {$$}\text{Bool Unit}{/$$} has length 2 with values {$$}True \ Unit, False \ Unit{/$$}.
 
 Finally, Idris supports dependent types[^ch3n2]. These kind of types are so powerful, they can encode most properties of programs and with their help Idris can prove invariants at compile-time. As we will see in section 4.2 types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software[^ch3n3].
 
