@@ -178,12 +178,12 @@ A list of numbers is a type ({$$}\text{List}\ \text{Nat}{/$$}, for example). How
 
 I> ### Definition 10
 I>
-I> A dependent product type is a collection of types {$$}B : \text{A} \to U{/$$} where for each element {$$}a : \text{A}{/$$}, there's an assigned type {$$}B(a) : U{/$$}, where {$$}U{/$$} is a universe of types[^ch3n6]. We say that {$$}B(a){/$$} varies with {$$}a{/$$}. It is denoted as {$$}\Pi(x : \text{A}), B(x){/$$}.
+I> A dependent product type is a collection of types {$$}B : \text{A} \to U{/$$} where for each element {$$}a : \text{A}{/$$}, there's an assigned type {$$}B(a) : U{/$$}, where {$$}U{/$$} is a universe of types[^ch3n6]. We say that {$$}B(a){/$$} varies with {$$}a{/$$}. It is denoted as {$$}\Pi(x : \text{A}), B(x){/$$} or {$$}\prod\limits_{x \ : \ \text{A} } B(x){/$$}.
 
 This definition might seem a bit scary and tricky to grasp, but it really is simple, and it is best to see it in action through the following example:
 
 1. Our universe of types contains all possible types. For example, {$$}\text{Type}{/$$}, {$$}\text{Nat}{/$$}, etc, so {$$}U = \{ \text{Type}, \text{Nat}, \text{List n}, \ldots \}{/$$}
-1. Our collection of interest of types is {$$}\text{List n}{/$$}, which represents a list of {$$}\text{n}{/$$} elements. That is, {$$}A = \{ \text{List n} \}{/$$}
+1. Our collection of types of interest is {$$}\text{List n}{/$$}, which represents a list of {$$}\text{n}{/$$} elements. That is, {$$}A = \{ \text{List n} \}{/$$}
 
 The definition states that in the universe {$$}U{/$$}, there exists a function {$$}B(\text{n}) = \text{List n}{/$$}. {$$}B{/$$} is the collection of functions which given a number {$$}n{/$$}, will return a list of {$$}n{/$$} numbers. For example, we have the following lists:
 
@@ -191,13 +191,13 @@ The definition states that in the universe {$$}U{/$$}, there exists a function {
 1. List of 2 elements: {$$}[1, 2] : \text{List 2}{/$$}
 1. List of n elements: {$$}[1, 2, \ldots, n] : \text{List n}{/$$}
 
-In general, we have a function that takes an {$$}\text{n}{/$$} and produces a {$$}\text{List n}{/$$}, that is, {$$}f : \text{n} \to \text{List n}{/$$}, where the possible types for it are {$$}f : 1 \to \text{List 1}{/$$}, {$$}f : 2 \to \text{List 2}{/$$}, etc. We've just constructed our first dependent type!
+In general, we have a function that takes an {$$}\text{n}{/$$} and produces a {$$}\text{List n}{/$$}, that is, {$$}f : \Pi(x : \text{Nat}), \text{n} \to \text{List n}{/$$} or simply {$$}f : \text{n} \to \text{List n}{/$$}, where the possible types for it are {$$}f : 1 \to \text{List 1}{/$$} and {$$}f : 2 \to \text{List 2}{/$$}, etc. We've just constructed our first dependent type!
 
 I> ### Definition 11
 I>
-I> A dependent sum type can be used to represent indexed pairs, where the type of the second element depends on the type of the first element. That is, if we have {$$}a : \text{A}{/$$} and {$$}b : B(\text{a}){/$$}, then this makes a sum type. We denote it as {$$}\Sigma(x : \text{A}), B(x){/$$}.
+I> A dependent sum type can be used to represent indexed pairs, where the type of the second element depends on the type of the first element. That is, if we have {$$}a : \text{A}{/$$} and {$$}b : B(\text{a}){/$$}, then this makes a sum type. We denote it as {$$}\Sigma(x : \text{A}), B(x){/$$} or {$$}\sum\limits_{x \ : \ \text{A} } B(x){/$$}.
 
-For example, if we set {$$}A = \text{Nat}{/$$}, and {$$}B(\text{a}) = \text{List a}{/$$}, then we form the dependent sum type {$$}\Sigma(x : \text{Nat}), \text{List x}{/$$}. For example, we can construct the following pairs: {$$}(1, [1]), (2, [1, 2]), (3, [1, 2, 3]){/$$}, etc.
+For example, if we set {$$}A = \text{Nat}{/$$}, and {$$}B(\text{a}) = \text{List a}{/$$}, then we form the dependent sum type {$$}\Sigma(x : \text{Nat}), \text{List x}{/$$}. Possible types for it are {$$}(1, \text{List 1}){/$$} or {$$}(2, \text{List 2}){/$$}, etc. For example, we can construct the following pairs: {$$}(1, [1]), (2, [1, 2]), (3, [1, 2, 3]){/$$}, etc.
 
 X> ### Exercise 7
 X>
