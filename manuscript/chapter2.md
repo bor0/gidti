@@ -383,7 +383,7 @@ X> 1. Modus ponens: {$$}((p \to q) \land p) \to q{/$$}
 
 X> ### Exercise 16
 X>
-X> Prove proofs 1 and 2 above using both truth tables and three-column proofs techniques.
+X> Prove the formal proofs 1 and 2 from the examples above using both truth tables and three-column proofs techniques.
 
 X> ### Exercise 17
 X>
