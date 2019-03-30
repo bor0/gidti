@@ -596,39 +596,7 @@ X> ```
 X> lengthMyVect {n = 2} (Cons 1 Empty)
 X> ```
 
-### 4.1.10. Strict evaluation
-
-When simplifying a lambda calculus expression to produce a value, there are two dominant _evaluation strategies_: called _lazy_ and _strict_. Most languages based on lambda calculus (including Idris, Haskell, ML, and Scheme) choose one of these strategies to use by default, with built-in support for the other.
-
-I> ### Definition 5
-I>
-I> _Lazy_ evaluation means that function parameters are evaluated only when their values are needed. Conversely, _strict_ evaluation means that all function parameters are evaluated at call time.
-
-Idris evaluates parameters in a strict fashion[^ch4n8]. For example, let's take a look at the following function:
-
-```
-ifThenElse : Bool -> a -> a -> a
-ifThenElse True  t e = t
-ifThenElse False t e = e
-```
-
-This function uses either the `t` or the `e` parameter, but not both. But the way it is written, it will evaluate both arguments before returning a result. It is a good optimization to only evaluate the parameter that is used. However, to achieve this, in Idris there is a special built-in for lazy evaluation. The implementation looks something like:
-
-```
-data Lazy : Type -> Type where
-    Delay : (val : a) -> Lazy a
-    Force : Lazy a -> a
-```
-
-A value of type `Lazy a` will not be evaluated until `Force` is called upon it. Now we can write our `ifThenElse` function in the following way:
-
-```
-ifThenElse : Bool -> Lazy a -> Lazy a -> a
-ifThenElse True  t e = t
-ifThenElse False t e = e
-```
-
-### 4.1.11. Pattern matching expressions
+### 4.1.10. Pattern matching expressions
 
 We've seen how pattern matching is a powerful concept, in that it allows us to pattern match against value constructors. For example we can write a filtering function that given a list of naturals produces a list of even naturals, by re-using the earlier definition of `even`:
 
@@ -661,9 +629,9 @@ even_members' (Cons x l') with (even x)
 
 In this function we defined two new pattern matches after the line that uses the `with` keyword. Since we don't have `x` and `l'` in this new pattern matching context, we have to rewrite them on the left side of the pipe, and on the right side of the pipe we pattern match against the value of `even x`, and then branch the recursion (computation).
 
-### 4.1.12. Interfaces and implementations
+### 4.1.11. Interfaces and implementations
 
-Interfaces are defined using the `interface` keyword and they allow us to add constraints to types that implement them[^ch4n9]. As an example, we'll take a look at the `Eq` interface:
+Interfaces are defined using the `interface` keyword and they allow us to add constraints to types that implement them[^ch4n8]. As an example, we'll take a look at the `Eq` interface:
 
 ```
 interface Eq a where
@@ -761,6 +729,4 @@ As long as Idris' type checker terminates, we can be certain that the program pr
 
 [^ch4n7]: Partial (non-terminating) functions are what makes Idris Turing complete.
 
-[^ch4n8]: In contrast, the default behaviour in Haskell is lazy evaluation.
-
-[^ch4n9]: They are equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.
+[^ch4n8]: They are equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.

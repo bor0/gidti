@@ -662,11 +662,9 @@ That should be simple, we can just use `IH` to solve the goal. For the second ho
   even_n : True = even n
   IH : has_odd (even_members l') = False
 --------------------------------------
-b : ifThenElse (even n) (Delay (has_odd (even_members l')))
-    (Delay True) = False
+b : ifThenElse (even n) (has_odd (even_members l'))
+    True = False
 ```
-
-Seems that `if...then...else` uses a lazy structure, but nevertheless uses `(even n)` to branch the computation.
 
 Q> How do we rewrite the inductive hypothesis to the goal in this case?
 Q>
