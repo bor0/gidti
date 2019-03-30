@@ -1,78 +1,222 @@
-# Appendix A: Metamath
+# Appendix A: Writing a simple type-checker in Haskell
 
-Metamath is a programming language that can express theorems accompanied by a proof checker. The interesting thing about this language is its simplicity. We start by defining a formal system (variables, symbols, axioms and rules of inference) and proceed with building new theorems based on the formal system.
+## Evaluator
 
-As we've seen, proofs in mathematics (and Idris to some degree) are usually done at a very high level. Even though the foundations are formal systems, it is very difficult to do proofs at a low level. However, we will show that there are such programming languages like Metamath that work at the lowest level, that is formal systems.
-
-The most basic concept in Metamath is the substitution method. Metamath uses an RPN stack[^apan1] to build hypotheses and then rewrites using the rules of inference in order to reach a conclusion. Metamath has a very simple syntax. A token is a Metamath token if it starts with `$`, otherwise it is a user-generated token. Here is a list of Metamath tokens:
-
-1. `$c` defines constants
-1. `$v` defines variables
-1. `$f` defines type of variables (floating hypothesis)
-1. `$e` defines required arguments (essential hypotheses)
-1. `$a` defines axioms
-1. `$p` defines proofs
-1. `$=` and `$.` start and end body of a proof
-1. `$(` and `$)` start and end code comments
-1. `${` and `$}` start and end proof blocks
-
-Besides these tokens, there are several rules:
-
-1. A hypothesis is either defined by using the token `$e` or `$f`
-1. For every variable in `$e`, `$a` or `$p`, there has to be a `$f` token defined, that is any variable in essential hypothesis/axiom/proof must have defined a type
-1. An expression that contains `$f`, `$e` or `$d` is active in the given block from the start of the definition until the end of the block. An expression that contains `$a` or `$p` is active from the start of the definition until the end of the file
-1. Proof blocks have an effect on the access of definitions, i.e. scoping. For a given code in a block, only `$a` and `$p` remain visible outside of the block
-
-In the following example we'll define a formal system and demonstrate the use of the rule modus ponens in order to get to a new theorem, based on our initial axioms.
+*Syntax*: The syntax per Backus-Naur form is defined as:
 
 ```text
-$( Declaration of constants $)
-$c -> ( ) wff |- I J $.
-
-$( Declaration of variables $)
-$v p q $.
-
-$( Properties of variables, i.e. they are well-formed formulas $)
-wp $f wff p $. $( wp is a "command" we can use in RPN that represents a well-formed p $)
-wq $f wff q $.
-
-$( Modus ponens definition $)
-${
-    mp1 $e |- p $.
-    mp2 $e |- ( p -> q ) $.
-    mp  $a |- q $.
-$}
-
-$( Definition of initial axioms $)
-wI  $a wff I $. $( wI is a "command" that we can use in RPN that represents a well-formed I $)
-wJ  $a wff J $.
-wim $a wff ( p -> q ) $.
+<term>  ::= <bool> | <num> | If <bool> Then <expr> Else <expr> | <arith>
+<bool>  ::= T | F | IsZero <num>
+<num>   ::= O
+<arith> ::= Succ <num> | Pred <num>
 ```
 
-We created constants (strings) `->`, `wff`, etc. that we will use in our system. Further, we defined `p` and `q` to be variables. The strings `wp` and `wq` specify that `p` and `q` are `wff` (well-formed formulas) respectively. The definition of modus ponens says that for a given {$$}p{/$$} (`mp1`) and a given {$$}p \to q{/$$} (`mp2`) we can conclude {$$}q{/$$} (`mp`) i.e. {$$}p, p \to q \vdash q{/$$}. Note that outside of this block, only `mp` is visible per the rules above. Our initial axioms state that `I`, `J`, and `p -> q` are well-formed formulas.
+For simplicity we represent all of them in a single `Term`:
 
-Having defined our formal system, we can proceed with the proof:
+```haskell
+data Term =
+    T
+    | F
+    | O
+    | IfThenElse Term Term Term
+    | Succ Term
+    | Pred Term
+    | IsZero Term
+    deriving (Show, Eq)
+```
+
+*Rules of inference*: The semantics we use here are based on so called small-step style, which state how a term is rewritten to a specific value, written {$$}t \to v{/$$}. In contrast, big-step style states how a specific term evaluates to a final value, written {$$}t \Downarrow v{/$$}.
+
+| Name         | Rule |
+| ------------ | ---- |
+| E-IfTrue     | {$$}\text{If T Then } t_2 \text{ Else } t_3 \to t_2{/$$} |
+| E-IfFalse    | {$$}\text{If F Then } t_2 \text{ Else } t_3 \to t_3{/$$} |
+| E-If         | {$$}\frac{t_1 \to t'}{\text{If }t_1 \text{ Then } t_2 \text{ Else } t_3 \to \text{If }t' \text{ Then } t_2 \text{ Else } t_3}{/$$} |
+| E-Succ       | {$$}\frac{t_1 \to t'}{\text{Succ }t_1 \to \text{ Succ } t'}{/$$} |
+| E-PredZero   | {$$}\text{Pred O} \to \text{O}{/$$} |
+| E-PredSucc   | {$$}\text{Pred(Succ } k \text {)} \to k{/$$} |
+| E-Pred       | {$$}\frac{t_1 \to t'}{\text{Pred }t_1 \to \text{ Pred } t'}{/$$} |
+| E-IszeroZero | {$$}\text{IsZero O} \to \text{T}{/$$} |
+| E-IszeroSucc | {$$}\text{IsZero(Succ } k \text {)} \to \text{F}{/$$} |
+| E-IsZero     | {$$}\frac{t_1 \to t'}{\text{IsZero }t_1 \to \text{ IsZero } t'}{/$$} |
+
+As an example, the rule `E-IfTrue` written using big-step semantics would be {$$}\frac{t_1 \Downarrow \text{T}, t2 \Downarrow v}{\text{If T} \text{ Then } t_2 \text{ Else } t_3 \Downarrow t_2}{/$$}.
+
+Given the rules, by pattern matching them we will reduce terms. Implementation in Haskell is mostly "copy-paste" according to the rules:
+
+```haskell
+eval :: Term -> Term
+eval (IfThenElse T t2 t3) = t2
+eval (IfThenElse F t2 t3) = t3
+eval (IfThenElse t1 t2 t3) = let t' = eval t1 in IfThenElse t' t2 t3
+eval (Succ t1) = let t' = eval t1 in Succ t'
+eval (Pred O) = O
+eval (Pred (Succ k)) = k
+eval (Pred t1) = let t' = eval t1 in Pred t'
+eval (IsZero O) = T
+eval (IsZero (Succ t)) = F
+eval (IsZero t1) = let t' = eval t1 in IsZero t'
+eval _ = error "No rule applies"
+```
+
+As an example, evaluating the following:
+
+```haskell
+Main> eval $ Pred $ Succ $ Pred O
+Pred O
+```
+
+Corresponds to the following inference rules:
 
 ```text
-$( For given I and I -> J, we prove that we can conclude J. Note: We use block scoping here since we don't want the hypothesis proof_I and proof_I_imp_J to be visible outside of the block $)
-${
-    $( Given I and I -> J $)
-    proof_I $e |- I $.
-    proof_I_imp_J $e |- ( I -> J ) $.
-    $( Proof that we can conclude J $)
-    proof_J $p |- J $=
-        wI  $( Stack: [ 'wff I' ] $)
-        wJ  $( Stack: [ 'wff I', 'wff J' ] $)
-        $( Note: We've specified wff for I and J before using mp, since the types have to match $)
-        proof_I       $( Stack: [ 'wff I', 'wff J', '|- I' ] $)
-        proof_I_imp_J $( Stack: [ 'wff I', 'wff J', '|- I', '|- ( I -> J )' ] $)
-        mp  $( Stack: [ '|- J' ] $)
-    $.
-$}
+             ----------- E-PredZero
+             pred O -> O
+       ----------------------- E-Succ
+       succ (pred O) -> succ O
+------------------------------------- E-Pred
+pred (succ (pred O)) -> pred (succ O)
 ```
 
-With the code above, we assume `proof_I` and `proof_I_imp_J` in some scope/context. Further, with `proof_J` we want to show that we can conclude `J`. To start the proof, we put `I` and `J` on the stack by using the commands `wI` and `wJ`. Now that our stack contains `[ 'wff I', 'wff J' ]`, we can use `proof_I` to use the first parameter from the stack to conclude `|- I`. Since `proof_I_imp_J` accepts two parameters, it will use the first two parameters from the stack, i.e. `wff I` and `wff J` to conclude `|- I -> J`. Finally, with `mp` we use `|- I` and `|- I -> J` from the stack to conclude that `|- J`.
+## Type-checker
 
-Note how we separated `wff` from `|-`. Otherwise, if we just used `|-` then all of the formulas would be true, which does not make sense.
+*Syntax*: In addition to the previous syntax, we create a new one for types which is defined as:
 
-[^apan1]: Reverse Polish Notation is a mathematical notation where functions follow their arguments. For example, to represent {$$}1 + 2{/$$}, we would write {$$}1 \ 2 \ +{/$$}.
+```text
+<type> ::= Bool | Nat
+```
+
+In Haskell:
+
+```haskell
+data Type =
+    TBool
+    | TNat
+```
+
+*Rules of inference*: Getting a type of a term expects a term, and either returns an error or the type derived:
+
+| Name     | Rule |
+| -------- | ---- |
+| T-True   | {$$}\text{T : TBool}{/$$} |
+| T-False  | {$$}\text{F : TBool}{/$$} |
+| T-Zero   | {$$}\text{O : TNat}{/$$} |
+| T-If     | {$$}\frac{t_1\text{ : Bool},  t_2\text{ : }T, t_3\text{ : }T}{\text{If }t_1 \text{ Then } t_2 \text{ Else } t_3\text{ : }T}{/$$} |
+| T-Succ   | {$$}\frac{t\text{ : TNat }}{\text{Succ } t \text{ : TNat}}{/$$} |
+| T-Pred   | {$$}\frac{t\text{ : TNat }}{\text{Pred } t \text{ : TNat}}{/$$} |
+| T-IsZero | {$$}\frac{t\text{ : TNat }}{\text{IsZero } t \text{ : TBool}}{/$$} |
+
+Code in Haskell:
+
+```haskell
+typeOf :: Term -> Either String Type
+typeOf T = Right TBool
+typeOf F = Right TBool
+typeOf O = Right TNat
+typeOf (IfThenElse t1 t2 t3) =
+    case typeOf t1 of
+        Right TBool ->
+            let t2' = typeOf t2
+                t3' = typeOf t3 in
+                if t2' == t3'
+                then t2'
+                else Left "Types mismatch"
+        _ -> Left "Unsupported type for IfThenElse"
+typeOf (Succ k) =
+    case typeOf k of
+        Right TNat -> Right TNat
+        _ -> Left "Unsupported type for Succ"
+typeOf (Pred k) =
+    case typeOf k of
+        Right TNat -> Right TNat
+        _ -> Left "Unsupported type for Pred"
+typeOf (IsZero k) =
+    case typeOf k of
+        Right TNat -> Right TBool
+        _ -> Left "Unsupported type for IsZero"
+```
+
+Going back to the previous example, we can now "safely" evaluate (by type-checking first), depending on the type-check results.
+
+## Environments
+
+Our simple language supports evaluation and type checking, but does not allow for defining constants. To do that, we will need some kind of an environment which will hold information about constants.
+
+```haskell
+type TyEnv = [(String, Type)] -- Type env
+type TeEnv = [(String, Term)] -- Term env
+```
+
+We also extend our data type to contain `TVar` for defining variables, and meanwhile also introduce the `Let ... in ...` syntax:
+
+```haskell
+data Term =
+    ...
+    | TVar String
+    | Let String Term Term
+```
+
+Here are the rules for variables:
+
+| Name             | Rule |
+| ---------------- | ---- |
+| Add binding      | {$$}\frac{\Gamma, a \text{ : }T}{\Gamma \vdash a \text{ : }T}{/$$} |
+| Retrieve binding | {$$}\frac{a \text{ : }T \in \Gamma}{\Gamma \vdash a \text{ : }T}{/$$} |
+
+Haskell definitions:
+
+```haskell
+addType :: String -> Type -> TyEnv -> TyEnv
+addType varname b env = (varname, b) : env
+
+getTypeFromEnv :: TyEnv -> String -> Maybe Type
+getTypeFromEnv [] _ = Nothing
+getTypeFromEnv ((varname', b) : env) varname =
+    if varname' == varname then Just b else getTypeFromEnv env varname
+```
+
+We have the same exact functions for terms:
+
+```haskell
+addTerm :: String -> Term -> TeEnv -> TeEnv
+getTermFromEnv :: TeEnv -> String -> Maybe Term
+```
+
+*Rules of inference (evaluator)*: `eval'` is exactly the same as `eval`, with the following additions:
+
+1. New parameter (the environment) to support retrieval of values for constants
+2. Pattern matching for the new `Let ... in ...` syntax
+
+```haskell
+eval' :: TeEnv -> Term -> Term
+eval' env (TVar v) = case getTermFromEnv env v of
+    Just ty -> ty
+    _       -> error "No var found in env"
+eval' env (Let v t t') = eval' (addTerm v (eval' env t) env) t'
+```
+
+We will modify `IfThenElse` slightly to allow for evaluating variables:
+
+```haskell
+eval' env (IfThenElse T t2 t3) = eval' env t2
+eval' env (IfThenElse F t2 t3) = eval' env t3
+eval' env (IfThenElse t1 t2 t3) =
+    let t' = eval' env t1 in IfThenElse t' t2 t3
+```
+
+The remaining definitions can be copy-pasted.
+
+*Rules of inference (type-checker)*: `typeOf'` is exactly the same as `typeOf`, with the only addition to support `env` (for retrieval of types for constants in an env) and the new let syntax.
+
+```haskell
+typeOf' :: TyEnv -> Term -> Either String Type
+typeOf' env (TVar v) = case getTypeFromEnv env v of
+    Just ty -> Right ty
+    _       -> Left "No type found in env"
+typeOf' env (Let v t t') = case typeOf' env t of
+    Right ty -> typeOf' (addType v ty env) t'
+    _        -> Left "Unsupported type for Let"
+```
+
+For the remaining cases, the pattern matching clauses need to be updated to pass `env` where applicable.
+
+To conclude, the evaluator and the type checker almost live in two separate worlds -- they do two separate tasks. If we want to ensure the evaluator will produce the correct results, the first thing is to assure that the type-checker returns no error. Another interesting observation is how pattern matching the data type is similar to the hypothesis part of the inference rules. The relationship is due to the Curry-Howard isomorphism. When we have a formula {$$}a \vdash b{/$$} (a implies b), and pattern match on a, it's as if we assumed a and need to show b.

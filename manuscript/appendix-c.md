@@ -1,271 +1,289 @@
-# Appendix C: Writing a simple type-checker
+# Appendix C: IO, Codegen targets, compilation, and FFI
 
-## Evaluator
+This section is mostly relevant to programmers that have experience with programming languages such as C, Haskell, JavaScript. It will demonstrate how Idris can interact with the outside world (IO) and these programming languages.
 
-*Syntax*: The syntax per Backus-Naur form is defined as:
+In the following examples we will see how we can compile Idris code. A given program in Idris can be compiled to a binary executable or a back-end for some other programming language. If we decide to compile to a binary executable, then the C back-end will be used by default.
 
-```text
-<term>  ::= <bool> | <num> | If <bool> Then <expr> Else <expr> | <arith>
-<bool>  ::= T | F | IsZero <num>
-<num>   ::= O
-<arith> ::= Succ <num> | Pred <num>
+## IO
+
+IO stands for Input/Output. Examples of a few IO operations are: write to a disk file, talk to a network computer, launch rockets.
+
+Functions can be roughly categorized in two parts: **pure** and **impure**.
+
+1. Pure functions are functions that will produce the same result every time they are called
+1. Impure functions are functions that might return different result on a function call
+
+An example of a pure function is {$$}f(x) = x + 1{/$$}. An example of an impure function is {$$}f(x) = \text{launch} \ x \ \text{rockets}{/$$}. Since this function causes side-effects, sometimes the launch of the rockets may not be successful (e.g. the case where we have no more rockets to launch).
+
+Computer programs are not usable if there is no interaction with the user. One problem arises with languages such as Idris (where expressions are mathematical and have no side effects) is that IO contains side effects. For this reason, such interactions will be encapsulated in a data structure that looks something like:
+
+```
+data IO a -- IO operation that returns a value of type a
 ```
 
-For simplicity we represent all of them in a single `Term`:
+The concrete definition for `IO` is built within Idris itself, that is why we will leave it at the data abstraction as defined above. Essentially `IO` describes all operations that need to be executed. The resulting operations are executed externally by the Idris Run-Time System (or `IRTS`). The most basic IO program is:
 
-```haskell
-data Term =
-    T
-    | F
-    | O
-    | IfThenElse Term Term Term
-    | Succ Term
-    | Pred Term
-    | IsZero Term
-    deriving (Show, Eq)
+```
+main : IO ()
+main = putStrLn "Hello world"
 ```
 
-*Rules of inference*: The semantics we use here are based on so called small-step style, which state how a term is rewritten to a specific value, written {$$}t \to v{/$$}. In contrast, big-step style states how a specific term evaluates to a final value, written {$$}t \Downarrow v{/$$}.
+The type of `putStrLn` says that this function receives a `String` and returns an `IO` operation.
 
-Evaluation of a term is just pattern matching the inference rules. Given a term, it should produce a term:
-
-```haskell
-eval :: Term -> Term
+```
+Idris> :t putStrLn
+putStrLn : String -> IO ()
 ```
 
-| Name         | Rule |
-| ------------ | ---- |
-| E-IfTrue     | {$$}\text{If T Then } t_2 \text{ Else } t_3 \to t_2{/$$} |
-| E-IfFalse    | {$$}\text{If F Then } t_2 \text{ Else } t_3 \to t_3{/$$} |
-| E-If         | {$$}\frac{t_1 \to t'}{\text{If }t_1 \text{ Then } t_2 \text{ Else } t_3 \to \text{If }t' \text{ Then } t_2 \text{ Else } t_3}{/$$} |
-| E-Succ       | {$$}\frac{t_1 \to t'}{\text{Succ }t_1 \to \text{ Succ } t'}{/$$} |
-| E-PredZero   | {$$}\text{Pred O} \to \text{O}{/$$} |
-| E-PredSucc   | {$$}\text{Pred(Succ } k \text {)} \to k{/$$} |
-| E-Pred       | {$$}\frac{t_1 \to t'}{\text{Pred }t_1 \to \text{ Pred } t'}{/$$} |
-| E-IszeroZero | {$$}\text{IsZero O} \to \text{T}{/$$} |
-| E-IszeroSucc | {$$}\text{IsZero(Succ } k \text {)} \to \text{F}{/$$} |
-| E-IsZero     | {$$}\frac{t_1 \to t'}{\text{IsZero }t_1 \to \text{ IsZero } t'}{/$$} |
+We can read from the input similarly:
 
-As an example, the rule `E-IfTrue` written using big-step semantics would be {$$}\frac{t_1 \Downarrow \text{T}, t2 \Downarrow v}{\text{If T} \text{ Then } t_2 \text{ Else } t_3 \Downarrow t_2}{/$$}.
-
-Given the rules, by pattern matching them we will reduce terms. Implementation in Haskell is mostly "copy-paste" according to the rules:
-
-```haskell
-eval (IfThenElse T t2 t3) = t2
-eval (IfThenElse F t2 t3) = t3
-eval (IfThenElse t1 t2 t3) = let t' = eval t1 in IfThenElse t' t2 t3
-eval (Succ t1) = let t' = eval t1 in Succ t'
-eval (Pred O) = O
-eval (Pred (Succ k)) = k
-eval (Pred t1) = let t' = eval t1 in Pred t'
-eval (IsZero O) = T
-eval (IsZero (Succ t)) = F
-eval (IsZero t1) = let t' = eval t1 in IsZero t'
-eval _ = error "No rule applies"
+```
+getLine : IO String
 ```
 
-As an example, evaluating the following:
+In order to combine several IO functions, we can use the `do` notation as follows:
 
-```haskell
-Main> eval $ Pred $ Succ $ Pred O
-Pred O
+```
+main : IO ()
+main = do
+    putStr "What's your name? "
+    name <- getLine
+    putStr "Nice to meet you, "
+    putStrLn name
 ```
 
-Corresponds to the following inference rules:
+In the REPL, we can say `:x main` to execute the IO function. Alternatively, if we save the code to `test.idr`, we can use the command `idris test.idr -o test` in order to output an executable file that we can use on our system. Interacting with it:
 
-```text
-             ----------- E-PredZero
-             pred O -> O
-       ----------------------- E-Succ
-       succ (pred O) -> succ O
-------------------------------------- E-Pred
-pred (succ (pred O)) -> pred (succ O)
+```shell
+boro@bor0:~$ idris test.idr -o test
+boro@bor0:~$ ./test
+What's your name? Boro
+Nice to meet you, Boro
+boro@bor0:~$
 ```
 
-However, if we do:
+Let's slightly rewrite our code by abstracting out the concatenation function:
 
-```haskell
-Main> eval $ IfThenElse O O O
-*** Exception: No rule applies
+```
+concat_string : String -> String -> String
+concat_string a b = a ++ b
+
+main : IO ()
+main = do
+    putStr "What's your name? "
+    name <- getLine
+    let concatenated = concat_string "Nice to meet you, " name
+    putStrLn concatenated
 ```
 
-It's type-checking time!
+Note how we use the `let x = y` syntax with pure functions, where in contrast we use the `x <- y` with impure functions.
 
-## Type-checker
+The `++` operator is a built-in one used to concatenate lists. A `String` can be viewed as a list of `Char`. In fact, Idris has functions called `pack` and `unpack` that allow for conversion between these two data types:
 
-*Syntax*: In addition to the previous syntax, we create a new one for types which is defined as:
-
-```text
-<type> ::= Bool | Nat
+```
+Idris> unpack "Hello"
+['H', 'e', 'l', 'l', 'o'] : List Char
+Idris> pack ['H', 'e', 'l', 'l', 'o']
+"Hello" : String
 ```
 
-In Haskell:
+## Codegen
 
-```haskell
-data Type =
-    TBool
-    | TNat
+The keywords `module` and `import` allow us to specify a name of the current executing code context and load other modules by referring to their names respectively. We can implement our own back-end for a given programming language, for which we need to create a so-called Codegen (`CG`) program. An empty `CG` program would look like this:
+
+```
+module IRTS.CodegenEmpty(codegenEmpty) where
+
+import IRTS.CodegenCommon
+
+codegenEmpty :: CodeGenerator
+codegenEmpty ci = putStrLn "Not implemented"
 ```
 
-*Rules of inference*: Getting a type of a term expects a term, and either returns an error or the type derived:
+Since Idris is written in Haskell, the package `IRTS` (Idris Run-Time System) is a Haskell collection of modules. It contains data structures where we need to implement Idris commands and give definitions for how they map to the target language. For example, a `putStr` could map to `printf` in C.
 
-```haskell
-typeOf :: Term -> Either String Type
+## Compilation
+
+We will show how Idris can generate a binary executable and JavaScript code, as well as the difference between total and partial functions and how Idris handles both cases. We define a dependent type `Vect`, which will allow us to work with lists and additionally have the length of the list at the type level:
+
+```
+data Vect : Nat -> Type -> Type where
+    VNil  : Vect Z a
+    VCons : a -> Vect k a -> Vect (S k) a
 ```
 
-Next step is to specify the typing rules.
+In the code above we define `Vect` as a data structure with two constructors: empty (`VNil`) or element construction (`VCons`). An empty vector is of type `Vect 0 a`, which can be `Vect 0 Int`, `Vect 0 Char`, etc. One example of a vector is `VCons 1 VNil : Vect 1 Integer`, where a list with a single element is represented and we note how the type contains the information about the length of the list. Another example is: `VCons 1.0 (VCons 2.0 (VCons 3.0 VNil)) : Vect 3 Double`.
 
-| Name     | Rule |
-| -------- | ---- |
-| T-True   | {$$}\text{T : TBool}{/$$} |
-| T-False  | {$$}\text{F : TBool}{/$$} |
-| T-Zero   | {$$}\text{O : TNat}{/$$} |
-| T-If     | {$$}\frac{t_1\text{ : Bool},  t_2\text{ : }T, t_3\text{ : }T}{\text{If }t_1 \text{ Then } t_2 \text{ Else } t_3\text{ : }T}{/$$} |
-| T-Succ   | {$$}\frac{t\text{ : TNat }}{\text{Succ } t \text{ : TNat}}{/$$} |
-| T-Pred   | {$$}\frac{t\text{ : TNat }}{\text{Pred } t \text{ : TNat}}{/$$} |
-| T-IsZero | {$$}\frac{t\text{ : TNat }}{\text{IsZero } t \text{ : TBool}}{/$$} |
+We will see how total and partial functions can both pass the compile-time checks, but the latter can cause a run-time error.
 
-Code in Haskell:
+```
+--total
+list_to_vect : List Char -> Vect 2 Char
+list_to_vect (x :: y :: []) = VCons x (VCons y VNil)
+--list_to_vect _ = VCons 'a' (VCons 'b' VNil)
 
-```haskell
-typeOf T = Right TBool
-typeOf F = Right TBool
-typeOf O = Right TNat
-typeOf (IfThenElse t1 t2 t3) =
-    case typeOf t1 of
-        Right TBool ->
-            let t2' = typeOf t2
-                t3' = typeOf t3 in
-                if t2' == t3'
-                then t2'
-                else Left "Types mismatch"
-        _ -> Left "Unsupported type for IfThenElse"
-typeOf (Succ k) =
-    case typeOf k of
-        Right TNat -> Right TNat
-        _ -> Left "Unsupported type for Succ"
-typeOf (Pred k) =
-    case typeOf k of
-        Right TNat -> Right TNat
-        _ -> Left "Unsupported type for Pred"
-typeOf (IsZero k) =
-    case typeOf k of
-        Right TNat -> Right TBool
-        _ -> Left "Unsupported type for IsZero"
+vect_to_list : Vect 2 Char -> List Char
+vect_to_list (VCons a (VCons b VNil)) = a :: b :: []
+
+wrapunwrap : String -> String
+wrapunwrap name = pack (vect_to_list (list_to_vect (unpack name)))
+
+greet : IO ()
+greet = do
+    putStr "What is your name? "
+    name <- getLine
+    putStrLn ("Hello " ++ (wrapunwrap name))
+
+main : IO ()
+main = do
+    putStrLn "Following greet, enter any number of chars"
+    greet
 ```
 
-Going back to the previous example, we can now "safely" evaluate (by type-checking first), depending on type-check results:
+We've defined functions `list_to_vect` and `vect_to_list` that convert between dependently typed vectors and lists. Further, we have another function that calls these two functions together. Note how we commented the total keyword and the second pattern match for the purposes of this example. Now, if we check values for this partial function:
 
-```haskell
-Main> typeOf $ IfThenElse O O O
-Left "Unsupported type for IfThenElse"
-Main> typeOf $ IfThenElse T O (Succ O)
-Right TNat
-Main> typeOf $ IfThenElse F O (Succ O)
-Right TNat
-Main> eval $ IfThenElse T O (Succ O)
-O
-Main> eval $ IfThenElse F O (Succ O)
-Succ O
+```
+Idris> list_to_vect []
+list_to_vect [] : Vect 2 Char
+Idris> list_to_vect ['a']
+list_to_vect ['a'] : Vect 2 Char
+Idris> list_to_vect ['a','b']
+list_to_vect 'a' (VCons 'b' VNil) : Vect 2 Char
+Idris> list_to_vect ['a','b','c']
+list_to_vect ['a', 'b', 'c'] : Vect 2 Char
 ```
 
-## Environments
+It is obvious that we only get a value for the test `['a', 'b']` case. We can note that for the remaining cases the value is not calculated (computed). If we go further and investigate what happens at run-time:
 
-Our simple language supports evaluation and type checking, but does not allow for defining constants. To do that, we will need some kind of an environment which will hold information about constants.
-
-```haskell
-type TyEnv = [(String, Type)] -- Type env
-type TeEnv = [(String, Term)] -- Term env
+```
+Idris> :exec
+Following greet, enter any number of chars
+What is your name? Hello
+Idris> :exec
+Following greet, enter any number of chars
+What is your name? Hi
+Hello Hi
+Idris>
 ```
 
-We also extend our data type to contain `TVar` for defining variables, and meanwhile also introduce the `Let ... in ...` syntax:
+Idris stopped the process execution. Going one step further, after we compile:
 
-```haskell
-data Term =
-    ...
-    | TVar String
-    | Let String Term Term
+```shell
+boro@bor0:~$ idris --codegen node test.idr -o test.js
+boro@bor0:~$ node test.js
+Following greet, enter any number of chars
+What is your name? Hello
+/Users/boro/test.js:177
+    $cg$7 = new $HC_2_1$Prelude__List___58__58_($cg$2.$1, new $HC_2_1$Prelude__List___58__58_($cg$9.$1, $HC_0_0$Prelude__List__Nil));
+                                                                                                    ^
+
+TypeError: Cannot read property '$1' of undefined
+...
+boro@bor0:~$ node test.js
+Following greet, enter any number of chars
+What is your name? Hi
+Hello Hi
 ```
 
-Here are the rules for variables:
+We get a run-time error from JavaScript. If we do the same with the C back-end:
 
-| Name             | Rule |
-| ---------------- | ---- |
-| Add binding      | {$$}\frac{\Gamma, a \text{ : }T}{\Gamma \vdash a \text{ : }T}{/$$} |
-| Retrieve binding | {$$}\frac{a \text{ : }T \in \Gamma}{\Gamma \vdash a \text{ : }T}{/$$} |
-
-Haskell definitions:
-
-```haskell
-addType :: String -> Type -> TyEnv -> TyEnv
-addType varname b env = (varname, b) : env
-
-getTypeFromEnv :: TyEnv -> String -> Maybe Type
-getTypeFromEnv [] _ = Nothing
-getTypeFromEnv ((varname', b) : env) varname =
-    if varname' == varname then Just b else getTypeFromEnv env varname
+```shell
+boro@bor0:~$ idris --codegen C test.idr -o test
+boro@bor0:~$ ./test
+Following greet, enter any number of chars
+What is your name? Hello
+Segmentation fault: 11
+boro@bor0:~$ ./test
+Following greet, enter any number of chars
+What is your name? Hi
+Hello Hi
 ```
 
-We have the same exact functions for terms:
+It causes a segmentation fault, which is a run-time error. As a conclusion, if we use partial functions then we need to do additional checks in the code to cover the cases for potential run-time errors. Alternatively, if we want to take full advantage of the safety that the type system offers, we should define all functions as total.
 
-```haskell
-addTerm :: String -> Term -> TeEnv -> TeEnv
-getTermFromEnv :: TeEnv -> String -> Maybe Term
+By defining the function `list_to_vect` to be total, we specify that every input has to have an output. All the remaining checks are done at compile-time by Idris and with that we're guaranteed that all callers of this function satisfy the types.
+
+## Foreign Function Interface
+
+In this example we'll introduce the FFI system, which stands for Foreign Function Interface. It allows us to call functions written in other programming languages.
+
+We can define the file `test.c` as follows:
+
+```c
+#include "test.h"
+
+int succ(int i) {
+    return i+1;
+}
 ```
 
-*Rules of inference (evaluator)*: `eval'` is exactly the same as `eval`, with the following additions:
+Together with `test.h`:
 
-1. New parameter (the environment) to support retrieval of values for constants
-2. Pattern matching for the new `Let ... in ...` syntax
-
-```haskell
-eval' :: TeEnv -> Term -> Term
-eval' env (TVar v) = case getTermFromEnv env v of
-    Just ty -> ty
-    _       -> error "No var found in env"
-eval' env (Let v t t') = eval' (addTerm v (eval' env t) env) t'
+```c
+int succ(int);
 ```
 
-We will modify `IfThenElse` slightly to allow for evaluating variables:
+Now we can write a program that calls this function as follows:
 
-```haskell
-eval' env (IfThenElse T t2 t3) = eval' env t2
-eval' env (IfThenElse F t2 t3) = eval' env t3
-eval' env (IfThenElse t1 t2 t3) =
-    let t' = eval' env t1 in IfThenElse t' t2 t3
+```
+module Main
+
+%include C "test.h"
+%link C "test.o"
+
+succ : Int -> IO Int
+succ x = foreign FFI_C "succ" (Int -> IO Int) x
+
+main : IO ()
+main = do x <- succ 1
+    putStrLn ("succ 1 =" ++ show x)
 ```
 
-The remaining definitions can be copy-pasted.
+With the code above we used the built-in function `foreign` together with the built-in constant `FFI_C` which are defined in Idris as follows:
 
-*Rules of inference (type-checker)*: `typeOf'` is exactly the same as `typeOf`, with the only addition to support `env` (for retrieval of types for constants in an env) and the new let syntax.
-
-```haskell
-typeOf' :: TyEnv -> Term -> Either String Type
-typeOf' env (TVar v) = case getTypeFromEnv env v of
-    Just ty -> Right ty
-    _       -> Left "No type found in env"
-typeOf' env (Let v t t') = case typeOf' env t of
-    Right ty -> typeOf' (addType v ty env) t'
-    _        -> Left "Unsupported type for Let"
+```
+Idris> :t foreign
+foreign : (f : FFI) -> ffi_fn f -> (ty : Type) -> {auto fty : FTy f [] ty} -> ty
+Idris> FFI_C
+MkFFI C_Types String String : FFI
 ```
 
-For the remaining cases, the pattern matching clauses need to be updated to pass `env` where applicable.
+This can be useful if there's a need to use a library that's already written in another programming language. Alternatively, with IRTS we can export Idris functions to C and call them from a C code. We can define `test.idr` as follows:
 
-Some examples:
+```
+nil : List Int
+nil = []
 
-```haskell
-Main> let termEnv = addTerm "a" O $ addTerm "b" (Succ O) $ addTerm "c" F []
-Main> let typeEnv = addType "a" TNat $ addType "b" TNat $ addType "c" TBool []
-Main> let e = IfThenElse T (TVar "a") (TVar "b") in (eval' termEnv e, typeOf' typeEnv e)
-(O,Right TNat)
-Main> let e = IfThenElse T (TVar "a") (TVar "c") in (eval' termEnv e, typeOf' typeEnv e)
-(O,Left "Type mismatch between Right TNat and Right TBool")
-Main> let e = IfThenElse T F (TVar "c") in (eval' termEnv e, typeOf' typeEnv e)
-(F,Right TBool)
-Main> let e = (Let "y" (TVar "a") (Succ (TVar "y"))) in eval' e termEnv 
-Succ O
-Main> let e = (Let "y" (TVar "a") (Succ (TVar "y"))) in typeOf' e typeEnv
-Right TNat
+cons : Int -> List Int -> List Int
+cons x xs = x :: xs
+
+show' : List Int -> IO String
+show' xs = do { putStrLn "Ready to show..." ; pure (show xs) }
+
+testList : FFI_Export FFI_C "testHdr.h" []
+testList = Data (List Int) "ListInt" $ Fun nil "nil" $ Fun cons "cons" $ Fun show' "showList" $ End
 ```
 
-The evaluator and the type checker almost live in two separate worlds -- they do two separate tasks. If we want to ensure the evaluator will produce the correct results, the first thing is to assure that the type-checker returns no error. Another interesting observation is how pattern matching the data type is similar to the hypothesis part of the inference rules. The relationship is due to the Curry-Howard isomorphism. When we have a formula {$$}a \vdash b{/$$} (a implies b), and pattern match on a, it's as if we assumed a and need to show b.
+Running `idris test.idr --interface -o test.o` will generate two files: `test.o` (the object file) and `testHdr.h` (the header file). Now we can input the following code in some file, e.g. `test_idris.c`:
+
+```c
+#include "testHdr.h"
+
+int main() {
+    VM* vm = idris_vm();
+    ListInt x = cons(vm, 10, cons(vm, 20, nil(vm)));
+    printf("%s\n", showList(vm, x));
+    close_vm(vm);
+}
+```
+
+We will now compile and test everything together:
+
+```shell
+boro@bor0:~$ ${CC:=cc} test_idris.c test.o `${IDRIS:-idris} $@ --include` `${IDRIS:-idris} $@ --link` -o test
+boro@bor0:~$ ./test
+Ready to show...
+[10, 20]
+```
+
+With this approach we can write verified code in Idris and export its functionality to another programming language.

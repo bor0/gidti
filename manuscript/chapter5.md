@@ -388,7 +388,7 @@ This concludes the proof.
 
 X> ### Exercise 15
 X>
-X> Observe the similarity between this proof and the proof in section 2.3.5.
+X> Observe the similarity between this proof and the proof in section 2.3.4.
 
 ### 5.2.4. Ordering
 

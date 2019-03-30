@@ -327,12 +327,6 @@ To prove {$$}A \land B \to B{/$$}, we start by assuming that {$$}A \land B{/$$} 
 
 Do not worry if the previous paragraph sounded too magical. There is not much magic involved. Usually it comes down to using a few rules (or "tricks", if you will) for how we can use given information and achieve our goal. We will summarize these proof techniques next.
 
-X> ### Exercise 14
-X>
-X> Prove {$$}((A \lor B) \land \lnot B) \to A{/$$} by means of a formal proof.
-
-### 2.3.4. Proof techniques
-
 In order to **prove** a goal of form:
 
 | Goal form | Technique |
@@ -374,6 +368,10 @@ For example, we can use these techniques to do the following proofs:
 1. {$$}\forall x, x = x{/$$} - We know that for any number {$$}x{/$$}, this number is equal to itself. Thus, {$$}\forall x, x = x{/$$}.
 1. {$$}\exists x, x > 0{/$$} - To prove this, we only need to find an {$$}x{/$$} such that it is greater than 0. One valid example is 1. Thus, {$$}\exists x, x > 0{/$$}.
 
+X> ### Exercise 14
+X>
+X> Prove {$$}((A \lor B) \land \lnot B) \to A{/$$} by means of a formal proof.
+
 X> ### Exercise 15
 X>
 X> We've used the rules modus tollens and modus ponens without giving an actual proof for them. Try to prove by yourself that these two rules hold, both by constructing a truth table and a three-column proof:
@@ -389,7 +387,7 @@ X> ### Exercise 17
 X>
 X> Try to come up with a few propositions for each goal/given form, combine them, and prove them by means of a formal proof.
 
-### 2.3.5. Mathematical induction
+### 2.3.4. Mathematical induction
 
 I> ### Definition 19
 I>
@@ -416,21 +414,7 @@ I>
 I> 1. Zero is a left identity for addition, that is {$$}n = 0 + n{/$$}
 I> 1. {$$}S(m) + n = S(m + n){/$$}, where {$$}S{/$$} is the successor function, that is {$$}S(0) = 1, S(1) = 2{/$$}, etc.
 
-For example, in order to prove that {$$}\forall n, n + 0 = n{/$$} in the system of Peano's axioms, we can proceed by induction (which is an axiom in this system). For the base case, we have that {$$}0 + 0 = 0{/$$}, which is true (by definition of adding numbers, for {$$}n = 0{/$$}). For the inductive step, we first assume that {$$}n + 0 = n{/$$} is true, and prove that {$$}S(n) + 0 = S(n){/$$}. By definition of addition, we have {$$}S(n) + 0 = S(n + 0){/$$}. If we use the inductive hypothesis we have {$$}S(n + 0) = S(n){/$$}, which is what we needed to show. With this example, we can see how induction and natural numbers are closely related to each other. Note how we proved {$$}n + 0 = n{/$$}, given {$$}n = 0 + n{/$$}. That is, we proved that addition with 0 is commutative.
-
-I> ### Definition 22
-I>
-I> {$$}a{/$$} is divisible by {$$}b{/$$} if there exists a natural number {$$}k{/$$} so that {$$}a = bk{/$$}.
-
-X> ### Exercise 18
-X>
-X> Come up with a predicate, and then prove its truthiness using mathematical induction.
-
-X> ### Exercise 19
-X>
-X> Prove that {$$}2^n - 3{/$$} is not divisible by 3.
-X>
-X> Hint: Use {$$}n = 2{/$$} as the base case.
+For example, in order to prove that {$$}\forall n, n + 0 = n{/$$} in the system of Peano's axioms, we can proceed by induction (which is an axiom in this system). For the base case, we have that {$$}0 + 0 = 0{/$$}, which is true (by definition of adding numbers, for {$$}n = 0{/$$}). For the inductive step, we first assume that {$$}n + 0 = n{/$$} is true, and prove that {$$}S(n) + 0 = S(n){/$$}. By definition of addition, we have {$$}S(n) + 0 = S(n + 0){/$$}. If we use the inductive hypothesis we have {$$}S(n + 0) = S(n){/$$}, which is what we needed to show.
 
 [^ch2n1]: Since unrestricted quantification leads to inconsistency, higher-order logic is an attempt to avoid this. We will look into Russell's paradox later as an example.
 
