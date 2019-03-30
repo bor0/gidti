@@ -11,4 +11,5 @@ conclusion.md
 further-reading.md
 appendix-a.md
 appendix-b.md
+appendix-c.md
 about-author.md
