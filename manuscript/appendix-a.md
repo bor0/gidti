@@ -95,6 +95,10 @@ data Type =
 
 *Rules of inference*: Getting a type of a term expects a term, and either returns an error or the type derived:
 
+```haskell
+typeOf :: Term -> Either String Type
+```
+
 | Name     | Rule |
 | -------- | ---- |
 | T-True   | {$$}\text{T : TBool}{/$$} |
@@ -108,7 +112,6 @@ data Type =
 Code in Haskell:
 
 ```haskell
-typeOf :: Term -> Either String Type
 typeOf T = Right TBool
 typeOf F = Right TBool
 typeOf O = Right TNat
