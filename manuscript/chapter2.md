@@ -424,7 +424,7 @@ For example, in order to prove that {$$}\forall n, n + 0 = n{/$$} in the system 
 
 [^ch2n4]: In other words, a function is a subset of all combinations of ordered pairs whose first element is an element of {$$}A{/$$} and second element is an element of {$$}B{/$$}.
 
-[^ch2n5]: A similar statement can be made about programming, but we will cover an interesting case in Appendix B related to **pure** and **impure** functions.
+[^ch2n5]: A similar statement can be made about programming, but we will cover an interesting case in Appendix C related to **pure** and **impure** functions.
 
 [^ch2n6]: The turnstile symbol is similar to implication. It is denoted as {$$}\Gamma \vdash A{/$$}, where {$$}\Gamma{/$$} is a set of statements and {$$}A{/$$} is a conclusion. It is {$$}\top{/$$} iff it is impossible for all statements in {$$}\Gamma{/$$} to be {$$}\top{/$$}, and {$$}A{/$$} to be {$$}\bot{/$$}. The reason why we have both implication and entailment is that the former is a well-formed formula (that is, the expression belongs to the object language), while the latter is not a well-formed formula, rather an expression in the meta language and works upon proofs (instead of objects).
 
