@@ -1,5 +1,7 @@
 # Appendix A: Writing a simple type-checker in Haskell
 
+This appendix provides a short introduction to the design of type-checkers. It is based on the examples of (and may serve as a good introduction to) the book Types and Programming Languages.
+
 ## Evaluator
 
 *Syntax*: The syntax per Backus-Naur form is defined as:
