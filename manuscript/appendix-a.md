@@ -1,6 +1,6 @@
-# Appendix A: Writing a simple type-checker in Haskell
+# Appendix A: Writing a simple type checker in Haskell
 
-This appendix provides a short introduction to the design of type-checkers. It is based on the examples of (and may serve as a good introduction to) the book Types and Programming Languages.
+This appendix provides a short introduction to the design of type checkers. It is based on the examples of (and may serve as a good introduction to) the book Types and Programming Languages.
 
 ## Evaluator
 
@@ -79,7 +79,7 @@ Corresponds to the following inference rules:
 pred (succ (pred O)) -> pred (succ O)
 ```
 
-## Type-checker
+## Type checker
 
 *Syntax*: In addition to the previous syntax, we create a new one for types which is defined as:
 
@@ -140,7 +140,7 @@ typeOf (IsZero k) =
         _ -> Left "Unsupported type for IsZero"
 ```
 
-Going back to the previous example, we can now "safely" evaluate (by type-checking first), depending on the type-check results.
+Going back to the previous example, we can now "safely" evaluate (by type checking first), depending on the type check results.
 
 ## Environments
 
@@ -210,7 +210,7 @@ eval' env (IfThenElse t1 t2 t3) =
 
 The remaining definitions can be copy-pasted.
 
-*Rules of inference (type-checker)*: `typeOf'` is exactly the same as `typeOf`, with the only addition to support `env` (for retrieval of types for constants in an env) and the new let syntax.
+*Rules of inference (type checker)*: `typeOf'` is exactly the same as `typeOf`, with the only addition to support `env` (for retrieval of types for constants in an env) and the new let syntax.
 
 ```haskell
 typeOf' :: TyEnv -> Term -> Either String Type
@@ -224,4 +224,4 @@ typeOf' env (Let v t t') = case typeOf' env t of
 
 For the remaining cases, the pattern matching clauses need to be updated to pass `env` where applicable.
 
-To conclude, the evaluator and the type checker almost live in two separate worlds -- they do two separate tasks. If we want to ensure the evaluator will produce the correct results, the first thing is to assure that the type-checker returns no error. Another interesting observation is how pattern matching the data type is similar to the hypothesis part of the inference rules. The relationship is due to the Curry-Howard isomorphism. When we have a formula {$$}a \vdash b{/$$} ({$$}a{/$$} implies {$$}b{/$$}), and pattern match on {$$}a{/$$}, it's as if we assumed {$$}a{/$$} and need to show {$$}b{/$$}.
+To conclude, the evaluator and the type checker almost live in two separate worlds -- they do two separate tasks. If we want to ensure the evaluator will produce the correct results, the first thing is to assure that the type checker returns no error. Another interesting observation is how pattern matching the data type is similar to the hypothesis part of the inference rules. The relationship is due to the Curry-Howard isomorphism. When we have a formula {$$}a \vdash b{/$$} ({$$}a{/$$} implies {$$}b{/$$}), and pattern match on {$$}a{/$$}, it's as if we assumed {$$}a{/$$} and need to show {$$}b{/$$}.
