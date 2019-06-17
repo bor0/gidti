@@ -1,6 +1,6 @@
 # 5. Proving in Idris
 
-In this chapter we will provide several examples to demonstrate the power of Idris. We will do mathematical proofs. There are a lot of Idris built-ins that will help us achieve our goals and in each section we will introduce the relevant definitions.
+In this chapter, we will provide several examples to demonstrate the power of Idris. We will do mathematical proofs. There are a lot of Idris built-ins that will help us achieve our goals and in each section, we will introduce the relevant definitions.
 
 I> ### Definition 1
 I>
@@ -23,7 +23,7 @@ X> Check the documentation of the equality type with `:doc (=)`.
 
 X> ### Exercise 2
 X>
-X> Evaluate `the Nat 3` and `the Integer 3` and note the differences. Afterwards, try to implement `the'` that will act just like `the` and test the previous evaluations again.
+X> Evaluate `the Nat 3` and `the Integer 3` and note the differences. Afterward, try to implement `the'` that will act just like `the` and test the previous evaluations again.
 
 X> ### Exercise 3
 X>
@@ -42,7 +42,7 @@ X> In section 4.2 we implemented `And`. How does it compare to the built-in `Pai
 
 ## 5.1. Weekdays
 
-In this section we will introduce a way to represent weekdays and then do some proofs with them. We start with the following data structure:
+In this section, we will introduce a way to represent weekdays and then do some proofs with them. We start with the following data structure:
 
 ```
 data Weekday = Mon | Tue | Wed | Thu | Fri | Sat | Sun
@@ -100,7 +100,7 @@ The type check was successful. Per the Curry-Howard isomorphism, this means that
 
 X> ### Exercise 5
 X>
-X> Remove one or more pattern match definitions of `next_day` and observe the error that Idris will produce. Afterwards, alter the function so that it is not total anymore, and observe the error.
+X> Remove one or more pattern match definitions of `next_day` and observe the error that Idris will produce. Afterward, alter the function so that it is not total anymore, and observe the error.
 
 X> ### Exercise 6
 X>
@@ -123,13 +123,13 @@ our_second_proof : (day : Weekday) -> day = Mon ->
     is_it_monday day = True
 ```
 
-We gave a name of the first parameter `day : Weekday`, so that we can refer to it in the rest of the type definition. The second parameter says that `day = Mon` and the return value is `is_it_monday day = True`. We can treat the first and the second parameter as given, since we are allowed to assume them (per definition of implication). With that, we proceed to the function definition:
+We gave a name of the first parameter `day : Weekday` so that we can refer to it in the rest of the type definition. The second parameter says that `day = Mon` and the return value is `is_it_monday day = True`. We can treat the first and the second parameter as given since we are allowed to assume them (per definition of implication). With that, we proceed to the function definition:
 
 ```
 our_second_proof day day_eq_Mon = Refl
 ```
 
-In this definition, `day` and `day_eq_Mon` are our assumptions (given). If we run this code in Idris, it will produce an error at compile-time since it cannot deduce that `True` is equal to `is_it_monday day`. In the previous proof example, Idris was able to infer everything from the definitions at compile-time. However, at this point we need to help Idris do the inference since it cannot derive the proof based only on the definitions. We can change the `Refl` to a hole `prf`:
+In this definition, `day` and `day_eq_Mon` are our assumptions (given). If we run this code in Idris, it will produce an error at compile-time since it cannot deduce that `True` is equal to `is_it_monday day`. In the previous proof example, Idris was able to infer everything from the definitions at compile-time. However, at this point, we need to help Idris do the inference since it cannot derive the proof based only on the definitions. We can change the `Refl` to a hole `prf`:
 
 ```
   day : Weekday
@@ -138,7 +138,7 @@ In this definition, `day` and `day_eq_Mon` are our assumptions (given). If we ru
 prf : is_it_monday day = True
 ```
 
-Note how checking the type of the hole lists the given/premises (above the separator), and our goal(s) (below the separator). We see that along with `prf` we also get `day` and `day_eq_Mon` in the list of given, per the left hand side of the function definition of `our_second_proof`.
+Note how checking the type of the hole lists the given/premises (above the separator), and our goal(s) (below the separator). We see that along with `prf` we also get `day` and `day_eq_Mon` in the list of given, per the left-hand side of the function definition of `our_second_proof`.
 
 Q> How do we replace something we have in the given, with the goal?
 Q>
@@ -179,7 +179,7 @@ X> Prove the following formula in Idris: {$$}\forall x \in \text{Weekdays}, x = 
 
 ### 5.1.3. Third proof (impossible)
 
-In this section we will prove that `is_it_monday Tue = True` is a contradiction.
+In this section, we will prove that `is_it_monday Tue = True` is a contradiction.
 
 Per intuitionistic logic, in order to prove that {$$}P{/$$} is a contradiction, we need to prove {$$}P \to \bot{/$$}. Idris provides an empty data type `Void`. This data type has no value constructors (proofs) for it.
 
@@ -204,7 +204,7 @@ Q> Seems that at this point we are stuck. We need to find a way to tell Idris th
 
 I> ### Definition 4
 I>
-I> The `impossible` keyword can be used to prove statements that are not true. With this keyword, we say that a proof for a data type cannot be constructed since there does not exist a value constructor for that particular type.
+I> The `impossible` keyword can be used to prove statements that are not true. With this keyword, we say that proof for a data type cannot be constructed since there does not exist a value constructor for that particular type.
 
 We will slightly rewrite the function:
 
@@ -227,7 +227,7 @@ X> Hint: The type is `1 = 2 -> Void`
 
 ## 5.2. Natural numbers
 
-In this section we will prove facts about natural numbers and also do some induction. Recall that a natural number is defined either as zero or as the successor of a natural number. So, `0, S 0, S (S 0), ...` are the first natural numbers. We will start with the following definitions for natural numbers:
+In this section, we will prove facts about natural numbers and also do some induction. Recall that a natural number is defined either as zero or as the successor of a natural number. So, `0, S 0, S (S 0), ...` are the first natural numbers. We will start with the following definitions for natural numbers:
 
 ```
 data MyNat = Zero | Succ MyNat
@@ -365,7 +365,7 @@ our_third_proof (Succ k) = let ind_hypothesis = our_third_proof k in
                            ?conclusion
 ```
 
-Our proof given and goals become:
+Our proof givens and goals become:
 
 ```
   k : MyNat
@@ -392,7 +392,7 @@ X> Observe the similarity between this proof and the proof in section 2.3.4.
 
 ### 5.2.4. Ordering
 
-Idris has a built-in data type for ordering of natural numbers `LTE`, which stands for less than or equal to. This data type has two constructors:
+Idris has a built-in data type for the ordering of natural numbers `LTE`, which stands for less than or equal to. This data type has two constructors:
 
 1. `LTEZero`, used to prove that zero is less than or equal to any natural number
 1. `LTESucc`, used to prove that {$$}a \leq b \to S(a) \leq S(b){/$$}
@@ -512,7 +512,7 @@ our_proof : (a : Nat) -> (b : Nat) -> a <= b -> maximum a b = b
 our_proof a b a_lt_b = ?prf
 ```
 
-However this won't work since `a <= b` is a `Bool` (per the function `<=`), not a `Type`. At the type level we need to rely on `LTE` which is a `Type`.
+However this won't work since `a <= b` is a `Bool` (per the function `<=`), not a `Type`. At the type level, we need to rely on `LTE` which is a `Type`.
 
 ```
 our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
@@ -627,13 +627,13 @@ even_members_list_only_even : (l : MyList Nat) ->
     has_odd (even_members l) = False
 ```
 
-Note that `has_odd` is branching computation depending on the value of `even x`, so we have to pattern match with value of expressions by using the keyword `with`. The base case is simply `Refl`:
+Note that `has_odd` is branching computation depending on the value of `even x`, so we have to pattern match with the value of expressions by using the keyword `with`. The base case is simply `Refl`:
 
 ```
 even_members_list_only_even End = Refl
 ```
 
-However, for the inductive step, we will use `with` on `even n` and produce a proof depending on the evenness of the number:
+However, for the inductive step, we will use `with` on `even n` and produce proof depending on the evenness of the number:
 
 ```
 even_members_list_only_even (Cons n l') with (even n) proof even_n
@@ -668,7 +668,7 @@ b : ifThenElse (even n) (has_odd (even_members l'))
 
 Q> How do we rewrite the inductive hypothesis to the goal in this case?
 Q>
-Q> It seems that we can't just rewrite here, since `even_n` has the order of the equality reversed. Idris provides a function called `sym` which takes an equality of `a = b` and converts it to `b = a`.
+Q> It seems that we can't just rewrite here since `even_n` has the order of the equality reversed. Idris provides a function called `sym` which takes equality of `a = b` and converts it to `b = a`.
 
 We can try to rewrite `sym even_n` to the goal, and it now becomes:
 
@@ -698,7 +698,7 @@ even_members_list_only_even (Cons n l') with (even n) proof even_n
 
 Q> How did mathematical induction work in this case?
 Q>
-Q> Mathematical induction is defined in terms of natural numbers, but in this case we used induction to prove a fact about a list. This works because we used a more general induction called structural induction. According to Wikipedia, structural induction is used to prove that some proposition {$$}P(x){/$$} holds for all {$$}x{/$$} of some sort of recursively defined structure, such as formulas, lists, or trees. For example, for lists we used `End` as the base case, and `Cons` as the inductive step. Thus, mathematical induction is a special case of structural induction for the `Nat` type.
+Q> Mathematical induction is defined in terms of natural numbers, but in this case, we used induction to prove a fact about a list. This works because we used a more general induction called structural induction. According to Wikipedia, structural induction is used to prove that some proposition {$$}P(x){/$$} holds for all {$$}x{/$$} of some sort of recursively defined structure, such as formulas, lists, or trees. For example, for lists, we used `End` as the base case and `Cons` as the inductive step. Thus, mathematical induction is a special case of structural induction for the `Nat` type.
 
 X> ### Exercise 21
 X>
@@ -745,15 +745,15 @@ implementation Porder Nat LTE where
         let IH = proofA n_lte_m m_lte_n in rewrite IH in Refl
 ```
 
-We proved that the binary operation "less than or equal to" for `Nat`s make a `Porder`. Interfaces allow us to group one or more functions, and an implementation of a specific type is guaranteed to implement all such functions.
+We proved that the binary operation "less than or equal to" for `Nat`s make a `Porder`. Interfaces allow us to group one or more functions, and implementation of a specific type is guaranteed to implement all such functions.
 
 X> ### Exercise 22
 X>
-X> Convince yourself using pen and paper that {$$}\leq{/$$} on natural numbers makes a partial order, i.e. it satisfies all properties of Definition 7. Afterwards, try to understand the proofs for reflexivity, transitivity, and antisymmetry by deducing them yourself in Idris using holes.
+X> Convince yourself using pen and paper that {$$}\leq{/$$} on natural numbers makes a partial order, i.e. it satisfies all properties of Definition 7. Afterward, try to understand the proofs for reflexivity, transitivity, and antisymmetry by deducing them yourself in Idris using holes.
 
 ## 5.3. Computations as types
 
-As we stated earlier, types are first-class citizens in Idris. In this example we will see how we can convert a function that does some computation to its corresponding type definition.
+As we stated earlier, types are first-class citizens in Idris. In this example, we will see how we can convert a function that does some computation to its corresponding type definition.
 
 Re-using the same definition of `MyVect`, we can write a function to test if all elements are same in a given list:
 
@@ -764,7 +764,7 @@ allSame (Cons x Empty)       = True
 allSame (Cons x (Cons y xs)) = x == y && allSame xs
 ```
 
-Idris will return `True` in case all elements are equal to each other, and `False` otherwise. Let's now think how we can represent this function in terms of types. We want to have a type `AllSame` that has three constructors:
+Idris will return `True` in case all elements are equal to each other, and `False` otherwise. Let's now think about how we can represent this function in terms of types. We want to have a type `AllSame` that has three constructors:
 
 1. `AllSameZero` which is a proof for `AllSame` in case of an empty list
 1. `AllSameOne` which is a proof for `AllSame` in case of a single-element list
@@ -781,7 +781,7 @@ data AllSame : MyVect n -> Type where
         AllSame (Cons x (Cons y ys))
 ```
 
-The constructors `AllSameZero` and `AllSameOne` are easy. However, the recursive constructor `AllSameMany` is a bit trickier. It accepts two natural numbers `x` and `y`, a list `ys`, a proof that `x` and `y` are same, and a proof that `y` concatenated to `ys` is a same-element list. Given this, it will produce a proof that `x` concatenated to `y` concatenated to `ys` is also a same-element list. This type definition captures exactly the definition of a list that would contain all same elements.
+The constructors `AllSameZero` and `AllSameOne` are easy. However, the recursive constructor `AllSameMany` is a bit trickier. It accepts two natural numbers `x` and `y`, a list `ys`, a proof that `x` and `y` are same, and a proof that `y` concatenated to `ys` is a same-element list. Given this, it will produce a proof that `x` concatenated to `y` concatenated to `ys` is also a same-element list. This type definition captures exactly the definition of a list that would contain all the same elements.
 
 Interacting with the constructors:
 
@@ -803,7 +803,7 @@ AllSameMany 1 2 Empty : (True = False) -> AllSame (Cons 2 Empty) ->
     AllSame (Cons 1 (Cons 2 Empty))
 ```
 
-We see that Idris requires us to provide a proof that `True = False`, which is impossible. So for some lists the type `AllSame` cannot be constructed, but for some it can. If we now want to make a function that given a list, it maybe produces a type `AllSame`, we need to consider the `Maybe` data type first which has the following definition:
+We see that Idris requires us to provide proof that `True = False`, which is impossible. So for some lists, the type `AllSame` cannot be constructed, but for some, it can. If we now want to make a function that given a list, it maybe produces a type `AllSame`, we need to consider the `Maybe` data type first which has the following definition:
 
 ```
 data Maybe a = Just a | Nothing
@@ -845,7 +845,7 @@ Idris> mkAllSame (Cons 1 (Cons 2 Empty))
 Nothing : Maybe (AllSame (Cons 1 (Cons 2 Empty)))
 ```
 
-For lists that contain same elements it will use the `Just` constructor, and `Nothing` otherwise. Finally, we can rewrite our original `allSame` as follows:
+For lists that contain the same elements it will use the `Just` constructor, and `Nothing` otherwise. Finally, we can rewrite our original `allSame` as follows:
 
 ```
 allSame' : MyVect n -> Bool
@@ -1034,7 +1034,7 @@ i_h: S (plus (size_tree tr1) (size_tree tr2)) =
      S (plus (size_tree (map_tree f tr1)) (size_tree (map_tree f tr2)))
 ```
 
-For the base case we can just use `Refl`. However, for the inductive hypothesis, we need to do something different. We can try applying the proof recursively to `tr1` and `tr2` respectively:
+For the base case, we can just use `Refl`. However, for the inductive hypothesis, we need to do something different. We can try applying the proof recursively to `tr1` and `tr2` respectively:
 
 ```
 proof_1 : (tr : Tree) -> (f : Nat -> Nat) ->
@@ -1072,4 +1072,4 @@ proof_1 (Node v tr1 tr2) f = let IH_1 = proof_1 tr1 f in
                              ?conclusion
 ```
 
-At this point if we check the type of `conclusion` we will note that we can just use `Refl` to finish the proof.
+At this point, if we check the type of `conclusion` we will note that we can just use `Refl` to finish the proof.

@@ -1,17 +1,17 @@
 # Appendix C: IO, Codegen targets, compilation, and FFI
 
-This section is mostly relevant to programmers that have experience with programming languages such as C, Haskell, JavaScript. It will demonstrate how Idris can interact with the outside world (IO) and these programming languages.
+This section is most relevant to programmers that have experience with programming languages such as C, Haskell, JavaScript. It will demonstrate how Idris can interact with the outside world (IO) and these programming languages.
 
-In the following examples we will see how we can compile Idris code. A given program in Idris can be compiled to a binary executable or a back-end for some other programming language. If we decide to compile to a binary executable, then the C back-end will be used by default.
+In the following examples, we will see how we can compile Idris code. A given program in Idris can be compiled to a binary executable or a back-end for some other programming language. If we decide to compile to a binary executable, then the C back-end will be used by default.
 
 ## IO
 
 IO stands for Input/Output. Examples of a few IO operations are: write to a disk file, talk to a network computer, launch rockets.
 
-Functions can be roughly categorized in two parts: **pure** and **impure**.
+Functions can be roughly categorized into two parts: **pure** and **impure**.
 
 1. Pure functions are functions that will produce the same result every time they are called
-1. Impure functions are functions that might return different result on a function call
+1. Impure functions are functions that might return a different result on a function call
 
 An example of a pure function is {$$}f(x) = x + 1{/$$}. An example of an impure function is {$$}f(x) = \text{launch} \ x \ \text{rockets}{/$$}. Since this function causes side-effects, sometimes the launch of the rockets may not be successful (e.g. the case where we have no more rockets to launch).
 
@@ -76,7 +76,7 @@ main = do
     putStrLn concatenated
 ```
 
-Note how we use the `let x = y` syntax with pure functions, where in contrast we use the `x <- y` with impure functions.
+Note how we use the syntax `let x = y` with pure functions. In contrast, we use the syntax `x <- y` with impure functions.
 
 The `++` operator is a built-in one used to concatenate lists. A `String` can be viewed as a list of `Char`. In fact, Idris has functions called `pack` and `unpack` that allow for conversion between these two data types:
 
@@ -89,7 +89,7 @@ Idris> pack ['H', 'e', 'l', 'l', 'o']
 
 ## Codegen
 
-The keywords `module` and `import` allow us to specify a name of the current executing code context and load other modules by referring to their names respectively. We can implement our own back-end for a given programming language, for which we need to create a so-called Codegen (`CG`) program. An empty `CG` program would look like this:
+The keywords `module` and `import` allow us to specify a name of the currently executing code context and load other modules by referring to their names respectively. We can implement our own back-end for a given programming language, for which we need to create a so-called Codegen (`CG`) program. An empty `CG` program would look like this:
 
 ```
 module IRTS.CodegenEmpty(codegenEmpty) where
@@ -201,11 +201,11 @@ Hello Hi
 
 It causes a segmentation fault, which is a run-time error. As a conclusion, if we use partial functions then we need to do additional checks in the code to cover the cases for potential run-time errors. Alternatively, if we want to take full advantage of the safety that the type system offers, we should define all functions as total.
 
-By defining the function `list_to_vect` to be total, we specify that every input has to have an output. All the remaining checks are done at compile-time by Idris and with that we're guaranteed that all callers of this function satisfy the types.
+By defining the function `list_to_vect` to be total, we specify that every input has to have an output. All the remaining checks are done at compile-time by Idris and with that, we're guaranteed that all callers of this function satisfy the types.
 
 ## Foreign Function Interface
 
-In this example we'll introduce the FFI system, which stands for Foreign Function Interface. It allows us to call functions written in other programming languages.
+In this example, we'll introduce the FFI system, which stands for Foreign Function Interface. It allows us to call functions written in other programming languages.
 
 We can define the file `test.c` as follows:
 
@@ -286,4 +286,4 @@ Ready to show...
 [10, 20]
 ```
 
-With this approach we can write verified code in Idris and export its functionality to another programming language.
+With this approach, we can write verified code in Idris and export its functionality to another programming language.

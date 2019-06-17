@@ -20,7 +20,7 @@ I> ### Definition 2
 I>
 I> For a given formal system, the system is **incomplete** if there are statements that are true but which cannot be proved to be true inside that system. Conversely, the system is **complete** if all true statements can be proved.
 
-The statement "This statement is not provable" can either be true or false. In the case it is true, then it is not provable. Alternatively, in the case it is false then it is provable, but we're trying to prove something that is false. Thus the system is incomplete, because some truths are unprovable.
+The statement "This statement is not provable" can either be true or false. In the case it is true, then it is not provable. Alternatively, in the case it is false then it is provable, but we're trying to prove something that is false. Thus the system is incomplete because some truths are unprovable.
 
 I> ### Definition 3
 I>
@@ -30,7 +30,7 @@ A simple example is the statement "This statement is false". This statement is t
 
 In general, we often put our focus on which parts of mathematics can be formalized in concrete formal systems, rather than trying to find a theory in which all of mathematics can be developed. The reason for that is G&#246;del's incompleteness theorem. This theorem states that there doesn't exist[^ch1n2] a formal system that is both complete and consistent. As a result, it is better to reason about a formal system outside of the system itself, i.e. as the famous saying goes to "think outside of the box". Similarly to how we sometimes do meta-thinking to improve ourselves.
 
-In conclusion, formal systems are our attempt to abstract models, whenever we reverse engineer nature in an attempt to understand it better. They may be imperfect, but are nevertheless useful tools for reasoning.
+In conclusion, formal systems are our attempt to abstract models, whenever we reverse engineer nature in an attempt to understand it better. They may be imperfect but are nevertheless useful tools for reasoning.
 
 ## 1.1. MU puzzle example
 
@@ -78,13 +78,13 @@ Note that, in order to be able to apply rule 3, we need to have the number of su
 1. Applying rule 2 will be doubling the number of `I`'s, so we can have: `I`, `II`, `IIII`, `IIIIIII` (in particular, {$$}2^n{/$$} `I`'s). Invariant OK.
 1. Applying rule 3 will be reducing the number of `I`'s by 3. But note that {$$}2^n - 3{/$$} is still not divisible by 3[^ch1n4]. Invariant OK.
 
-We've shown that with the starting axiom `MI` it is not possible to get to `MU`, because no sequence of steps can turn a string with one `I` into a string with no `I`s. But if we look carefully, we've used a different formal system to reason about `MU` (i.e. divisibility by 3, which is not part of the MU system). This is because the puzzle cannot be solved in its own system. Otherwise, an algorithm would keep trying different inference rules of `MU` indefinitely (not knowing that `MU` is impossible).
+We've shown that with the starting axiom `MI` it is not possible to get to `MU` because no sequence of steps can turn a string with one `I` into a string with no `I`s. But if we look carefully, we've used a different formal system to reason about `MU` (i.e. divisibility by 3, which is not part of the MU system). This is because the puzzle cannot be solved in its own system. Otherwise, an algorithm would keep trying different inference rules of `MU` indefinitely (not knowing that `MU` is impossible).
 
 Every useful formal system has this limitation. As we've seen, G&#246;del's theorem shows that there's no formal system that can contain all possible truths, because it cannot prove some truths about its own structure. Thus, having experience with different formal systems and combining them as needed can be useful.
 
 [^ch1n1]: The word iff is an abbreviation for "If and only if" and means that two statements are logically equivalent.
 
-[^ch1n2]: Note that this theorem only holds for systems that allow expressing arithmetic of natural numbers (e.g. Peano, set theory, but first-order logic also has some paradoxes if we allow self-referential statements). We will look into this systems in the next chapter.
+[^ch1n2]: Note that this theorem only holds for systems that allow expressing arithmetic of natural numbers (e.g. Peano, set theory, but first-order logic also has some paradoxes if we allow self-referential statements). We will look into these systems in the next chapter.
 
 [^ch1n3]: An invariant is a property that holds true whenever we apply any of the inference rules.
 

@@ -27,7 +27,7 @@ data Term =
     deriving (Show, Eq)
 ```
 
-*Rules of inference*: The semantics we use here are based on so called small-step style, which state how a term is rewritten to a specific value, written {$$}t \to v{/$$}. In contrast, big-step style states how a specific term evaluates to a final value, written {$$}t \Downarrow v{/$$}.
+*Rules of inference*: The semantics we use here is based on so-called small-step style, which states how a term is rewritten to a specific value, written {$$}t \to v{/$$}. In contrast, big-step style states how a specific term evaluates to a final value, written {$$}t \Downarrow v{/$$}.
 
 | Name         | Rule |
 | ------------ | ---- |
@@ -144,7 +144,7 @@ Going back to the previous example, we can now "safely" evaluate (by type checki
 
 ## Environments
 
-Our simple language supports evaluation and type checking, but does not allow for defining constants. To do that, we will need some kind of an environment which will hold information about constants.
+Our simple language supports evaluation and type checking but does not allow for defining constants. To do that, we will need some kind of an environment which will hold information about constants.
 
 ```haskell
 type TyEnv = [(String, Type)] -- Type env

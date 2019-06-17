@@ -9,7 +9,7 @@ f _ = 6
 
 Note that there are many constructors (proofs) for `Nat`. For example, we also have that `f _ = 7`. Depending on whether we need 6 or 7 in practice has to be additionally checked. But we're certain that it's a natural number (by the type).
 
-Most programming languages that have a type system have the same expressive power as that of propositional logic (no quantifiers). Dependent types are powerful, because they allow us to express quantifiers, which increases the power of expressiveness. As a result, we can write any kind of mathematical proofs.
+Most programming languages that have a type system have the same expressive power as that of propositional logic (no quantifiers). Dependent types are powerful because they allow us to express quantifiers, which increases the power of expressiveness. As a result, we can write any kind of mathematical proofs.
 
 In mathematics, everything has a precise definition. Same is the case with Idris. We had to give clear definitions of our functions and types prior to proving any theorems.
 

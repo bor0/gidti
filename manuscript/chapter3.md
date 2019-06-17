@@ -1,6 +1,6 @@
 # 3. Type theory
 
-There are some type theories that can serve as an alternative foundation of mathematics, as opposed to standard set theory. One such well known type theory is Martin-L&#246;f's intuitionistic theory of types, which is an extension of Alonzo Church's simply typed {$$}\lambda{/$$}-calculus. Before we begin working with Idris, we will get familiar with these theories, upon which Idris is built as a language.
+There are some type theories that can serve as an alternative foundation of mathematics, as opposed to standard set theory. One such well-known type theory is Martin-L&#246;f's intuitionistic theory of types, which is an extension of Alonzo Church's simply typed {$$}\lambda{/$$}-calculus. Before we begin working with Idris, we will get familiar with these theories, upon which Idris is built as a language.
 
 I> ### Definition 1
 I>
@@ -10,7 +10,7 @@ For example, with {$$}1 : \text{Nat}, 2 : \text{Nat}{/$$} we can say that 1 and 
 
 I> ### Definition 2
 I>
-I> In type theory, a type constructor is a function that builds new types from old ones. This function accepts types as parameters and as a result it returns a new type.
+I> In type theory, a type constructor is a function that builds new types from old ones. This function accepts types as parameters and as a result, it returns a new type.
 
 Idris supports algebraic data types. These data types are a kind of complex types, that is, types constructed by combining other types. Two classes of algebraic types are **product types** and **sum types**.
 
@@ -27,7 +27,7 @@ As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for nat
 
 The type {$$}\text{Bool}{/$$} has two possible values: {$$}True{/$$} and {$$}False{/$$}. Thus, {$$}|\text{Bool}| = 2{/$$}. The type {$$}\text{Unit}{/$$} (equivalent to {$$}(){/$$}) has one possible value: {$$}Unit{/$$}. We can now form a sum type {$$}\text{Bool | Unit}{/$$} which has length 3 with values {$$}True, False, Unit{/$$}. Additionally, the product type {$$}\text{Bool Unit}{/$$} has length 2 with values {$$}True \ Unit, False \ Unit{/$$}.
 
-Finally, Idris supports dependent types[^ch3n2]. These kind of types are so powerful, they can encode most properties of programs and with their help Idris can prove invariants at compile-time. As we will see in section 4.2 types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software[^ch3n3].
+Finally, Idris supports dependent types[^ch3n2]. These kind of types are so powerful, they can encode most properties of programs and with their help, Idris can prove invariants at compile-time. As we will see in section 4.2 types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software[^ch3n3].
 
 Q> Why are types useful?
 Q>
@@ -71,13 +71,13 @@ I> A variable in a lambda expression is called _free_ if it does not it appear i
 
 This definition of "bound" corresponds roughly to the concept of _scope_ in many programming languages. Lambda expressions introduce a new scope in which their argument variables are bound.
 
-For example, in the expression {$$}\lambda y.x \ y{/$$} we have that {$$}y{/$$} is a bound variable, and {$$}x{/$$} is a free one. Variable binding in lambda calculus is subtle, but important, so let's see some trickier examples.
+For example, in the expression {$$}\lambda y.x \ y{/$$} we have that {$$}y{/$$} is a bound variable, and {$$}x{/$$} is a free one. Variable binding in lambda calculus is subtle but important, so let's see some trickier examples.
 
 1. In {$$}x(\lambda x.x){/$$}, the leftmost {$$}x{/$$} is free, while the rightmost {$$}x{/$$} is bound by the lambda
 1. In {$$}(\lambda x.x)(\lambda x.x){/$$}, both occurrences of {$$}x{/$$} are bound; the first at the left lambda, and the second at the right lambda
-1. In {$$}\lambda x.(\lambda x.x){/$$} the sole occurrence of {$$}x{/$$} is certainly bound. Now there are two potential "binding sites" - the inner lambda and the outer lambda. Given a choice like this we always say the variable is bound at the innermost lambda
+1. In {$$}\lambda x.(\lambda x.x){/$$} the sole occurrence of {$$}x{/$$} is certainly bound. Now there are two potential "binding sites" - the inner lambda and the outer lambda. Given a choice like this, we always say the variable is bound at the innermost lambda
 
-The distinction between free and bound variables becomes important when we ask whether two different lambda expressions are "equal". For instance, consider the two expressions {$$}\lambda x.x{/$$} and {$$}\lambda y.y{/$$}. Syntactically these are not the same; they use different characters for the variable. But semantically they are identical, because in lambda calculus variables bound by a lambda are "dummy" variables whose exact names are not important. When two lambda expressions differ only by a consistent renaming of the bound variables like this we say they are _alpha equivalent_.
+The distinction between free and bound variables becomes important when we ask whether two different lambda expressions are "equal". For instance, consider the two expressions {$$}\lambda x.x{/$$} and {$$}\lambda y.y{/$$}. Syntactically these are not the same; they use different characters for the variable. But semantically they are identical because in lambda calculus variables bound by a lambda are "dummy" variables whose exact names are not important. When two lambda expressions differ only by a consistent renaming of the bound variables like this we say they are _alpha equivalent_.
 
 There are two other useful notions of semantic equivalence for lambda expressions: beta and eta equivalence.
 
@@ -118,7 +118,7 @@ So far we've been discussing the _untyped_ lambda calculus, but it is possible t
 
 I> ### Definition 8
 I>
-I> Simply typed lambda calculus is a type theory which adds types to lambda calculus. It joins the system with a unique type constructor {$$}\to{/$$} which constructs types for functions. The formal definition and the set of lambda expressions is similar to that of lambda calculus, with the addition of types.
+I> Simply typed lambda calculus is a type theory which adds types to lambda calculus. It joins the system with a unique type constructor {$$}\to{/$$} which constructs types for functions. The formal definition and the set of lambda expressions are similar to that of lambda calculus, with the addition of types.
 I>
 I> The set of symbols for this system is defined as:
 I>
@@ -138,7 +138,7 @@ I> There is a single type constructor:
 I>
 I> 1. For some type {$$}A{/$$}, the type constructor {$$}T{/$$} is defined as {$$}\text{A | T} \to \text{T}{/$$}
 
-That is, an expression in this system can additionally be an abstraction with {$$}x{/$$} having joined a type (rule 4) or an expression of a variable having joined a type {$$}\text{T}{/$$} (rule 5), where our type constructor is a sum type and it says that we either have primitive types or a way to form new types. In attempt to re-define Church numerals and the successor function we have to be careful as the types of these definitions have to match. Let's recall the Church numerals:
+That is, an expression in this system can additionally be an abstraction with {$$}x{/$$} having joined a type (rule 4) or an expression of a variable having joined a type {$$}\text{T}{/$$} (rule 5), where our type constructor is a sum type and it says that we either have primitive types or a way to form new types. In an attempt to re-define Church numerals and the successor function we have to be careful as the types of these definitions have to match. Let's recall the Church numerals:
 
 1. Number 1, i.e. {$$}\lambda f \ x . f \ x{/$$}
 1. Number 2, i.e. {$$}\lambda f \ x . f \ (f \ x){/$$}
@@ -209,7 +209,7 @@ X> Think of a way to construct a different dependent sum type and express it usi
 
 ## 3.4. Intuitionistic theory of types
 
-The core "construct" in Idris are types. As we've seen, foundations are based on type theory. As we've also seen, in classic mathematical logic we have sets and propositions, according to set theory.
+The core "construct" in Idris are types. As we've seen, foundations are based on type theory. As we've also seen, in classical mathematical logic we have sets and propositions, according to set theory.
 
 The intuitionistic theory of types (or constructive type theory) offers an alternative foundation to mathematics. This theory was introduced by Martin-L&#246;f, a Swedish mathematician in 1972. It is based on the isomorphism (or "equality") that propositions are types.
 
@@ -259,7 +259,7 @@ X> Combine the use of rules along with the connectives described earlier and try
 
 I> ### Definition 13
 I>
-I> A constructive proof proves the existence of a mathematical object by creating or constructing the object itself. This is contrary to non-constructive proofs which prove existence of objects without giving a concrete example.
+I> A constructive proof proves the existence of a mathematical object by creating or constructing the object itself. This is contrary to non-constructive proofs which prove the existence of objects without giving a concrete example.
 
 I> ### Definition 14
 I>
@@ -284,24 +284,24 @@ f (x, left y)  = left (x, y)
 f (x, left y') = right (x, y')
 ```
 
-This notation (which is pretty similar to how we would write it in Idris) uses `(x, y)` to denote product type, that is, extract values from a product-type pair, and `left` and `right` to denote value constructors for sum type in order to extract values from a sum-type pair. In the second part of this book we will introduce Idris and its syntax.
+This notation (which is pretty similar to how we would write it in Idris) uses `(x, y)` to denote product type, that is, extract values from a product-type pair, and `left` and `right` to denote value constructors for sum type in order to extract values from a sum-type pair. In the second part of this book, we will introduce Idris and its syntax.
 
 X> ### Exercise 11
 X>
-X> Try to use some of the proofs in the earlier chapters as a motivation and work them out by using intuitionistic logic.
+X> Try to use some of the proofs in the earlier chapters as motivation and work them out by using intuitionistic logic.
 
 [^ch3n1]: Unlike in set theory, where they are defined in terms of relations.
 
-[^ch3n2]: Dependent types allow proofs of statements involving first-order predicates, compared to simple types which correspond to propositional logic. While useful (since we can check whether an expression fulfills a given condition at compile-time), dependent types add complexity to a type system. In order to calculate type "equality" of dependent types, computations are necessary. If we allow any values for dependent types, then solving an equality of a type may involve deciding whether two programs produce the same result. Thus, the check may become undecidable.
+[^ch3n2]: Dependent types allow proofs of statements involving first-order predicates, compared to simple types which correspond to propositional logic. While useful (since we can check whether an expression fulfills a given condition at compile-time), dependent types add complexity to a type system. In order to calculate type "equality" of dependent types, computations are necessary. If we allow any values for dependent types, then solving equality of a type may involve deciding whether two programs produce the same result. Thus, the check may become undecidable.
 
 [^ch3n3]: This is what makes Idris a so-called proof assistant. In general, Idris combines a lot of functionalities from mainstream languages (Java, C, C++) and some functionalities from proof assistants, which further blurs the line between these two kinds of software.
 
 [^ch3n4]: A _Turing machine_ is a very simple abstract machine designed to capture our intuitive understanding of _computation_ in the most general sense. Any formal system that can simulate a Turing machine, and thus also perform arbitrary computations, is called _Turing complete_.
 
-[^ch3n5]: For this reason the typed lambda calculus is not Turing complete, while the untyped lambda calculus is. Fixed-point combinators provide flexibility, but that has its drawbacks. They can be non-terminating - loop indefinitely without producing an answer. While non-termination has its uses for software (e.g. a program keeps running until we choose to close it), termination is important for mathematical proofs as we will see in section 4.2.
+[^ch3n5]: For this reason, the typed lambda calculus is not Turing complete, while the untyped lambda calculus is. Fixed-point combinators provide flexibility, but that has its drawbacks. They can be non-terminating - loop indefinitely without producing an answer. While non-termination has its uses for software (e.g. a program keeps running until we choose to close it), termination is important for mathematical proofs as we will see in section 4.2.
 
-[^ch3n6]: Collections in general are considered to be subcollections of some large universal collection, also called the universe. Depending on the context, the definition of this universe will vary.
+[^ch3n6]: Collections, in general, are considered to be subcollections of some large universal collection, also called the universe. Depending on the context, the definition of this universe will vary.
 
-[^ch3n7]: As a consequence that we need to construct an object as evidence in order to prove something, the law of excluded middle {$$}P \lor \lnot P{/$$} is not valid in this logic, whereas in classic mathematical logic this is taken as an axiom. For some propositions, for example, {$$}P{/$$} is an odd number or not, there are proofs that we can provide. However, for some propositions this is impossible, for example, {$$}P{/$$} is a program that halts or not. Unlike classic mathematical logic, in this logic the law of excluded middle does not exist due to the undecidability problem.
+[^ch3n7]: As a consequence that we need to construct an object as evidence in order to prove something, the law of excluded middle {$$}P \lor \lnot P{/$$} is not valid in this logic, whereas in classical mathematical logic this is taken as an axiom. For some propositions, for example, {$$}P{/$$} is an odd number or not, there are proofs that we can provide. However, for some propositions this is impossible, for example, {$$}P{/$$} is a program that halts or not. Unlike classical mathematical logic, in this logic, the law of excluded middle does not exist due to the undecidability problem.
 
 [^ch3n8]: It is provable in case we can construct an object of such type, and not provable otherwise.

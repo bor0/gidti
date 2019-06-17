@@ -4,11 +4,11 @@ Metamath is a programming language that can express theorems accompanied by a pr
 
 As we've seen, proofs in mathematics (and Idris to some degree) are usually done at a very high level. Even though the foundations are formal systems, it is very difficult to do proofs at a low level. However, we will show that there are such programming languages like Metamath that work at the lowest level, that is formal systems.
 
-The most basic concept in Metamath is the substitution method. Metamath uses an RPN stack[^apan1] to build hypotheses and then rewrites using the rules of inference in order to reach a conclusion. Metamath has a very simple syntax. A token is a Metamath token if it starts with `$`, otherwise it is a user-generated token. Here is a list of Metamath tokens:
+The most basic concept in Metamath is the substitution method. Metamath uses an RPN stack[^apan1] to build hypotheses and then rewrites using the rules of inference in order to reach a conclusion. Metamath has a very simple syntax. A token is a Metamath token if it starts with `$`, otherwise, it is a user-generated token. Here is a list of Metamath tokens:
 
 1. `$c` defines constants
 1. `$v` defines variables
-1. `$f` defines type of variables (floating hypothesis)
+1. `$f` defines the type of variables (floating hypothesis)
 1. `$e` defines required arguments (essential hypotheses)
 1. `$a` defines axioms
 1. `$p` defines proofs
@@ -23,7 +23,7 @@ Besides these tokens, there are several rules:
 1. An expression that contains `$f`, `$e` or `$d` is active in the given block from the start of the definition until the end of the block. An expression that contains `$a` or `$p` is active from the start of the definition until the end of the file
 1. Proof blocks have an effect on the access of definitions, i.e. scoping. For a given code in a block, only `$a` and `$p` remain visible outside of the block
 
-In the following example we'll define a formal system and demonstrate the use of the rule modus ponens in order to get to a new theorem, based on our initial axioms.
+In the following example, we'll define a formal system and demonstrate the use of the rule modus ponens in order to get to a new theorem, based on our initial axioms.
 
 ```text
 $( Declaration of constants $)
@@ -54,7 +54,7 @@ We created constants (strings) `->`, `wff`, etc. that we will use in our system.
 Having defined our formal system, we can proceed with the proof:
 
 ```text
-$( For given I and I -> J, we prove that we can conclude J. Note: We use block scoping here since we don't want the hypothesis proof_I and proof_I_imp_J to be visible outside of the block $)
+$( For givens I and I -> J, we prove that we can conclude J. Note: We use block scoping here since we don't want the hypothesis proof_I and proof_I_imp_J to be visible outside of the block $)
 ${
     $( Given I and I -> J $)
     proof_I $e |- I $.
