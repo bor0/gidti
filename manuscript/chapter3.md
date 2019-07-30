@@ -27,6 +27,8 @@ As an example, we can assume that we have two types: {$$}\text{Nat}{/$$} for nat
 
 The type {$$}\text{Bool}{/$$} has two possible values: {$$}True{/$$} and {$$}False{/$$}. Thus, {$$}|\text{Bool}| = 2{/$$}. The type {$$}\text{Unit}{/$$} (equivalent to {$$}(){/$$}) has one possible value: {$$}Unit{/$$}. We can now form a sum type {$$}\text{Bool | Unit}{/$$} which has length 3 with values {$$}True, False, Unit{/$$}. Additionally, the product type {$$}\text{Bool Unit}{/$$} has length 2 with values {$$}True \ Unit, False \ Unit{/$$}.
 
+Besides the sum and product, there is another important operation called **exponentiation**. This corresponds to functions, so a type {$$}a \to b{/$$} has {$$}|b|^{|a|}{/$$} possible values. In section 3.3 we will see how this algebra can be generalized.
+
 Finally, Idris supports dependent types[^ch3n2]. These kind of types are so powerful, they can encode most properties of programs and with their help, Idris can prove invariants at compile-time. As we will see in section 4.2 types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software[^ch3n3].
 
 Q> Why are types useful?
@@ -198,6 +200,8 @@ I>
 I> A dependent sum type can be used to represent indexed pairs, where the type of the second element depends on the type of the first element. That is, if we have {$$}a : \text{A}{/$$} and {$$}b : B(\text{a}){/$$}, then this makes a sum type. We denote it as {$$}\Sigma(x : \text{A}), B(x){/$$} or {$$}\sum\limits_{x \ : \ \text{A} } B(x){/$$}.
 
 For example, if we set {$$}A = \text{Nat}{/$$}, and {$$}B(\text{a}) = \text{List a}{/$$}, then we form the dependent sum type {$$}\Sigma(x : \text{Nat}), \text{List x}{/$$}. Possible types for it are {$$}(1, \text{List 1}){/$$} or {$$}(2, \text{List 2}){/$$}, etc. For example, we can construct the following pairs: {$$}(1, [1]), (2, [1, 2]), (3, [1, 2, 3]){/$$}, etc.
+
+Dependent types generalize product and exponentiation. Namely, {$$}\Sigma{/$$} (multiplication) is a generalization of the product type where the second element depends on the first element, and {$$}\Pi{/$$} (exponentiation) is a generalization of the exponentiation type where the result of a function depends on its value.
 
 X> ### Exercise 7
 X>
