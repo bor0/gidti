@@ -1,6 +1,6 @@
 # Conclusion
 
-We've seen how powerful types are. They allow us to put additional constraints on functions, which helps with reasoning about our programs. For example, if we look at the following function, we immediately know by its type that it returns a natural number:
+We've seen how powerful types are. They allow us to put additional constraints on values. This helps with reasoning about our programs since a whole class of non-valid programs will not be accepted by the type checker. For example, if we look at the following function, we immediately know by its type that it returns a natural number:
 
 ```
 f : Nat -> Nat
@@ -19,6 +19,6 @@ Q> Trusted Computing Base (TCB) can be thought of as the "axioms" of Idris, that
 
 The most challenging part is to come up with the precise properties (specifications) that we should prove in order to claim correctness for our software.
 
-The beauty of all of this is that almost everything is just about types and finding inhabitants of types.
+The beauty of all of this is that almost everything is just about types and finding inhabitants (values) of types.
 
 * * *
