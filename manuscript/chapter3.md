@@ -201,7 +201,7 @@ I> A dependent sum type can be used to represent indexed pairs, where the type o
 
 For example, if we set {$$}A = \text{Nat}{/$$}, and {$$}B(\text{a}) = \text{List a}{/$$}, then we form the dependent sum type {$$}\Sigma(x : \text{Nat}), \text{List x}{/$$}. Possible types for it are {$$}(1, \text{List 1}){/$$} or {$$}(2, \text{List 2}){/$$}, etc. For example, we can construct the following pairs: {$$}(1, [1]), (2, [1, 2]), (3, [1, 2, 3]){/$$}, etc.
 
-Dependent types generalize product and exponentiation. Namely, {$$}\Sigma{/$$} (multiplication) is a generalization of the product type where the second element depends on the first element, and {$$}\Pi{/$$} (exponentiation) is a generalization of the exponentiation type where the result of a function depends on its value.
+Dependent types generalize product and exponentiation. Namely, {$$}\Sigma{/$$} (multiplication) is a generalization of the product type where the type of the second element depends on the first element, and {$$}\Pi{/$$} (exponentiation) is a generalization of the exponentiation type where the resulting type of a function depends on its input.
 
 X> ### Exercise 7
 X>
