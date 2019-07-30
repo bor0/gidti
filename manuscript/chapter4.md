@@ -95,7 +95,7 @@ Idris> :t A_inst
 A_inst : a -> b -> A a b
 ```
 
-That is, we show the type definitions for both the newly-defined type and its value constructor. Note how we created a product type here. Idris has a built-in[^ch4n4] notion of pairs, which is a data type that can be defined in terms of products. For example, `(1, 2)` is one pair. We can also define tuples with `(1, "Hi", True)`, which is equivalent to `(1, ("Hi", True))`, i.e. a pair where the first element is a number, and the second element is a pair. Note that the types `(a, b)` (uncurried) and `a -> b` (curried) represent the same thing.
+That is, we show the type definitions for both the newly-defined type and its value constructor. Note how we created a product type here. Idris has a built-in[^ch4n4] notion of pairs, which is a data type that can be defined in terms of products. For example, `(1, 2)` is one pair. We can also define tuples with `(1, "Hi", True)`, which is equivalent to `(1, ("Hi", True))`, i.e. a pair where the first element is a number, and the second element is a pair. Note that the types `(a, b) -> c` (curried) and `a -> b -> c` (uncurried) represent the same thing.
 
 Analogously, if we want to create a sum type, we could do the following:
 
