@@ -1,10 +1,12 @@
-# Appendix B: Metamath
+# Appendix B: Theorem provers
+
+## Metamath
 
 Metamath is a programming language that can express theorems accompanied by a proof checker. The interesting thing about this language is its simplicity. We start by defining a formal system (variables, symbols, axioms and rules of inference) and proceed with building new theorems based on the formal system.
 
 As we've seen, proofs in mathematics (and Idris to some degree) are usually done at a very high level. Even though the foundations are formal systems, it is very difficult to do proofs at a low level. However, we will show that there are such programming languages like Metamath that work at the lowest level, that is formal systems.
 
-The most basic concept in Metamath is the substitution method. Metamath uses an RPN stack[^apan1] to build hypotheses and then rewrites using the rules of inference in order to reach a conclusion. Metamath has a very simple syntax. A token is a Metamath token if it starts with `$`, otherwise, it is a user-generated token. Here is a list of Metamath tokens:
+The most basic concept in Metamath is the substitution method. Metamath uses an RPN stack[^apbn1] to build hypotheses and then rewrites using the rules of inference in order to reach a conclusion. Metamath has a very simple syntax. A token is a Metamath token if it starts with `$`, otherwise, it is a user-generated token. Here is a list of Metamath tokens:
 
 1. `$c` defines constants
 1. `$v` defines variables
@@ -75,4 +77,102 @@ With the code above, we assume `proof_I` and `proof_I_imp_J` in some scope/conte
 
 Note how we separated `wff` from `|-`. Otherwise, if we just used `|-` then all of the formulas would be true, which does not make sense.
 
-[^apan1]: Reverse Polish Notation is a mathematical notation where functions follow their arguments. For example, to represent {$$}1 + 2{/$$}, we would write {$$}1 \ 2 \ +{/$$}.
+## Simple Theorem Prover
+
+In this section we'll put formal systems into action by building a proof tree generator in Haskell. We should be able to specify axioms and inference rules, and then query the program so that it will produce all valid combinations of inference in attempt to reach the target result.
+
+We start by defining our data structures:
+
+```haskell
+-- | A rule is a way to change a theorem.
+data Rule a = Rule { name :: String , function :: a -> a }
+    deriving (Show)
+
+-- | A theorem is consisted of an initial axiom and rules
+-- (ordered set) applied
+data Thm a = Thm {
+    axiom :: a,
+	rulesThm :: [Rule a],
+	result :: a
+	} deriving (Show)
+
+-- | A prover system is consisted of a bunch of axioms and
+-- rules to apply between them
+data ThmProver a = ThmProver {
+    axioms :: [Thm a],
+	rulesThmProver :: [Rule a]
+	} deriving (Show)
+
+-- | An axiom is just a theorem already proven
+mkAxiom :: a -> Thm a
+mkAxiom a = Thm a [] a
+```
+
+To apply a rule to a theorem, we create a new theorem whose result is all the rules applied to the target theorem:
+
+```haskell
+-- | Applies a single rule to a theorem
+thmApplyRule :: Thm a -> Rule a -> Thm a
+thmApplyRule theorem rule =
+    Thm (axiom theorem) (rulesThm theorem ++ [rule])
+    ((function rule) (result theorem))
+```
+
+We will need a function that will apply all the rules to all theorems consisted:
+
+```haskell
+-- | Applies all prover's rules to a list of theorems
+thmApplyRules :: ThmProver a -> [Thm a] -> [Thm a]
+thmApplyRules prover (thm:thms) =
+    map (thmApplyRule thm) (rulesThmProver prover) ++
+	(thmApplyRules prover thms)
+thmApplyRules _ _ = []
+```
+
+In order to find a proof, we search through the theorem results and see if the target is there. If it is, we just return. Otherwise, we recursively go through the theorems and apply rules in order to attempt to find the target theorem.
+
+```haskell
+-- | Finds a proof by constructing a proof tree by
+-- iteratively applying theorem rules
+findProofIter :: (Ord a, Eq a) =>
+    ThmProver a -> a -> Int -> [Thm a] -> Maybe (Thm a)
+findProofIter _ _ 0 _ = Nothing
+findProofIter prover target depth foundProofs =
+    case (find (\x -> target == result x) foundProofs) of
+    Just prf -> Just prf
+    Nothing  ->
+        let theorems = thmApplyRules prover foundProofs
+            proofsSet = fromList (map result foundProofs)
+            theoremsSet = fromList (map result theorems) in
+        if (union proofsSet theoremsSet) == proofsSet
+        -- The case where no new theorems were produced,
+		-- that is, A union B = A
+        then Nothing
+        -- Otherwise keep producing new proofs
+        else findProofIter prover target (depth - 1)
+		     (mergeProofs foundProofs theorems)
+```
+
+Where `mergeProofs` is a function that given 2 lists of theorems, it will return them merged, avoiding duplicates. An example usage:
+
+```haskell
+muRules :: [Rule String]
+muRules = [
+    Rule   "One"   (\thm ->
+	    if (isSuffixOf "I" thm) then (thm ++ "U") else thm)
+    , Rule "Two"   (\thm ->
+	    case (matchRegex (mkRegex "M(.*)") thm) of
+            Just [x] -> thm ++ x
+            _        -> thm)
+    , Rule "Three" (\thm ->
+	    subRegex (mkRegex "III") thm "U")
+    , Rule "Four"  (\thm ->
+	    subRegex (mkRegex "UU") thm "")
+    ]
+
+testProver = ThmProver (map mkAxiom ["MI"]) muRules
+```
+
+As a result of `findProofIter testProver "MIUIU" 5 (axioms testProver)`, we'll get that for a starting theorem `MI`, we apply rule "One" and rule "Two" (in that order) to get to `MIUIU` (our target proof that we've specified).
+
+[^apbn1]: Reverse Polish Notation is a mathematical notation where functions follow their arguments. For example, to represent {$$}1 + 2{/$$}, we would write {$$}1 \ 2 \ +{/$$}.
