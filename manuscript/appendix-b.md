@@ -51,21 +51,20 @@ wJ  $a wff J $.
 wim $a wff ( p -> q ) $.
 ```
 
-We created constants (strings) `->`, `wff`, etc. that we will use in our system. Further, we defined `p` and `q` to be variables. The strings `wp` and `wq` specify that `p` and `q` are `wff` (well-formed formulas) respectively. The definition of modus ponens says that for a given {$$}p{/$$} (`mp1`) and a given {$$}p \to q{/$$} (`mp2`) we can conclude {$$}q{/$$} (`mp`) i.e. {$$}p, p \to q \vdash q{/$$}. Note that outside of this block, only `mp` is visible per the rules above. Our initial axioms state that `I`, `J`, and `p -> q` are well-formed formulas.
+We created constants (strings) `->`, `wff`, etc. that we will use in our system. Further, we defined `p` and `q` to be variables. The strings `wp` and `wq` specify that `p` and `q` are `wff` (well-formed formulas) respectively. The definition of modus ponens says that for a given {$$}p{/$$} (`mp1`) and a given {$$}p \to q{/$$} (`mp2`) we can conclude {$$}q{/$$} (`mp`) i.e. {$$}p, p \to q \vdash q{/$$}. Note that outside of this block, only `mp` is visible per the rules above. Our initial axioms state that `I`, `J`, and `p -> q` are well-formed formulas. We separate `wff` from `|-`, because otherwise if we just used `|-` then all of the formulas would be true, which does not make sense.
 
 Having defined our formal system, we can proceed with the proof:
 
 ```text
-$( For givens I and I -> J, we prove that we can conclude J. Note: We use block scoping here since we don't want the hypothesis proof_I and proof_I_imp_J to be visible outside of the block $)
-${
-    $( Given I and I -> J $)
+${ $( Use block scoping to hide the hypothesis outside of the block $)
+    $( Hypothesis: Given I and I -> J $)
     proof_I $e |- I $.
     proof_I_imp_J $e |- ( I -> J ) $.
-    $( Proof that we can conclude J $)
+    $( Goal: Proof that we can conclude J $)
     proof_J $p |- J $=
         wI  $( Stack: [ 'wff I' ] $)
         wJ  $( Stack: [ 'wff I', 'wff J' ] $)
-        $( Note: We've specified wff for I and J before using mp, since the types have to match $)
+        $( We specify wff for I and J before using mp, since the types have to match $)
         proof_I       $( Stack: [ 'wff I', 'wff J', '|- I' ] $)
         proof_I_imp_J $( Stack: [ 'wff I', 'wff J', '|- I', '|- ( I -> J )' ] $)
         mp  $( Stack: [ '|- J' ] $)
@@ -75,8 +74,6 @@ $}
 
 With the code above, we assume `proof_I` and `proof_I_imp_J` in some scope/context. Further, with `proof_J` we want to show that we can conclude `J`. To start the proof, we put `I` and `J` on the stack by using the commands `wI` and `wJ`. Now that our stack contains `[ 'wff I', 'wff J' ]`, we can use `proof_I` to use the first parameter from the stack to conclude `|- I`. Since `proof_I_imp_J` accepts two parameters, it will use the first two parameters from the stack, i.e. `wff I` and `wff J` to conclude `|- I -> J`. Finally, with `mp` we use `|- I` and `|- I -> J` from the stack to conclude that `|- J`.
 
-Note how we separated `wff` from `|-`. Otherwise, if we just used `|-` then all of the formulas would be true, which does not make sense.
-
 ## Simple Theorem Prover
 
 In this section we'll put formal systems into action by building a proof tree generator in Haskell. We should be able to specify axioms and inference rules, and then query the program so that it will produce all valid combinations of inference in attempt to reach the target result.
@@ -84,95 +81,66 @@ In this section we'll put formal systems into action by building a proof tree ge
 We start by defining our data structures:
 
 ```haskell
--- | A rule is a way to change a theorem.
-data Rule a = Rule { name :: String , function :: a -> a }
-    deriving (Show)
-
--- | A theorem is consisted of an initial axiom and rules
--- (ordered set) applied
-data Thm a = Thm {
-    axiom :: a,
-	rulesThm :: [Rule a],
-	result :: a
-	} deriving (Show)
-
--- | A prover system is consisted of a bunch of axioms and
--- rules to apply between them
-data ThmProver a = ThmProver {
-    axioms :: [Thm a],
-	rulesThmProver :: [Rule a]
-	} deriving (Show)
-
+-- | A rule is a way to change a theorem
+data Rule a = Rule { name :: String, function :: a -> a }
+-- | A theorem is consisted of an axiom and list of rules applied
+data Thm a = Thm { axiom :: a, rulesThm :: [Rule a], result :: a }
+-- | Proof system is consisted of axioms and rules between them
+data ThmProver a = ThmProver { axioms :: [Thm a], rules :: [Rule a] }
 -- | An axiom is just a theorem already proven
-mkAxiom :: a -> Thm a
 mkAxiom a = Thm a [] a
 ```
 
-To apply a rule to a theorem, we create a new theorem whose result is all the rules applied to the target theorem:
+To apply a rule to a theorem, we create a new theorem whose result is all the rules applied to the target theorem. We will also need a function that will apply all the rules to all consisted theorems:
 
 ```haskell
--- | Applies a single rule to a theorem
 thmApplyRule :: Thm a -> Rule a -> Thm a
-thmApplyRule theorem rule =
-    Thm (axiom theorem) (rulesThm theorem ++ [rule])
-    ((function rule) (result theorem))
-```
+thmApplyRule thm rule = Thm (axiom thm) (rulesThm thm ++ [rule])
+    ((function rule) (result thm))
 
-We will need a function that will apply all the rules to all theorems consisted:
-
-```haskell
--- | Applies all prover's rules to a list of theorems
 thmApplyRules :: ThmProver a -> [Thm a] -> [Thm a]
-thmApplyRules prover (thm:thms) =
-    map (thmApplyRule thm) (rulesThmProver prover) ++
-	(thmApplyRules prover thms)
+thmApplyRules prover (thm:thms) = map (thmApplyRule thm) (rules prover)
+    ++ (thmApplyRules prover thms)
 thmApplyRules _ _ = []
 ```
 
 In order to find a proof, we search through the theorem results and see if the target is there. If it is, we just return. Otherwise, we recursively go through the theorems and apply rules in order to attempt to find the target theorem.
 
 ```haskell
--- | Finds a proof by constructing a proof tree by
--- iteratively applying theorem rules
+-- | Construct a proof tree by iteratively applying theorem rules
 findProofIter :: (Ord a, Eq a) =>
     ThmProver a -> a -> Int -> [Thm a] -> Maybe (Thm a)
 findProofIter _ _ 0 _ = Nothing
 findProofIter prover target depth foundProofs =
     case (find (\x -> target == result x) foundProofs) of
     Just prf -> Just prf
-    Nothing  ->
-        let theorems = thmApplyRules prover foundProofs
-            proofsSet = fromList (map result foundProofs)
-            theoremsSet = fromList (map result theorems) in
-        if (union proofsSet theoremsSet) == proofsSet
-        -- The case where no new theorems were produced,
-		-- that is, A union B = A
-        then Nothing
+    Nothing  -> let theorems = thmApplyRules prover foundProofs
+        proofsSet = fromList (map result foundProofs)
+        theoremsSet = fromList (map result theorems) in
+        -- The case where no new theorems are produced, A union B = A
+        if (union proofsSet theoremsSet) == proofsSet then Nothing
         -- Otherwise keep producing new proofs
         else findProofIter prover target (depth - 1)
-		     (mergeProofs foundProofs theorems)
+             (mergeProofs foundProofs theorems)
 ```
 
-Where `mergeProofs` is a function that given 2 lists of theorems, it will return them merged, avoiding duplicates. An example usage:
+Where `mergeProofs` is a function that merges 2 lists of theorems, avoiding duplicates. An example usage:
 
 ```haskell
-muRules :: [Rule String]
 muRules = [
-    Rule   "One"   (\thm ->
-	    if (isSuffixOf "I" thm) then (thm ++ "U") else thm)
-    , Rule "Two"   (\thm ->
-	    case (matchRegex (mkRegex "M(.*)") thm) of
-            Just [x] -> thm ++ x
-            _        -> thm)
-    , Rule "Three" (\thm ->
-	    subRegex (mkRegex "III") thm "U")
-    , Rule "Four"  (\thm ->
-	    subRegex (mkRegex "UU") thm "")
+  Rule "One" (\t -> if (isSuffixOf "I" t) then (t ++ "U") else t)
+  , Rule "Two"   (\t ->
+    case (matchRegex (mkRegex "M(.*)") t) of
+      Just [x] -> t ++ x
+      _        -> t)
+  , Rule "Three" (\t -> subRegex (mkRegex "III") t "U")
+nn, Rule "Four" (\t -> subRegex (mkRegex "UU") t "")
     ]
 
-testProver = ThmProver (map mkAxiom ["MI"]) muRules
+let testProver = ThmProver (map mkAxiom ["MI"]) muRules in
+  findProofIter testProver "MIUIU" 5 (axioms testProver)
 ```
 
-As a result of `findProofIter testProver "MIUIU" 5 (axioms testProver)`, we'll get that for a starting theorem `MI`, we apply rule "One" and rule "Two" (in that order) to get to `MIUIU` (our target proof that we've specified).
+As a result we get that for a starting theorem `MI`, we apply rule "One" and rule "Two" (in that order) to get to `MIUIU` (our target proof that we've specified).
 
 [^apbn1]: Reverse Polish Notation is a mathematical notation where functions follow their arguments. For example, to represent {$$}1 + 2{/$$}, we would write {$$}1 \ 2 \ +{/$$}.
