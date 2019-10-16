@@ -1,8 +1,6 @@
 preface-and-acknowledgments.md
 introduction.md
-part1.md
 chapter1.md
-part2.md
 chapter4.md
 further-reading.md
 about-author.md
