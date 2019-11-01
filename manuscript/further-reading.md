@@ -2,6 +2,8 @@
 
 Morris, D. W., Morris, J., _Proofs and Concepts_, 2016
 
+Velleman, J. D., _How to Prove It: A Structured Approach_, 1994
+
 Halmos, P., _Naive Set Theory_, 1960
 
 Megill, N., _Metamath_, 1997

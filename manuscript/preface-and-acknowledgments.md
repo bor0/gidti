@@ -24,6 +24,6 @@ Thanks to:
 
 Thanks to my family, coworkers, and friends for all the support they give to me.
 
-Finally, thank you for purchasing this book! I hope that you will learn new techniques reading this book and that it will spark up some more interests for logic, dependent types, and type theory.
+Finally, thank you for purchasing this book! I hope that you will learn new techniques in reading this book and that it will spark up some more interest in logic, dependent types, and type theory.
 
 * * *
