@@ -20,21 +20,21 @@ I> ### Definition 2
 I>
 I> For a given formal system, the system is **incomplete** if there are statements that are true but which cannot be proved to be true inside that system. Conversely, the system is **complete** if all true statements can be proved.
 
-The statement "This statement is not provable" can either be true or false. In the case it is true, then it is not provable. Alternatively, in the case it is false then it is provable, but we're trying to prove something that is false. Thus the system is incomplete because some truths are unprovable.
+The statement "This statement is not provable" can either be true or false. In the case it is true, then it is not provable. Alternatively, in the case it is false then it is provable, but we're trying to prove something false. Thus the system is incomplete because some truths are unprovable.
 
 I> ### Definition 3
 I>
-I> For a given formal system, the system is **inconsistent** if there is a theorem in that system that is contradictory. Conversely, the system is **consistent** if there are no theorems that are contradictory.
+I> For a given formal system, the system is **inconsistent** if there is a theorem in that system that is contradictory. Conversely, the system is **consistent** if there are no contradictory theorems.
 
 A simple example is the statement "This statement is false". This statement is true if and only if[^ch1n1] it is false, and therefore it is neither true nor false.
 
-In general, we often put our focus on which parts of mathematics can be formalized in concrete formal systems, rather than trying to find a theory in which all of mathematics can be developed. The reason for that is G&#246;del's incompleteness theorem. This theorem states that there doesn't exist[^ch1n2] a formal system that is both complete and consistent. As a result, it is better to reason about a formal system outside of the system itself, i.e. as the famous saying goes to "think outside of the box". Similarly to how we sometimes do meta-thinking to improve ourselves.
+In general, we often put our focus on which parts of mathematics can be formalized in concrete formal systems, rather than trying to find a theory in which all of mathematics can be developed. The reason for that is G&#246;del's incompleteness theorem. This theorem states that there doesn't exist[^ch1n2] a formal system that is both complete and consistent. As a result, it is better to reason about a formal system outside of the system (at the metalanguage level), since the object level (rules within the system) can be limiting. As the famous saying goes to "think outside of the box", and similarly to how we sometimes do meta-thinking to improve ourselves.
 
 In conclusion, formal systems are our attempt to abstract models, whenever we reverse engineer nature in an attempt to understand it better. They may be imperfect but are nevertheless useful tools for reasoning.
 
 ## 1.1. MU puzzle example
 
-The MU puzzle is a formal system which we'll have a look at as an example.
+The MU puzzle is a formal system that we'll have a look at as an example.
 
 I> ### Definition 4
 I>
@@ -47,7 +47,7 @@ I> | 2       | `M`x {$$}\to{/$$} M`xx`    | Double the string after `M`         
 I> | 3       | x`III`y {$$}\to{/$$} x`U`y | Replace `III` inside a string with `U` | `MUIIIU` to `MUUU` |
 I> | 4       | x`UU`y {$$}\to{/$$} xy     | Remove `UU` from inside a string       | `MUUU` to `MU`     |
 
-In the inference rules the symbols `M`, `I`, and `U` are part of the system, while `x` is a variable that stands for any symbol(s). For example, `MI` matches rule 2 for `x = I`, and it can also match rule 1 for `x = M`. Another example is `MII` that matches rule 2 for `x = II`, and rule 1 for `x = MI`.
+In the inference rules the symbols `M`, `I`, and `U` are part of the system, while `x` is a variable that stands for any symbol(s). For example, `MI` matches rule 2 for `x = I`, and it can also match rule 1 for `x = M`. Another example is `MII` that matches rule 2 for `x = II` and rule 1 for `x = MI`.
 
 We will show (or prove) how we can get from `MI` to `MIIU` using the inference rules:
 
@@ -70,9 +70,9 @@ We can represent the formal description of this system as follows:
 
 Q> Can we get from `MI` to `MU` with this system?
 Q>
-Q> In order to answer this, we will use an invariant[^ch1n3] with mathematical induction to prove our claim.
+Q> To answer this, we will use an invariant[^ch1n3] with mathematical induction to prove our claim.
 
-Note that, in order to be able to apply rule 3, we need to have the number of subsequent `I`'s to be divisible by 3. Let's have our invariant say that "There is no sequence of `I`'s in the string that with length divisible by 3":
+Note that, to be able to apply rule 3, we need to have the number of subsequent `I`'s to be divisible by 3. Let's have our invariant say that "There is no sequence of `I`'s in the string that with length divisible by 3":
 
 1. For the starting axiom, we have one `I`. Invariant OK.
 1. Applying rule 2 will be doubling the number of `I`'s, so we can have: `I`, `II`, `IIII`, `IIIIIII` (in particular, {$$}2^n{/$$} `I`'s). Invariant OK.
@@ -84,8 +84,8 @@ Every useful formal system has this limitation. As we've seen, G&#246;del's theo
 
 [^ch1n1]: The word iff is an abbreviation for "If and only if" and means that two statements are logically equivalent.
 
-[^ch1n2]: Note that this theorem only holds for systems that allow expressing arithmetic of natural numbers (e.g. Peano, set theory, but first-order logic also has some paradoxes if we allow self-referential statements). We will look into these systems in the next chapter.
+[^ch1n2]: Note that this theorem only holds for systems that allow expressing arithmetic of natural numbers (e.g. Peano, set theory, but first-order logic also has some paradoxes if we allow self-referential statements). This is so because the incompleteness theorem relies on the G&#246;del numbering concept, which allows a formal system to reason about itself by using symbols in the system to map expressions in that same system. For example, 0 is mapped to 1, S is 2, = is 3, so {$$}0 = S0 \iff (1, 3, 2, 1){/$$}. Using this we can express statements about the system within the system - self-referential statements. We will look into these systems in the next chapter.
 
-[^ch1n3]: An invariant is a property that holds true whenever we apply any of the inference rules.
+[^ch1n3]: An invariant is a property that holds whenever we apply any of the inference rules.
 
 [^ch1n4]: After having introduced ourselves to proofs, you will be given an exercise to prove this fact.
