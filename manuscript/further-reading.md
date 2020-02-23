@@ -23,3 +23,5 @@ L&#246;h, A., McBride C., Swierstra W., _A tutorial implementation of a dependen
 Martin-L&#246;f, P., _Intuitionistic Type Theory_, 1984
 
 Hofstadter, D., _G&#246;del, Escher, Bach_, 1979
+
+Smullyan, R., _The G&#246;delian Puzzle Book_, 2013
