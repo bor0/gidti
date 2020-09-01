@@ -322,7 +322,7 @@ To conclude, iterative processes take fewer calculation steps and are usually mo
 X> ### Exercise 7
 X>
 X> Factorial is defined as:
-X> {$$}fact(n) = \left\{ \begin{array}{ll} 1\text{, if } n = 0 \\	n * fact(n - 1)\text{, otherwise} \end{array} \right.{/$$}
+X> {$$}fact(n) = \left\{ \begin{array}{ll} 1\text{, if } n = 0 \\	n \cdot fact(n - 1)\text{, otherwise} \end{array} \right.{/$$}
 X>
 X> Unfold the evaluation of {$$}fact(5){/$$} on paper, and then implement it in Idris and confirm that Idris also computes the same value.
 X>
@@ -407,9 +407,10 @@ A partial function is the opposite of a total function. If a function is total, 
 1. If it's total, it will return a `String` in finite time
 1. If it's partial, then unless it crashes or enters in an infinite loop, it will return a `String`
 
-In Idris, to define total functions we just put the keyword `total` in front of the function definition. For example, for the following program we define two functions `test` and `test2`, a partial and a total one respectively:
+In Idris, to define partial/total functions we just put the keyword `partial`/`total` in front of the function definition. For example, for the following program we define two functions `test` and `test2`, a partial and a total one respectively:
 
 ```
+partial
 test : Nat -> String
 test Z = "Hi"
 
@@ -550,7 +551,7 @@ Implicit parameters (arguments) allow us to bring values from the type level to 
 
 ```
 lengthMyVect : MyVect n -> Nat
-lengthMyVect {n = k} list = k
+lengthMyVect list = ?n
 ```
 
 In this case, we defined a function `lengthMyVect` that takes a `MyVect` and returns a natural number. The value `n` in the definition of the function will be the same as the value of `n` at the type level. They are called implicit parameters because the caller of this function needn't pass these parameters. In the function definition, we define implicit parameters with curly braces and we also need to specify the list parameter which is of type `MyVect n` to pattern match against it. But, note how we don't refer to the list parameter in the computation part of this function and instead, we can use an underscore (which represents an unused parameter) to get to:
@@ -560,7 +561,7 @@ lengthMyVect : MyVect n -> Nat
 lengthMyVect {n = k} _ = k
 ```
 
-We can also have implicit parameters at the type level. As a matter of fact, an equivalent type definition of that function is:
+We can also have implicit parameters at the type level, and in Idris 2 this is a requirement. As a matter of fact, an equivalent type definition of that function is:
 
 ```
 lengthMyVect : {n : Nat} -> MyVect n -> Nat
@@ -715,6 +716,31 @@ As we've discussed, we can use product types to encode pairs. We can note the fo
 
 As long as Idris' type checker terminates, we can be certain that the program provides a mathematical proof of its type. This is why Idris' type checker only evaluates total functions, to keep the type checking decidable.
 
+## 4.3. Quantitative Type Theory
+
+This book was written using Idris 1, however, in 2020 a new version, Idris 2 was released which is based on **Quantitative Type Theory**. Most of the examples in this book should be compatible with Idris 2. However, some Idris 2 code will not be compatible with Idris 1.
+
+Quantitative type theory gives more computational power at the type level. It allows us to specify a quantity for each variable:
+
+- 0 - which means that the variable is not used at run-time
+- 1 - which means that the variable is used only once at run-time
+- Unrestricted, which is the same behavior as Idris 1
+
+Consider the `lengthMyVect` example from before. If we change its definition from `k` to `k + k`, the type checker will not complain:
+
+```
+lengthMyVect : {n : Nat} -> MyVect n -> Nat
+lengthMyVect {n = k} _ = k + k
+```
+
+However, if we specify that the variable `n` can be used only once:
+
+```
+lengthMyVect : {1 n : Nat} -> MyVect n -> Nat
+```
+
+Then the type checker will throw an error for `k + k`, but not for `k`.
+
 [^ch4n1]: It is worth noting that in Haskell we have types and kinds. Kinds are similar to types, that is, they are defined as one level above types in simply typed lambda calculus. For example, types such as `Nat` have a kind `Nat :: *` and it's stated that `Nat` is of kind `*`. Types such as `Nat -> Nat` have a kind of `* -> *`. Since in Idris types are first-class citizens, there is no distinction between types and kinds.
 
 [^ch4n2]: A polymorphic type can accept additional types as arguments, which are either defined by the programmer or primitive ones.
@@ -725,7 +751,7 @@ As long as Idris' type checker terminates, we can be certain that the program pr
 
 [^ch4n5]: Although product and sum types are very general, due to polymorphism, we can say something very specific about the structure of their values. For instance, suppose we've defined a type like so: `data C a b c = C_left a | C_right (b,c)`. A value of type `C` can only come into existence in one of two ways: as a value of the form `C_left x` for a value `x : a`, or as a value of the form `C_right (y,z)` for values `y : b` and `z : c`.
 
-[^ch4n6]: The key idea is not that a tail recursive function _is_ an iterative loop, but that a smart enough compiler can _pretend_ that it is and evaluate it using constant function stack space.
+[^ch4n6]: The key idea is not that a tail-recursive function _is_ an iterative loop, but that a smart enough compiler can _pretend_ that it is and evaluate it using constant function stack space.
 
 [^ch4n7]: Partial (non-terminating) functions are what makes Idris Turing complete.
 

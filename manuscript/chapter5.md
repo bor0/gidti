@@ -123,13 +123,13 @@ our_second_proof : (day : Weekday) -> day = Mon ->
     is_it_monday day = True
 ```
 
-We gave a name of the first parameter `day : Weekday` so that we can refer to it in the rest of the type definition. The second parameter says that `day = Mon` and the return value is `is_it_monday day = True`. We can treat the first and the second parameter as given since we are allowed to assume them (per definition of implication). With that, we proceed to the function definition:
+We gave a name of the first parameter `day : Weekday` so that we can refer to it in the rest of the type definition. The second parameter says that `day = Mon` and the return value is `is_it_monday day = True`. We can treat the first and the second parameter as givens since we are allowed to assume them (per definition of implication). With that, we proceed to the function definition:
 
 ```
 our_second_proof day day_eq_Mon = Refl
 ```
 
-In this definition, `day` and `day_eq_Mon` are our assumptions (given). If we run this code in Idris, it will produce an error at compile-time since it cannot deduce that `True` is equal to `is_it_monday day`. In the previous proof example, Idris was able to infer everything from the definitions at compile-time. However, at this point, we need to help Idris do the inference since it cannot derive the proof based only on the definitions. We can change the `Refl` to a hole `prf`:
+In this definition, `day` and `day_eq_Mon` are our assumptions (givens). If we run this code in Idris, it will produce an error at compile-time since it cannot deduce that `True` is equal to `is_it_monday day`. In the previous proof example, Idris was able to infer everything from the definitions at compile-time. However, at this point, we need to help Idris do the inference since it cannot derive the proof based only on the definitions. We can change the `Refl` to a hole `prf`:
 
 ```
   day : Weekday
@@ -138,9 +138,9 @@ In this definition, `day` and `day_eq_Mon` are our assumptions (given). If we ru
 prf : is_it_monday day = True
 ```
 
-Note how checking the type of the hole lists the given/premises (above the separator), and our goal(s) (below the separator). We see that along with `prf` we also get `day` and `day_eq_Mon` in the list of given, per the left-hand side of the function definition of `our_second_proof`.
+Note how checking the type of the hole lists the givens/premises (above the separator), and our goal(s) (below the separator). We see that along with `prf` we also get `day` and `day_eq_Mon` in the list of givens, per the left-hand side of the function definition of `our_second_proof`.
 
-Q> How do we replace something we have in the given, with the goal?
+Q> How do we replace something we have in the givens, with the goal?
 Q>
 Q> If we only had a way to tell Idris that it just needs to replace `day` with `day = Mon` to get to `is_it_monday Mon = True`, it will be able to infer the rest.
 
@@ -250,8 +250,8 @@ We will prove that {$$}0 + a = a{/$$}, given the definitions for natural numbers
 For that, we need to implement a function that accepts a natural number `a` and returns the proposition that `mynat_plus Zero a = a`.
 
 ```
-total our_first_proof : (a : MyNat) -> mynat_plus Zero a = a
-our_first_proof a = ?prf
+total our_first_proof_inf : (a : MyNat) -> mynat_plus Zero a = a
+our_first_proof_inf a = ?prf
 ```
 
 If we check the type of the hole, we get that the goal is `prf : a = a`, so changing the hole to a `Refl` completes the proof. Idris was able to automatically infer the proof by directly substituting definitions.
@@ -259,8 +259,8 @@ If we check the type of the hole, we get that the goal is `prf : a = a`, so chan
 To prove the existence of a successor, i.e. `Succ x`, per intuitionistic logic we need to construct a pair where the first element is `x : MyNat` and the second element is `Succ x : MyNat`. Idris has a built-in data structure for constructing dependent pairs called `DPair`.
 
 ```
-total our_second_proof : MyNat -> DPair MyNat (\_ => MyNat)
-our_second_proof x = MkDPair x (Succ x)
+total our_first_proof_exist : MyNat -> DPair MyNat (\_ => MyNat)
+our_first_proof_exist x = MkDPair x (Succ x)
 ```
 
 We just proved that {$$}\exists x \in \text{MyNat}, Succ(x){/$$}.
@@ -356,7 +356,7 @@ Idris> :t ind_hypothesis
 ind_hypothesis : Succ (mynat_plus k Zero) = Succ k
 ```
 
-For the base case we can just use `Refl`, but for the inductive step we need to do something different. We need to find a way to assume (add to list of given) {$$}a + 0 = a{/$$} and show that {$$}(a + 1) + 0 = a + 1{/$$} follows from that assumption. Since we pattern match on `Succ k`, we can use recursion on `k` along with `let` to generate the hypothesis:
+For the base case we can just use `Refl`, but for the inductive step we need to do something different. We need to find a way to assume (add to list of givens) {$$}a + 0 = a{/$$} and show that {$$}(a + 1) + 0 = a + 1{/$$} follows from that assumption. Since we pattern match on `Succ k`, we can use recursion on `k` along with `let` to generate the hypothesis:
 
 ```
 total our_third_proof : (a : MyNat) -> mynat_plus a Zero = a
@@ -392,7 +392,7 @@ X> Observe the similarity between this proof and the proof in section 2.3.4.
 
 ### 5.2.4. Ordering
 
-Idris has a built-in data type for the ordering of natural numbers `LTE`, which stands for less than or equal to. This data type has two constructors:
+Idris 1 has a built-in data type for the ordering of natural numbers `LTE`, which stands for less than or equal to. This data type has two constructors:
 
 1. `LTEZero`, used to prove that zero is less than or equal to any natural number
 1. `LTESucc`, used to prove that {$$}a \leq b \to S(a) \leq S(b){/$$}
@@ -428,7 +428,7 @@ X> We used the built-in type `LTE` which is defined for `Nat`. Try to come up wi
 
 ### 5.2.5. Safe division
 
-Idris provides a function called `divNat` that divides two numbers. Checking the documentation:
+Idris 1 provides a function called `divNat` that divides two numbers. Checking the documentation:
 
 ```
 Idris> :doc divNat
@@ -505,7 +505,7 @@ I> The maximum of two numbers `a` and `b` is defined as:
 I>
 I> {$$}max(a, b) = \left\{ \begin{array}{ll} b\text{, if } a \leq b \\   a\text{, otherwise} \end{array} \right.{/$$}
 
-In this section we will try to prove that {$$}b \leq a \to b = max(a, b){/$$}. Idris already has a built-in function `maximum`, so we can re-use that. Next, we need to figure out the type of the function to approach the proof. Intuitively, we can try the following:
+In this section we will try to prove that {$$}b \leq a \to b = max(a, b){/$$}. Idris 1 already has a built-in function `maximum`, so we can re-use that. Next, we need to figure out the type of the function to approach the proof. Intuitively, we can try the following:
 
 ```
 our_proof : (a : Nat) -> (b : Nat) -> a <= b -> maximum a b = b
@@ -723,7 +723,7 @@ interface Porder (a : Type) (Order : a -> a -> Type) | Order where
     total proofA : Order n m -> Order m n -> n = m -- antisymmetry
 ```
 
-The interface `Porder` accepts a `Type` and a relation `Order`, which is a binary function. Since the interface has more than two parameters, we specify that `Order` is a determining parameter, i.e. the parameter used to resolve the instance.
+The interface `Porder` accepts a `Type` and a relation `Order` which is a built-in binary function in Idris 1. Since the interface has more than two parameters, we specify that `Order` is a determining parameter, i.e. the parameter used to resolve the instance.
 
 Now that we have our abstract interface we can build a concrete implementation for it:
 
