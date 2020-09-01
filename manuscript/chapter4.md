@@ -551,7 +551,7 @@ Implicit parameters (arguments) allow us to bring values from the type level to 
 
 ```
 lengthMyVect : MyVect n -> Nat
-lengthMyVect list = ?n
+lengthMyVect {n = k} list = k
 ```
 
 In this case, we defined a function `lengthMyVect` that takes a `MyVect` and returns a natural number. The value `n` in the definition of the function will be the same as the value of `n` at the type level. They are called implicit parameters because the caller of this function needn't pass these parameters. In the function definition, we define implicit parameters with curly braces and we also need to specify the list parameter which is of type `MyVect n` to pattern match against it. But, note how we don't refer to the list parameter in the computation part of this function and instead, we can use an underscore (which represents an unused parameter) to get to:
@@ -724,7 +724,7 @@ Quantitative type theory gives more computational power at the type level. It al
 
 - 0 - which means that the variable is not used at run-time
 - 1 - which means that the variable is used only once at run-time
-- Unrestricted, which is the same behavior as Idris 1
+- Unrestricted (default) - which is the same behavior as Idris 1
 
 Consider the `lengthMyVect` example from before. If we change its definition from `k` to `k + k`, the type checker will not complain:
 
