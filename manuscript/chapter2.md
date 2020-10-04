@@ -334,7 +334,7 @@ In order to **prove** a goal of form:
 | {$$}P \to Q{/$$} | Assume that {$$}P{/$$} is true and prove {$$}Q{/$$} |
 | {$$}\lnot P{/$$} | Assume that {$$}P{/$$} is true and arrive at a contradiction |
 | {$$}P_1 \land P_2 \land \ldots \land P_n{/$$} | Prove each one of {$$}P_1, P_2, \ldots, P_n{/$$} separately |
-| {$$}P_1 \lor P_2 \lor \ldots \lor P_n{/$$} | Use proof by cases, where in each case you prove one of {$$}P_1, P_2, \ldots, P_n{/$$} |
+| {$$}P_1 \lor P_2 \lor \ldots \lor P_n{/$$} | Prove that at least one of {$$}P_1, P_2, \ldots, P_n{/$$} |
 | {$$}P \leftrightarrow Q{/$$} | Prove both {$$}P \to Q{/$$} and {$$}Q \to P{/$$} |
 | {$$}\forall x, P(x){/$$} | Assume that {$$}x{/$$} is an arbitrary object and prove that {$$}P(x){/$$} |
 | {$$}\exists x, P(x){/$$} | Find an {$$}x{/$$} such that {$$}P(x){/$$} is true |
