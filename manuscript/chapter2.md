@@ -282,7 +282,7 @@ I> A mathematical argument is valid iff in the case where all of the proposition
 
 Note that wherever {$$}A \land B{/$$} is true (the list of given propositions, or premises, or hypothesis) then so is {$$}A \land B \to B{/$$} (the conclusion), which means that this is a valid logical argument according to Definition 17.
 
-At the lowest level (formal systems), proofs were just a transformation (substitution) from one expression to another. However, at a higher level (logic), the way proofs are done is closely related to the symbols. For example, in logic, there's {$$}\land{/$$} so there are specific rules about introducing/eliminating it.
+At the lowest level (formal systems), proofs were just a transformation (substitution) from one expression to another. However, at a higher level (logic), the way proofs are done is closely related to the symbols defined in the system. For example, in logic, there's {$$}\land{/$$} so there are specific rules about introducing/eliminating it.
 
 X> ### Exercise 12
 X>
