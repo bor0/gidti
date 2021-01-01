@@ -44,7 +44,7 @@ data Term =
 | E-IszeroSucc | {$$}\text{IsZero(Succ } k \text {)} \to \text{F}{/$$} |
 | E-IsZero     | {$$}\frac{t_1 \to t'}{\text{IsZero }t_1 \to \text{ IsZero } t'}{/$$} |
 
-As an example, the rule `E-IfTrue` written using big-step semantics would be {$$}\frac{t_1 \Downarrow \text{T}, t2 \Downarrow v}{\text{If T} \text{ Then } t_2 \text{ Else } t_3 \Downarrow t_2}{/$$}.
+As an example, the rule `E-IfTrue` written using big-step semantics is represented by the formula {$$}\frac{t_1 \Downarrow \text{T}, t2 \Downarrow v}{\text{If T} \text{ Then } t_2 \text{ Else } t_3 \Downarrow t_2}{/$$}.
 
 Given the rules, by pattern matching them we will reduce terms. Implementation in Haskell is mostly "copy-paste" according to the rules:
 
