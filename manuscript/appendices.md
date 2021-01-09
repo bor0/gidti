@@ -67,14 +67,7 @@ eval O = O
 eval _ = error "No rule applies"
 ```
 
-As an example, evaluating the following:
-
-```haskell
-Main> eval $ Pred $ Succ $ Pred O
-Pred O
-```
-
-Corresponds to the following inference rules:
+As an example, evaluating `eval $ Pred $ Succ $ Pred O` corresponds to the following inference rules:
 
 ```text
              ----------- E-PredZero
