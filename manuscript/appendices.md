@@ -29,37 +29,41 @@ data Term =
     deriving (Show, Eq)
 ```
 
-*Rules of inference*: The semantics we use here is based on so-called small-step style, which states how a term is rewritten to a specific value, written {$$}t \to v{/$$}. In contrast, big-step style states how a specific term evaluates to a final value, written {$$}t \Downarrow v{/$$}.
+*Rules of inference*
 
 | Name         | Rule |
 | ------------ | ---- |
-| E-IfTrue     | {$$}\text{If T Then } t_2 \text{ Else } t_3 \to t_2{/$$} |
-| E-IfFalse    | {$$}\text{If F Then } t_2 \text{ Else } t_3 \to t_3{/$$} |
-| E-If         | {$$}\frac{t_1 \to t'}{\text{If }t_1 \text{ Then } t_2 \text{ Else } t_3 \to \text{If }t' \text{ Then } t_2 \text{ Else } t_3}{/$$} |
-| E-Succ       | {$$}\frac{t_1 \to t'}{\text{Succ }t_1 \to \text{ Succ } t'}{/$$} |
-| E-PredZero   | {$$}\text{Pred O} \to \text{O}{/$$} |
-| E-PredSucc   | {$$}\text{Pred(Succ } k \text {)} \to k{/$$} |
-| E-Pred       | {$$}\frac{t_1 \to t'}{\text{Pred }t_1 \to \text{ Pred } t'}{/$$} |
-| E-IszeroZero | {$$}\text{IsZero O} \to \text{T}{/$$} |
-| E-IszeroSucc | {$$}\text{IsZero(Succ } k \text {)} \to \text{F}{/$$} |
-| E-IsZero     | {$$}\frac{t_1 \to t'}{\text{IsZero }t_1 \to \text{ IsZero } t'}{/$$} |
-
-As an example, the rule `E-IfTrue` written using big-step semantics is represented by the formula {$$}\frac{t_1 \Downarrow \text{T}, t2 \Downarrow v}{\text{If T} \text{ Then } t_2 \text{ Else } t_3 \Downarrow t_2}{/$$}.
+| E-IfTrue     | {$$}\frac{v_2 \to v_2'}{\text{If T} \text{ Then } v_2 \text{ Else } v_3 \to v_2'}{/$$} |
+| E-IfFalse    | {$$}\frac{v_3 \to v_3'}{\text{If F} \text{ Then } v_2 \text{ Else } v_3 \to v_3'}{/$$} |
+| E-If         | {$$}\frac{v_1 \to v_1'}{\text{If } v_1 \text{ Then } v_2 \text{ Else } v_3 \to \text{If } v_1' \text{ Then } v_2 \text{ Else } v_3}{/$$} |
+| E-Succ       | {$$}\frac{v_1 \to v_1'}{\text{Succ }v_1 \to \text{ Succ } v_1'}{/$$} |
+| E-PredZero   | {$$}\frac{}{\text{Pred O} \to \text{O}}{/$$} |
+| E-PredSucc   | {$$}\frac{}{\text{Pred(Succ } v \text {)} \to v}{/$$} |
+| E-Pred       | {$$}\frac{v \to v'}{\text{Pred }v \to \text{ Pred } v'}{/$$} |
+| E-IszeroZero | {$$}\frac{}{\text{IsZero O} \to \text{T}}{/$$} |
+| E-IszeroSucc | {$$}\frac{}{\text{IsZero(Succ } v \text {)} \to \text{F}}{/$$} |
+| E-IsZero     | {$$}\frac{v \to v'}{\text{IsZero }v \to \text{ IsZero } v'}{/$$} |
+| E-Zero       | {$$}\frac{}{O}{/$$} |
+| E-True       | {$$}\frac{}{T}{/$$} |
+| E-False      | {$$}\frac{}{F}{/$$} |
 
 Given the rules, by pattern matching them we will reduce terms. Implementation in Haskell is mostly "copy-paste" according to the rules:
 
 ```haskell
 eval :: Term -> Term
-eval (IfThenElse T t2 t3) = t2
-eval (IfThenElse F t2 t3) = t3
-eval (IfThenElse t1 t2 t3) = let t' = eval t1 in IfThenElse t' t2 t3
-eval (Succ t1) = let t' = eval t1 in Succ t'
+eval (IfThenElse T v2 _) = v2
+eval (IfThenElse F _ v3) = v3
+eval (IfThenElse v1 v2 v3) = let v1' = eval v1 in IfThenElse v1' v2 v3
+eval (Succ v1) = let v1' = eval v1 in Succ v1'
 eval (Pred O) = O
-eval (Pred (Succ k)) = k
-eval (Pred t1) = let t' = eval t1 in Pred t'
+eval (Pred (Succ v)) = v
+eval (Pred v) = let v' = eval v in Pred v'
 eval (IsZero O) = T
 eval (IsZero (Succ t)) = F
-eval (IsZero t1) = let t' = eval t1 in IsZero t'
+eval (IsZero v) = let v' = eval v in IsZero v'
+eval T = T
+eval F = F
+eval O = O
 eval _ = error "No rule applies"
 ```
 
@@ -105,9 +109,9 @@ typeOf :: Term -> Either String Type
 
 | Name     | Rule |
 | -------- | ---- |
-| T-True   | {$$}\text{T : TBool}{/$$} |
-| T-False  | {$$}\text{F : TBool}{/$$} |
-| T-Zero   | {$$}\text{O : TNat}{/$$} |
+| T-True   | {$$}\frac{}{\text{T : TBool}}{/$$} |
+| T-False  | {$$}\frac{}{\text{F : TBool}}{/$$} |
+| T-Zero   | {$$}\frac{}{\text{O : TNat}}{/$$} |
 | T-If     | {$$}\frac{t_1\text{ : Bool},  t_2\text{ : }T, t_3\text{ : }T}{\text{If }t_1 \text{ Then } t_2 \text{ Else } t_3\text{ : }T}{/$$} |
 | T-Succ   | {$$}\frac{t\text{ : TNat }}{\text{Succ } t \text{ : TNat}}{/$$} |
 | T-Pred   | {$$}\frac{t\text{ : TNat }}{\text{Pred } t \text{ : TNat}}{/$$} |
