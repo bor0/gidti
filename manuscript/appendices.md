@@ -47,7 +47,9 @@ data Term =
 | E-True       | {$$}\frac{}{T}{/$$} |
 | E-False      | {$$}\frac{}{F}{/$$} |
 
-Given the rules, by pattern matching them we will reduce terms. Implementation in Haskell is mostly "copy-paste" according to the rules:
+Recall that {$$}\frac{x}{y}{/$$} can be thought of as the implication {$$}x \to y{/$$} at the metalanguage level, where the actual arrow {$$}\to{/$$} is the implication at the object level.
+
+Given these rules, we will reduce terms by pattern matching on them. Implementation in Haskell is mostly "copy-paste" according to the rules:
 
 ```haskell
 eval :: Term -> Term
@@ -80,7 +82,7 @@ pred (succ (pred O)) -> pred (succ O)
 
 ### Type checker
 
-*Syntax*: In addition to the previous syntax, we create a new one for types which is defined as:
+*Syntax*: In addition to the previous syntax, we create a new one for types:
 
 ```text
 <type> ::= Bool | Nat
@@ -89,9 +91,7 @@ pred (succ (pred O)) -> pred (succ O)
 In Haskell:
 
 ```haskell
-data Type =
-    TBool
-    | TNat
+data Type = TBool | TNat
 ```
 
 *Rules of inference*: Getting a type of a term expects a term, and either returns an error or the type derived:
@@ -143,7 +143,7 @@ Going back to the previous example, we can now "safely" evaluate (by type checki
 
 ### Environments
 
-Our simple language supports evaluation and type checking but does not allow for defining constants. To do that, we will need some kind of an environment which will hold information about constants.
+Our simple language supports evaluation and type checking but does not allow for defining constants. To do that, we will need some kind of an environment that will hold information about constants.
 
 ```haskell
 type TyEnv = [(String, Type)] -- Type env
@@ -185,7 +185,7 @@ addTerm :: String -> Term -> TeEnv -> TeEnv
 getTermFromEnv :: TeEnv -> String -> Maybe Term
 ```
 
-*Rules of inference (evaluator)*: `eval'` is exactly the same as `eval`, with the following additions:
+*Rules of inference (evaluator)*: `eval'` is the same as `eval`, with the following additions:
 
 1. New parameter (the environment) to support retrieval of values for constants
 2. Pattern matching for the new `Let ... in ...` syntax
@@ -209,7 +209,7 @@ eval' env (IfThenElse t1 t2 t3) =
 
 The remaining definitions can be copy-pasted.
 
-*Rules of inference (type checker)*: `typeOf'` is exactly the same as `typeOf`, with the only addition to support `env` (for retrieval of types for constants in an env) and the new let syntax.
+*Rules of inference (type checker)*: `typeOf'` is the same as `typeOf`, with the only addition to support `env` (for retrieval of types for constants in an env) and the new let syntax.
 
 ```haskell
 typeOf' :: TyEnv -> Term -> Either String Type
@@ -303,7 +303,7 @@ With the code above, we assume `proof_I` and `proof_I_imp_J` in some scope/conte
 
 ### Simple Theorem Prover
 
-In this section we'll put formal systems into action by building a proof tree generator in Haskell. We should be able to specify axioms and inference rules, and then query the program so that it will produce all valid combinations of inference in attempt to reach the target result.
+In this section we'll put formal systems into action by building a proof tree generator in Haskell. We should be able to specify axioms and inference rules, and then query the program so that it will produce all valid combinations of inference in an attempt to reach the target result.
 
 We start by defining our data structures:
 
@@ -351,7 +351,7 @@ findProofIter prover target depth foundProofs =
              (mergeProofs foundProofs theorems)
 ```
 
-Where `mergeProofs` is a function that merges 2 lists of theorems, avoiding duplicates. An example usage:
+Where `mergeProofs` is a function that merges 2 lists of theorems, avoiding duplicates. An example of usage:
 
 ```haskell
 muRules = [
@@ -391,7 +391,7 @@ Functions can be roughly categorized into two parts: **pure** and **impure**.
 
 An example of a pure function is {$$}f(x) = x + 1{/$$}. An example of an impure function is {$$}f(x) = \text{launch} \ x \ \text{rockets}{/$$}. Since this function causes side-effects, sometimes the launch of the rockets may not be successful (e.g. the case where we have no more rockets to launch).
 
-Computer programs are not usable if there is no interaction with the user. One problem arises with languages such as Idris (where expressions are mathematical and have no side effects) is that IO contains side effects. For this reason, such interactions will be encapsulated in a data structure that looks something like:
+Computer programs are not usable if there is no interaction with the user. One problem that arises with languages such as Idris (where expressions are mathematical and have no side effects) is that IO contains side effects. For this reason, such interactions will be encapsulated in a data structure that looks something like:
 
 ```
 data IO a -- IO operation that returns a value of type a
@@ -516,7 +516,7 @@ main = do
     greet
 ```
 
-We've defined functions `list_to_vect` and `vect_to_list` that convert between dependently typed vectors and lists. Further, we have another function that calls these two functions together. Note how we commented the total keyword and the second pattern match for the purposes of this example. Now, if we check values for this partial function:
+We've defined functions `list_to_vect` and `vect_to_list` that convert between dependently typed vectors and lists. Further, we have another function that calls these two functions together. Note how we commented out the total keyword and the second pattern match for the purposes of this example. Now, if we check values for this partial function:
 
 ```
 Idris> list_to_vect []

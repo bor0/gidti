@@ -123,7 +123,7 @@ our_second_proof : (day : Weekday) -> day = Mon ->
     is_it_monday day = True
 ```
 
-We gave a name of the first parameter `day : Weekday` so that we can refer to it in the rest of the type definition. The second parameter says that `day = Mon` and the return value is `is_it_monday day = True`. We can treat the first and the second parameter as givens since we are allowed to assume them (per definition of implication). With that, we proceed to the function definition:
+We gave a name to the first parameter `day : Weekday` so that we can refer to it in the rest of the type definition. The second parameter says that `day = Mon` and the return value is `is_it_monday day = True`. We can treat the first and the second parameter as givens since we are allowed to assume them (per definition of implication). With that, we proceed to the function definition:
 
 ```
 our_second_proof day day_eq_Mon = Refl
@@ -227,7 +227,7 @@ X> Hint: The type is `1 = 2 -> Void`
 
 ## 5.2. Natural numbers
 
-In this section, we will prove facts about natural numbers and also do some induction. Recall that a natural number is defined either as zero or as the successor of a natural number. So, `0, S 0, S (S 0), ...` are the first natural numbers. We will start with the following definitions for natural numbers:
+In this section, we will prove facts about natural numbers and also do some induction. Recall that a natural number is defined either as zero or as the successor of a natural number. So, `0, S 0, S (S 0), ...` are the first natural numbers. We will start with the following definitions:
 
 ```
 data MyNat = Zero | Succ MyNat
@@ -420,7 +420,7 @@ LTESucc : LTE 0 1 -> LTE 1 2
 
 X> ### Exercise 16
 X>
-X> Check the documentation of `GTE`, and then evaluate `GTE 2 2`. Observe what Idris returns and think how `GTE` can be implemented in terms of `LTE`.
+X> Check the documentation of `GTE`, and then evaluate `GTE 2 2`. Observe what Idris returns and think about how `GTE` can be implemented in terms of `LTE`.
 
 X> ### Exercise 17
 X>
@@ -463,7 +463,7 @@ Prelude.Nat.divNatNZ : Nat -> (y : Nat) -> Not (y = 0) -> Nat
     The function is Total
 ```
 
-This function is total, but we need to also provide a parameter (proof) that the divisor is not zero. Fortunately, Idris also provides a function called `SIsNotZ`, which accepts any natural number (through implicit argument `x`) and returns a proof that `x + 1` is not zero.
+This function is total, but we need to also provide a parameter (proof) that the divisor is not zero. Fortunately, Idris 1 also provides a function called `SIsNotZ`, which accepts any natural number (through implicit argument `x`) and returns a proof that `x + 1` is not zero.
 
 We can try to construct a few proofs:
 
@@ -668,7 +668,7 @@ b : ifThenElse (even n) (has_odd (even_members l'))
 
 Q> How do we rewrite the inductive hypothesis to the goal in this case?
 Q>
-Q> It seems that we can't just rewrite here since `even_n` has the order of the equality reversed. Idris provides a function called `sym` which takes equality of `a = b` and converts it to `b = a`.
+Q> It seems that we can't just rewrite here since `even_n` has the order of the equality reversed. Idris provides a function called `sym` which takes an equality of `a = b` and converts it to `b = a`.
 
 We can try to rewrite `sym even_n` to the goal, and it now becomes:
 
@@ -698,7 +698,7 @@ even_members_list_only_even (Cons n l') with (even n) proof even_n
 
 Q> How did mathematical induction work in this case?
 Q>
-Q> Mathematical induction is defined in terms of natural numbers, but in this case, we used induction to prove a fact about a list. This works because we used a more general induction called structural induction. According to Wikipedia, structural induction is used to prove that some proposition {$$}P(x){/$$} holds for all {$$}x{/$$} of some sort of recursively defined structure, such as formulas, lists, or trees. For example, for lists, we used `End` as the base case and `Cons` as the inductive step. Thus, mathematical induction is a special case of structural induction for the `Nat` type.
+Q> Mathematical induction is defined in terms of natural numbers, but in this case, we used induction to prove a fact about a list. This works because we used a more general induction called _structural induction_. Structural induction is used to prove that some proposition {$$}P(x){/$$} holds for all {$$}x{/$$} of some sort of recursively defined data structure. For example, for lists, we used `End` as the base case and `Cons` as the inductive step. Thus, mathematical induction is a special case of structural induction for the `Nat` type.
 
 X> ### Exercise 21
 X>
@@ -745,7 +745,7 @@ implementation Porder Nat LTE where
         let IH = proofA n_lte_m m_lte_n in rewrite IH in Refl
 ```
 
-We proved that the binary operation "less than or equal to" for `Nat`s make a `Porder`. Interfaces allow us to group one or more functions, and implementation of a specific type is guaranteed to implement all such functions.
+We proved that the binary operation "less than or equal to" for `Nat`s make a `Porder`. Interfaces allow us to group one or more functions, and implementation of a specific interface is guaranteed to implement all such functions.
 
 X> ### Exercise 22
 X>
@@ -753,9 +753,11 @@ X> Convince yourself using pen and paper that {$$}\leq{/$$} on natural numbers m
 
 ## 5.3. Computations as types
 
-As we stated earlier, types are first-class citizens in Idris. In this example, we will see how we can convert a function that does some computation to its corresponding type definition.
+As we stated earlier, types are first-class citizens in Idris. In this section, we will see how we can represent computation at the type level.
 
-Re-using the same definition of `MyVect`, we can write a function to test if all elements are same in a given list:
+### 5.3.1. Same elements in a list (vector)
+
+Re-using the same definition of `MyVect`, we can write a function to test if all elements are the same in a given list:
 
 ```
 allSame : (xs : MyVect n) -> Bool
@@ -781,7 +783,7 @@ data AllSame : MyVect n -> Type where
         AllSame (Cons x (Cons y ys))
 ```
 
-The constructors `AllSameZero` and `AllSameOne` are easy. However, the recursive constructor `AllSameMany` is a bit trickier. It accepts two natural numbers `x` and `y`, a list `ys`, a proof that `x` and `y` are same, and a proof that `y` concatenated to `ys` is a same-element list. Given this, it will produce a proof that `x` concatenated to `y` concatenated to `ys` is also a same-element list. This type definition captures exactly the definition of a list that would contain all the same elements.
+The constructors `AllSameZero` and `AllSameOne` are easy. However, the recursive constructor `AllSameMany` is a bit trickier. It accepts two natural numbers `x` and `y`, a list `ys`, a proof that `x` and `y` are the same, and a proof that `y` concatenated to `ys` is a same-element list. Given this, it will produce a proof that `x` concatenated to `y` concatenated to `ys` is also a same-element list. This type definition captures exactly the definition of a list that would contain all the same elements.
 
 Interacting with the constructors:
 
@@ -795,7 +797,7 @@ AllSameMany 1 1 Empty Refl (AllSameOne 1) : AllSame (Cons 1
     (Cons 1 Empty))
 ```
 
-The third example is a proof that the list `[1, 1]` has same elements. However, if we try to use the constructor with different elements:
+The third example is a proof that the list `[1, 1]` has the same elements. However, if we try to use the constructor with different elements:
 
 ```
 Idris> AllSameMany 1 2 Empty
@@ -854,6 +856,35 @@ allSame' xs = case (mkAllSame xs) of
     Just _  => True
 ```
 
+### 5.3.2. Evenness of numbers
+
+Next, we will represent a data type using a natural deduction style and then do the same corresponding definitions in Idris.
+
+I> ### Definition 8
+I>
+I> In natural deduction style, propositions are represented with a line in the middle where everything above the line are the premises and everything below it is the conclusion.
+
+As an example, let the first inference rule be {$$}\frac{}{Ev \ 0}{/$$}. Note that there is nothing above the line, so we can think of this as an "axiom". Using the previous notation, this would just be {$$}Ev \ 0{/$$}. Further, let the second inference rule be {$$}\frac{Ev \ n}{Ev \ (S \ (S \ n))}{/$$}. Using the previous notation, this would be {$$}\forall n, Ev \ n \to Ev \ (S \ (S \ n)){/$$}[^ch5n1].
+
+The same representation in Idris:
+
+```
+data Ev : Nat -> Type where
+    EvZero : Ev Z
+    EvSucc : (n : Nat) -> Ev n -> Ev (S (S n))
+```
+
+Having this definition, we can now construct proofs of even numbers as follows:
+
+```
+Idris> EvSucc 0 EvZero
+EvSucc 0 EvZero : Ev 2
+Idris> EvSucc 2 (EvSucc 0 EvZero)
+EvSucc 2 (EvSucc 0 EvZero) : Ev 4
+```
+
+We just represented even numbers at the type level, where in 4.1.4 we represented them at the value level with the function `even`.
+
 ## 5.4. Trees
 
 A tree structure is a way to represent hierarchical data. We will work with binary trees in this section, which are trees that contain exactly two sub-trees (nodes). We can define this tree structure using the following implementation:
@@ -883,7 +914,7 @@ X> Come up with a few trees by using the value constructors above.
 
 ### 5.4.1. Depth
 
-I> ### Definition 8
+I> ### Definition 9
 I>
 I> The depth of a tree is defined as the number of edges from the node to the root.
 
@@ -977,7 +1008,7 @@ Idris> map_tree (\x => x + 1) (Node 2 (Node 1 Leaf Leaf)
 Node 3 (Node 2 Leaf Leaf) (Node 4 Leaf Leaf) : Tree
 ```
 
-I> ### Definition 9
+I> ### Definition 10
 I>
 I> The size of a tree is defined as the sum of the levels of all nodes.
 
@@ -1073,3 +1104,5 @@ proof_1 (Node v tr1 tr2) f = let IH_1 = proof_1 tr1 f in
 ```
 
 At this point, if we check the type of `conclusion` we will note that we can just use `Refl` to finish the proof.
+
+[^ch5n1]: When there is an implication ({$$}\to{/$$}) within one of the rules, then this implication is thought to be at the object level, while the actual line represents implication at the metalanguage level.

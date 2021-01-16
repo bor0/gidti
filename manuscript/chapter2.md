@@ -78,7 +78,7 @@ X> Try to come up with a sensible statement in English for each derived proposit
 
 I> ### Definition 2
 I>
-I> The first-order logic logical system extends propositional logic by additionally covering **predicates** and **quantifiers**. A predicate {$$}P(x){/$$} takes an input {$$}x{/$$}, and produces either true or false as an output. There are two quantifiers introduced: {$$}\forall{/$$} (universal quantifier) and {$$}\exists{/$$} (existential quantifier).
+I> The first-order logical system extends propositional logic by additionally covering **predicates** and **quantifiers**. A predicate {$$}P(x){/$$} takes an input {$$}x{/$$}, and produces either true or false as an output. There are two quantifiers introduced: {$$}\forall{/$$} (universal quantifier) and {$$}\exists{/$$} (existential quantifier).
 
 One example of a predicate is `P(x) = x is organic`, with {$$}P(Salad) = \top{/$$}, but {$$}P(Rock) = \bot{/$$}.
 

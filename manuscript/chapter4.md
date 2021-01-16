@@ -2,11 +2,11 @@
 
 In this chapter, we will introduce Idris' syntax, by defining functions and types.
 
-Depending on what level of abstraction we are working with, types and proofs can give us a kind of security based on some truths we take for granted (axioms). In fact, this is how we develop code on a daily basis, as software engineers. We have a list of axioms, for example, a `foreach` loop in a programming language, and starting from it we build abstractions. However, this is not always easy to achieve. For example, consider a scenario where we have a button that is supposed to download a PDF document. In order to prove that it works as expected, we must first pick the abstraction level we will be working on, and then proceed by defining software requirements (what is a PDF, what is a download). So, we first have to define our **specifications**, and then we can proceed with proving correctness.
+Depending on what level of abstraction we are working on, types and proofs can give us a kind of security based on some truths we take for granted (axioms). In fact, this is how we develop code on a daily basis, as software engineers. We have a list of axioms, for example, a `foreach` loop in a programming language, and starting from it we build abstractions, expecting this `foreach` to behave in a certain way. However, this security is not always easy to achieve. For example, consider a scenario where we have a button that is supposed to download a PDF document. In order to prove that it works as expected, we must first pick the abstraction level we will be working on, and then proceed by defining software requirements (what is a PDF, what is a download). So, we first have to define our **specifications**, and then we can proceed with proving correctness.
 
-Idris, even though a research language, can still have its own uses. It is a Turing complete language, which means that it has the same expressive power as other programming languages, for example, Java, or C++.
+Idris, even though a research language, still has its own uses. It is a Turing complete language, which means that it has the same expressive power as other programming languages, for example, Java, or C++.
 
-Idris can be downloaded and installed via www.idris-lang.org/download.
+To start with, Idris can be downloaded and installed via www.idris-lang.org/download.
 
 ## 4.1. Basic syntax and definitions
 
@@ -23,7 +23,7 @@ add_1 : Nat -> Nat
 add_1 x = x + 1
 ```
 
-With the code above we're defining a function {$$}f(x) = x + 1{/$$}, where {$$}x{/$$} is natural number and {$$}f(x){/$$} (the result) is also a natural number[^ch4n1]. The first line `add_1 : Nat -> Nat` is called a _type signature_, and specifies the type of our function; in this case a function that takes a natural number and returns a natural number. The second line `add_1 x = x + 1` is the definition of the function, which states that if `add_1` is called with a number `x`, the result would be `x + 1`. As can be seen by the example, every function has to be provided a type definition. We can interact as follows once in REPL mode:
+With the code above we're defining a function {$$}f(x) = x + 1{/$$}, where {$$}x{/$$} is natural number and {$$}f(x){/$$} (the result) is also a natural number[^ch4n1]. The first line `add_1 : Nat -> Nat` is called a _type signature_, and specifies the type of our function; in this case a function that takes a natural number and returns a natural number. The second line `add_1 x = x + 1` is the definition of the function, which states that if `add_1` is called with a number `x`, the result would be `x + 1`. As can be seen by the example, every function has to be provided a type definition. We can interact as follows in the REPL mode:
 
 ```
 Idris> add_1 5
@@ -45,7 +45,7 @@ is_it_zero Z = True
 is_it_zero x = False
 ```
 
-We've just defined a function that accepts a natural number and returns a boolean value (`True` or `False`). On the first line, we specify its type. On the second line, we pattern match against the input `Z` and return `True` in that case. On the third line, we pattern match against the input `x` (which is all remaining inputs except `Z`). In this case, we return `False`. The code above, depending on the input, will branch the computation to the corresponding definition. Note how `Z` corresponds to 0 for the type `Nat`.
+We've just defined a function that accepts a natural number and returns a boolean value (`True` or `False`). On the first line, we specify its type. On the second line, we pattern match against the input `Z` and return `True` in that case. On the third line, we pattern match against the input `x` (which is all remaining inputs except `Z`). In this case, we return `False`. The code above, depending on the input, will branch the computation to the corresponding definition. Note that `Z` corresponds to 0 for the type `Nat`.
 
 X> ### Exercise 1
 X>
@@ -72,14 +72,16 @@ Idris> A_inst Z True
 A_inst 0 True : A Nat Bool
 ```
 
-Note how the type changes depending on what values we pass to the constructor, due to polymorphism. An equivalent definition by using the `GADT` (Generalized Algebraic Data Types) syntax:
+Note how the type changes depending on what values we pass to the constructor, due to polymorphism.
+
+Here's an equivalent definition by using the `GADT` (Generalized Algebraic Data Types) syntax:
 
 ```
 data A : Type -> Type -> Type where
     A_inst : a -> b -> A a b
 ```
 
-Which is equivalent to the following definition, where we define an empty data structure along with an axiom for the value constructor:
+This is equivalent to the following definition, where we define an empty data structure along with an axiom for the value constructor:
 
 ```
 data A : Type -> Type -> Type
@@ -103,7 +105,7 @@ Analogously, if we want to create a sum type, we could do the following:
 data B a b = B_inst_left a | B_inst_right b
 ```
 
-Which is equivalent to:
+This is equivalent to:
 
 ```
 data B : Type -> Type -> Type where
@@ -122,7 +124,7 @@ Idris> :t B_inst_right
 B_inst_right : b -> B a b
 ```
 
-For extracting values from data types such as `B a b`, we can use pattern matching[^ch4n5]. As an example, to extract `a` from `B a b`, we can use the following function:
+The functions `B_inst_left` and `B_inst_right` are also known as _introduction rules_. For extracting values from data types such as `B a b`, also known as _elimination rules_, we can use pattern matching[^ch4n5]. As an example, to extract `a` from `B a b`, we can use the following function:
 
 ```
 f : B a b -> a
@@ -131,7 +133,7 @@ f (B_inst_left a) = a
 
 Note how we used the data type at the function type level and the value constructor in the function definition to pattern match against.
 
-Natural numbers are defined as `data Nat = Z | S Nat`, where we either have a zero or a successor of a natural number. Note how this type is not polymorphic (it doesn't accept any variables after the type name). Natural numbers are built-in as a type in Idris.
+Natural numbers can be defined as `data Nat = Z | S Nat`, where we either have a zero or a successor of a natural number. Note how this type is not polymorphic (it doesn't accept any variables after the type name). Natural numbers are built-in as a type in Idris.
 
 We can use the operator `==` to compare two numbers. Note that `==` is still a function, but it's an infix one. This means that unlike other functions that we define which are prefix, i.e. start at the beginning of the expression, `==` needs to appear between the parameters. For example:
 
@@ -201,7 +203,7 @@ Idris> let f = 1 in f
 1 : Integer
 ```
 
-Alternatively, the REPL has a command `:let` that allows us to set a variable without evaluating it:
+Alternatively, the REPL has a command `:let` that allows us to set a variable without evaluating it right away, that can be used at a later point:
 
 ```
 Idris> :let f = 1
@@ -211,7 +213,7 @@ Idris> f
 
 Q> What's the difference between `let` and `:let`?
 Q>
-Q> `let` is an extension to the usual lambda calculus syntax. The expression `let x = y in e` is equivalent to `(\x . e) y`. It is useful since it makes it easy to shorten a lambda expression by factoring out common subexpressions.
+Q> `let` is an extension of the lambda calculus syntax. The expression `let x = y in e` is equivalent to `(\x . e) y`. It is useful since it makes it easy to shorten a lambda expression by factoring out common subexpressions.
 Q>
 Q> `:let` is different in that it is just used to bind new names at the top level of an interactive Idris session.
 
@@ -237,7 +239,7 @@ I> Currying is a concept that allows us to evaluate a function with multiple par
 
 Function application in Idris is left-associative (just like in lambda calculus), which means that if we try to evaluate `addThree 1 2 3`, then it will be evaluated as `(((addThree 1) 2) 3)`. A combination of left-associative functions and currying (i.e. partial evaluation of function) is what allows us to write `addThree 1 2 3`, which is much more readable.
 
-Arrow types are right-associative (just like in lambda calculus), which means that `addThree 1 : a -> a -> a` is equivalent to `addThree 1 : (a -> (a -> a))`. If we had written a type of `(a -> a) -> a` instead, then this function would accept as its first parameter a function that takes an `a` and returns an `a`, and then the original function also returns an `a`. This is how we can define higher-order functions which we will discuss later. Note that `a` starts with a lowercase letter, so it is a polymorphic type.
+Arrow types are right-associative (just like in lambda calculus), which means that `addThree 1 : a -> a -> a` is equivalent to `addThree 1 : (a -> (a -> a))`. If we had written a type of `(a -> a) -> a` instead, then this function would accept as its first parameter a function that takes an `a` and returns an `a`, and then the original function also returns an `a`. This is how we can define higher-order functions which we will discuss later. Note how `a` starts with a lowercase letter, thus it is a polymorphic type.
 
 The `if...then...else` syntax is defined as follows:
 
@@ -317,7 +319,7 @@ even 0 False =
 False
 ```
 
-To conclude, iterative processes take fewer calculation steps and are usually more performant than recursive processes. Recursive functions combined with pattern matching are one of the most powerful tools in Idris since they do computation. They are also useful for proving mathematical theorems with induction, as we will see in the examples later.
+To conclude, iterative processes take fewer calculation steps and are usually more performant than recursive processes. Recursive functions combined with pattern matching are one of the most powerful tools in Idris since they allow for computation. They are also useful for proving mathematical theorems with induction, as we will see in the examples later.
 
 X> ### Exercise 7
 X>
@@ -340,9 +342,9 @@ We can think of type constructors as functions at the type level. Taking the con
 
 I> ### Definition 2
 I>
-I> A recursive data type is a data type where some of its constructors has a reference to the same data type.
+I> A recursive data type is a data type where some of its constructors have a reference to the same data type.
 
-We will start by defining a recursive data type, which is a data type that in the constructor refers to itself. In fact, earlier in this book we already gave a recursive definition of `Nat`. As a motivating example, we will try to define the representation of lists. For this data type, we'll use a combination of sum and product types. A list is defined as either `End` (end of the list) or `Cons` (construct), which is a value appended to another `MyList`:
+We will start by defining a recursive data type, which is a data type that in the constructor refers to itself. In fact, earlier in this book we already gave a recursive definition - `Nat`. As a motivating example, we will try to define the representation of lists. For this data type, we'll use a combination of sum and product types. A list is defined as either `End` (end of the list) or `Cons` (construct), which is a value appended to another `MyList`:
 
 ```
 data MyList a = Cons a (MyList a) | End
@@ -449,7 +451,7 @@ There are three built-in higher-order functions that are generally useful: `map`
 
 1. `map` is a function that takes as input a function with a single parameter and a list and returns a list where all members of the list have this function applied to them
 1. `filter` is a function that takes as input a function (predicate) with a single parameter (that returns a `Bool`) and a list and only returns those members in the list whose predicate evaluates to `True`
-1. `fold` is a function that takes as input a combining function that accepts two parameters (current value and accumulator), an initial value and a list and returns a value combined with this function. There are two types of folds, a left and a right one, which combines from the left and from the right respectively
+1. `fold` is a function that takes as input a combining function that accepts two parameters (current value and accumulator), an initial value and a list and returns a value combined with this function. There are two types of folds, a left and a right one, which combines from the left and the right respectively
 
 As an example usage:
 
@@ -505,10 +507,10 @@ data MyVect : (n : Nat) -> Type where
 
 We created a new type called `MyVect` which accepts a natural number `n` and returns a `Type`, that is joined with two value constructors:
 
-1. `Empty` - which is just the empty list
-1. `Cons : (x : Nat) -> (xs : MyVect len) -> MyVect (S len)` - which, given a natural number `x` and a list `xs` of length `len`, will return a list of length `S len`, that is, `len + 1`.
+1. `Empty` - which is just the empty vector (list)
+1. `Cons : (x : Nat) -> (xs : MyVect len) -> MyVect (S len)` - which, given a natural number `x` and a vector `xs` of length `len`, will return a vector of length `S len`, that is, `len + 1`.
 
-Note how we additionally specified names to the parameters. This can be useful if we want to reference those parameters elsewhere in the type definition.
+Note how we additionally specified names to the parameters (`n : Nat`, `xs : MyVect len`, etc.). This can be useful if we want to reference those parameters elsewhere in the type definition.
 
 If we now use the following code snippet, it will pass the compile-time checks:
 
@@ -535,9 +537,9 @@ and
 
 Which is a way of Idris telling us that our types do not match and that it cannot verify the "proof" provided.
 
-In this example, we implemented a dependent type that puts the length of the list at the type level. In other programming languages that do not support dependent types, this is usually checked at the code level (run-time) and compile-time checks are not able to verify this.
+In this example, we implemented a dependent type that puts the length of a list at the type level. In other programming languages that do not support dependent types, this is usually checked at the code level (run-time) and compile-time checks are not able to verify this.
 
-One example where such a guarantee might be useful is in preventing buffer overflows. We could encode the dimension of an array at the type level, and statically guarantee that array reads and writes only happen in bounds.
+One example where such a guarantee might be useful is in preventing buffer overflows. We could encode the dimension of an array at the type level, and statically guarantee that array reads and writes only happen within bounds.
 
 X> ### Exercise 17
 X>
@@ -561,7 +563,7 @@ lengthMyVect : MyVect n -> Nat
 lengthMyVect {n = k} _ = k
 ```
 
-We can also have implicit parameters at the type level, and in Idris 2 this is a requirement. As a matter of fact, an equivalent type definition of that function is:
+We can also have implicit parameters at the type level. As a matter of fact, an equivalent type definition of that function is:
 
 ```
 lengthMyVect : {n : Nat} -> MyVect n -> Nat
@@ -693,7 +695,7 @@ swap : (a, b) -> (b, a)
 swap (a, b) = (b, a)
 ```
 
-The isomorphism says that this function has an equivalent form of mathematical proof. Although it may not be immediately obvious, let's consider the following proof: Given {$$}P \land Q{/$$}, prove that {$$}Q \land P{/$$}. In order to prove it, we have to use 2 inference rules: and-introduction and and-elimination, which are defined as follows:
+The isomorphism says that this function has an equivalent form of mathematical proof. Although it may not be immediately obvious, let's consider the following proof: Given {$$}P \land Q{/$$}, prove that {$$}Q \land P{/$$}. In order to prove it, we have to use the inference rules and-introduction and and-elimination, which are defined as follows:
 
 1. And-introduction means that if we are given {$$}P{/$$}, {$$}Q{/$$}, then we can construct a proof for {$$}P \land Q{/$$}
 1. Left and-elimination means that if we are given {$$}P \land Q{/$$}, we can conclude {$$}P{/$$}
@@ -741,7 +743,7 @@ lengthMyVect : {1 n : Nat} -> MyVect n -> Nat
 
 Then the type checker will throw an error for `k + k`, but not for `k`.
 
-[^ch4n1]: It is worth noting that in Haskell we have types and kinds. Kinds are similar to types, that is, they are defined as one level above types in simply typed lambda calculus. For example, types such as `Nat` have a kind `Nat :: *` and it's stated that `Nat` is of kind `*`. Types such as `Nat -> Nat` have a kind of `* -> *`. Since in Idris types are first-class citizens, there is no distinction between types and kinds.
+[^ch4n1]: It is worth noting that in Haskell we have types and kinds. Kinds are similar to types, that is, they are defined as one level above types in simply-typed lambda calculus. For example, types such as `Nat` have a kind `Nat :: *` and it's stated that `Nat` is of kind `*`. Types such as `Nat -> Nat` have a kind of `* -> *`. Since in Idris the types are first-class citizens, there is no distinction between types and kinds.
 
 [^ch4n2]: A polymorphic type can accept additional types as arguments, which are either defined by the programmer or primitive ones.
 
@@ -753,6 +755,6 @@ Then the type checker will throw an error for `k + k`, but not for `k`.
 
 [^ch4n6]: The key idea is not that a tail-recursive function _is_ an iterative loop, but that a smart enough compiler can _pretend_ that it is and evaluate it using constant function stack space.
 
-[^ch4n7]: Partial (non-terminating) functions are what makes Idris Turing complete.
+[^ch4n7]: Partial (non-terminating) functions are what make Idris Turing complete.
 
 [^ch4n8]: They are equivalent to Haskell's `class` keyword. Interfaces in Idris are very similar to OOP's interfaces.

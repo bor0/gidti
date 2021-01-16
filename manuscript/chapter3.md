@@ -1,6 +1,6 @@
 # 3. Type theory
 
-There are some type theories that can serve as an alternative foundation of mathematics, as opposed to standard set theory. One such well-known type theory is Martin-L&#246;f's intuitionistic theory of types, which is an extension of Alonzo Church's simply typed {$$}\lambda{/$$}-calculus. Before we begin working with Idris, we will get familiar with these theories, upon which Idris is built as a language.
+Some type theories can serve as an alternative foundation of mathematics, as opposed to standard set theory. One such well-known type theory is Martin-L&#246;f's intuitionistic theory of types, which is an extension of Alonzo Church's simply-typed {$$}\lambda{/$$}-calculus. Before we begin working with Idris, we will get familiar with these theories, upon which Idris is built as a language.
 
 I> ### Definition 1
 I>
@@ -18,8 +18,8 @@ I> ### Definition 3
 I>
 I> Algebraic data types are types where we can additionally specify the form for each of the elements. They are called "algebraic" in the sense that the types are constructed using algebraic operations. The algebra here is sum and product:
 I>
-I> 1. Sum (union) is alternation. It is denoted as {$$}\text{A | B}{/$$} and it means that a constructed value is either of type A or B
-I> 1. Product is combination. It is denoted as {$$}\text{A B}{/$$} and it means that a constructed value is a pair where the first element is of type A, and the second element is of type B
+I> 1. Sum (union) is an alternation. It is denoted as {$$}\text{A | B}{/$$} and it means that a constructed value is either of type A or B
+I> 1. Product is a combination. It is denoted as {$$}\text{A B}{/$$} and it means that a constructed value is a pair where the first element is of type A, and the second element is of type B
 I>
 I> To understand the algebra they capture, we denote with {$$}|\text{A}|{/$$} the number of possible values of type {$$}\text{A}{/$$}. When we create an algebraic sum we have {$$}|\text{A | B}| = |\text{A}| + |\text{B}|{/$$}. Similarly, for algebraic product we have {$$}|\text{A B}| = |\text{A}| * |\text{B}|{/$$}.
 
@@ -29,7 +29,7 @@ The type {$$}\text{Bool}{/$$} has two possible values: {$$}True{/$$} and {$$}Fal
 
 Besides the sum and product, there is another important operation called **exponentiation**. This corresponds to functions, so a type {$$}a \to b{/$$} has {$$}|b|^{|a|}{/$$} possible values. In section 3.3 we will see how this algebra can be generalized.
 
-Finally, Idris supports dependent types[^ch3n2]. These kind of types are so powerful, they can encode most properties of programs and with their help, Idris can prove invariants at compile-time. As we will see in section 4.2 types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software[^ch3n3].
+Finally, Idris supports dependent types[^ch3n2]. These kinds of types are so powerful, they can encode most properties of programs and with their help, Idris can prove invariants at compile-time. As we will see in section 4.2 types also allow us to encode mathematical proofs, which brings computer programs closer to mathematical proofs. As a consequence, this allows us to prove properties (e.g. specifications) about our software[^ch3n3].
 
 Q> Why are types useful?
 Q>
@@ -57,7 +57,7 @@ I> 1. If {$$}x{/$$} is a variable, then {$$}x \in \Lambda{/$$}
 I> 1. If {$$}x{/$$} is a variable and {$$}M \in \Lambda{/$$}, then {$$}(\lambda x.M) \in \Lambda{/$$} (rule of abstraction)
 I> 1. If {$$}M, N \in \Lambda{/$$}, then {$$}(M \ N) \in \Lambda{/$$} (rule of application)
 
-Some examples of well-formed expressions are {$$}\lambda f \ x . f \ x{/$$} and {$$}\lambda f \ x . f \ (f \ x){/$$}. In fact, we can encode numbers this way. The first expression can be thought of as the number one, and the second as the number two. In other words, the number 1 is defined roughly as {$$}f(x){/$$}, and 2 as {$$}f(f(x)){/$$}. Note that {$$}f{/$$} and {$$}x{/$$} do not have special definitions, they are abstract objects. This encoding is known as the Church encoding. Operations on numbers (plus, minus, etc) and other data such as Booleans and lists can also be encoded in a similar way.
+Some examples of well-formed expressions are {$$}\lambda f \ x . f \ x{/$$} and {$$}\lambda f \ x . f \ (f \ x){/$$}. In fact, we can encode numbers this way. The first expression can be thought of as the number one, and the second as the number two. In other words, the number 1 is defined roughly as {$$}f(x){/$$}, and 2 as {$$}f(f(x)){/$$}. Note that {$$}f{/$$} and {$$}x{/$$} do not have special definitions, they are abstract objects. This encoding is known as the Church encoding. Operations on numbers (plus, minus, etc) and other data such as Booleans and lists can also be encoded similarly.
 
 X> ### Exercise 1
 X>
@@ -69,7 +69,7 @@ Every variable in a lambda expression can be characterized as either _free_ or _
 
 I> ### Definition 5
 I>
-I> A variable in a lambda expression is called _free_ if it does not it appear inside at least one lambda body where it is found in the abstraction. Alternatively, if it does appear inside at least one lambda body, then the variable is _bound_ at the innermost such lambda abstraction.
+I> A variable in a lambda expression is called _free_ if it does not appear inside at least one lambda body where it is found in the abstraction. Alternatively, if it does appear inside at least one lambda body, then the variable is _bound_ at the innermost such lambda abstraction.
 
 This definition of "bound" corresponds roughly to the concept of _scope_ in many programming languages. Lambda expressions introduce a new scope in which their argument variables are bound.
 
@@ -120,7 +120,7 @@ So far we've been discussing the _untyped_ lambda calculus, but it is possible t
 
 I> ### Definition 8
 I>
-I> Simply typed lambda calculus is a type theory which adds types to lambda calculus. It joins the system with a unique type constructor {$$}\to{/$$} which constructs types for functions. The formal definition and the set of lambda expressions are similar to that of lambda calculus, with the addition of types.
+I> Simply typed lambda calculus is a type theory that adds types to lambda calculus. It joins the system with a unique type constructor {$$}\to{/$$} which constructs types for functions. The formal definition and the set of lambda expressions are similar to that of lambda calculus, with the addition of types.
 I>
 I> The set of symbols for this system is defined as:
 I>
@@ -154,7 +154,7 @@ The (typed) successor function is: {$$}\text{SUCC} = \lambda [n:\text{Nat}]\ [f:
 
 Simply typed lambda calculus sits in a sweet spot on the spectrum of type systems. It is powerful enough to do useful work, but also simple enough to have strong properties. Simple types have limitations when compared to full dependent types, discussed in the next section, but their great trade-off is the existence of a full _inference algorithm_. The strategy we used above to determine the type of a lambda expression from the bottom up is the core of the widely used Hindley-Damas-Milner algorithm for type inference, which can automatically _infer_ the simple type of a lambda expression without requiring any explicit type annotations from the programmer.
 
-Fixed-point combinators do not exist in the simply typed lambda calculus[^ch3n5]. To see why, consider the function {$$}\text{fix} = \lambda [f:\text{a} \to \text{a}] : \text{a}{/$$}. We can apply {$$}\text{fix}{/$$} to some element {$$}x : \text{a} \to \text{a}{/$$}. Thus, {$$}\text{fix} \ x : \text{a}{/$$}, but {$$}x = \text{fix} \ x{/$$} is a type error because the infinite type {$$}\text{a} \to \text{a} = \text{a}{/$$} cannot be matched.
+Fixed-point combinators do not exist in the simply-typed lambda calculus[^ch3n5]. To see why, consider the function {$$}\text{fix} = \lambda [f:\text{a} \to \text{a}] : \text{a}{/$$}. We can apply {$$}\text{fix}{/$$} to some element {$$}x : \text{a} \to \text{a}{/$$}. Thus, {$$}\text{fix} \ x : \text{a}{/$$}, but {$$}x = \text{fix} \ x{/$$} is a type error because the infinite type {$$}\text{a} \to \text{a} = \text{a}{/$$} cannot be matched.
 
 X> ### Exercise 4
 X>
@@ -170,7 +170,7 @@ X> In Exercise 3 you were asked to come up with a function. Try to figure out th
 
 ## 3.3. Dependent types
 
-In the simply typed lambda calculus, _values_ and _types_ are fundamentally different kinds of things that are related only by the "has type" predicate, {$$}:{/$$}. Values are allowed to depend on values - these are lambda abstractions. And types are allowed to depend on types - these are arrow types. But types are not allowed to depend on values. A _dependent typing_ system lifts this restriction.
+In the simply-typed lambda calculus, _values_ and _types_ are fundamentally different kinds of things that are related only by the "has type" predicate, {$$}:{/$$}. Values are allowed to depend on values - these are lambda abstractions. And types are allowed to depend on types - these are arrow types. But types are not allowed to depend on values. A _dependent typing_ system lifts this restriction.
 
 I> ### Definition 9
 I>
@@ -244,8 +244,8 @@ I>
 I> The inference rules are:
 I>
 I> 1. The rule of type equality which states that if an object is of a type {$$}\text{A}{/$$}, and there is another type {$$}\text{B}{/$$} equal to {$$}\text{A}{/$$}, then that object is of type {$$}\text{B}{/$$}: {$$}(a : \text{A}, \text{A} = \text{B}) \to (a : \text{B}){/$$}
-I>
-I> The remaining inference rules are specific to the type formers, for example introduction and elimination. We will show an example using these rules in section 4.2.
+
+There are other inference rules, for example introduction and elimination. We will show an example of using these rules in section 4.2.
 
 As an example, for well-formed expressions rule 1 says that we can form an expression such that an object inhabits the type {$$}\text{Type}{/$$}, so an example of a well-formed expression is {$$}1 : \text{Nat}{/$$}, per rule 2, and {$$}\text{Nat} : \text{Type}{/$$} per rule 1.
 
@@ -267,7 +267,7 @@ I> A constructive proof proves the existence of a mathematical object by creatin
 
 I> ### Definition 14
 I>
-I> Intuitionistic logic, also known as constructive logic, is a type of logic which is different than classical logic in that it "works" with the notion of constructive proof.
+I> Intuitionistic logic, also known as constructive logic, is a type of logic that is different than classical logic in that it "works" with the notion of constructive proof.
 
 I> ### Definition 15
 I>
@@ -288,7 +288,7 @@ f (x, left y)  = left (x, y)
 f (x, left y') = right (x, y')
 ```
 
-This notation (which is pretty similar to how we would write it in Idris) uses `(x, y)` to denote product type, that is, extract values from a product-type pair, and `left` and `right` to denote value constructors for sum type in order to extract values from a sum-type pair. In the second part of this book, we will introduce Idris and its syntax.
+This notation (which is pretty similar to how we would write it in Idris) uses `(x, y)` to denote product type, that is, extract values from a product-type pair, and `left` and `right` to denote value constructors for sum type in order to extract values from a sum-type pair. In the next chapter we will introduce Idris and its syntax.
 
 X> ### Exercise 11
 X>
@@ -296,7 +296,7 @@ X> Try to use some of the proofs in the earlier chapters as motivation and work 
 
 [^ch3n1]: Unlike in set theory, where they are defined in terms of relations.
 
-[^ch3n2]: Dependent types allow proofs of statements involving first-order predicates, compared to simple types which correspond to propositional logic. While useful (since we can check whether an expression fulfills a given condition at compile-time), dependent types add complexity to a type system. In order to calculate type "equality" of dependent types, computations are necessary. If we allow any values for dependent types, then solving equality of a type may involve deciding whether two programs produce the same result. Thus, the check may become undecidable.
+[^ch3n2]: Dependent types allow proofs of statements involving first-order predicates, compared to simple types that correspond to propositional logic. While useful (since we can check whether an expression fulfills a given condition at compile-time), dependent types add complexity to a type system. In order to calculate type "equality" of dependent types, computations are necessary. If we allow any values for dependent types, then solving equality of a type may involve deciding whether two programs produce the same result. Thus, the check may become undecidable.
 
 [^ch3n3]: This is what makes Idris a so-called proof assistant. In general, Idris combines a lot of functionalities from mainstream languages (Java, C, C++) and some functionalities from proof assistants, which further blurs the line between these two kinds of software.
 
