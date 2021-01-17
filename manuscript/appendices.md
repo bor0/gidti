@@ -47,7 +47,7 @@ data Term =
 | E-True       | {$$}\frac{}{T}{/$$} |
 | E-False      | {$$}\frac{}{F}{/$$} |
 
-Recall that {$$}\frac{x}{y}{/$$} can be thought of as the implication {$$}x \to y{/$$} at the metalanguage level, where the actual arrow {$$}\to{/$$} is the implication at the object level.
+Recall that {$$}\frac{x}{y}{/$$} can be thought of as the implication {$$}x \to y{/$$} at the metalanguage level, where the actual arrow {$$}\to{/$$} is the implication at the object level (in this case, simply `eval`).
 
 Given these rules, we will reduce terms by pattern matching on them. Implementation in Haskell is mostly "copy-paste" according to the rules:
 

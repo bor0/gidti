@@ -864,7 +864,9 @@ I> ### Definition 8
 I>
 I> In natural deduction style, propositions are represented with a line in the middle where everything above the line are the premises and everything below it is the conclusion.
 
-As an example, let the first inference rule be {$$}\frac{}{Ev \ 0}{/$$}. Note that there is nothing above the line, so we can think of this as an "axiom". Using the previous notation, this would just be {$$}Ev \ 0{/$$}. Further, let the second inference rule be {$$}\frac{Ev \ n}{Ev \ (S \ (S \ n))}{/$$}. Using the previous notation, this would be {$$}\forall n, Ev \ n \to Ev \ (S \ (S \ n)){/$$}[^ch5n1].
+When there is an implication ({$$}\to{/$$}) within one of the rules in natural deduction style, then this implication is thought to be at the object level, while the actual line represents implication at the metalanguage level. We'll see an example of this in Appendix A.
+
+As an example, let the first inference rule be {$$}\frac{}{Ev \ 0}{/$$}. Note that there is nothing above the line, so we can think of this as an "axiom". Using the previous notation, this would just be {$$}Ev \ 0{/$$}. Further, let the second inference rule be {$$}\frac{Ev \ n}{Ev \ (S \ (S \ n))}{/$$}. Using the previous notation, this would be {$$}\forall n, Ev \ n \to Ev \ (S \ (S \ n)){/$$}.
 
 The same representation in Idris:
 
@@ -1104,5 +1106,3 @@ proof_1 (Node v tr1 tr2) f = let IH_1 = proof_1 tr1 f in
 ```
 
 At this point, if we check the type of `conclusion` we will note that we can just use `Refl` to finish the proof.
-
-[^ch5n1]: When there is an implication ({$$}\to{/$$}) within one of the rules, then this implication is thought to be at the object level, while the actual line represents implication at the metalanguage level.
