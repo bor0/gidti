@@ -666,100 +666,61 @@ With this approach, we can write verified code in Idris and export its functiona
 
 ## Appendix D: Implementing a formal system
 
-So far we have been mostly using a set of formal systems to prove software correctness. In this appendix, we show how to _both_ create and use a formal system in order to be able to prove facts. For that, we will provide a minimal implementation[^apdn1] of Propositional logic, as described in chapter 2.
+So far we have been mostly using a set of formal systems to prove software correctness. In this appendix, we show how to _both_ create and use a formal system in order to be able to prove facts. For that, we will provide a minimal implementation of Propositional logic, as described in chapter 2.
 
-The syntax of the formal system expressed in BNF is:
-
-```
-prop   ::= P | Q | R | unop prop | prop brelop prop
-unop   ::= "!"
-brelop ::= "&&" | "->"
-```
-
-The code in Idris, that follows the same syntax:
+Here's the syntax of the formal system expressed in BNF, and the code in Idris:
 
 ```
-data Prop =
-  P | Q | R
-  | Not Prop
-  | And Prop Prop
-  | Imp Prop Prop
+--prop   ::= P | Q | R | prop brelop prop
+--brelop ::= "&&" | "->"
+data Prop = P | Q | R | And Prop Prop | Imp Prop Prop
 ```
 
 We now have a way to represent some logical formulas, e.g. {$$}P \land Q{/$$} as `And P Q`. Further, in our implementation, we also need a way to differentiate between well-formed formulas and theorems since not all well-formed formulas are theorems. For that, we provide the `Proof` data type and a way to extract a proof:
 
 ```
 data Proof a = MkProof a
-
 total fromProof : Proof a -> a
 fromProof (MkProof a) = a
 ```
 
-Note that `MkProof (And P Q)` ({$$}\vdash P \land Q{/$$}) is different from `And P Q` ({$$}P \land Q{/$$}).
-
-In Idris we get construction of well-formed formulas for free due to algebraic data structures. In some untyped programming languages, such as Python, we could use hashmaps to simulate the types.
-
-```python
-def And(x, y):
-  return {'x': x, 'y': y, 'type': 'and'}
-
-def Imp(x, y):
-  return {'x': x, 'y': y, 'type': 'imp'}
-
-def MkProof(x):
-  return {'v': x, 'type': 'proof'}
-
-def fromProof(x):
-  if not isinstance(x, dict) or not 'v' in x: return None
-  return x['v']
-```
-
-Note in the Python code how we have to be extra careful with the conditional checks, whereas in Idris it is much simpler due to pattern matching.
-
-The `MkProof` constructor mustn't be used directly; proofs should only be constructed given the rules that we provide next.
+Note that `MkProof (And P Q)` ({$$}\vdash P \land Q{/$$}) is different from `And P Q` ({$$}P \land Q{/$$}). However, the `MkProof` constructor mustn't be used directly; proofs should only be constructed given the rules that we provide next.
 
 ```
+-- A, B |- A /\ B
 total ruleJoin : Proof Prop -> Proof Prop -> Proof Prop
 ruleJoin (MkProof x) (MkProof y) = MkProof (And x y)
-
+-- A, B |- A
 total ruleSepL : Proof Prop -> Proof Prop
 ruleSepL (MkProof (And x y)) = MkProof x
 ruleSepL x = x
 ```
 
-The above implementation corresponds to the following rules:
-
-{$$} \cfrac{A \quad B}{A \land B} (\texttt{ruleJoin}) \quad \cfrac{A \land B}{A} (\texttt{ruleSepL}) {/$$}
-
-The most powerful rule is the *Implication Rule*, implemented as follows:
+Another powerful rule is the *Implication Rule*. It accepts a non-proven term `Prop`, whereas other rules accept proven terms; the hypothesis needn't be necessarily true, it only states that "If this hypothesis were a theorem, then that would be a theorem". The second argument is a function `(Proof Prop -> Proof Prop)` that accepts a `Proof` and returns a `Proof`; basically, another rule which will be used to transform the hypothesis `x`. As a result, it produces the theorem {$$}x \to y(x){/$$}.
 
 ```
 total ruleImplication : Prop -> (Proof Prop -> Proof Prop) -> Proof Prop
 ruleImplication x f = f (MkProof x)
 ```
 
-`RuleImplication` accepts a non-proven term `Prop`, whereas other rules accept proven terms; the hypothesis needn't be necessarily true, it only states that "If this hypothesis were a theorem, then that would be a theorem". The second argument is a function `(Proof Prop -> Proof Prop)` that accepts a `Proof` and returns a `Proof`; basically, another rule which will be used to transform the hypothesis `x`. As a result, it produces the theorem {$$}x \to y(x){/$$}.
+For example, we can prove that {$$}\vdash P \land Q \to P \land P{/$$} with `ruleImplication (And P Q) (\x => ruleJoin (ruleSepL x) (ruleSepL x))`.
 
-Here's the same implementation of the previous rules in Python:
+In Idris we get construction of well-formed formulas for free due to algebraic data structures. In some untyped programming languages, such as Python, we could use hashmaps to simulate the types. In the following code we have to be extra careful with the conditional checks, whereas in Idris it is simpler due to pattern matching.
 
 ```python
+def And(x, y): return {'x': x, 'y': y, 'type': 'and'}
+def Imp(x, y): return {'x': x, 'y': y, 'type': 'imp'}
+def MkProof(x): return {'v': x, 'type': 'proof'}
+def fromProof(x): return x['v'] if isinstance(x, dict) and 'v' in x else None
 def ruleJoin(x, y):
   if not isinstance(x, dict) or not isinstance(y, dict) or not 'type' in x or not 'type' in y or x['type'] != 'proof' or y['type'] != 'proof': return None
-  return Proof(And(fromProof(x), fromProof(y)))
-
+  return MkProof(And(fromProof(x), fromProof(y)))
 def ruleSepL(x):
   if not isinstance(x, dict) or not 'type' in x or x['type'] != 'proof': return None
   wff = fromProof(x)
-  if wff['type'] == 'and': return Proof(wff['x'])
-  return Proof(wff)
-
-def RuleImplication(x, y):
-  if not isinstance(x, dict) or not 'type' in x or not callable(y): return None
-  return Proof(Imp(x, fromProof(y(Proof(x)))))
+  if wff['type'] == 'and': return MkProof(wff['x'])
+  return MkProof(wff)
+def ruleImplication(x, y): return MkProof(Imp(x, fromProof(y(MkProof(x))))) if isinstance(x, dict) and 'type' in x and callable(y) else None
 ```
 
-For example, we can prove that {$$}\vdash P \land Q \to P \land P{/$$} with `ruleImplication (And P Q) (\x => ruleJoin (ruleSepL x) (ruleSepL x))`.
-
-Note how we embedded a formal system (Propositional logic) within a formal system (Idris/Python), and we were able to reason about it through symbolic manipulation; in Idris, this corresponds to pattern matching and data types, whereas in Python it corresponds to conditionals and hashmaps.
-
-[^apdn1]: Recursion is sufficient to represent a complex formal system. However, the system that we'll build is basic - it won't rely on recursion at all.
+Note how we embedded a formal system (Propositional logic) within a formal system (Idris/Python), and we were able to reason about it through symbolic manipulation.
