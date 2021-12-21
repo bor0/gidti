@@ -334,7 +334,7 @@ X> ### Exercise 8
 X>
 X> Re-write the factorial function to generate an iterative process.
 X>
-X> Hint: The type is `fact_iter : Nat -> Nat -> Nat` and you should pattern match against `(S Z) acc` (number 1, and accumulator) and `(S n) acc` (successor, and accumulator).
+X> Hint: The type is `fact_iter : Nat -> Nat -> Nat` and you should pattern match against `Z acc` (number zero, and accumulator) and `(S n) acc` (successor, and accumulator).
 
 ### 4.1.5. Recursive data types
 
@@ -720,7 +720,7 @@ As long as Idris' type checker terminates, we can be certain that the program pr
 
 ## 4.3. Quantitative Type Theory
 
-This book was written using Idris 1, however, in 2020 a new version, Idris 2 was released which is based on **Quantitative Type Theory**. Most of the examples in this book should be compatible with Idris 2. However, some Idris 2 code will not be compatible with Idris 1.
+This book was written using Idris 1, however, in 2020 a new version, Idris 2 was released which is based on **Quantitative Type Theory**. Most of the examples in this book should be compatible with Idris 2. However, some Idris 2 code will not be compatible with Idris 1. Idris 2 is recommended as it also might contain some bug fixes.
 
 Quantitative type theory gives more computational power at the type level. It allows us to specify a quantity for each variable:
 

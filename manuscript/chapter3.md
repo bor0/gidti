@@ -59,6 +59,8 @@ I> 1. If {$$}M, N \in \Lambda{/$$}, then {$$}(M \ N) \in \Lambda{/$$} (rule of a
 
 Some examples of well-formed expressions are {$$}\lambda f \ x . f \ x{/$$} and {$$}\lambda f \ x . f \ (f \ x){/$$}. In fact, we can encode numbers this way. The first expression can be thought of as the number one, and the second as the number two. In other words, the number 1 is defined roughly as {$$}f(x){/$$}, and 2 as {$$}f(f(x)){/$$}. Note that {$$}f{/$$} and {$$}x{/$$} do not have special definitions, they are abstract objects. This encoding is known as the Church encoding. Operations on numbers (plus, minus, etc) and other data such as Booleans and lists can also be encoded similarly.
 
+Note that {$$}\lambda f \ x . f \ x{/$$} is shorthand for {$$}\lambda f . \lambda x . f \ x{/$$}.
+
 X> ### Exercise 1
 X>
 X> Convince yourself that the expression {$$}\lambda f \ x . f \ x{/$$} is a well-formed expression by writing down each one of the grammar rules used.
@@ -253,7 +255,7 @@ A valid type as per the fourth rule of type constructors is the definition of na
 
 X> ### Exercise 9
 X>
-X> We've used rule 1 and rule 2 in the example earlier. Try to come up with different ways to use each one of the rules described.
+X> We used rule 1 and rule 2 in the example earlier. Try to come up with different ways to use some of the rules.
 
 X> ### Exercise 10
 X>

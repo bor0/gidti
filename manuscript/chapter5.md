@@ -100,7 +100,7 @@ The type check was successful. Per the Curry-Howard isomorphism, this means that
 
 X> ### Exercise 5
 X>
-X> Remove one or more pattern match definitions of `next_day` and observe the error that Idris will produce. Afterward, alter the function so that it is not total anymore, and observe the error.
+X> Remove one or more pattern match definitions of `next_day` and observe the error that Idris will produce. Afterward, alter the function so that it is not total anymore, and observe the results.
 
 X> ### Exercise 6
 X>
@@ -496,6 +496,8 @@ X> Implement `SuccIsNotZ` for `MyNat` that works similarly to `SIsNotZ`.
 X> ### Exercise 19
 X>
 X> Implement `divMyNatNZ` for `MyNat` that works similarly to `divNatNZ`.
+X>
+X> Hint: This might be a little tricky. You can find Idris' source code for `divNat` and change accordingly.
 
 ### 5.2.6. Maximum of two numbers
 

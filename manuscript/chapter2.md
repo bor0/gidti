@@ -213,7 +213,7 @@ X> Think of two sets and combine them using the definition of the Cartesian prod
 
 X> ### Exercise 8
 X>
-X> Think of a valid function and represent it using the table approach.
+X> Think of a function and represent it using the table approach.
 
 X> ### Exercise 9
 X>
@@ -387,7 +387,7 @@ X> Prove the formal proofs 1 and 2 from the examples above using both truth tabl
 
 X> ### Exercise 17
 X>
-X> Try to come up with a few propositions for each goal/given form, combine them, and prove them by means of a formal proof.
+X> Think of a proposition and try to prove it by means of a formal proof.
 
 ### 2.3.4. Mathematical induction
 
