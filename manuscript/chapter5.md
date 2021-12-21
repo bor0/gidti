@@ -495,9 +495,7 @@ X> Implement `SuccIsNotZ` for `MyNat` that works similarly to `SIsNotZ`.
 
 X> ### Exercise 19
 X>
-X> Implement `divMyNatNZ` for `MyNat` that works similarly to `divNatNZ`.
-X>
-X> Hint: This might be a little tricky. You can find Idris' source code for `divNat` and change accordingly.
+X> Implement `minus` and `lte` (and optionally `div`) for `MyNat`.
 
 ### 5.2.6. Maximum of two numbers
 
