@@ -24,4 +24,6 @@ Martin-L&#246;f, P., _Intuitionistic Type Theory_, 1984
 
 Hofstadter, D., _G&#246;del, Escher, Bach_, 1979
 
+Sitnikovski, B., _Tutorial on implementing Hoare logic for imperative programs in Haskell_, 2021
+
 Smullyan, R., _The G&#246;delian Puzzle Book_, 2013
