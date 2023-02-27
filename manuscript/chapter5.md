@@ -505,7 +505,7 @@ I> The maximum of two numbers `a` and `b` is defined as:
 I>
 I> {$$}max(a, b) = \left\{ \begin{array}{ll} b\text{, if } a \leq b \\   a\text{, otherwise} \end{array} \right.{/$$}
 
-In this section we will try to prove that {$$}b \leq a \to b = max(a, b){/$$}. Idris 1 already has a built-in function `maximum`, so we can re-use that. Next, we need to figure out the type of the function to approach the proof. Intuitively, we can try the following:
+In this section we will try to prove that {$$}a \leq b \to b = max(a, b){/$$}. Idris 1 already has a built-in function `maximum`, so we can re-use that. Next, we need to figure out the type of the function to approach the proof. Intuitively, we can try the following:
 
 ```
 our_proof : (a : Nat) -> (b : Nat) -> a <= b -> maximum a b = b
@@ -554,7 +554,7 @@ It seems like we made progress, as this gives us something to work with. We can 
 our_proof : (a : Nat) -> (b : Nat) -> LTE a b -> maximum a b = b
 our_proof Z Z _              = Refl
 our_proof Z (S k) _          = Refl
-our_proof (S k) (S j) a_lt_b = let I_H = (our_proof k j ?prf) in
+our_proof (S k) (S j) a_lt_b = let IH = (our_proof k j ?prf) in
                                rewrite IH in
                                Refl
 ```
